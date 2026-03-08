@@ -1,0 +1,45 @@
+---
+description: Testing strategy and conventions for Truegrynd
+alwaysApply: true
+---
+
+# Truegrynd – Testing Guidelines
+
+## Tools
+- **Vitest**: unit tests and component tests
+- **Testing Library**: component rendering and user interactions
+- **Playwright**: e2e smoke tests (Chromium only in MVP)
+- **MSW**: mock Supabase/API calls in unit tests
+
+## What to Always Test
+- Score submission logic (especially Smart Proof top 10% threshold)
+- Leaderboard sorting and filtering
+- Finisher Card data formatting (rank %, time format)
+- Form validation schemas (Zod)
+- Auth redirects
+
+## What to Skip
+- Pure UI components with no logic
+- Next.js layout files
+- Third-party library wrappers
+
+## Patterns
+- Arrange / Act / Assert structure
+- Use `userEvent` over `fireEvent` for realistic interactions
+- Query by user-visible text/role — never by test-id unless no other option
+- Mock Supabase at the service layer, not inside components
+- 70% coverage baseline target
+
+## E2E (Playwright)
+- Only smoke tests in MVP: homepage loads, auth flow, score submission
+- `e2e/smoke.spec.ts` — gated behind `pre-push` hook
+- `baseURL` defaults to `localhost:3000`
+
+## Commands
+```bash
+pnpm test          # watch mode
+pnpm test:run      # single run
+pnpm coverage      # with coverage report
+pnpm e2e           # playwright
+pnpm e2e:headed    # playwright with browser visible
+```

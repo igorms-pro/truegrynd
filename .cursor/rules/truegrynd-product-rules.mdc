@@ -1,0 +1,42 @@
+---
+description: Truegrynd product definition, MVP scope, and business rules
+alwaysApply: true
+---
+
+# Truegrynd – Product Rules
+
+## What Truegrynd Is
+A B2C web app for async fitness competition. Users submit scores on standardized challenges and compete on a global leaderboard. Free to play, community-driven (UGC).
+
+## What It Is NOT
+- Not a workout tracker (no sets/reps logging for personal training)
+- Not a social network (no following, no DMs, no feed of activity)
+- Not a video hosting platform (we never store videos — only external URLs)
+
+## MVP Scope (build only this)
+1. Auth (Google / Apple / Email via Supabase)
+2. Onboarding: biometric profile + simplified initiation (3 easy challenges) + faction choice
+3. Challenge feed with leaderboard per challenge
+4. Score submission with Smart Proof (video URL if Top 10%)
+5. Finisher Card generation (canvas image) + native share
+6. User profile with history and trophies
+
+## Factions
+Three factions: `nomads`, `horde`, `iron_alliance`
+- User belongs to one faction (chosen at onboarding, cannot change in MVP)
+- Faction score = sum of individual member scores
+
+## Smart Proof Logic
+- If submitted score places user in top 10% of leaderboard → video URL is required
+- Video URL must be a YouTube or TikTok link (non-listed accepted)
+- Scores without required video are marked `is_validated: false` and hidden from leaderboard
+
+## Leaderboard Filters
+- Global (all users)
+- By sex (male / female / other)
+- By age bracket (18–29, 30–39, 40–49, 50+)
+- By faction
+
+## Score Types
+- `time`: lower is better (formatted as MM:SS)
+- `reps`: higher is better (integer)

@@ -1,0 +1,48 @@
+---
+description: UI design system and visual identity for Truegrynd
+alwaysApply: true
+---
+
+# Truegrynd – UI Design Guidelines
+
+## Brand Identity
+- **Vibe**: Raw, street, grit. Anti-luxury fitness. The "Casio G-Shock" of sports apps.
+- **Never**: pastel colors, rounded friendly shapes, Instagram aesthetic
+- **Always**: Dark backgrounds, high contrast, aggressive typography, sharp edges
+
+## Color Palette (CSS variables in globals.css)
+| Token | Value | Usage |
+|-------|-------|-------|
+| `--background` | `#0a0a0f` | App background |
+| `--primary` | `#ff4500` | CTAs, active states, highlights |
+| `--accent` | `#ffb800` | Gold trophies, streak badges |
+| `--card` | `#111118` | Card backgrounds |
+| `--muted` | `#1c1c28` | Subtle surfaces |
+| `--border` | `#2a2a3a` | Borders, dividers |
+| `--faction-nomads` | `#4a9e6f` | Nomads faction color |
+| `--faction-horde` | `#c0392b` | Horde faction color |
+| `--faction-iron` | `#7f8c8d` | Iron Alliance faction color |
+
+## Typography
+- Use Geist Sans (loaded via Next.js) for body
+- Headlines: bold/black weight, tight letter-spacing
+- Numbers (scores, ranks): monospace or tabular nums — `font-variant-numeric: tabular-nums`
+
+## Layout
+- Mobile-first: design at 375px, scale up
+- Min touch target: 44×44px
+- Dark mode only in MVP (no light mode toggle needed)
+
+## Component States
+Every interactive component must handle: loading, empty, error, default, disabled
+
+## Finisher Card
+- Generated on canvas (client-side, no server rendering)
+- Dark background with faction color accent
+- Must show: score value, world rank %, faction emblem, Truegrynd logo
+- Export as PNG for native share
+
+## Accessibility
+- WCAG 2.1 AA contrast ratios minimum
+- All interactive elements must have `aria-label` or visible text
+- `focus-visible` outlines must be styled (never `outline: none` without replacement)

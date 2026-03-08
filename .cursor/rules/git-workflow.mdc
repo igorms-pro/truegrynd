@@ -1,0 +1,45 @@
+---
+description: Git workflow and commit conventions for Truegrynd
+alwaysApply: true
+---
+
+# Truegrynd – Git Workflow
+
+## Branch Naming
+```
+feature/short-description
+fix/short-description
+chore/short-description
+```
+
+## Conventional Commits
+Format: `type(scope): message`
+
+| Type | When |
+|------|------|
+| `feat` | New feature |
+| `fix` | Bug fix |
+| `chore` | Tooling, deps, config |
+| `style` | Formatting, no logic change |
+| `refactor` | Code restructure, no behavior change |
+| `test` | Adding or fixing tests |
+| `docs` | Documentation only |
+
+Examples:
+- `feat(challenges): add smart proof video url validation`
+- `fix(leaderboard): correct top 10% threshold calculation`
+- `chore: add husky pre-commit hook`
+
+## Hooks (Husky)
+- **pre-commit**: `lint-staged` (ESLint + Prettier on staged files)
+- **pre-push**: `typecheck` + `test:run`
+
+## PR Rules
+- Max 400 lines changed per PR
+- Always link to issue if one exists
+- Self-review before requesting review
+
+## AI Agent Rules
+- Commit locally as needed during development
+- Never push without explicit user instruction
+- Never force push to main

@@ -1,0 +1,65 @@
+---
+description: Project architecture and folder structure for Truegrynd
+alwaysApply: true
+---
+
+# Truegrynd – Architecture & Folder Structure
+
+## Stack
+- **Framework**: Next.js 16 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS v4
+- **Backend**: Supabase (auth, database, realtime)
+- **State**: Zustand (global) + React Query (server state)
+- **Forms**: React Hook Form + Zod
+- **UI primitives**: Radix UI
+- **Tests**: Vitest (unit) + Playwright (e2e)
+
+## Folder Structure
+
+```
+src/
+├── app/                         # Next.js App Router pages & layouts
+│   ├── (auth)/                  # Auth group: /login, /signup, /onboarding
+│   ├── (app)/                   # Authenticated group: /arena, /clan, /profile
+│   │   ├── arena/
+│   │   ├── clan/
+│   │   └── profile/
+│   ├── layout.tsx
+│   └── page.tsx                 # Landing / splash
+│
+├── features/                    # Feature modules
+│   ├── auth/                    # Auth flow, onboarding, faction choice
+│   ├── challenges/              # Challenge feed, challenge detail, creator studio
+│   ├── leaderboard/             # Leaderboard display and filtering
+│   ├── factions/                # Faction stats, clan tab
+│   ├── profile/                 # User profile, history, trophies
+│   └── finisher-card/           # Canvas card generation + share
+│
+├── components/                  # Shared UI primitives
+│   └── ui/                      # Radix-based components (Button, Dialog, etc.)
+│
+├── hooks/                       # Shared hooks
+│
+├── lib/                         # Core infrastructure
+│   ├── supabase.ts
+│   ├── utils.ts
+│   └── types/
+│       └── database.types.ts
+│
+└── test/
+    └── setup.ts
+```
+
+## Dependency Direction
+```
+app/ → features → components / hooks / lib
+components → lib only
+lib → nothing above it
+```
+
+## Key Rules
+- Each feature folder has an `index.ts` exporting its public API
+- Pages are thin — they assemble features, no business logic
+- All Supabase calls live in `features/*/services/` or `lib/`
+- Never import a feature from another feature — use shared lib or lift to app/

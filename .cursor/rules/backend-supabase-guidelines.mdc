@@ -1,0 +1,42 @@
+---
+description: Supabase backend patterns and database rules for Truegrynd
+alwaysApply: true
+---
+
+# Truegrynd – Supabase Guidelines
+
+## Core Tables
+| Table | Description |
+|-------|-------------|
+| `profiles` | Extends auth.users — username, sex, age, weight, faction, streak |
+| `challenges` | All challenges (official + UGC). `status`: pending/approved/rejected |
+| `scores` | Score submissions per user per challenge |
+| `faction_stats` | Materialized view or computed: total points per faction |
+
+## Client Usage
+- Always import from `@/lib/supabase` — never instantiate a new client
+- All DB calls must handle errors — never assume success
+- Use `.select()` with explicit column lists — never `select('*')` in production queries
+
+## RLS (Row Level Security)
+- All tables have RLS enabled
+- `profiles`: users can read all, write only their own
+- `challenges`: everyone can read approved ones; admins can write all
+- `scores`: users can read all validated scores; write only their own
+
+## Secrets & Environment
+- `NEXT_PUBLIC_SUPABASE_URL` — safe to expose (client-side)
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` — safe to expose (RLS enforced)
+- `SUPABASE_SERVICE_ROLE_KEY` — server-side only, never in client code
+
+## Score Submission Pattern
+```ts
+// Always check top 10% threshold before saving
+const rank = await getScoreRank(challengeId, value);
+const isElite = rank <= TOP_10_THRESHOLD;
+if (isElite && !videoUrl) throw new ValidationError('Video required for elite scores');
+```
+
+## Realtime
+- Use Supabase Realtime only for leaderboard updates on challenge detail page
+- Unsubscribe on component unmount to avoid memory leaks

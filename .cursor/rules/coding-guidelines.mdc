@@ -1,0 +1,46 @@
+---
+description: TypeScript and React coding standards for Truegrynd
+alwaysApply: true
+---
+
+# Truegrynd – Coding Guidelines
+
+## TypeScript
+- Use TypeScript everywhere — no `.js` files in `src/`
+- Prefer `type` over `interface` for data shapes; use `interface` for extension/implementation
+- Avoid `any` — use `unknown` with type guards when needed
+- Always type function return values explicitly for exported functions
+
+## File & Function Size Limits
+- Max 200 lines per component file
+- Max 50 lines per function
+- Max 3 levels of nesting
+- Max 4 parameters per function (use options object otherwise)
+
+## React Patterns
+- Functional components only — no class components
+- Extract all logic into custom hooks; components handle rendering only
+- No inline object/array literals as JSX props (causes unnecessary re-renders)
+- Use early returns to avoid deep nesting
+- `const` by default — never `let` unless mutation is needed
+
+## Naming Conventions
+| Item | Convention | Example |
+|------|-----------|---------|
+| Component | PascalCase | `ChallengeCard` |
+| Hook | camelCase prefixed `use` | `useLeaderboard` |
+| Service function | camelCase | `submitScore` |
+| Type/Interface | PascalCase | `Score`, `Profile` |
+| Constant | SCREAMING_SNAKE | `TOP_10_THRESHOLD` |
+| CSS class | kebab-case via Tailwind | — |
+
+## Imports
+Order: React → third-party → internal (lib, features, components) → types → styles
+
+## No Production Logs
+- Never commit `console.log` — use a logger utility if needed
+- No debug artifacts in production code
+
+## Comments
+- Only explain non-obvious intent or trade-offs
+- Never narrate what the code does (no `// increment counter`)
