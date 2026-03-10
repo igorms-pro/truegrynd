@@ -1,64 +1,25 @@
-@import 'tailwindcss';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #0a0a0f;
-  --foreground: #f0f0f0;
-  --card: #111118;
-  --card-foreground: #f0f0f0;
-  --popover: #111118;
-  --popover-foreground: #f0f0f0;
-  --primary: #ff4500;
-  --primary-foreground: #ffffff;
-  --secondary: #1a1a2e;
-  --secondary-foreground: #f0f0f0;
-  --muted: #1c1c28;
-  --muted-foreground: #8888a0;
-  --accent: #ffb800;
-  --accent-foreground: #0a0a0f;
-  --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
-  --border: #2a2a3a;
-  --input: #1c1c28;
-  --ring: #ff4500;
-  --radius: 0.5rem;
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 10%;
+    --card: 0 0% 95%;
+    --primary: 15 100% 50%; /* Truegrynd Orange */
+    --muted: 0 0% 60%;
+  }
 
-  /* Faction colors */
-  --faction-nomads: #4a9e6f;
-  --faction-horde: #c0392b;
-  --faction-iron: #7f8c8d;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --radius-lg: var(--radius);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-sm: calc(var(--radius) - 4px);
-}
-
-* {
-  border-color: var(--border);
+  .dark {
+    --background: 0 0% 5%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 10%;
+    --primary: 15 100% 50%;
+    --muted: 0 0% 40%;
+  }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans), system-ui, sans-serif;
-  -webkit-font-smoothing: antialiased;
+  @apply bg-background text-foreground transition-colors duration-200;
 }
