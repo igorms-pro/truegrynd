@@ -17,7 +17,9 @@
 
 ---
 
-## ✅ Issue #0: Project foundation
+## ✅ Issue #0: git fetch origin
+
+git checkout 1-project-foundation
 
 **Status:** 🟢 **COMPLETED**  
 **Priority:** CRITICAL  
