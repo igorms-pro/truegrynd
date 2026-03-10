@@ -1,23 +1,65 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 10%;
-    --card: 0 0% 95%;
-    --primary: 15 100% 50%; /* Truegrynd Orange */
-    --muted: 0 0% 60%;
+    /* Truegrynd core tokens – light baseline (MVP uses dark theme by default) */
+    --background: #f9fafb;
+    --foreground: #050509;
+    --card: #111118;
+    --card-foreground: #f9fafb;
+    --primary: #ff4500;
+    --primary-foreground: #050509;
+    --accent: #ffb800;
+    --accent-foreground: #050509;
+    --muted: #1c1c28;
+    --muted-foreground: #9ca3af;
+    --border: #2a2a3a;
+    --input: #2a2a3a;
+    --ring: #ff4500;
+
+    /* Factions */
+    --faction-nomads: #4a9e6f;
+    --faction-horde: #c0392b;
+    --faction-iron: #7f8c8d;
   }
 
   .dark {
-    --background: 0 0% 5%;
-    --foreground: 0 0% 100%;
-    --card: 0 0% 10%;
-    --primary: 15 100% 50%;
-    --muted: 0 0% 40%;
+    /* Truegrynd dark palette (primary mode) */
+    --background: #0a0a0f;
+    --foreground: #f9fafb;
+    --card: #111118;
+    --card-foreground: #f9fafb;
+    --primary: #ff4500;
+    --primary-foreground: #050509;
+    --accent: #ffb800;
+    --accent-foreground: #050509;
+    --muted: #1c1c28;
+    --muted-foreground: #9ca3af;
+    --border: #2a2a3a;
+    --input: #2a2a3a;
+    --ring: #ff4500;
+
+    --faction-nomads: #4a9e6f;
+    --faction-horde: #c0392b;
+    --faction-iron: #7f8c8d;
   }
+}
+
+@theme inline {
+  --radius: 0.5rem;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
 }
 
 body {
