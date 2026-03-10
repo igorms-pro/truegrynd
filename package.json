@@ -19,6 +19,7 @@
     "e2e:headed": "playwright test --headed",
     "e2e:report": "playwright show-report",
     "check": "pnpm lint && pnpm typecheck && pnpm test:run",
+    "ci": "pnpm lint && pnpm typecheck && pnpm test:run && pnpm build",
     "prepush": "pnpm coverage && pnpm e2e",
     "prepare": "husky"
   },

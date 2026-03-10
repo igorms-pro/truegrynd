@@ -29,7 +29,8 @@ cp .env.local.example .env.local   # puis remplir Supabase
 pnpm dev
 ```
 
-- `pnpm check` – lint + typecheck + tests
+- `pnpm check` – lint + typecheck + unit tests
+- `pnpm ci` – check + build (same as CI pipeline)
 - `pnpm prepush` – coverage + e2e (avant push)
 
 ## Fondations
