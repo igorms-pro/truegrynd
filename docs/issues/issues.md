@@ -8,13 +8,13 @@
 
 ## 🚀 IMMEDIATE NEXT ACTION (For AI Agent)
 
-**Target:** Issue #1: Supabase project & database schema
+**Target:** Issue #3: Auth (login / signup)
 **Workflow to execute:**
 
-1. Run: `gh issue create --title "Issue #1: Supabase project & database schema" --body "Create Supabase tables (profiles, challenges, scores), RLS policies, migrations, and seed initial challenges."`
+1. Run: `gh issue create --title "Issue #3: Auth (login / signup)" --body "Implement passwordless email login (magic link) + Google OAuth (Apple if available) with Supabase. Build /auth UI, session handling, and post-auth redirect to onboarding if profile incomplete, else to app."`
 2. Extract the issue number from the terminal output.
-3. Run: `git checkout -b feature/issue-[NUMBER]-supabase-schema`
-4. Execute the tasks listed under "Issue #1" below.
+3. Run: `git checkout -b feature/issue-[NUMBER]-auth`
+4. Execute the tasks listed under "Issue #3" below.
 5. Check off the boxes `[x] 🟢` and update the status when finished.
 
 ---
@@ -256,7 +256,7 @@ Work in order. Each screen issue should be complete before moving to the next.
 
 ## 🎯 Issue #3: Auth (login / signup)
 
-**Status:** 🔴 **NOT STARTED**  
+**Status:** 🟡 **IN PROGRESS**  
 **Priority:** HIGH  
 **Phase:** Screen 1  
 **Dependencies:** Issue #1, #2 (i18n + theme)
