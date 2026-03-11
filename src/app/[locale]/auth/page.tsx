@@ -1,12 +1,14 @@
-/* eslint-disable @next/next/no-html-link-for-pages */
-
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useLocale } from 'next-intl';
+import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { signInWithMagicLink, signInWithOAuth } from '@/features/auth/services/auth';
 import { HeaderMobileSignIn } from '@/components/HeaderMobileSignIn';
+import { supabase } from '@/lib/supabase';
+import { isProfileComplete, type Profile } from '@/lib/types/database.types';
 
 function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -15,12 +17,15 @@ function isValidEmail(email: string): boolean {
 export default function AuthPage() {
   const t = useTranslations('auth');
   const { user, initialized } = useAuth();
+  const router = useRouter();
+  const locale = useLocale();
 
   const [email, setEmail] = useState('');
   const [emailLoading, setEmailLoading] = useState(false);
   const [oauthLoading, setOauthLoading] = useState<'google' | 'apple' | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [sentTo, setSentTo] = useState<string | null>(null);
+  const [redirecting, setRedirecting] = useState(false);
 
   const canSubmit = useMemo(
     () => isValidEmail(email) && !emailLoading && !oauthLoading,
@@ -56,7 +61,45 @@ export default function AuthPage() {
     }
   };
 
-  if (!initialized) {
+  useEffect(() => {
+    if (!initialized || !user || redirecting) return;
+
+    let cancelled = false;
+    const run = async () => {
+      setRedirecting(true);
+      try {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', user.id)
+          .maybeSingle<Profile>();
+
+        if (cancelled) return;
+        if (error) {
+          setError(t('errors.profileLoadFailed'));
+          return;
+        }
+
+        const profile = data;
+        const base = `/${locale}`;
+        const target =
+          profile && isProfileComplete(profile) ? `${base}/app/overview` : `${base}/onboarding`;
+
+        // Avoid redirect loop if already there.
+        router.replace(target);
+      } finally {
+        if (!cancelled) setRedirecting(false);
+      }
+    };
+
+    void run();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [initialized, user, redirecting, router, locale, t]);
+
+  if (!initialized || redirecting) {
     return (
       <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
         <p className="text-sm text-muted-foreground">{t('loading')}</p>
@@ -64,16 +107,7 @@ export default function AuthPage() {
     );
   }
 
-  if (user) {
-    return (
-      <div className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center gap-3 px-4 text-center">
-        <p className="text-sm text-muted-foreground">{t('alreadySignedIn')}</p>
-        <a className="text-primary font-semibold" href="/">
-          {t('goHome')}
-        </a>
-      </div>
-    );
-  }
+  // When user is present, redirect effect above will take over.
 
   return (
     <div className="min-h-screen bg-background text-foreground px-4">

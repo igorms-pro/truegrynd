@@ -25,7 +25,8 @@
     "errors": {
       "invalidEmail": "Enter a valid email.",
       "magicLinkFailed": "Failed to send magic link. Try again.",
-      "oauthFailed": "Sign-in failed. Try again."
+      "oauthFailed": "Sign-in failed. Try again.",
+      "profileLoadFailed": "Signed in, but we could not load your profile."
     }
   }
 }

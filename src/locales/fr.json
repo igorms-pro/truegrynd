@@ -25,7 +25,8 @@
     "errors": {
       "invalidEmail": "Entre un e-mail valide.",
       "magicLinkFailed": "Impossible d’envoyer le lien. Réessaie.",
-      "oauthFailed": "Connexion échouée. Réessaie."
+      "oauthFailed": "Connexion échouée. Réessaie.",
+      "profileLoadFailed": "Connecté, mais impossible de charger ton profil."
     }
   }
 }
