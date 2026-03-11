@@ -6,8 +6,7 @@ import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { signInWithMagicLink, signInWithOAuth } from '@/features/auth/services/auth';
-import { LanguageSwitcher } from '@/components/LanguageSwitcher';
-import { ThemeToggle } from '@/components/ThemeToggle';
+import { HeaderMobileSignIn } from '@/components/HeaderMobileSignIn';
 
 function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -78,10 +77,7 @@ export default function AuthPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground px-4">
-      <header className="fixed top-0 right-0 flex items-center gap-2 p-4">
-        <LanguageSwitcher variant="dropdown" />
-        <ThemeToggle />
-      </header>
+      <HeaderMobileSignIn />
 
       <main className="mx-auto flex w-full max-w-lg flex-col items-center gap-6 pt-24 text-center">
         <div className="flex flex-col gap-2">
