@@ -1,0 +1,572 @@
+# Truegrynd – Wireframes (MVP)
+
+> Mobile-first · 375px reference · Dark only in MVP
+>
+> **Auth pattern**: single `/auth` page (no separate signup) — magic link email + Google OAuth.
+> If user doesn't exist, Supabase creates them on first magic link click.
+>
+> **Header/controls pattern** (from Voyagely / OneLink):
+>
+> - Public/auth pages → fixed top-right: `[🌐 lang]` `[☀ theme]`
+> - App pages → sticky top header: `TRUEGRYND` (left) · `[🌐] [☀]` (right)
+> - Bottom tab bar for app navigation (mobile)
+
+---
+
+## Screens index
+
+1. [Auth](#1-auth-page)
+2. [Magic link sent](#2-magic-link-sent)
+3. [Onboarding – Identity](#3-onboarding--step-1-identity)
+4. [Onboarding – Initiation](#4-onboarding--step-2-initiation)
+5. [Onboarding – Faction](#5-onboarding--step-3-faction)
+6. [Overview](#6-overview-tab)
+7. [Arena (feed)](#7-arena-tab--challenge-feed)
+8. [Challenge detail + leaderboard](#8-challenge-detail--leaderboard)
+9. [Score submission](#9-score-submission)
+10. [Finisher Card](#10-finisher-card)
+11. [Clan](#11-clan-tab)
+12. [Profile](#12-profile-tab)
+
+---
+
+## 1. Auth page
+
+Route: `/auth` — login AND signup in one. No password.
+
+```
+┌─────────────────────────────────────┐
+│                         [🌐] [☀/🌙] │  ← fixed top-right (lang + theme)
+│                                     │
+│                                     │
+│             ⚡ TRUEGRYND             │  ← logo/wordmark, centered
+│      Compete. Prove. Dominate.      │  ← tagline, muted
+│                                     │
+│                                     │
+│  ┌─────────────────────────────┐    │
+│  │  your@email.com             │    │  ← email input
+│  └─────────────────────────────┘    │
+│                                     │
+│  ┌─────────────────────────────┐    │
+│  │  ▶  SEND MAGIC LINK         │    │  ← primary CTA (#ff4500)
+│  └─────────────────────────────┘    │
+│                                     │
+│  ─────────────── or ─────────────   │
+│                                     │
+│  ┌─────────────────────────────┐    │
+│  │  G   Continue with Google   │    │  ← Google OAuth button
+│  └─────────────────────────────┘    │
+│                                     │
+│  By continuing you agree to the     │
+│  Terms of Service and Privacy Policy│  ← legal, small/muted
+│                                     │
+└─────────────────────────────────────┘
+```
+
+**Notes:**
+
+- No separate login/signup routes — same form handles both (Supabase creates user on first magic link)
+- No password field, ever
+- Apple Sign-In: add between Google and legal text if enabled in Supabase dashboard
+- Error state: red inline message below email input (invalid email format, rate limit, etc.)
+- Loading state: button shows spinner, input disabled
+
+---
+
+## 2. Magic link sent
+
+Route: stays on `/auth` (state change, not a new page)
+
+```
+┌─────────────────────────────────────┐
+│                         [🌐] [☀/🌙] │
+│                                     │
+│                                     │
+│             ⚡ TRUEGRYND             │
+│                                     │
+│         ✅                          │  ← green check icon
+│                                     │
+│    Check your inbox                 │  ← bold, large
+│                                     │
+│    We sent a link to                │
+│    your@email.com                   │  ← user's email, highlighted
+│                                     │
+│    Click the link to sign in.       │
+│    It expires in 1 hour.            │  ← muted
+│                                     │
+│  ┌─────────────────────────────┐    │
+│  │  ← Use a different email    │    │  ← ghost/text button to go back
+│  └─────────────────────────────┘    │
+│                                     │
+└─────────────────────────────────────┘
+```
+
+---
+
+## 3. Onboarding – Step 1: Identity
+
+Route: `/onboarding/identity`
+Progress: `● ○ ○` (step 1 of 3)
+
+```
+┌─────────────────────────────────────┐
+│  ← (back disabled on step 1)        │
+│                      ● ○ ○          │  ← step dots
+│                                     │
+│  YOUR SPORTS                        │
+│  IDENTITY CARD                      │  ← bold headline
+│                                     │
+│  No cheating. Your info defines     │
+│  your category.                     │  ← copy, muted
+│                                     │
+│  Username                           │
+│  ┌─────────────────────────────┐    │
+│  │  grizz_42                   │    │
+│  └─────────────────────────────┘    │
+│                                     │
+│  Sex                                │
+│  ┌──────────┐ ┌──────────┐ ┌────┐  │
+│  │  MALE    │ │  FEMALE  │ │ +  │  │  ← pill selectors (other = +)
+│  └──────────┘ └──────────┘ └────┘  │
+│                                     │
+│  Age                 Weight (kg)    │
+│  ┌──────────┐         ┌──────────┐  │
+│  │  28      │         │  82      │  │
+│  └──────────┘         └──────────┘  │
+│                                     │
+│                                     │
+│  ┌─────────────────────────────┐    │
+│  │  NEXT →                     │    │  ← primary CTA (#ff4500)
+│  └─────────────────────────────┘    │
+└─────────────────────────────────────┘
+```
+
+---
+
+## 4. Onboarding – Step 2: Initiation
+
+Route: `/onboarding/initiation`
+Progress: `● ● ○` (step 2 of 3)
+
+```
+┌─────────────────────────────────────┐
+│  ← Back                  ● ● ○      │
+│                                     │
+│  PROVE YOU'RE                       │
+│  NOT A TOURIST                      │  ← headline
+│                                     │
+│  Complete 3 challenges to           │
+│  earn your Nomad status.            │  ← copy
+│                                     │
+│  2 / 3 ██████████░░░░ 66%           │  ← progress bar (#ff4500)
+│                                     │
+│  ┌─────────────────────────────┐    │
+│  │  ✅  50 Burpees              │    │  ← completed (green check)
+│  └─────────────────────────────┘    │
+│                                     │
+│  ┌─────────────────────────────┐    │
+│  │  ✅  Max Push-Ups (1 min)   │    │  ← completed
+│  └─────────────────────────────┘    │
+│                                     │
+│  ┌─────────────────────────────┐    │
+│  │  ○   100 Squats             │    │
+│  │                             │    │
+│  │  [ DONE ✓ ]                 │    │  ← CTA per challenge
+│  └─────────────────────────────┘    │
+│                                     │
+│  ┌─────────────────────────────┐    │
+│  │  NEXT → (locked until 3/3)  │    │  ← disabled until all done
+│  └─────────────────────────────┘    │
+└─────────────────────────────────────┘
+```
+
+**Notes:**
+
+- No score input, no video proof — just tap "Done"
+- Button unlocks when 3/3
+
+---
+
+## 5. Onboarding – Step 3: Faction
+
+Route: `/onboarding/faction`
+Progress: `● ● ●`
+
+```
+┌─────────────────────────────────────┐
+│  ← Back                  ● ● ●      │
+│                                     │
+│  CHOOSE YOUR                        │
+│  FACTION                            │  ← headline
+│                                     │
+│  This is permanent. Choose wisely.  │  ← muted warning copy
+│                                     │
+│  ┌─────────────────────────────┐    │
+│  │  🌿  NOMADS                 │    │  ← faction card (#4a9e6f border)
+│  │  Free runners. No base,     │    │
+│  │  no limits.                 │    │
+│  │  1,204 members              │    │  ← member count, muted
+│  └─────────────────────────────┘    │
+│                                     │
+│  ┌─────────────────────────────┐    │
+│  │  🔴  HORDE                  │    │  ← faction card (#c0392b border)
+│  │  Strength in numbers.       │    │
+│  │  Crush everything.          │    │
+│  │  2,891 members              │    │
+│  └─────────────────────────────┘    │
+│                                     │
+│  ┌─────────────────────────────┐    │
+│  │  ⚙️  IRON ALLIANCE          │    │  ← faction card (#7f8c8d border)
+│  │  Discipline. Precision.     │    │
+│  │  No excuses.                │    │
+│  │  1,677 members              │    │
+│  └─────────────────────────────┘    │
+│                                     │
+│  [selected: HORDE highlighted]      │
+│                                     │
+│  ┌─────────────────────────────┐    │
+│  │  ⚔️  PLEDGE ALLEGIANCE      │    │  ← primary CTA, enabled after select
+│  └─────────────────────────────┘    │
+└─────────────────────────────────────┘
+```
+
+---
+
+## 6. Overview tab
+
+Route: `/app/overview`
+Header: sticky top · Tab bar: bottom
+
+```
+┌─────────────────────────────────────┐
+│ ⚡ TRUEGRYND          [🌐] [☀/🌙]  │  ← sticky header
+├─────────────────────────────────────┤
+│                                     │
+│  Hey, grizz_42 👊                   │  ← greeting
+│  🔴 HORDE  |  streak 🔥 4 days      │  ← faction badge + streak
+│                                     │
+│  ─── CHALLENGE OF THE DAY ──────    │
+│  ┌─────────────────────────────┐    │
+│  │  50 BURPEES                 │    │
+│  │  #Bodyweight                │    │
+│  │  ⏱ Time challenge           │    │
+│  │  1,204 athletes competing   │    │
+│  │  [ I'M IN → ]               │    │  ← CTA (#ff4500)
+│  └─────────────────────────────┘    │
+│                                     │
+│  ─── FACTION STANDINGS ─────────    │
+│                                     │
+│  🔴 HORDE          ██████░ 48,200  │
+│  🌿 NOMADS         █████░░ 31,400  │
+│  ⚙️  IRON ALLIANCE  ████░░░ 27,100  │
+│                                     │
+│  Your contribution: 340 pts         │  ← muted
+│                                     │
+├─────────────────────────────────────┤
+│  [🏠 Overview] [⚡ Arena] [🛡 Clan] [👤 Profile] │  ← tab bar
+└─────────────────────────────────────┘
+```
+
+---
+
+## 7. Arena tab – Challenge feed
+
+Route: `/app/arena`
+
+```
+┌─────────────────────────────────────┐
+│ ⚡ TRUEGRYND          [🌐] [☀/🌙]  │
+├─────────────────────────────────────┤
+│                                     │
+│  [TRENDING ●] [NEW]                 │  ← tabs
+│                                     │
+│  ┌─────────────────────────────┐    │
+│  │  50 BURPEES                 │    │
+│  │  #Bodyweight                │    │
+│  │  ⏱ Time  |  1,204 athletes  │    │
+│  └─────────────────────────────┘    │
+│                                     │
+│  ┌─────────────────────────────┐    │
+│  │  MAX PUSH-UPS (1 MIN)       │    │
+│  │  #Bodyweight                │    │
+│  │  🔢 Reps  |  892 athletes   │    │
+│  └─────────────────────────────┘    │
+│                                     │
+│  ┌─────────────────────────────┐    │
+│  │  1KM RUN                    │    │
+│  │  #Outdoor                   │    │
+│  │  ⏱ Time  |  677 athletes    │    │
+│  └─────────────────────────────┘    │
+│                                     │
+│  ┌─────────────────────────────┐    │
+│  │  MAX PULL-UPS               │    │
+│  │  #Pull-up bar               │    │
+│  │  🔢 Reps  |  543 athletes   │    │
+│  └─────────────────────────────┘    │
+│                                     │
+│  [ load more... ]                   │
+│                                     │
+├─────────────────────────────────────┤
+│  [🏠] [⚡ ●] [🛡] [👤]              │
+└─────────────────────────────────────┘
+```
+
+---
+
+## 8. Challenge detail + leaderboard
+
+Route: `/app/arena/[challengeId]`
+
+```
+┌─────────────────────────────────────┐
+│ ← Back            [🌐] [☀/🌙]      │
+├─────────────────────────────────────┤
+│                                     │
+│  ⭐ OFFICIAL                        │  ← badge if is_official
+│  50 BURPEES                         │  ← title, large
+│  #Bodyweight                        │  ← tags, muted
+│                                     │
+│  ─── RULES ─────────────────────    │
+│  Complete 50 burpees as fast as     │
+│  possible. Each rep: feet jump      │
+│  behind hands, chest touches        │
+│  floor, full extension at top...    │
+│                                     │
+│  Score: ⏱ TIME (lower is better)   │
+│                                     │
+│  ┌─────────────────────────────┐    │
+│  │  ⚡  I'M IN – SUBMIT SCORE  │    │  ← primary CTA
+│  └─────────────────────────────┘    │
+│                                     │
+│  ─── LEADERBOARD ───────────────    │
+│  [GLOBAL ●] [AGE] [SEX] [FACTION]  │  ← filter tabs
+│                                     │
+│  #   ATHLETE        SCORE    FCT    │
+│  ─────────────────────────────────  │
+│  1   brute_91       1:43     🔴     │
+│  2   ironmike       1:58     ⚙️      │
+│  3   grizz_42       2:04     🔴     │  ← current user highlighted
+│  4   nomad_k        2:11     🌿     │
+│  5   savage_88      2:19     🔴     │
+│  ...                                │
+│                                     │
+│  Your rank: #3 / 1,204 (Top 1%)    │  ← sticky user row
+│                                     │
+├─────────────────────────────────────┤
+│  [🏠] [⚡ ●] [🛡] [👤]              │
+└─────────────────────────────────────┘
+```
+
+---
+
+## 9. Score submission
+
+Route: modal or `/app/arena/[challengeId]/submit`
+
+```
+┌─────────────────────────────────────┐
+│ ← Cancel                            │
+│                                     │
+│  SUBMIT YOUR SCORE                  │  ← headline
+│  50 Burpees · ⏱ Time               │  ← challenge name + type
+│                                     │
+│  ─── YOUR TIME ─────────────────    │
+│                                     │
+│  ┌───────────┐  :  ┌───────────┐   │
+│  │    02     │  :  │    04     │   │  ← MM:SS inputs
+│  └───────────┘     └───────────┘   │
+│        min                sec       │
+│                                     │
+│  ┌─────────────────────────────┐    │
+│  │  ▶  CHECK MY RANK           │    │  ← secondary action (preview rank)
+│  └─────────────────────────────┘    │
+│                                     │
+│  ─── SMART PROOF ───────────────    │
+│                                     │
+│  ⚠️  ELITE SCORE DETECTED           │  ← shown if top 10%
+│  You're in the Top 10%.             │
+│  A video proof is required.         │  ← copy (#ff4500 accent)
+│                                     │
+│  ┌─────────────────────────────┐    │
+│  │  youtube.com/watch?v=...    │    │  ← video URL input (required)
+│  └─────────────────────────────┘    │
+│  YouTube or TikTok only             │  ← helper text, muted
+│                                     │
+│  ┌─────────────────────────────┐    │
+│  │  ⚡  VALIDATE & SUBMIT      │    │  ← primary CTA
+│  └─────────────────────────────┘    │
+└─────────────────────────────────────┘
+```
+
+**Smart Proof logic:**
+
+- Score outside top 10% → video field hidden, submit immediately
+- Score in top 10% → `⚠️ ELITE SCORE` block appears, video URL required before submit
+
+---
+
+## 10. Finisher Card
+
+Route: modal after successful submission
+
+```
+┌─────────────────────────────────────┐
+│                          ✕ Close    │
+│                                     │
+│  ┌─────────────────────────────┐    │
+│  │                             │    │
+│  │     ⚡  TRUEGRYND           │    │
+│  │                             │    │
+│  │   50 BURPEES                │    │
+│  │                             │    │
+│  │       02:04                 │    │  ← score value, large
+│  │                             │    │
+│  │   TOP  3%  WORLDWIDE        │    │  ← rank %, gold (#ffb800)
+│  │                             │    │
+│  │   🔴  HORDE                 │    │  ← faction name + color
+│  │                             │    │
+│  │ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  │    │  ← faction color accent bar
+│  └─────────────────────────────┘    │
+│          (canvas-rendered PNG)      │
+│                                     │
+│  ┌──────────────┐ ┌──────────────┐  │
+│  │  ↓ DOWNLOAD  │ │  ↑ SHARE     │  │  ← download PNG + Web Share API
+│  └──────────────┘ └──────────────┘  │
+│                                     │
+│  ┌─────────────────────────────┐    │
+│  │  VIEW LEADERBOARD →         │    │  ← ghost button
+│  └─────────────────────────────┘    │
+└─────────────────────────────────────┘
+```
+
+---
+
+## 11. Clan tab
+
+Route: `/app/clan`
+
+```
+┌─────────────────────────────────────┐
+│ ⚡ TRUEGRYND          [🌐] [☀/🌙]  │
+├─────────────────────────────────────┤
+│                                     │
+│  FACTION WAR                        │  ← headline
+│  Season ends in 12d 4h              │  ← countdown, muted
+│                                     │
+│  ─── STANDINGS ─────────────────    │
+│                                     │
+│  🥇  🔴 HORDE          48,200 pts  │
+│       ████████████████░░░░ 45%     │
+│                                     │
+│  🥈  🌿 NOMADS          31,400 pts  │
+│       ██████████░░░░░░░░ 30%       │
+│                                     │
+│  🥉  ⚙️  IRON ALLIANCE  27,100 pts  │
+│       ████████░░░░░░░░░ 25%        │
+│                                     │
+│  ─── YOUR FACTION: HORDE ───────    │
+│                                     │
+│  Top members                        │
+│                                     │
+│  #1  brute_91        4,200 pts      │
+│  #2  savage_88       3,800 pts      │
+│  #3  grizz_42        340 pts  ← you │
+│  #4  ironwill_22     310 pts        │
+│  #5  beast_mode      290 pts        │
+│                                     │
+├─────────────────────────────────────┤
+│  [🏠] [⚡] [🛡 ●] [👤]              │
+└─────────────────────────────────────┘
+```
+
+---
+
+## 12. Profile tab
+
+Route: `/app/profile`
+
+```
+┌─────────────────────────────────────┐
+│ ⚡ TRUEGRYND          [🌐] [☀/🌙]  │
+├─────────────────────────────────────┤
+│                                     │
+│  ┌────┐  grizz_42                  │
+│  │ 🧑 │  🔴 HORDE  |  Age 28       │  ← avatar + identity
+│  └────┘  82 kg  |  🔥 4 day streak  │
+│                                     │
+│  ─── SCORE HISTORY ─────────────    │
+│                                     │
+│  50 Burpees         02:04    #3     │  ← challenge · score · rank
+│  Mar 10, 2026                       │  ← date, muted
+│                                     │
+│  Max Push-Ups       47 reps  #12    │
+│  Mar 8, 2026                        │
+│                                     │
+│  1km Run            4:22     #28    │
+│  Mar 6, 2026                        │
+│                                     │
+│  [ view all ]                       │  ← ghost link
+│                                     │
+│  ─── FINISHER CARDS ────────────    │
+│                                     │
+│  ┌───────┐ ┌───────┐ ┌───────┐     │
+│  │ card  │ │ card  │ │ card  │     │  ← thumbnail grid
+│  │ 02:04 │ │ 47rep │ │ 4:22  │     │
+│  └───────┘ └───────┘ └───────┘     │
+│                                     │
+│  ┌─────────────────────────────┐    │
+│  │  ⚙️  Settings / Sign out   │    │  ← at bottom
+│  └─────────────────────────────┘    │
+│                                     │
+├─────────────────────────────────────┤
+│  [🏠] [⚡] [🛡] [👤 ●]              │
+└─────────────────────────────────────┘
+```
+
+---
+
+## Header & Controls summary
+
+| Context                               | Theme toggle                 | Lang toggle         | Placement                 |
+| ------------------------------------- | ---------------------------- | ------------------- | ------------------------- |
+| Auth pages (`/auth`, `/onboarding/*`) | ☀/🌙 icon button             | 🌐 icon → dropdown  | Fixed top-right           |
+| App pages (`/app/*`)                  | ☀/🌙 icon button             | 🌐 icon → dropdown  | Sticky header, right side |
+| Settings (post-MVP)                   | `<select>` light/dark/system | `<select>` language | Settings panel            |
+
+**Controls behavior:**
+
+- Theme toggle: cycles `light ↔ dark`, persisted in `localStorage` (+ respects `prefers-color-scheme` on first visit)
+- Lang toggle: globe icon → popover dropdown (EN / FR + others). Persisted in `localStorage`
+- No flash on load: theme script in `<head>` before React hydration (`suppressHydrationWarning`)
+
+---
+
+## Navigation summary
+
+```
+Public routes (no auth required)
+└── /auth                         ← login + signup combined
+
+Onboarding routes (auth required, profile incomplete)
+├── /onboarding/identity          ← step 1
+├── /onboarding/initiation        ← step 2
+└── /onboarding/faction           ← step 3
+
+App routes (auth required, profile complete)
+├── /app/overview                 ← default after login
+├── /app/arena                    ← challenge feed
+│   └── /app/arena/[id]           ← challenge detail + leaderboard
+│       └── /app/arena/[id]/submit ← score submission
+├── /app/clan                     ← faction standings
+└── /app/profile                  ← user profile + history
+```
+
+**Post-auth redirect logic** (Issue #3):
+
+1. Not authenticated → `/auth`
+2. Authenticated, profile incomplete → `/onboarding/identity` (or whichever step is next)
+3. Authenticated, profile complete → `/app/overview`
+
+---
+
+_Last updated: March 2026_

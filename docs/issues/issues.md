@@ -6,6 +6,19 @@
 
 ---
 
+## 🚀 IMMEDIATE NEXT ACTION (For AI Agent)
+
+**Target:** Issue #1: Supabase project & database schema
+**Workflow to execute:**
+
+1. Run: `gh issue create --title "Issue #1: Supabase project & database schema" --body "Create Supabase tables (profiles, challenges, scores), RLS policies, migrations, and seed initial challenges."`
+2. Extract the issue number from the terminal output.
+3. Run: `git checkout -b feature/issue-[NUMBER]-supabase-schema`
+4. Execute the tasks listed under "Issue #1" below.
+5. Check off the boxes `[x] 🟢` and update the status when finished.
+
+---
+
 ## 📋 Status legend
 
 - 🔴 **Not Started** – Task identified, not begun
