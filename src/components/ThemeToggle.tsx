@@ -1,11 +1,16 @@
 'use client';
 
 import { useTheme } from 'next-themes';
-import { useState } from 'react';
+import { useSyncExternalStore } from 'react';
 import { Sun, Moon } from 'lucide-react';
 
 export function ThemeToggle() {
-  const [mounted] = useState(() => typeof window !== 'undefined');
+  // Avoid hydration mismatches without setState-in-effect lint violations.
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
   const { theme, setTheme } = useTheme();
 
   if (!mounted) {

@@ -5,16 +5,16 @@
     /* Truegrynd core tokens – light baseline (MVP uses dark theme by default) */
     --background: #f9fafb;
     --foreground: #050509;
-    --card: #111118;
-    --card-foreground: #f9fafb;
+    --card: #ffffff;
+    --card-foreground: #050509;
     --primary: #ff4500;
     --primary-foreground: #050509;
     --accent: #ffb800;
     --accent-foreground: #050509;
-    --muted: #1c1c28;
-    --muted-foreground: #9ca3af;
-    --border: #2a2a3a;
-    --input: #2a2a3a;
+    --muted: #f3f4f6;
+    --muted-foreground: #6b7280;
+    --border: #e5e7eb;
+    --input: #ffffff;
     --ring: #ff4500;
 
     /* Factions */

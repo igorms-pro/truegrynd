@@ -4,5 +4,40 @@
     "tagline": "Compete. Prove. Dominate.",
     "loading": "Loading...",
     "languageSwitcherLabel": "Change language"
+  },
+  "auth": {
+    "loading": "Loading...",
+    "title": "TRUEGRYND",
+    "subtitle": "No passwords. Just proof.",
+    "emailLabel": "EMAIL",
+    "emailPlaceholder": "you@example.com",
+    "sendMagicLink": "SEND MAGIC LINK",
+    "sending": "SENDING...",
+    "magicLinkSentTitle": "Check your inbox",
+    "magicLinkSentBody": "We sent a sign-in link to {email}.",
+    "useDifferentEmail": "Use a different email",
+    "or": "OR",
+    "continueWithGoogle": "Continue with Google",
+    "continueWithApple": "Continue with Apple",
+    "connecting": "CONNECTING...",
+    "alreadySignedIn": "You're already signed in.",
+    "goHome": "Go home",
+    "errors": {
+      "invalidEmail": "Enter a valid email.",
+      "magicLinkFailed": "Failed to send magic link. Try again.",
+      "magicLinkRateLimited": "Too many attempts. Wait a few minutes, then try again.",
+      "oauthFailed": "Sign-in failed. Try again.",
+      "profileLoadFailed": "Signed in, but we could not load your profile."
+    }
+  },
+  "onboarding": {
+    "title": "ONBOARDING",
+    "comingSoon": "This flow is next. For now this page exists to validate auth redirects.",
+    "note": "NEXT STEP",
+    "body": "Finish Issue #4 to collect biometrics, initiation, and faction."
+  },
+  "app": {
+    "overviewTitle": "OVERVIEW",
+    "overviewBody": "Placeholder. Auth redirect target is wired."
   }
 }

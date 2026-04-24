@@ -4,5 +4,40 @@
     "tagline": "Compétition. Preuve. Domination.",
     "loading": "Chargement...",
     "languageSwitcherLabel": "Changer de langue"
+  },
+  "auth": {
+    "loading": "Chargement...",
+    "title": "TRUEGRYND",
+    "subtitle": "Pas de mots de passe. Juste la preuve.",
+    "emailLabel": "E-MAIL",
+    "emailPlaceholder": "vous@exemple.com",
+    "sendMagicLink": "ENVOYER LE LIEN",
+    "sending": "ENVOI...",
+    "magicLinkSentTitle": "Vérifie ta boîte mail",
+    "magicLinkSentBody": "On a envoyé un lien de connexion à {email}.",
+    "useDifferentEmail": "Utiliser un autre e-mail",
+    "or": "OU",
+    "continueWithGoogle": "Continuer avec Google",
+    "continueWithApple": "Continuer avec Apple",
+    "connecting": "CONNEXION...",
+    "alreadySignedIn": "Tu es déjà connecté.",
+    "goHome": "Retour à l’accueil",
+    "errors": {
+      "invalidEmail": "Entre un e-mail valide.",
+      "magicLinkFailed": "Impossible d’envoyer le lien. Réessaie.",
+      "magicLinkRateLimited": "Trop de tentatives. Attends quelques minutes puis réessaie.",
+      "oauthFailed": "Connexion échouée. Réessaie.",
+      "profileLoadFailed": "Connecté, mais impossible de charger ton profil."
+    }
+  },
+  "onboarding": {
+    "title": "ONBOARDING",
+    "comingSoon": "Ce flow arrive ensuite. Cette page sert juste à valider les redirects d’auth.",
+    "note": "PROCHAINE ÉTAPE",
+    "body": "Finis l’Issue #4 pour les biométriques, l’initiation et la faction."
+  },
+  "app": {
+    "overviewTitle": "APERÇU",
+    "overviewBody": "Placeholder. La cible de redirect après login est câblée."
   }
 }

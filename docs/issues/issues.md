@@ -8,13 +8,13 @@
 
 ## 🚀 IMMEDIATE NEXT ACTION (For AI Agent)
 
-**Target:** Issue #1: Supabase project & database schema
+**Target:** Issue #3: Auth (login / signup)
 **Workflow to execute:**
 
-1. Run: `gh issue create --title "Issue #1: Supabase project & database schema" --body "Create Supabase tables (profiles, challenges, scores), RLS policies, migrations, and seed initial challenges."`
+1. Run: `gh issue create --title "Issue #3: Auth (login / signup)" --body "Implement passwordless email login (magic link) + Google OAuth (Apple if available) with Supabase. Build /auth UI, session handling, and post-auth redirect to onboarding if profile incomplete, else to app."`
 2. Extract the issue number from the terminal output.
-3. Run: `git checkout -b feature/issue-[NUMBER]-supabase-schema`
-4. Execute the tasks listed under "Issue #1" below.
+3. Run: `git checkout -b feature/issue-[NUMBER]-auth`
+4. Execute the tasks listed under "Issue #3" below.
 5. Check off the boxes `[x] 🟢` and update the status when finished.
 
 ---
@@ -193,7 +193,7 @@ Create Supabase project, tables (profiles, challenges, scores), RLS policies, mi
 
 ## 🎯 Issue #2: i18n & light/dark theme
 
-**Status:** 🔴 **NOT STARTED**  
+**Status:** 🟡 **IN PROGRESS**  
 **Priority:** HIGH  
 **Phase:** Foundation  
 **Dependencies:** Issue #0, #1 (optional for theme only; i18n can start with static keys)
@@ -206,12 +206,12 @@ Internationalization (i18n) so all user-facing text uses translation keys. Light
 
 #### i18n setup
 
-- [ ] 🔴 Install and configure i18next + react-i18next (or next-intl for Next.js App Router)
-- [ ] 🔴 Browser language detection (or locale from URL/cookie)
-- [ ] 🔴 Translation files: at least `en` and `fr` (e.g. `src/lib/locales/en.json`, `fr.json`)
+- [x] 🟢 Install and configure i18next + react-i18next (or next-intl for Next.js App Router)
+- [x] 🟢 Browser language detection (or locale from URL/cookie)
+- [x] 🟢 Translation files: at least `en` and `fr` (e.g. `src/lib/locales/en.json`, `fr.json`)
 - [ ] 🔴 Namespaces by feature: `common`, `auth`, `onboarding`, `arena`, `profile`, `errors`, etc.
-- [ ] 🔴 `useTranslation` hook (or equivalent) available app-wide
-- [ ] 🔴 Wrap app with i18n provider
+- [x] 🟢 `useTranslation` hook (or equivalent) available app-wide
+- [x] 🟢 Wrap app with i18n provider
 
 #### i18n usage
 
@@ -219,22 +219,22 @@ Internationalization (i18n) so all user-facing text uses translation keys. Light
 - [ ] 🔴 All UI text uses `t('key')` or `<Trans>`
 - [ ] 🔴 Key naming: `feature.section.key` (e.g. `auth.login.title`)
 - [ ] 🔴 Form validation messages from i18n
-- [ ] 🔴 (Optional) Language switcher in header or profile/settings
+- [x] 🟢 (Optional) Language switcher in header or profile/settings
 
 #### Light/dark theme
 
-- [ ] 🔴 Use `next-themes` (already in deps) or equivalent
-- [ ] 🔴 ThemeProvider in root layout with `attribute="class"` (or data-theme)
-- [ ] 🔴 CSS variables for light and dark in `globals.css` (already have dark; add light palette)
-- [ ] 🔴 Theme toggle component (sun/moon icon or switch) in header or a visible place
-- [ ] 🔴 Persist theme: `localStorage` + `system` option (respect `prefers-color-scheme` when “system”)
-- [ ] 🔴 No flash of wrong theme on load (script in head or suppressHydrationWarning where needed)
+- [x] 🟢 Use `next-themes` (already in deps) or equivalent
+- [x] 🟢 ThemeProvider in root layout with `attribute="class"` (or data-theme)
+- [x] 🟢 CSS variables for light and dark in `globals.css` (already have dark; add light palette)
+- [x] 🟢 Theme toggle component (sun/moon icon or switch) in header or a visible place
+- [x] 🟢 Persist theme: `localStorage` + `system` option (respect `prefers-color-scheme` when “system”)
+- [x] 🟢 No flash of wrong theme on load (script in head or suppressHydrationWarning where needed)
 - [ ] 🔴 All screens and components respect theme (background, text, borders, cards)
 
 #### Design tokens
 
-- [ ] 🔴 Light theme: define `--background`, `--foreground`, `--card`, `--primary`, etc. for light mode in `globals.css`
-- [ ] 🔴 Dark theme: keep existing Truegrynd dark variables
+- [x] 🟢 Light theme: define `--background`, `--foreground`, `--card`, `--primary`, etc. for light mode in `globals.css`
+- [x] 🟢 Dark theme: keep existing Truegrynd dark variables
 - [ ] 🔴 Ensure contrast and readability in both themes (WCAG 2.1 AA)
 
 ### Acceptance criteria
@@ -256,7 +256,7 @@ Work in order. Each screen issue should be complete before moving to the next.
 
 ## 🎯 Issue #3: Auth (login / signup)
 
-**Status:** 🔴 **NOT STARTED**  
+**Status:** 🟡 **IN PROGRESS**  
 **Priority:** HIGH  
 **Phase:** Screen 1  
 **Dependencies:** Issue #1, #2 (i18n + theme)
@@ -271,22 +271,22 @@ Google, Apple (if available), and Email (magic link or OTP via Supabase). Login/
 
 - [ ] 🔴 Enable providers: Email (magic link or OTP), Google, Apple
 - [ ] 🔴 Configure redirect URLs (production + localhost)
-- [ ] 🔴 (Optional) Hook or middleware to protect authenticated routes
+- [x] 🟢 (Optional) Hook or middleware to protect authenticated routes
 
 #### Pages & UI
 
-- [ ] 🔴 **Login** page/route: “Continue with Google”, “Continue with Apple”, “Continue with Email” (+ email field for email)
+- [x] 🟢 **Login** page/route: “Continue with Google”, “Continue with Apple”, “Continue with Email” (+ email field for email)
 - [ ] 🔴 **Signup** page/route: same flow
-- [ ] 🔴 Loading and error states (toast or inline)
-- [ ] 🔴 Design system (buttons, cards, inputs) — Truegrynd dark (and light if theme done)
-- [ ] 🔴 All auth copy from i18n (`auth.login.*`, `auth.signup.*`)
+- [x] 🟢 Loading and error states (toast or inline)
+- [x] 🟢 Design system (buttons, cards, inputs) — Truegrynd dark (and light if theme done)
+- [x] 🟢 All auth copy from i18n (`auth.login.*`, `auth.signup.*`)
 
 #### Session & redirect
 
-- [ ] 🔴 After login/signup: check if profile is complete (username, sex, age, weight, initiation, faction)
-- [ ] 🔴 If incomplete → redirect to onboarding (Issue #4)
-- [ ] 🔴 If complete → redirect to app (Overview or Arena)
-- [ ] 🔴 Session persistence (Supabase Auth) + client-side read (hook or context)
+- [x] 🟢 After login/signup: check if profile is complete (username, sex, age, weight, initiation, faction)
+- [x] 🟢 If incomplete → redirect to onboarding (Issue #4)
+- [x] 🟢 If complete → redirect to app (Overview or Arena)
+- [x] 🟢 Session persistence (Supabase Auth) + client-side read (hook or context)
 
 #### Profile creation on signup
 
@@ -295,16 +295,16 @@ Google, Apple (if available), and Email (magic link or OTP via Supabase). Login/
 
 #### Tests
 
-- [ ] 🔴 (Optional) Unit tests for auth flow (mock Supabase)
+- [x] 🟢 (Optional) Unit tests for auth flow (mock Supabase)
 - [ ] 🔴 E2E smoke: landing → login click → redirect to auth or app
 
 ### Acceptance criteria
 
 - [ ] Google and Email login work
 - [ ] Signup creates user + profiles row
-- [ ] Post-auth redirect respects profile completion (onboarding vs app)
-- [ ] Errors and loading handled
-- [ ] Design consistent with app; all copy i18n
+- [x] 🟢 Post-auth redirect respects profile completion (onboarding vs app)
+- [x] 🟢 Errors and loading handled
+- [x] 🟢 Design consistent with app; all copy i18n
 
 ---
 
