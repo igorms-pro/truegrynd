@@ -27,34 +27,26 @@ describe('auth services', () => {
 
   it('signInWithMagicLink forwards email and redirect URL', async () => {
     mockedAuth.signInWithOtp.mockResolvedValue({ error: null });
-    Object.defineProperty(window, 'location', {
-      value: { origin: 'http://localhost:3000' },
-      writable: true,
-    });
 
-    await signInWithMagicLink('test@example.com');
+    await signInWithMagicLink('test@example.com', 'http://localhost:3000/en/auth');
 
     expect(mockedAuth.signInWithOtp).toHaveBeenCalledWith({
       email: 'test@example.com',
       options: {
-        emailRedirectTo: 'http://localhost:3000',
+        emailRedirectTo: 'http://localhost:3000/en/auth',
       },
     });
   });
 
   it('signInWithOAuth forwards provider and redirect URL', async () => {
     mockedAuth.signInWithOAuth.mockResolvedValue({ error: null });
-    Object.defineProperty(window, 'location', {
-      value: { origin: 'http://localhost:3000' },
-      writable: true,
-    });
 
-    await signInWithOAuth('google');
+    await signInWithOAuth('google', 'http://localhost:3000/en/auth');
 
     expect(mockedAuth.signInWithOAuth).toHaveBeenCalledWith({
       provider: 'google',
       options: {
-        redirectTo: 'http://localhost:3000',
+        redirectTo: 'http://localhost:3000/en/auth',
       },
     });
   });

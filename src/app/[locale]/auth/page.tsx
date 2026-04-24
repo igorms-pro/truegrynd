@@ -2,13 +2,15 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useLocale } from 'next-intl';
-import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { signInWithMagicLink, signInWithOAuth } from '@/features/auth/services/auth';
 import { HeaderMobileSignIn } from '@/components/HeaderMobileSignIn';
-import { supabase } from '@/lib/supabase';
-import { isProfileComplete, type Profile } from '@/lib/types/database.types';
+import { isDebugEnabled } from '@/lib/debug';
+import { DevSessionReset } from '@/features/auth/components/DevSessionReset';
+import { AuthDebugPanel } from '@/features/auth/components/AuthDebugPanel';
+import { useAuthPostRedirect } from '@/features/auth/hooks/useAuthPostRedirect';
+import { useEmailCooldown } from '@/features/auth/hooks/useEmailCooldown';
 
 function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -16,21 +18,38 @@ function isValidEmail(email: string): boolean {
 
 export default function AuthPage() {
   const t = useTranslations('auth');
-  const { user, initialized } = useAuth();
-  const router = useRouter();
+  const { user, initialized, lastEvent } = useAuth();
   const locale = useLocale();
 
+  const [mounted, setMounted] = useState(false);
   const [email, setEmail] = useState('');
   const [emailLoading, setEmailLoading] = useState(false);
   const [oauthLoading, setOauthLoading] = useState<'google' | 'apple' | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [sentTo, setSentTo] = useState<string | null>(null);
-  const [redirecting, setRedirecting] = useState(false);
+  const { cooldownSeconds, startCooldown, canSend } = useEmailCooldown();
 
-  const canSubmit = useMemo(
-    () => isValidEmail(email) && !emailLoading && !oauthLoading,
-    [email, emailLoading, oauthLoading],
-  );
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const debugEnabled = useMemo(() => (mounted ? isDebugEnabled() : false), [mounted]);
+
+  const debugInfo = useMemo(() => {
+    if (!debugEnabled || typeof window === 'undefined') return null;
+    const url = new URL(window.location.href);
+    return {
+      href: window.location.href,
+      pathname: url.pathname,
+      search: url.search,
+      hash: url.hash,
+      hasCode: !!url.searchParams.get('code'),
+    };
+  }, [debugEnabled]);
+
+  const canSubmit = useMemo(() => {
+    return isValidEmail(email) && !emailLoading && !oauthLoading && canSend;
+  }, [email, emailLoading, oauthLoading, canSend]);
 
   const handleMagicLink = async () => {
     setError(null);
@@ -41,10 +60,15 @@ export default function AuthPage() {
 
     setEmailLoading(true);
     try {
-      await signInWithMagicLink(email);
+      await signInWithMagicLink(email, `${window.location.origin}/${locale}/auth`);
       setSentTo(email);
-    } catch {
-      setError(t('errors.magicLinkFailed'));
+      startCooldown(60);
+    } catch (err: unknown) {
+      const status =
+        typeof err === 'object' && err !== null && 'status' in err && typeof err.status === 'number'
+          ? err.status
+          : null;
+      setError(status === 429 ? t('errors.magicLinkRateLimited') : t('errors.magicLinkFailed'));
     } finally {
       setEmailLoading(false);
     }
@@ -54,55 +78,35 @@ export default function AuthPage() {
     setError(null);
     setOauthLoading(provider);
     try {
-      await signInWithOAuth(provider);
+      await signInWithOAuth(provider, `${window.location.origin}/${locale}/auth`);
     } catch {
       setError(t('errors.oauthFailed'));
       setOauthLoading(null);
     }
   };
 
-  useEffect(() => {
-    if (!initialized || !user || redirecting) return;
+  const postAuth = useAuthPostRedirect({ user, initialized, locale, t });
 
-    let cancelled = false;
-    const run = async () => {
-      setRedirecting(true);
-      try {
-        const { data, error } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', user.id)
-          .maybeSingle<Profile>();
-
-        if (cancelled) return;
-        if (error) {
-          setError(t('errors.profileLoadFailed'));
-          return;
-        }
-
-        const profile = data;
-        const base = `/${locale}`;
-        const target =
-          profile && isProfileComplete(profile) ? `${base}/app/overview` : `${base}/onboarding`;
-
-        // Avoid redirect loop if already there.
-        router.replace(target);
-      } finally {
-        if (!cancelled) setRedirecting(false);
-      }
-    };
-
-    void run();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [initialized, user, redirecting, router, locale, t]);
-
-  if (!initialized || redirecting) {
+  if (!initialized || postAuth.redirecting) {
     return (
       <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
-        <p className="text-sm text-muted-foreground">{t('loading')}</p>
+        <div className="w-full max-w-lg px-4">
+          <p className="text-sm text-muted-foreground">{t('loading')}</p>
+          {debugInfo ? (
+            <AuthDebugPanel
+              data={{
+                initialized,
+                hasUser: !!user,
+                userId: user?.id ?? null,
+                lastEvent,
+                redirecting: postAuth.redirecting,
+                postAuthStep: postAuth.step,
+                error: postAuth.error ?? error,
+                url: debugInfo,
+              }}
+            />
+          ) : null}
+        </div>
       </div>
     );
   }
@@ -118,6 +122,8 @@ export default function AuthPage() {
           <h1 className="text-4xl font-black tracking-tight">{t('title')}</h1>
           <p className="text-sm text-muted-foreground">{t('subtitle')}</p>
         </div>
+
+        {debugEnabled ? <DevSessionReset /> : null}
 
         {sentTo ? (
           <div className="w-full rounded-lg border border-border bg-card p-4 text-left">
@@ -150,7 +156,23 @@ export default function AuthPage() {
               autoComplete="email"
             />
 
-            {error ? <p className="mt-2 text-sm text-primary">{error}</p> : null}
+            {error || postAuth.error ? (
+              <p className="mt-2 text-sm text-primary">{postAuth.error ?? error}</p>
+            ) : null}
+            {debugInfo ? (
+              <AuthDebugPanel
+                data={{
+                  initialized,
+                  hasUser: !!user,
+                  userId: user?.id ?? null,
+                  lastEvent,
+                  redirecting: postAuth.redirecting,
+                  postAuthStep: postAuth.step,
+                  error: postAuth.error ?? error,
+                  url: debugInfo,
+                }}
+              />
+            ) : null}
 
             <button
               type="button"
@@ -158,7 +180,11 @@ export default function AuthPage() {
               disabled={!canSubmit}
               className="mt-4 w-full rounded-lg bg-primary px-4 py-3 text-sm font-black text-white transition-opacity hover:opacity-90 disabled:opacity-50"
             >
-              {emailLoading ? t('sending') : t('sendMagicLink')}
+              {emailLoading
+                ? t('sending')
+                : cooldownSeconds > 0
+                  ? `${t('sendMagicLink')} (${cooldownSeconds}s)`
+                  : t('sendMagicLink')}
             </button>
 
             <div className="my-4 flex items-center gap-3">

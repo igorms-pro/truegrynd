@@ -25,8 +25,19 @@
     "errors": {
       "invalidEmail": "Entre un e-mail valide.",
       "magicLinkFailed": "Impossible d’envoyer le lien. Réessaie.",
+      "magicLinkRateLimited": "Trop de tentatives. Attends quelques minutes puis réessaie.",
       "oauthFailed": "Connexion échouée. Réessaie.",
       "profileLoadFailed": "Connecté, mais impossible de charger ton profil."
     }
+  },
+  "onboarding": {
+    "title": "ONBOARDING",
+    "comingSoon": "Ce flow arrive ensuite. Cette page sert juste à valider les redirects d’auth.",
+    "note": "PROCHAINE ÉTAPE",
+    "body": "Finis l’Issue #4 pour les biométriques, l’initiation et la faction."
+  },
+  "app": {
+    "overviewTitle": "APERÇU",
+    "overviewBody": "Placeholder. La cible de redirect après login est câblée."
   }
 }

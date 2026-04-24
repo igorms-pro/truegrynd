@@ -25,8 +25,19 @@
     "errors": {
       "invalidEmail": "Enter a valid email.",
       "magicLinkFailed": "Failed to send magic link. Try again.",
+      "magicLinkRateLimited": "Too many attempts. Wait a few minutes, then try again.",
       "oauthFailed": "Sign-in failed. Try again.",
       "profileLoadFailed": "Signed in, but we could not load your profile."
     }
+  },
+  "onboarding": {
+    "title": "ONBOARDING",
+    "comingSoon": "This flow is next. For now this page exists to validate auth redirects.",
+    "note": "NEXT STEP",
+    "body": "Finish Issue #4 to collect biometrics, initiation, and faction."
+  },
+  "app": {
+    "overviewTitle": "OVERVIEW",
+    "overviewBody": "Placeholder. Auth redirect target is wired."
   }
 }

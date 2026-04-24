@@ -8,6 +8,7 @@ type AuthState = {
   user: User | null;
   session: Session | null;
   initialized: boolean;
+  lastEvent: string | null;
 };
 
 const AuthContext = createContext<AuthState | null>(null);
@@ -17,37 +18,48 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     user: null,
     session: null,
     initialized: false,
+    lastEvent: null,
   });
 
   useEffect(() => {
     let isActive = true;
+    const SAFETY_TIMEOUT_MS = 3000;
+    const safetyId = window.setTimeout(() => {
+      if (!isActive) return;
+      setState((prev) => (prev.initialized ? prev : { ...prev, initialized: true }));
+    }, SAFETY_TIMEOUT_MS);
 
-    supabase.auth
-      .getSession()
-      .then(({ data }) => {
+    const init = async () => {
+      try {
+        const { data } = await supabase.auth.getSession();
         if (!isActive) return;
         setState({
           user: data.session?.user ?? null,
           session: data.session ?? null,
           initialized: true,
+          lastEvent: 'GET_SESSION',
         });
-      })
-      .catch(() => {
+      } catch {
         if (!isActive) return;
-        setState({ user: null, session: null, initialized: true });
-      });
+        setState({ user: null, session: null, initialized: true, lastEvent: 'GET_SESSION_ERROR' });
+      }
+    };
 
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+    void init();
+
+    const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
       if (!isActive) return;
       setState({
         user: session?.user ?? null,
         session: session ?? null,
         initialized: true,
+        lastEvent: event,
       });
     });
 
     return () => {
       isActive = false;
+      window.clearTimeout(safetyId);
       sub.subscription.unsubscribe();
     };
   }, []);
