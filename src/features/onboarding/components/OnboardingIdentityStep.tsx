@@ -20,7 +20,6 @@ type Props = {
   userId: string;
   profile: Profile;
   onSaved: () => Promise<void> | void;
-  onContinue: () => void;
 };
 
 const SEX_OPTIONS = ['male', 'female', 'other'] as const;
@@ -44,7 +43,7 @@ function createSchema(t: (key: string) => string) {
   });
 }
 
-export function OnboardingIdentityStep({ userId, profile, onSaved, onContinue }: Props) {
+export function OnboardingIdentityStep({ userId, profile, onSaved }: Props) {
   const t = useTranslations('onboarding');
   const [saving, setSaving] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -239,19 +238,10 @@ export function OnboardingIdentityStep({ userId, profile, onSaved, onContinue }:
 
         <button
           type="submit"
-          disabled={saving}
+          disabled={!canContinue}
           className="w-full rounded-lg bg-primary px-4 py-3 text-sm font-black text-white transition-opacity hover:opacity-90 disabled:opacity-50"
         >
-          {saving ? t('buttons.saving') : t('buttons.save')}
-        </button>
-
-        <button
-          type="button"
-          disabled={!canContinue}
-          onClick={onContinue}
-          className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm font-black text-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
-        >
-          {t('buttons.continue')}
+          {saving ? t('buttons.saving') : t('buttons.continue')}
         </button>
       </form>
     </section>

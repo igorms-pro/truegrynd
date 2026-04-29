@@ -88,7 +88,6 @@ export function OnboardingFlow() {
         onSaved={async () => {
           await reload();
         }}
-        onContinue={() => setViewStep('initiation')}
       />
     );
   } else if (viewStep === 'initiation') {
