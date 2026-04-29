@@ -54,15 +54,23 @@
       }
     },
     "initiation": {
-      "heading": "Nomad initiation",
-      "copy": "3 quick checks. Tap Done.",
-      "tracker": "{done}/{total} done",
-      "challengeHint": "No proof needed. Just commit.",
-      "challenge1": { "title": "Set your category" },
-      "challenge2": { "title": "Respect the rules" },
-      "challenge3": { "title": "Stand up and be counted" },
-      "doneButton": "DONE",
-      "doneAlready": "DONE"
+      "heading": "How it works",
+      "copy": "Read this once. Then go earn your place.",
+      "subheading": "This is not a tracker. It’s competition.",
+      "cards": {
+        "1": {
+          "title": "Challenges → score",
+          "body": "Pick a challenge, submit a score (time or reps). Your score appears on the leaderboard."
+        },
+        "2": {
+          "title": "Smart Proof (Top 10%)",
+          "body": "Most scores are honor-based. If you hit Top 10%, you must paste a YouTube/TikTok link to validate."
+        },
+        "3": {
+          "title": "Your next move",
+          "body": "Choose a faction, then enter the Arena and post your first score."
+        }
+      }
     },
     "faction": {
       "heading": "Draft your faction",
