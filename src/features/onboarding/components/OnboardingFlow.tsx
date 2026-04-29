@@ -43,7 +43,9 @@ export function OnboardingFlow() {
 
   const activeStep = stepIndex(viewStep);
 
-  const reload = () => void refreshNow();
+  const reload = async () => {
+    await refreshNow();
+  };
 
   if (!initialized || loading) {
     return (
@@ -87,6 +89,7 @@ export function OnboardingFlow() {
         profile={profile}
         onSaved={async () => {
           await reload();
+          setViewStep(profile.initiation_completed ? 'faction' : 'initiation');
         }}
       />
     );
