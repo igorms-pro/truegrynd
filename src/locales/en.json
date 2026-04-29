@@ -81,7 +81,8 @@
     },
     "buttons": {
       "save": "SAVE",
-      "saving": "SAVING..."
+      "saving": "SAVING...",
+      "back": "BACK"
     },
     "errors": {
       "usernameMinLength": "Username must be at least 2 characters.",

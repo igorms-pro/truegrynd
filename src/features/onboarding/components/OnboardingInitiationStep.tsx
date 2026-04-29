@@ -8,25 +8,29 @@ import { completeInitiation } from '@/features/onboarding/services/onboarding';
 type Props = {
   userId: string;
   onCompleted: () => Promise<void> | void;
+  alreadyCompleted?: boolean;
 };
 
 const STORAGE_VERSION = 1;
 
 type DoneState = [boolean, boolean, boolean];
 
-export function OnboardingInitiationStep({ userId, onCompleted }: Props) {
+export function OnboardingInitiationStep({ userId, onCompleted, alreadyCompleted }: Props) {
   const t = useTranslations('onboarding');
   const storageKey = useMemo(
     () => `truegrynd:onboarding:init:v${STORAGE_VERSION}:${userId}`,
     [userId],
   );
 
-  const [done, setDone] = useState<DoneState>([false, false, false]);
+  const [done, setDone] = useState<DoneState>(() =>
+    alreadyCompleted ? [true, true, true] : [false, false, false],
+  );
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const completedRef = useRef(false);
+  const completedRef = useRef(alreadyCompleted ?? false);
 
   useEffect(() => {
+    if (alreadyCompleted) return;
     try {
       const raw = window.localStorage.getItem(storageKey);
       if (!raw) return;
@@ -36,21 +40,23 @@ export function OnboardingInitiationStep({ userId, onCompleted }: Props) {
     } catch {
       // ignore storage failures
     }
-  }, [storageKey]);
+  }, [alreadyCompleted, storageKey]);
 
   useEffect(() => {
+    if (alreadyCompleted) return;
     try {
       window.localStorage.setItem(storageKey, JSON.stringify(done));
     } catch {
       // ignore storage failures
     }
-  }, [done, storageKey]);
+  }, [alreadyCompleted, done, storageKey]);
 
   const doneCount = done.filter(Boolean).length;
 
   useEffect(() => {
     if (saving) return;
     if (completedRef.current) return;
+    if (alreadyCompleted) return;
     if (!done.every(Boolean)) return;
 
     completedRef.current = true;
@@ -73,7 +79,7 @@ export function OnboardingInitiationStep({ userId, onCompleted }: Props) {
         setSaving(false);
       }
     })();
-  }, [done, onCompleted, saving, storageKey, t, userId]);
+  }, [alreadyCompleted, done, onCompleted, saving, storageKey, t, userId]);
 
   const handleDone = async (index: number) => {
     if (saving) return;

@@ -9,6 +9,7 @@ import { setFaction } from '@/features/onboarding/services/onboarding';
 type Props = {
   userId: string;
   onCompleted: () => Promise<void> | void;
+  initialFaction?: Faction | null;
 };
 
 const FACTIONS: Array<{ faction: Faction; colorVar: string }> = [
@@ -17,9 +18,9 @@ const FACTIONS: Array<{ faction: Faction; colorVar: string }> = [
   { faction: 'iron_alliance', colorVar: 'var(--faction-iron)' },
 ];
 
-export function OnboardingFactionStep({ userId, onCompleted }: Props) {
+export function OnboardingFactionStep({ userId, onCompleted, initialFaction }: Props) {
   const t = useTranslations('onboarding');
-  const [selected, setSelected] = useState<Faction | null>(null);
+  const [selected, setSelected] = useState<Faction | null>(initialFaction ?? null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 

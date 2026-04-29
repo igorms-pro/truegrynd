@@ -81,7 +81,8 @@
     },
     "buttons": {
       "save": "ENREGISTRER",
-      "saving": "EN COURS..."
+      "saving": "EN COURS...",
+      "back": "RETOUR"
     },
     "errors": {
       "usernameMinLength": "Le pseudo doit contenir au moins 2 caractères.",
