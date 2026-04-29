@@ -9,13 +9,19 @@ type Props = {
   userId: string;
   onCompleted: () => Promise<void> | void;
   alreadyCompleted?: boolean;
+  onContinue: () => void;
 };
 
 const STORAGE_VERSION = 1;
 
 type DoneState = [boolean, boolean, boolean];
 
-export function OnboardingInitiationStep({ userId, onCompleted, alreadyCompleted }: Props) {
+export function OnboardingInitiationStep({
+  userId,
+  onCompleted,
+  alreadyCompleted,
+  onContinue,
+}: Props) {
   const t = useTranslations('onboarding');
   const storageKey = useMemo(
     () => `truegrynd:onboarding:init:v${STORAGE_VERSION}:${userId}`,
@@ -52,6 +58,7 @@ export function OnboardingInitiationStep({ userId, onCompleted, alreadyCompleted
   }, [alreadyCompleted, done, storageKey]);
 
   const doneCount = done.filter(Boolean).length;
+  const canContinue = !saving && doneCount === 3;
 
   useEffect(() => {
     if (saving) return;
@@ -138,6 +145,15 @@ export function OnboardingInitiationStep({ userId, onCompleted, alreadyCompleted
           );
         })}
       </div>
+
+      <button
+        type="button"
+        disabled={!canContinue}
+        onClick={onContinue}
+        className="mt-4 w-full rounded-lg border border-border bg-background px-4 py-3 text-sm font-black text-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
+      >
+        {t('buttons.continue')}
+      </button>
 
       {error ? (
         <div className="mt-4 rounded-lg border border-primary/40 bg-primary/10 p-4">

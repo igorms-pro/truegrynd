@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -20,6 +20,7 @@ type Props = {
   userId: string;
   profile: Profile;
   onSaved: () => Promise<void> | void;
+  onContinue: () => void;
 };
 
 const SEX_OPTIONS = ['male', 'female', 'other'] as const;
@@ -43,10 +44,16 @@ function createSchema(t: (key: string) => string) {
   });
 }
 
-export function OnboardingIdentityStep({ userId, profile, onSaved }: Props) {
+export function OnboardingIdentityStep({ userId, profile, onSaved, onContinue }: Props) {
   const t = useTranslations('onboarding');
   const [saving, setSaving] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const DRAFT_VERSION = 1;
+  const draftKey = useMemo(
+    () => `truegrynd:onboarding:identityDraft:v${DRAFT_VERSION}:${userId}`,
+    [userId],
+  );
+  const [draftLoaded, setDraftLoaded] = useState(false);
 
   const schema = useMemo(() => createSchema((k) => t(k)), [t]);
 
@@ -58,16 +65,63 @@ export function OnboardingIdentityStep({ userId, profile, onSaved }: Props) {
       age: profile.age ?? 0,
       weightKg: profile.weight_kg ?? 0,
     },
-    mode: 'onTouched',
+    mode: 'onChange',
   });
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    reset,
+    watch,
+    formState: { errors, isValid },
   } = form;
 
   const sexLabel = (sex: Sex) => t(`identity.sexes.${sex}`);
+
+  const identityComplete =
+    profile.username !== null &&
+    profile.sex !== null &&
+    profile.age !== null &&
+    profile.weight_kg !== null;
+  const canContinue = !saving && (identityComplete || isValid);
+
+  useEffect(() => {
+    try {
+      const raw = window.localStorage.getItem(draftKey);
+      if (!raw) return;
+      const parsed = JSON.parse(raw) as Partial<IdentityFormValues>;
+      if (typeof parsed !== 'object' || !parsed) return;
+      const next: IdentityFormValues = {
+        username: typeof parsed.username === 'string' ? parsed.username : (profile.username ?? ''),
+        sex:
+          parsed.sex === 'male' || parsed.sex === 'female' || parsed.sex === 'other'
+            ? parsed.sex
+            : (profile.sex ?? 'other'),
+        age: typeof parsed.age === 'number' ? parsed.age : (profile.age ?? 0),
+        weightKg: typeof parsed.weightKg === 'number' ? parsed.weightKg : (profile.weight_kg ?? 0),
+      };
+      reset(next);
+    } catch {
+      // ignore draft failures
+    } finally {
+      setDraftLoaded(true);
+    }
+  }, [draftKey, profile.age, profile.sex, profile.username, profile.weight_kg, reset]);
+
+  useEffect(() => {
+    if (!draftLoaded) return;
+    if (saving) return;
+    const values = watch();
+    const id = window.setTimeout(() => {
+      try {
+        window.localStorage.setItem(draftKey, JSON.stringify(values));
+      } catch {
+        // ignore localStorage failures
+      }
+    }, 250);
+
+    return () => window.clearTimeout(id);
+  }, [draftLoaded, draftKey, saving, watch]);
 
   const onSubmit = async (values: IdentityFormValues) => {
     setSaving(true);
@@ -80,6 +134,11 @@ export function OnboardingIdentityStep({ userId, profile, onSaved }: Props) {
         age: values.age,
         weightKg: values.weightKg,
       });
+      try {
+        window.localStorage.removeItem(draftKey);
+      } catch {
+        // ignore localStorage failures
+      }
       await onSaved();
     } catch (e: unknown) {
       const message = e instanceof Error ? e.message : 'unknown';
@@ -184,6 +243,15 @@ export function OnboardingIdentityStep({ userId, profile, onSaved }: Props) {
           className="w-full rounded-lg bg-primary px-4 py-3 text-sm font-black text-white transition-opacity hover:opacity-90 disabled:opacity-50"
         >
           {saving ? t('buttons.saving') : t('buttons.save')}
+        </button>
+
+        <button
+          type="button"
+          disabled={!canContinue}
+          onClick={onContinue}
+          className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm font-black text-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
+        >
+          {t('buttons.continue')}
         </button>
       </form>
     </section>

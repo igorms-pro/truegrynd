@@ -88,6 +88,7 @@ export function OnboardingFlow() {
         onSaved={async () => {
           await reload();
         }}
+        onContinue={() => setViewStep('initiation')}
       />
     );
   } else if (viewStep === 'initiation') {
@@ -98,6 +99,7 @@ export function OnboardingFlow() {
         onCompleted={async () => {
           await reload();
         }}
+        onContinue={() => setViewStep('faction')}
       />
     );
   } else if (viewStep === 'faction') {
