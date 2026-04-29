@@ -32,6 +32,68 @@
   },
   "onboarding": {
     "title": "ONBOARDING",
+    "loading": "Chargement...",
+    "flowName": "Paramètres du profil",
+    "steps": {
+      "identity": "Identité",
+      "initiation": "Initiation",
+      "faction": "Faction"
+    },
+    "identity": {
+      "heading": "Carte d'identité sportive",
+      "copy": "Pas de triche ici. Tes infos définissent ta catégorie.",
+      "usernameLabel": "PSEUDO",
+      "usernamePlaceholder": "Ton pseudo",
+      "sexLabel": "SEXE",
+      "ageLabel": "ÂGE",
+      "weightLabel": "POIDS (KG)",
+      "sexes": {
+        "male": "Homme",
+        "female": "Femme",
+        "other": "Autre"
+      }
+    },
+    "initiation": {
+      "heading": "Initiation",
+      "copy": "3 checks rapides. Appuie sur DONE.",
+      "tracker": "{done}/{total} validé(s)",
+      "challengeHint": "Pas de preuve demandée. Juste un engagement.",
+      "challenge1": { "title": "Définir ta catégorie" },
+      "challenge2": { "title": "Respecter les règles" },
+      "challenge3": { "title": "Se tenir prêt" },
+      "doneButton": "DONE",
+      "doneAlready": "DONE"
+    },
+    "faction": {
+      "heading": "Choisir ta faction",
+      "copy": "Choisis où tu appartiens.",
+      "selectPrompt": "Choisis ta faction pour continuer.",
+      "selected": "Sélection : {faction}",
+      "pledge": "Pledge d'allégeance"
+    },
+    "factions": {
+      "nomads": "Nomades",
+      "nomadsDesc": "Léger. Agile. Toujours prêt.",
+      "horde": "La Horde",
+      "hordeDesc": "Dur à l'entraînement. Ensemble.",
+      "iron_alliance": "Alliance de Fer",
+      "iron_allianceDesc": "Précision, discipline, force."
+    },
+    "buttons": {
+      "save": "ENREGISTRER",
+      "saving": "EN COURS..."
+    },
+    "errors": {
+      "usernameMinLength": "Le pseudo doit contenir au moins 2 caractères.",
+      "sexRequired": "Choisis un sexe.",
+      "ageMin": "Âge trop bas.",
+      "ageMax": "Âge trop élevé.",
+      "weightMin": "Poids trop bas.",
+      "weightMax": "Poids trop élevé.",
+      "saveIdentityFailed": "Impossible d'enregistrer ton identité.",
+      "completeInitiationFailed": "Impossible de valider l'initiation.",
+      "saveFactionFailed": "Impossible d'enregistrer ta faction."
+    },
     "comingSoon": "Ce flow arrive ensuite. Cette page sert juste à valider les redirects d’auth.",
     "note": "PROCHAINE ÉTAPE",
     "body": "Finis l’Issue #4 pour les biométriques, l’initiation et la faction."
