@@ -227,11 +227,11 @@ export function OnboardingFlow() {
             <button
               type="button"
               onClick={handleBack}
-              className="mt-6 w-full rounded-lg border border-border bg-background px-4 py-3 text-sm font-black text-foreground transition-opacity hover:opacity-90"
+              className="mt-6 w-full rounded-lg border border-border bg-background px-4 py-3 text-foreground transition-opacity hover:opacity-90"
+              aria-label={t('buttons.back')}
             >
-              <span className="inline-flex items-center justify-center gap-2">
-                <ArrowLeft size={18} />
-                <span>{t('buttons.back')}</span>
+              <span className="inline-flex items-center justify-center">
+                <ArrowLeft size={20} />
               </span>
             </button>
           ) : null}

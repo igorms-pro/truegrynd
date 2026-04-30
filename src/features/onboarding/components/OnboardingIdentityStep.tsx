@@ -240,10 +240,10 @@ export function OnboardingIdentityStep({ userId, profile, onSaved }: Props) {
         <button
           type="submit"
           disabled={!canContinue}
-          className="w-full rounded-lg bg-primary px-4 py-3 text-sm font-black text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+          className="w-full rounded-lg bg-primary px-4 py-3 text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+          aria-label={saving ? t('buttons.saving') : t('buttons.continue')}
         >
           <span className="inline-flex items-center justify-center gap-2">
-            <span>{saving ? t('buttons.saving') : t('buttons.continue')}</span>
             <ArrowRight size={18} />
           </span>
         </button>

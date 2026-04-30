@@ -104,9 +104,9 @@ export function OnboardingFactionStep({ userId, onCompleted, initialFaction }: P
         disabled={!selected || saving}
         onClick={() => void handleSave()}
         className="mt-4 w-full rounded-lg bg-primary px-4 py-3 text-sm font-black text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+        aria-label={saving ? t('buttons.saving') : t('faction.pledge')}
       >
         <span className="inline-flex items-center justify-center gap-2">
-          <span>{saving ? t('buttons.saving') : t('faction.pledge')}</span>
           <ArrowRight size={18} />
         </span>
       </button>
