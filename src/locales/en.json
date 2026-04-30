@@ -57,6 +57,10 @@
       "heading": "How it works",
       "copy": "Read this once. Then go earn your place.",
       "subheading": "This is not a tracker. It’s competition.",
+      "read": "OK, READ",
+      "reopen": "REOPEN",
+      "toggleCollapse": "Mark as read and collapse",
+      "toggleExpand": "Reopen this card",
       "cards": {
         "1": {
           "title": "Challenges → score",
