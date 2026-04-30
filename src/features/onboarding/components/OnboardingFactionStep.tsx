@@ -49,7 +49,9 @@ export function OnboardingFactionStep({ userId, onCompleted, initialFaction, onB
         <p className="text-xs font-semibold tracking-wide text-muted-foreground">
           {t('faction.copy')}
         </p>
-        <h2 className="mt-2 text-xl font-black tracking-tight">{t('faction.heading')}</h2>
+        <h2 className="mt-1.5 text-lg md:text-xl font-black tracking-tight">
+          {t('faction.heading')}
+        </h2>
         {selectedLabel ? (
           <p className="mt-1 text-sm text-muted-foreground">
             {t('faction.selected', { faction: selectedLabel })}

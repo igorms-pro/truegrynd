@@ -154,10 +154,12 @@ export function OnboardingIdentityStep({ userId, profile, onSaved }: Props) {
         <p className="text-xs font-semibold tracking-wide text-muted-foreground">
           {t('identity.copy')}
         </p>
-        <h2 className="mt-2 text-xl font-black tracking-tight">{t('identity.heading')}</h2>
+        <h2 className="mt-1.5 text-lg md:text-xl font-black tracking-tight">
+          {t('identity.heading')}
+        </h2>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="mt-4 md:mt-6 space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="mt-3 md:mt-6 space-y-3 md:space-y-4">
         <div>
           <label className="text-xs font-semibold tracking-wide text-muted-foreground">
             {t('identity.usernameLabel')}

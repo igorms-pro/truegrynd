@@ -65,11 +65,13 @@ export function OnboardingInitiationStep({
         <p className="text-xs font-semibold tracking-wide text-muted-foreground">
           {t('initiation.copy')}
         </p>
-        <h2 className="mt-2 text-xl font-black tracking-tight">{t('initiation.heading')}</h2>
+        <h2 className="mt-1.5 text-lg md:text-xl font-black tracking-tight">
+          {t('initiation.heading')}
+        </h2>
         <p className="mt-1 text-sm text-muted-foreground">{t('initiation.subheading')}</p>
       </div>
 
-      <div className="mt-4 md:mt-6 space-y-3">
+      <div className="mt-3 md:mt-6 space-y-3">
         {([1, 2, 3] as const).map((i) => (
           <div key={i} className="rounded-lg border border-border bg-background p-4">
             <div className="flex items-start justify-between gap-3">

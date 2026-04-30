@@ -166,18 +166,18 @@ export function OnboardingFlow() {
   return (
     <>
       <HeaderMobileSignIn />
-      <main className="min-h-screen bg-background text-foreground px-4 pt-16 pb-8 md:pt-24 md:pb-10">
+      <main className="min-h-screen bg-background text-foreground px-4 pt-12 pb-6 md:pt-24 md:pb-10">
         <div className="mx-auto w-full max-w-lg">
-          <h1 className="text-3xl font-black tracking-tight">{t('title')}</h1>
+          <h1 className="text-2xl md:text-3xl font-black tracking-tight">{t('title')}</h1>
 
-          <div className="mt-4 md:mt-6 rounded-lg border border-border bg-card p-4">
+          <div className="mt-3 md:mt-6 rounded-lg border border-border bg-card p-3 md:p-4">
             <div className="flex items-center justify-between gap-3">
               <p className="text-xs font-semibold tracking-wide text-muted-foreground">
                 {t('flowName')}
               </p>
             </div>
 
-            <div className="mt-4">
+            <div className="mt-3 md:mt-4">
               <ol className="flex items-center justify-between gap-2 text-center">
                 {([1, 2, 3] as const).map((n) => (
                   <li key={n} className="flex-1">
@@ -188,7 +188,7 @@ export function OnboardingFlow() {
                           n === 1 ? 'identity' : n === 2 ? 'initiation' : 'faction';
                         setViewStep(clampToAllowedStep(target));
                       }}
-                      className={`flex h-10 w-full items-center justify-center rounded-md border transition-opacity hover:opacity-90 ${
+                      className={`flex h-9 md:h-10 w-full items-center justify-center rounded-md border transition-opacity hover:opacity-90 ${
                         n <= activeStep
                           ? 'border-primary/40 bg-primary/10'
                           : 'border-border bg-background'
@@ -203,7 +203,7 @@ export function OnboardingFlow() {
                     >
                       <span className="text-xs font-black tracking-tight">{n}</span>
                     </button>
-                    <p className="mt-2 text-[11px] text-muted-foreground">
+                    <p className="mt-1.5 md:mt-2 text-[11px] text-muted-foreground">
                       {n === 1
                         ? t('steps.identity')
                         : n === 2
@@ -222,7 +222,7 @@ export function OnboardingFlow() {
             </div>
           ) : null}
 
-          <div className="mt-4 md:mt-6">{content}</div>
+          <div className="mt-3 md:mt-6">{content}</div>
         </div>
       </main>
     </>
