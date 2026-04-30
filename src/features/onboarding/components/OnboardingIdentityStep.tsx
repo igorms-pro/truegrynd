@@ -157,7 +157,7 @@ export function OnboardingIdentityStep({ userId, profile, onSaved }: Props) {
         <h2 className="mt-2 text-xl font-black tracking-tight">{t('identity.heading')}</h2>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="mt-4 md:mt-6 space-y-4">
         <div>
           <label className="text-xs font-semibold tracking-wide text-muted-foreground">
             {t('identity.usernameLabel')}
@@ -193,7 +193,7 @@ export function OnboardingIdentityStep({ userId, profile, onSaved }: Props) {
           ) : null}
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-3 md:gap-4">
           <div>
             <label className="text-xs font-semibold tracking-wide text-muted-foreground">
               {t('identity.ageLabel')}

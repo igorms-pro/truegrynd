@@ -166,11 +166,11 @@ export function OnboardingFlow() {
   return (
     <>
       <HeaderMobileSignIn />
-      <main className="min-h-screen bg-background text-foreground px-4 pt-24 pb-10">
+      <main className="min-h-screen bg-background text-foreground px-4 pt-16 pb-8 md:pt-24 md:pb-10">
         <div className="mx-auto w-full max-w-lg">
           <h1 className="text-3xl font-black tracking-tight">{t('title')}</h1>
 
-          <div className="mt-6 rounded-lg border border-border bg-card p-4">
+          <div className="mt-4 md:mt-6 rounded-lg border border-border bg-card p-4">
             <div className="flex items-center justify-between gap-3">
               <p className="text-xs font-semibold tracking-wide text-muted-foreground">
                 {t('flowName')}
@@ -222,7 +222,7 @@ export function OnboardingFlow() {
             </div>
           ) : null}
 
-          <div className="mt-6">{content}</div>
+          <div className="mt-4 md:mt-6">{content}</div>
         </div>
       </main>
     </>

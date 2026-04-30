@@ -69,7 +69,7 @@ export function OnboardingInitiationStep({
         <p className="mt-1 text-sm text-muted-foreground">{t('initiation.subheading')}</p>
       </div>
 
-      <div className="mt-6 space-y-3">
+      <div className="mt-4 md:mt-6 space-y-3">
         {([1, 2, 3] as const).map((i) => (
           <div key={i} className="rounded-lg border border-border bg-background p-4">
             <div className="flex items-start justify-between gap-3">
@@ -120,7 +120,7 @@ export function OnboardingInitiationStep({
         ))}
       </div>
 
-      <div className="mt-4 flex items-center justify-between gap-3">
+      <div className="mt-3 md:mt-4 flex items-center justify-between gap-3">
         {onBack ? (
           <button
             type="button"

@@ -59,7 +59,7 @@ export function OnboardingFactionStep({ userId, onCompleted, initialFaction, onB
         )}
       </div>
 
-      <div className="mt-6 grid grid-cols-1 gap-3">
+      <div className="mt-4 md:mt-6 grid grid-cols-1 gap-3">
         {FACTIONS.map(({ faction, colorVar }) => {
           const isActive = selected === faction;
           return (
@@ -100,7 +100,7 @@ export function OnboardingFactionStep({ userId, onCompleted, initialFaction, onB
         })}
       </div>
 
-      <div className="mt-4 flex items-center justify-between gap-3">
+      <div className="mt-3 md:mt-4 flex items-center justify-between gap-3">
         {onBack ? (
           <button
             type="button"
