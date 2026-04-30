@@ -11,7 +11,6 @@ import type { OnboardingStep } from '@/features/onboarding/lib/onboardingStep';
 import { OnboardingIdentityStep } from '@/features/onboarding/components/OnboardingIdentityStep';
 import { OnboardingInitiationStep } from '@/features/onboarding/components/OnboardingInitiationStep';
 import { OnboardingFactionStep } from '@/features/onboarding/components/OnboardingFactionStep';
-import { ArrowLeft } from 'lucide-react';
 
 function stepIndex(step: OnboardingStep): 1 | 2 | 3 {
   if (step === 'identity') return 1;
@@ -119,6 +118,11 @@ export function OnboardingFlow() {
   const effectiveViewStep = clampToAllowedStep(viewStep);
   const activeStep = stepIndex(effectiveViewStep);
 
+  const handleBack = () => {
+    if (effectiveViewStep === 'initiation') setViewStep('identity');
+    if (effectiveViewStep === 'faction') setViewStep('initiation');
+  };
+
   let content: ReactNode;
   if (effectiveViewStep === 'identity') {
     content = (
@@ -137,6 +141,7 @@ export function OnboardingFlow() {
         userId={profile.id}
         alreadyCompleted={profile.initiation_completed}
         sex={profile.sex}
+        onBack={handleBack}
         onCompleted={async () => {
           await reload();
         }}
@@ -148,6 +153,7 @@ export function OnboardingFlow() {
       <OnboardingFactionStep
         userId={profile.id}
         initialFaction={profile.faction}
+        onBack={handleBack}
         onCompleted={async () => {
           await reload();
         }}
@@ -156,11 +162,6 @@ export function OnboardingFlow() {
   } else {
     content = null;
   }
-
-  const handleBack = () => {
-    if (effectiveViewStep === 'initiation') setViewStep('identity');
-    if (effectiveViewStep === 'faction') setViewStep('initiation');
-  };
 
   return (
     <>
@@ -222,19 +223,6 @@ export function OnboardingFlow() {
           ) : null}
 
           <div className="mt-6">{content}</div>
-
-          {effectiveViewStep !== 'identity' ? (
-            <button
-              type="button"
-              onClick={handleBack}
-              className="mt-6 w-full rounded-lg border border-border bg-background px-4 py-3 text-foreground transition-opacity hover:opacity-90"
-              aria-label={t('buttons.back')}
-            >
-              <span className="inline-flex items-center justify-center">
-                <ArrowLeft size={20} />
-              </span>
-            </button>
-          ) : null}
         </div>
       </main>
     </>

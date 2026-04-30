@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
-import { ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 import { completeInitiation } from '@/features/onboarding/services/onboarding';
 import type { Sex } from '@/lib/types/database.types';
@@ -13,6 +13,7 @@ type Props = {
   onCompleted: () => Promise<void> | void;
   alreadyCompleted?: boolean;
   onContinue: () => void;
+  onBack?: () => void;
   sex: Sex | null;
 };
 
@@ -21,6 +22,7 @@ export function OnboardingInitiationStep({
   onCompleted,
   alreadyCompleted,
   onContinue,
+  onBack,
   sex,
 }: Props) {
   const t = useTranslations('onboarding');
@@ -118,17 +120,34 @@ export function OnboardingInitiationStep({
         ))}
       </div>
 
-      <button
-        type="button"
-        disabled={!canContinue}
-        onClick={() => void handleContinue()}
-        className="mt-4 w-full rounded-lg border border-border bg-background px-4 py-3 text-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
-        aria-label={saving ? t('buttons.saving') : t('buttons.continue')}
-      >
-        <span className="inline-flex items-center justify-center gap-2">
-          <ArrowRight size={18} />
-        </span>
-      </button>
+      <div className="mt-4 flex items-center justify-between gap-3">
+        {onBack ? (
+          <button
+            type="button"
+            onClick={onBack}
+            className="h-12 w-12 rounded-lg border border-border bg-background text-foreground transition-opacity hover:opacity-90"
+            aria-label={t('buttons.back')}
+          >
+            <span className="inline-flex items-center justify-center">
+              <ArrowLeft size={20} />
+            </span>
+          </button>
+        ) : (
+          <div />
+        )}
+
+        <button
+          type="button"
+          disabled={!canContinue}
+          onClick={() => void handleContinue()}
+          className="h-12 w-12 rounded-lg border border-border bg-background text-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
+          aria-label={saving ? t('buttons.saving') : t('buttons.continue')}
+        >
+          <span className="inline-flex items-center justify-center">
+            <ArrowRight size={20} />
+          </span>
+        </button>
+      </div>
 
       {error ? (
         <div className="mt-4 rounded-lg border border-primary/40 bg-primary/10 p-4">

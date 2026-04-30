@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 import type { Faction } from '@/lib/types/database.types';
 import { setFaction } from '@/features/onboarding/services/onboarding';
@@ -11,6 +11,7 @@ type Props = {
   userId: string;
   onCompleted: () => Promise<void> | void;
   initialFaction?: Faction | null;
+  onBack?: () => void;
 };
 
 const FACTIONS: Array<{ faction: Faction; colorVar: string }> = [
@@ -19,7 +20,7 @@ const FACTIONS: Array<{ faction: Faction; colorVar: string }> = [
   { faction: 'iron_alliance', colorVar: 'var(--faction-iron)' },
 ];
 
-export function OnboardingFactionStep({ userId, onCompleted, initialFaction }: Props) {
+export function OnboardingFactionStep({ userId, onCompleted, initialFaction, onBack }: Props) {
   const t = useTranslations('onboarding');
   const [selected, setSelected] = useState<Faction | null>(initialFaction ?? null);
   const [saving, setSaving] = useState(false);
@@ -99,17 +100,34 @@ export function OnboardingFactionStep({ userId, onCompleted, initialFaction }: P
         })}
       </div>
 
-      <button
-        type="button"
-        disabled={!selected || saving}
-        onClick={() => void handleSave()}
-        className="mt-4 w-full rounded-lg bg-primary px-4 py-3 text-sm font-black text-white transition-opacity hover:opacity-90 disabled:opacity-50"
-        aria-label={saving ? t('buttons.saving') : t('faction.pledge')}
-      >
-        <span className="inline-flex items-center justify-center gap-2">
-          <ArrowRight size={18} />
-        </span>
-      </button>
+      <div className="mt-4 flex items-center justify-between gap-3">
+        {onBack ? (
+          <button
+            type="button"
+            onClick={onBack}
+            className="h-12 w-12 rounded-lg border border-border bg-background text-foreground transition-opacity hover:opacity-90"
+            aria-label={t('buttons.back')}
+          >
+            <span className="inline-flex items-center justify-center">
+              <ArrowLeft size={20} />
+            </span>
+          </button>
+        ) : (
+          <div />
+        )}
+
+        <button
+          type="button"
+          disabled={!selected || saving}
+          onClick={() => void handleSave()}
+          className="h-12 w-12 rounded-lg bg-primary text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+          aria-label={saving ? t('buttons.saving') : t('faction.pledge')}
+        >
+          <span className="inline-flex items-center justify-center">
+            <ArrowRight size={20} />
+          </span>
+        </button>
+      </div>
 
       {error ? (
         <div className="mt-4 rounded-lg border border-primary/40 bg-primary/10 p-4">
