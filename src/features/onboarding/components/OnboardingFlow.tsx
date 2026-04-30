@@ -98,6 +98,7 @@ export function OnboardingFlow() {
       <OnboardingInitiationStep
         userId={profile.id}
         alreadyCompleted={profile.initiation_completed}
+        sex={profile.sex}
         onCompleted={async () => {
           await reload();
         }}

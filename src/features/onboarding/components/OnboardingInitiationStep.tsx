@@ -2,14 +2,17 @@
 
 import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 
 import { completeInitiation } from '@/features/onboarding/services/onboarding';
+import type { Sex } from '@/lib/types/database.types';
 
 type Props = {
   userId: string;
   onCompleted: () => Promise<void> | void;
   alreadyCompleted?: boolean;
   onContinue: () => void;
+  sex: Sex | null;
 };
 
 export function OnboardingInitiationStep({
@@ -17,12 +20,18 @@ export function OnboardingInitiationStep({
   onCompleted,
   alreadyCompleted,
   onContinue,
+  sex,
 }: Props) {
   const t = useTranslations('onboarding');
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const canContinue = useMemo(() => !saving, [saving]);
+  const useFemale = sex === 'female';
+  const imageFor = (i: 1 | 2 | 3) => {
+    if (useFemale) return `/images/onboarding/onboarding_female_${i}.png`;
+    return `/images/onboarding/onboarding_${i}.png`;
+  };
 
   const handleContinue = async () => {
     if (saving) return;
@@ -55,6 +64,16 @@ export function OnboardingInitiationStep({
       <div className="mt-6 space-y-3">
         {([1, 2, 3] as const).map((i) => (
           <div key={i} className="rounded-lg border border-border bg-background p-4">
+            <div className="relative mb-3 aspect-[9/16] w-full overflow-hidden rounded-lg border border-border bg-card">
+              <Image
+                src={imageFor(i)}
+                alt=""
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 420px"
+                priority={i === 1}
+              />
+            </div>
             <p className="text-sm font-black tracking-tight">{t(`initiation.cards.${i}.title`)}</p>
             <p className="mt-1 text-xs text-muted-foreground">{t(`initiation.cards.${i}.body`)}</p>
           </div>
