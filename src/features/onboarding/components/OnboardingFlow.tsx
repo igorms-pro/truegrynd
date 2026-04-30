@@ -166,7 +166,7 @@ export function OnboardingFlow() {
   return (
     <>
       <HeaderMobileSignIn />
-      <main className="min-h-screen bg-background text-foreground px-4 pt-12 pb-6 md:pt-24 md:pb-10">
+      <main className="min-h-screen bg-background text-foreground px-4 pt-6 pb-6 md:pt-24 md:pb-10">
         <div className="mx-auto w-full max-w-lg">
           <h1 className="text-2xl md:text-3xl font-black tracking-tight">{t('title')}</h1>
 
