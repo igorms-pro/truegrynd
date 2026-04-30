@@ -30,7 +30,20 @@ export function OnboardingFlow() {
   });
 
   const redirectTarget = useMemo(() => `/${locale}/app/overview`, [locale]);
-  const [viewStep, setViewStep] = useState<OnboardingStep>(step);
+  const userId = user?.id ?? null;
+  const [viewStep, setViewStep] = useState<OnboardingStep>(() => {
+    if (typeof window === 'undefined') return step;
+    if (!userId) return step;
+    try {
+      const key = `truegrynd:onboarding:viewStep:v1:${userId}`;
+      const stored = window.sessionStorage.getItem(key) as OnboardingStep | null;
+      return stored === 'identity' || stored === 'initiation' || stored === 'faction'
+        ? stored
+        : step;
+    } catch {
+      return step;
+    }
+  });
 
   useEffect(() => {
     if (!initialized || loading) return;
@@ -38,10 +51,14 @@ export function OnboardingFlow() {
   }, [initialized, loading, step, router, redirectTarget]);
 
   useEffect(() => {
-    setViewStep(step);
-  }, [step]);
-
-  const activeStep = stepIndex(viewStep);
+    if (!profile) return;
+    const key = `truegrynd:onboarding:viewStep:v1:${profile.id}`;
+    try {
+      window.sessionStorage.setItem(key, viewStep);
+    } catch {
+      // ignore storage failures
+    }
+  }, [profile, viewStep]);
 
   const reload = async () => {
     await refreshNow();
@@ -81,8 +98,28 @@ export function OnboardingFlow() {
     );
   }
 
+  const clampToAllowedStep = (next: OnboardingStep): OnboardingStep => {
+    const identityMissing =
+      profile.username === null ||
+      profile.sex === null ||
+      profile.age === null ||
+      profile.weight_kg === null;
+
+    if (next === 'identity') return 'identity';
+    if (next === 'initiation') return identityMissing ? 'identity' : 'initiation';
+    if (next === 'faction') {
+      if (identityMissing) return 'identity';
+      if (!profile.initiation_completed) return 'initiation';
+      return 'faction';
+    }
+    return 'identity';
+  };
+
+  const effectiveViewStep = clampToAllowedStep(viewStep);
+  const activeStep = stepIndex(effectiveViewStep);
+
   let content: ReactNode;
-  if (viewStep === 'identity') {
+  if (effectiveViewStep === 'identity') {
     content = (
       <OnboardingIdentityStep
         userId={profile.id}
@@ -93,7 +130,7 @@ export function OnboardingFlow() {
         }}
       />
     );
-  } else if (viewStep === 'initiation') {
+  } else if (effectiveViewStep === 'initiation') {
     content = (
       <OnboardingInitiationStep
         userId={profile.id}
@@ -105,7 +142,7 @@ export function OnboardingFlow() {
         onContinue={() => setViewStep('faction')}
       />
     );
-  } else if (viewStep === 'faction') {
+  } else if (effectiveViewStep === 'faction') {
     content = (
       <OnboardingFactionStep
         userId={profile.id}
@@ -120,8 +157,8 @@ export function OnboardingFlow() {
   }
 
   const handleBack = () => {
-    if (viewStep === 'initiation') setViewStep('identity');
-    if (viewStep === 'faction') setViewStep('initiation');
+    if (effectiveViewStep === 'initiation') setViewStep('identity');
+    if (effectiveViewStep === 'faction') setViewStep('initiation');
   };
 
   return (
@@ -136,31 +173,34 @@ export function OnboardingFlow() {
               <p className="text-xs font-semibold tracking-wide text-muted-foreground">
                 {t('flowName')}
               </p>
-
-              {viewStep !== 'identity' ? (
-                <button
-                  type="button"
-                  onClick={handleBack}
-                  className="rounded-lg border border-border bg-background px-3 py-2 text-xs font-black tracking-tight hover:opacity-90"
-                >
-                  {t('buttons.back')}
-                </button>
-              ) : null}
             </div>
 
             <div className="mt-4">
               <ol className="flex items-center justify-between gap-2 text-center">
-                {[1, 2, 3].map((n) => (
+                {([1, 2, 3] as const).map((n) => (
                   <li key={n} className="flex-1">
-                    <div
-                      className={`flex h-10 items-center justify-center rounded-md border ${
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const target: OnboardingStep =
+                          n === 1 ? 'identity' : n === 2 ? 'initiation' : 'faction';
+                        setViewStep(clampToAllowedStep(target));
+                      }}
+                      className={`flex h-10 w-full items-center justify-center rounded-md border transition-opacity hover:opacity-90 ${
                         n <= activeStep
                           ? 'border-primary/40 bg-primary/10'
                           : 'border-border bg-background'
                       }`}
+                      aria-label={
+                        n === 1
+                          ? t('steps.identity')
+                          : n === 2
+                            ? t('steps.initiation')
+                            : t('steps.faction')
+                      }
                     >
                       <span className="text-xs font-black tracking-tight">{n}</span>
-                    </div>
+                    </button>
                     <p className="mt-2 text-[11px] text-muted-foreground">
                       {n === 1
                         ? t('steps.identity')
@@ -181,6 +221,16 @@ export function OnboardingFlow() {
           ) : null}
 
           <div className="mt-6">{content}</div>
+
+          {effectiveViewStep !== 'identity' ? (
+            <button
+              type="button"
+              onClick={handleBack}
+              className="mt-6 w-full rounded-lg border border-border bg-background px-4 py-3 text-sm font-black text-foreground transition-opacity hover:opacity-90"
+            >
+              {t('buttons.back')}
+            </button>
+          ) : null}
         </div>
       </main>
     </>

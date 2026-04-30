@@ -97,7 +97,7 @@ export function OnboardingInitiationStep({
                   collapsed[i] ? t('initiation.toggleExpand') : t('initiation.toggleCollapse')
                 }
               >
-                {collapsed[i] ? t('initiation.reopen') : t('initiation.read')}
+                {t('initiation.ok')}
               </button>
             </div>
 

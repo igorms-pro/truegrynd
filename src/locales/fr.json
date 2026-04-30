@@ -57,8 +57,7 @@
       "heading": "Comment ça marche",
       "copy": "Lis une fois. Puis va gagner ta place.",
       "subheading": "Ce n’est pas un tracker. C’est une compétition.",
-      "read": "OK, LU",
-      "reopen": "RÉOUVRIR",
+      "ok": "OK",
       "toggleCollapse": "Marquer comme lu et replier",
       "toggleExpand": "Rouvrir cette carte",
       "cards": {

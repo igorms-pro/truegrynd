@@ -57,8 +57,7 @@
       "heading": "How it works",
       "copy": "Read this once. Then go earn your place.",
       "subheading": "This is not a tracker. It’s competition.",
-      "read": "OK, READ",
-      "reopen": "REOPEN",
+      "ok": "OK",
       "toggleCollapse": "Mark as read and collapse",
       "toggleExpand": "Reopen this card",
       "cards": {
