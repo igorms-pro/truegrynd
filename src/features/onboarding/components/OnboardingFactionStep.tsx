@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { ArrowRight } from 'lucide-react';
 
 import type { Faction } from '@/lib/types/database.types';
 import { setFaction } from '@/features/onboarding/services/onboarding';
@@ -104,7 +105,10 @@ export function OnboardingFactionStep({ userId, onCompleted, initialFaction }: P
         onClick={() => void handleSave()}
         className="mt-4 w-full rounded-lg bg-primary px-4 py-3 text-sm font-black text-white transition-opacity hover:opacity-90 disabled:opacity-50"
       >
-        {saving ? t('buttons.saving') : t('faction.pledge')}
+        <span className="inline-flex items-center justify-center gap-2">
+          <span>{saving ? t('buttons.saving') : t('faction.pledge')}</span>
+          <ArrowRight size={18} />
+        </span>
       </button>
 
       {error ? (

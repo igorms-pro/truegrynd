@@ -11,6 +11,7 @@ import type { OnboardingStep } from '@/features/onboarding/lib/onboardingStep';
 import { OnboardingIdentityStep } from '@/features/onboarding/components/OnboardingIdentityStep';
 import { OnboardingInitiationStep } from '@/features/onboarding/components/OnboardingInitiationStep';
 import { OnboardingFactionStep } from '@/features/onboarding/components/OnboardingFactionStep';
+import { ArrowLeft } from 'lucide-react';
 
 function stepIndex(step: OnboardingStep): 1 | 2 | 3 {
   if (step === 'identity') return 1;
@@ -228,7 +229,10 @@ export function OnboardingFlow() {
               onClick={handleBack}
               className="mt-6 w-full rounded-lg border border-border bg-background px-4 py-3 text-sm font-black text-foreground transition-opacity hover:opacity-90"
             >
-              {t('buttons.back')}
+              <span className="inline-flex items-center justify-center gap-2">
+                <ArrowLeft size={18} />
+                <span>{t('buttons.back')}</span>
+              </span>
             </button>
           ) : null}
         </div>

@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
+import { ArrowRight } from 'lucide-react';
 
 import { completeInitiation } from '@/features/onboarding/services/onboarding';
 import type { Sex } from '@/lib/types/database.types';
@@ -123,7 +124,10 @@ export function OnboardingInitiationStep({
         onClick={() => void handleContinue()}
         className="mt-4 w-full rounded-lg border border-border bg-background px-4 py-3 text-sm font-black text-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
       >
-        {saving ? t('buttons.saving') : t('buttons.continue')}
+        <span className="inline-flex items-center justify-center gap-2">
+          <span>{saving ? t('buttons.saving') : t('buttons.continue')}</span>
+          <ArrowRight size={18} />
+        </span>
       </button>
 
       {error ? (

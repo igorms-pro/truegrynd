@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
+import { ArrowRight } from 'lucide-react';
 
 import type { Profile, Sex } from '@/lib/types/database.types';
 import { upsertIdentity } from '@/features/onboarding/services/onboarding';
@@ -241,7 +242,10 @@ export function OnboardingIdentityStep({ userId, profile, onSaved }: Props) {
           disabled={!canContinue}
           className="w-full rounded-lg bg-primary px-4 py-3 text-sm font-black text-white transition-opacity hover:opacity-90 disabled:opacity-50"
         >
-          {saving ? t('buttons.saving') : t('buttons.continue')}
+          <span className="inline-flex items-center justify-center gap-2">
+            <span>{saving ? t('buttons.saving') : t('buttons.continue')}</span>
+            <ArrowRight size={18} />
+          </span>
         </button>
       </form>
     </section>
