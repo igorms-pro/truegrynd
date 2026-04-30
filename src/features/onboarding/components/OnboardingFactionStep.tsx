@@ -107,7 +107,7 @@ export function OnboardingFactionStep({ userId, onCompleted, initialFaction, onB
           <button
             type="button"
             onClick={onBack}
-            className="h-12 w-12 rounded-lg border border-border bg-background text-foreground transition-opacity hover:opacity-90"
+            className="h-12 w-16 md:w-20 rounded-lg border border-border bg-background text-foreground transition-opacity hover:opacity-90"
             aria-label={t('buttons.back')}
           >
             <span className="inline-flex items-center justify-center">
@@ -122,7 +122,7 @@ export function OnboardingFactionStep({ userId, onCompleted, initialFaction, onB
           type="button"
           disabled={!selected || saving}
           onClick={() => void handleSave()}
-          className="h-12 w-12 rounded-lg bg-primary text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+          className="h-12 w-16 md:w-20 rounded-lg bg-primary text-white transition-opacity hover:opacity-90 disabled:opacity-50"
           aria-label={saving ? t('buttons.saving') : t('faction.pledge')}
         >
           <span className="inline-flex items-center justify-center">
