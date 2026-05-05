@@ -361,7 +361,7 @@ Sports identity card (username, sex, age, weight). Simplified initiation: 3 chal
 
 ## 🎯 Issue #5: Arena & challenges (feed, challenge page, leaderboard)
 
-**Status:** 🔴 **NOT STARTED**  
+**Status:** 🟡 **IN PROGRESS**  
 **Priority:** HIGH  
 **Phase:** Screen 3  
 **Dependencies:** Issue #1, #2, #3, #4
@@ -372,42 +372,52 @@ Challenge feed (Trending, New). Challenge detail page with rules, equipment tags
 
 ### Tasks
 
+#### App shell (navigation needed for Arena)
+
+- [x] 🟢 App header (TRUEGRYND left, lang/theme right)
+- [x] 🟢 Bottom dock tab bar (mobile): Overview | Arena | Clan | Profile
+- [x] 🟢 Top inline nav (desktop md+) inside the app header
+- [x] 🟢 Routes exist for the 4 tabs (Clan/Profile placeholders for now)
+- [x] 🟢 Route protection: redirect to login if unauthenticated, to onboarding if profile incomplete
+- [x] 🟢 All labels/copy from i18n
+- [x] 🟢 Brand primary switched from orange `#ff4500` to red `#dc2626` (Combat HUD)
+
 #### Challenge feed
 
-- [ ] 🔴 Scrollable list of challenges (from `challenges` where status = approved)
-- [ ] 🔴 Sections/tabs: “Trending”, “New”
-- [ ] 🔴 Challenge card: title, short summary, tags (#Bodyweight, #Dumbbells, etc.), score_type
-- [ ] 🔴 Click card → challenge detail page
-- [ ] 🔴 Empty, loading, error states
-- [ ] 🔴 All labels/copy from i18n
+- [x] 🟢 Scrollable list of challenges (from `challenges` where status = approved)
+- [ ] 🔴 Sections/tabs: “Trending”, “New” (deferred — single feed for MVP)
+- [x] 🟢 Challenge card: title, short summary, tags, score_type, OFFICIAL badge
+- [x] 🟢 Click card → challenge detail page
+- [x] 🟢 Empty, loading, error states
+- [x] 🟢 All labels/copy from i18n
 
 #### Challenge page
 
-- [ ] 🔴 Display: title, description, full rules, equipment tags, score_type
-- [ ] 🔴 “Official” badge if is_official
-- [ ] 🔴 Leaderboard for this challenge (below)
-- [ ] 🔴 Primary CTA “I’m in / Start” → leads to score submission (Issue #6)
+- [x] 🟢 Display: title, description, full rules, equipment tags, score_type
+- [x] 🟢 “Official” badge if is_official
+- [x] 🟢 Leaderboard for this challenge (below)
+- [ ] 🟡 Primary CTA “I’m in / Start” (placeholder, score submission lands in Issue #6)
 
 #### Leaderboard per challenge
 
-- [ ] 🔴 Fetch validated scores for this challenge_id (sort: time asc or reps desc by score_type)
-- [ ] 🔴 Columns: rank, user (username), score (formatted), Faction (optional)
-- [ ] 🔴 Filters: Global | By age bracket | By sex | By Faction
-- [ ] 🔴 Pagination or lazy load if needed
+- [x] 🟢 Fetch validated scores for this challenge_id (sort: time asc or reps desc by score_type)
+- [x] 🟢 Columns: rank, user (username), score (formatted)
+- [x] 🟢 Filters: Global | By age bracket | By sex | By Faction
+- [ ] 🔴 Pagination or lazy load if needed (capped at 100 for now)
 - [ ] 🔴 (Optional) “Respect” 👊 button (post-MVP)
-- [ ] 🔴 Copy from i18n
+- [x] 🟢 Copy from i18n
 
 #### Data
 
-- [ ] 🔴 Use seeded challenges (Issue #1)
-- [ ] 🔴 Supabase calls from features/challenges (services or hooks)
+- [ ] 🟡 Use seeded challenges (Issue #1) — schema/seed will be added with Issue #1; queries already target the `challenges` table.
+- [x] 🟢 Supabase calls from `features/challenges/services/`
 
 ### Acceptance criteria
 
-- [ ] Feed shows available challenges
-- [ ] Challenge page shows full info + leaderboard
-- [ ] Leaderboard filterable (global, age, sex, faction)
-- [ ] CTA leads to score submission
+- [x] Feed shows available challenges
+- [x] Challenge page shows full info + leaderboard
+- [x] Leaderboard filterable (global, age, sex, faction)
+- [ ] CTA leads to score submission (Issue #6)
 
 ---
 
@@ -557,11 +567,10 @@ Authenticated layout with 4 tabs: Overview, Arena, Clan, Profile. Overview: dail
 
 #### Layout & navigation
 
-- [ ] 🔴 Main layout with content area + tab bar (mobile bottom, desktop top or sidebar)
-- [ ] 🔴 4 tabs: Overview | Arena | Clan | Profile
-- [ ] 🔴 Next.js routing: /app or /dashboard with segments per tab
-- [ ] 🔴 Route protection: redirect to login if unauthenticated, to onboarding if profile incomplete
-- [ ] 🔴 Tab labels from i18n
+- [ ] 🔴 Polish/extend app shell: desktop variant (top tabs or sidebar), safe-area, animations
+- [ ] 🔴 Ensure tab state + active route styling across nested routes (e.g. challenge detail)
+- [ ] 🔴 Refine route protection + redirects (edge cases, back button, deep links)
+- [ ] 🔴 Tab labels from i18n (audit + consistency)
 
 #### Overview tab
 
@@ -665,14 +674,14 @@ To be done after MVP ship.
 | #2 i18n & theme             | 🟡 In Progress | 70%  |
 | #3 Auth                     | 🟡 In Progress | 90%  |
 | #4 Onboarding               | 🟢 Completed   | 100% |
-| #5 Arena & challenges       | 🔴 Not Started | 0%   |
+| #5 Arena & challenges       | 🟡 In Progress | 65%  |
 | #6 Submission & Smart Proof | 🔴 Not Started | 0%   |
 | #7 Finisher Card            | 🔴 Not Started | 0%   |
 | #8 Profile                  | 🔴 Not Started | 0%   |
 | #9 Navigation & layout      | 🔴 Not Started | 0%   |
 | #10 Polish & deployment     | 🔴 Not Started | 0%   |
 
-**Overall MVP:** ~25% (foundation done, auth + onboarding largely done, rest to do).
+**Overall MVP:** ~32% (foundation done, auth + onboarding largely done, app shell + Arena/leaderboard scaffold landed, rest to do).
 
 ---
 

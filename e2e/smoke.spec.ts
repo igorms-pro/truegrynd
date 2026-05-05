@@ -23,3 +23,13 @@ test('onboarding redirects to auth when logged out', async ({ page }) => {
   await expect(page).toHaveURL(/\/en\/auth$/);
   await expect(page.getByRole('heading', { name: /truegrynd/i })).toBeVisible();
 });
+
+test('arena redirects to auth when logged out', async ({ page }) => {
+  await page.goto('/en/app/arena');
+  await expect(page).toHaveURL(/\/en\/auth$/);
+});
+
+test('challenge detail redirects to auth when logged out', async ({ page }) => {
+  await page.goto('/en/app/arena/some-id');
+  await expect(page).toHaveURL(/\/en\/auth$/);
+});

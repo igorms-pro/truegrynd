@@ -14,7 +14,7 @@ alwaysApply: true
 | Token | Value | Usage |
 |-------|-------|-------|
 | `--background` | `#0a0a0f` | App background |
-| `--primary` | `#ff4500` | CTAs, active states, highlights |
+| `--primary` | `#dc2626` | CTAs, active states, highlights |
 | `--accent` | `#ffb800` | Gold trophies, streak badges |
 | `--card` | `#111118` | Card backgrounds |
 | `--muted` | `#1c1c28` | Subtle surfaces |

@@ -112,7 +112,78 @@
     "body": "Finis l’Issue #4 pour les biométriques, l’initiation et la faction."
   },
   "app": {
+    "loading": "Chargement...",
     "overviewTitle": "APERÇU",
-    "overviewBody": "Placeholder. La cible de redirect après login est câblée."
+    "overviewBody": "Bon retour. Choisis un défi dans l'Arène et poste un score.",
+    "tabs": {
+      "overview": "Aperçu",
+      "arena": "Arène",
+      "clan": "Clan",
+      "profile": "Profil"
+    },
+    "comingSoon": {
+      "title": "Bientôt",
+      "body": "Cette section arrive bientôt."
+    }
+  },
+  "arena": {
+    "title": "ARÈNE",
+    "subtitle": "Choisis ton défi. Poste ton score.",
+    "tabs": {
+      "trending": "Tendance",
+      "new": "Nouveaux"
+    },
+    "loading": "Chargement des défis...",
+    "empty": "Aucun défi pour l'instant. Reviens bientôt.",
+    "errorTitle": "Une erreur est survenue",
+    "errorBody": "Impossible de charger les défis.",
+    "retry": "Réessayer",
+    "officialBadge": "OFFICIEL",
+    "scoreType": {
+      "time": "TEMPS",
+      "reps": "REPS"
+    },
+    "tags": {
+      "bodyweight": "Poids du corps"
+    }
+  },
+  "challenge": {
+    "loading": "Chargement du défi...",
+    "notFoundTitle": "Défi introuvable",
+    "notFoundBody": "Il a peut-être été supprimé ou n'est pas approuvé.",
+    "back": "Retour à l'Arène",
+    "rulesHeading": "Règles",
+    "equipmentHeading": "Équipement",
+    "noEquipment": "Poids du corps uniquement",
+    "ctaStart": "JE M'INSCRIS",
+    "ctaComingSoon": "La soumission de score arrive bientôt."
+  },
+  "leaderboard": {
+    "title": "Classement",
+    "loading": "Chargement du classement...",
+    "empty": "Aucun score validé pour l'instant. Sois le premier.",
+    "errorTitle": "Impossible de charger le classement",
+    "retry": "Réessayer",
+    "columnRank": "RANG",
+    "columnUser": "JOUEUR",
+    "columnScore": "SCORE",
+    "filters": {
+      "title": "Filtres",
+      "all": "Tous",
+      "sex": "Sexe",
+      "age": "Âge",
+      "faction": "Faction",
+      "ageBrackets": {
+        "18-29": "18–29",
+        "30-39": "30–39",
+        "40-49": "40–49",
+        "50+": "50+"
+      }
+    }
+  },
+  "factions": {
+    "nomads": "Nomades",
+    "horde": "Horde",
+    "iron_alliance": "Alliance de Fer"
   }
 }
