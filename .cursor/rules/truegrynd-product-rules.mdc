@@ -17,7 +17,7 @@ A B2C web app for async fitness competition. Users submit scores on standardized
 1. Auth (Google / Apple / Email via Supabase)
 2. Onboarding: biometric profile + simplified initiation (3 easy challenges) + faction choice
 3. Challenge feed with leaderboard per challenge
-4. Score submission with Smart Proof (video URL if Top 10%)
+4. Score submission (optional proof; required to rank)
 5. Finisher Card generation (canvas image) + native share
 6. User profile with history and trophies
 
@@ -27,9 +27,11 @@ Three factions: `nomads`, `horde`, `iron_alliance`
 - Faction score = sum of individual member scores
 
 ## Smart Proof Logic
-- If submitted score places user in top 10% of leaderboard → video URL is required
+- Users can submit scores **with or without** a video URL
 - Video URL must be a YouTube or TikTok link (non-listed accepted)
-- Scores without required video are marked `is_validated: false` and hidden from leaderboard
+- **Leaderboard shows only validated scores** (`is_validated: true`)
+- A score is **validated** (and ranked) only when a valid video URL is provided
+- Scores without video are saved but **not ranked** (`is_validated: false`)
 
 ## Leaderboard Filters
 - Global (all users)

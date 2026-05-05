@@ -33,3 +33,8 @@ test('challenge detail redirects to auth when logged out', async ({ page }) => {
   await page.goto('/en/app/arena/some-id');
   await expect(page).toHaveURL(/\/en\/auth$/);
 });
+
+test('score submit redirects to auth when logged out', async ({ page }) => {
+  await page.goto('/en/app/arena/some-id/submit');
+  await expect(page).toHaveURL(/\/en\/auth$/);
+});

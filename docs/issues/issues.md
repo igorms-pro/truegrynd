@@ -430,7 +430,7 @@ Challenge feed (Trending, New). Challenge detail page with rules, equipment tags
 
 ### Description
 
-Submission form: score input (time MM:SS or reps by challenge). If score places user in Top 10% of leaderboard, show required “Video URL” (YouTube or TikTok). Validation, save to DB. Score without video if outside Top 10%; “elite” score requires video.
+Submission form: score input (time MM:SS or reps by challenge). Users can submit without proof (saved, not ranked), or submit with a YouTube/TikTok link (validated + ranked on the public leaderboard).
 
 ### Tasks
 
@@ -443,11 +443,10 @@ Submission form: score input (time MM:SS or reps by challenge). If score places 
 
 #### Smart Proof logic
 
-- [ ] 🔴 Before save: compute whether entered score places user in Top 10% for this challenge
-- [ ] 🔴 If yes (Top 10%): show required “Video URL” field (YouTube or TikTok)
-- [ ] 🔴 If no: no video field
+- [ ] 🔴 Video URL is optional: without video -> save as `is_validated=false` (not ranked)
+- [ ] 🔴 With a valid YouTube/TikTok URL -> save as `is_validated=true` (ranked)
 - [ ] 🔴 URL validation: YouTube/TikTok format
-- [ ] 🔴 Save: scores.is_validated = true if (outside Top 10%) or (Top 10% and URL provided); else reject or is_validated = false per business rule
+- [ ] 🔴 (Optional) “Check my rank” preview + Elite badge (no blocking)
 
 #### DB write
 
@@ -463,8 +462,8 @@ Submission form: score input (time MM:SS or reps by challenge). If score places 
 ### Acceptance criteria
 
 - [ ] Score submission (time or reps) saved correctly
-- [ ] Top 10% triggers required video URL
-- [ ] Scores outside Top 10% saved without video
+- [ ] Without video: score is saved but not shown in public leaderboard
+- [ ] With video: score is validated and shown in public leaderboard
 - [ ] After submit, user sees Finisher Card
 
 ---
