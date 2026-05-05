@@ -32,6 +32,81 @@
   },
   "onboarding": {
     "title": "ONBOARDING",
+    "loading": "Chargement...",
+    "flowName": "Paramètres du profil",
+    "steps": {
+      "identity": "Identité",
+      "initiation": "Initiation",
+      "faction": "Faction"
+    },
+    "identity": {
+      "heading": "Carte d'identité sportive",
+      "copy": "Pas de triche ici. Tes infos définissent ta catégorie.",
+      "usernameLabel": "PSEUDO",
+      "usernamePlaceholder": "Ton pseudo",
+      "sexLabel": "SEXE",
+      "ageLabel": "ÂGE",
+      "weightLabel": "POIDS (KG)",
+      "sexes": {
+        "male": "Homme",
+        "female": "Femme",
+        "other": "Autre"
+      }
+    },
+    "initiation": {
+      "heading": "Comment ça marche",
+      "copy": "Lis une fois. Puis va gagner ta place.",
+      "subheading": "Ce n’est pas un tracker. C’est une compétition.",
+      "ok": "OK",
+      "toggleCollapse": "Marquer comme lu et replier",
+      "toggleExpand": "Rouvrir cette carte",
+      "cards": {
+        "1": {
+          "title": "Défis → score",
+          "body": "Choisis un défi, soumets un score (temps ou reps). Ton score apparaît sur le leaderboard."
+        },
+        "2": {
+          "title": "Smart Proof (Top 10%)",
+          "body": "La plupart des scores sont sur l’honneur. Si tu passes Top 10%, tu dois coller un lien YouTube/TikTok pour valider."
+        },
+        "3": {
+          "title": "Prochaine action",
+          "body": "Choisis une faction, puis va dans l’Arène et poste ton premier score."
+        }
+      }
+    },
+    "faction": {
+      "heading": "Choisir ta faction",
+      "copy": "Choisis où tu appartiens.",
+      "selectPrompt": "Choisis ta faction pour continuer.",
+      "selected": "Sélection : {faction}",
+      "pledge": "Pledge d'allégeance"
+    },
+    "factions": {
+      "nomads": "Nomades",
+      "nomadsDesc": "Léger. Agile. Toujours prêt.",
+      "horde": "La Horde",
+      "hordeDesc": "Dur à l'entraînement. Ensemble.",
+      "iron_alliance": "Alliance de Fer",
+      "iron_allianceDesc": "Précision, discipline, force."
+    },
+    "buttons": {
+      "save": "ENREGISTRER",
+      "saving": "EN COURS...",
+      "back": "RETOUR",
+      "continue": "CONTINUER"
+    },
+    "errors": {
+      "usernameMinLength": "Le pseudo doit contenir au moins 2 caractères.",
+      "sexRequired": "Choisis un sexe.",
+      "ageMin": "Âge trop bas.",
+      "ageMax": "Âge trop élevé.",
+      "weightMin": "Poids trop bas.",
+      "weightMax": "Poids trop élevé.",
+      "saveIdentityFailed": "Impossible d'enregistrer ton identité.",
+      "completeInitiationFailed": "Impossible de valider l'initiation.",
+      "saveFactionFailed": "Impossible d'enregistrer ta faction."
+    },
     "comingSoon": "Ce flow arrive ensuite. Cette page sert juste à valider les redirects d’auth.",
     "note": "PROCHAINE ÉTAPE",
     "body": "Finis l’Issue #4 pour les biométriques, l’initiation et la faction."

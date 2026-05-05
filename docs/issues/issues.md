@@ -269,14 +269,14 @@ Google, Apple (if available), and Email (magic link or OTP via Supabase). Login/
 
 #### Supabase Auth config
 
-- [ ] 🔴 Enable providers: Email (magic link or OTP), Google, Apple
-- [ ] 🔴 Configure redirect URLs (production + localhost)
+- [x] 🟢 Enable providers: Email (magic link or OTP), Google, Apple
+- [x] 🟢 Configure redirect URLs (production + localhost)
 - [x] 🟢 (Optional) Hook or middleware to protect authenticated routes
 
 #### Pages & UI
 
 - [x] 🟢 **Login** page/route: “Continue with Google”, “Continue with Apple”, “Continue with Email” (+ email field for email)
-- [ ] 🔴 **Signup** page/route: same flow
+- [ ] 🔴 **Signup** page/route: same flow (MVP can reuse same `/auth` page)
 - [x] 🟢 Loading and error states (toast or inline)
 - [x] 🟢 Design system (buttons, cards, inputs) — Truegrynd dark (and light if theme done)
 - [x] 🟢 All auth copy from i18n (`auth.login.*`, `auth.signup.*`)
@@ -290,8 +290,8 @@ Google, Apple (if available), and Email (magic link or OTP via Supabase). Login/
 
 #### Profile creation on signup
 
-- [ ] 🔴 On first signup: create or update `profiles` row (DB trigger or API call after auth)
-- [ ] 🔴 Link auth.uid to profiles.id
+- [x] 🟢 On first signup/login: create or update `profiles` row (client upsert fallback)
+- [x] 🟢 Link auth.uid to profiles.id (profiles.id = user.id)
 
 #### Tests
 
@@ -300,8 +300,8 @@ Google, Apple (if available), and Email (magic link or OTP via Supabase). Login/
 
 ### Acceptance criteria
 
-- [ ] Google and Email login work
-- [ ] Signup creates user + profiles row
+- [x] 🟢 Google login works (Email magic-link blocked by Supabase built-in quota unless custom SMTP)
+- [x] 🟢 Signup/login creates user + profiles row (via upsert fallback)
 - [x] 🟢 Post-auth redirect respects profile completion (onboarding vs app)
 - [x] 🟢 Errors and loading handled
 - [x] 🟢 Design consistent with app; all copy i18n
@@ -310,7 +310,7 @@ Google, Apple (if available), and Email (magic link or OTP via Supabase). Login/
 
 ## 🎯 Issue #4: Onboarding (biometric profile + initiation + Faction)
 
-**Status:** 🔴 **NOT STARTED**  
+**Status:** 🟡 **IN PROGRESS**  
 **Priority:** HIGH  
 **Phase:** Screen 2  
 **Dependencies:** Issue #3
@@ -323,39 +323,39 @@ Sports identity card (username, sex, age, weight). Simplified initiation: 3 chal
 
 #### Sports identity card
 
-- [ ] 🔴 Screen/step: Username, Sex (select), Age (number), Weight (kg)
-- [ ] 🔴 Validation (Zod): username required, age/weight in reasonable range
-- [ ] 🔴 Save to DB (`profiles`): username, sex, age, weight_kg
-- [ ] 🔴 Copy like “No cheating here. Your info defines your category.” (i18n)
+- [x] 🟢 Screen/step: Username, Sex (select), Age (number), Weight (kg)
+- [x] 🟢 Validation (Zod): username required, age/weight in reasonable range
+- [x] 🟢 Save to DB (`profiles`): username, sex, age, weight_kg
+- [x] 🟢 Copy like “No cheating here. Your info defines your category.” (i18n)
 
 #### Initiation (Nomad status)
 
-- [ ] 🔴 Show 3 onboarding challenges (hardcoded or from `challenges` with “onboarding” tag)
-- [ ] 🔴 Each challenge: title + “Done” button (no score input, no proof)
-- [ ] 🔴 Tracker 0/3 → 3/3
-- [ ] 🔴 At 3/3: unlock Faction step
-- [ ] 🔴 Set `profiles.initiation_completed = true` when 3/3
+- [x] 🟢 Show 3 onboarding challenges (hardcoded)
+- [x] 🟢 Each challenge: title + “Done” button (no score input, no proof)
+- [x] 🟢 Tracker 0/3 → 3/3
+- [x] 🟢 At 3/3: unlock Faction step
+- [x] 🟢 Set `profiles.initiation_completed = true` when 3/3
 
 #### Draft (Faction choice)
 
-- [ ] 🔴 Screen with 3 Faction cards: Nomads, Horde, Iron Alliance (colors/assets per design system)
-- [ ] 🔴 CTA “Pledge allegiance”: save Faction to DB (`profiles.faction`)
-- [ ] 🔴 After save: mark onboarding done, redirect to app
+- [x] 🟢 Screen with 3 Faction cards: Nomads, Horde, Iron Alliance (colors per design system)
+- [x] 🟢 CTA “Pledge allegiance”: save Faction to DB (`profiles.faction`)
+- [x] 🟢 After save: mark onboarding done, redirect to app
 
 #### Onboarding flow
 
-- [ ] 🔴 Step order: Identity → Initiation (3 challenges) → Draft (Faction)
-- [ ] 🔴 No skip (onboarding required for new users)
-- [ ] 🔴 If user returns already complete: redirect to app
-- [ ] 🔴 All onboarding copy from i18n
+- [x] 🟢 Step order: Identity → Initiation (3 challenges) → Draft (Faction)
+- [x] 🟢 No skip (onboarding required for new users via post-auth redirect)
+- [x] 🟢 If user returns already complete: redirect to app
+- [x] 🟢 All onboarding copy from i18n
 
 ### Acceptance criteria
 
-- [ ] Biometric profile saved to DB
-- [ ] 3 initiation challenges with “Done” and 0/3 → 3/3
-- [ ] Faction choice saved
-- [ ] After onboarding complete, access to app (Overview/Arena)
-- [ ] Initiation is simple but mandatory
+- [x] 🟢 Biometric profile saved to DB
+- [x] 🟢 3 initiation challenges with “Done” and 0/3 → 3/3
+- [x] 🟢 Faction choice saved
+- [x] 🟢 After onboarding complete, access to app (Overview/Arena)
+- [x] 🟢 Initiation is simple but mandatory
 
 ---
 

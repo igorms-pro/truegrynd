@@ -17,3 +17,9 @@ test('auth page loads', async ({ page }) => {
   await page.goto('/en/auth');
   await expect(page.getByRole('heading', { name: /truegrynd/i })).toBeVisible();
 });
+
+test('onboarding redirects to auth when logged out', async ({ page }) => {
+  await page.goto('/en/onboarding');
+  await expect(page).toHaveURL(/\/en\/auth$/);
+  await expect(page.getByRole('heading', { name: /truegrynd/i })).toBeVisible();
+});
