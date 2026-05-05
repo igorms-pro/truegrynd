@@ -129,6 +129,10 @@
   "arena": {
     "title": "ARENA",
     "subtitle": "Pick your challenge. Post your score.",
+    "tabs": {
+      "trending": "Trending",
+      "new": "New"
+    },
     "loading": "Loading challenges...",
     "empty": "No challenges yet. Check back soon.",
     "errorTitle": "Something went wrong",

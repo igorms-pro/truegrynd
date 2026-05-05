@@ -1,9 +1,11 @@
 'use client';
 
+import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 import { ChallengeList } from '@/features/challenges/components/ChallengeList';
 import { useChallenges } from '@/features/challenges/hooks/useChallenges';
+import { rankChallenges, type ArenaTab } from '@/features/challenges/lib/arenaRanking';
 
 function ArenaHeader() {
   const t = useTranslations('arena');
@@ -52,12 +54,60 @@ function ArenaError({ onRetry }: { onRetry: () => void }) {
   );
 }
 
+type TabButtonProps = {
+  tab: ArenaTab;
+  active: boolean;
+  label: string;
+  onSelect: (tab: ArenaTab) => void;
+};
+
+function TabButton({ tab, active, label, onSelect }: TabButtonProps) {
+  const className = [
+    'rounded-sm border px-2 py-1 text-[11px] font-black uppercase tracking-[0.14em] transition-colors',
+    active
+      ? 'border-primary bg-primary/15 text-primary'
+      : 'border-border bg-background text-muted-foreground hover:text-foreground',
+  ].join(' ');
+
+  return (
+    <button type="button" className={className} onClick={() => onSelect(tab)}>
+      {label}
+    </button>
+  );
+}
+
+function ArenaTabs({
+  activeTab,
+  onChange,
+}: {
+  activeTab: ArenaTab;
+  onChange: (tab: ArenaTab) => void;
+}) {
+  const t = useTranslations('arena.tabs');
+
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      <TabButton
+        tab="trending"
+        active={activeTab === 'trending'}
+        label={t('trending')}
+        onSelect={onChange}
+      />
+      <TabButton tab="new" active={activeTab === 'new'} label={t('new')} onSelect={onChange} />
+    </div>
+  );
+}
+
 export function ArenaScreen() {
   const { data, loading, error, refetch } = useChallenges();
+  const [tab, setTab] = useState<ArenaTab>('trending');
+
+  const ranked = useMemo(() => rankChallenges(data, tab), [data, tab]);
 
   return (
     <section className="space-y-5">
       <ArenaHeader />
+      <ArenaTabs activeTab={tab} onChange={setTab} />
 
       {loading ? <ArenaLoading /> : null}
 
@@ -65,7 +115,7 @@ export function ArenaScreen() {
 
       {!loading && !error && data.length === 0 ? <ArenaEmpty /> : null}
 
-      {!loading && !error && data.length > 0 ? <ChallengeList challenges={data} /> : null}
+      {!loading && !error && ranked.length > 0 ? <ChallengeList challenges={ranked} /> : null}
     </section>
   );
 }

@@ -129,6 +129,10 @@
   "arena": {
     "title": "ARÈNE",
     "subtitle": "Choisis ton défi. Poste ton score.",
+    "tabs": {
+      "trending": "Tendance",
+      "new": "Nouveaux"
+    },
     "loading": "Chargement des défis...",
     "empty": "Aucun défi pour l'instant. Reviens bientôt.",
     "errorTitle": "Une erreur est survenue",
