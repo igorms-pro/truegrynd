@@ -112,7 +112,74 @@
     "body": "Finish Issue #4 to collect biometrics, initiation, and faction."
   },
   "app": {
+    "loading": "Loading...",
     "overviewTitle": "OVERVIEW",
-    "overviewBody": "Placeholder. Auth redirect target is wired."
+    "overviewBody": "Welcome back. Pick a challenge in the Arena and post a score.",
+    "tabs": {
+      "overview": "Overview",
+      "arena": "Arena",
+      "clan": "Clan",
+      "profile": "Profile"
+    },
+    "comingSoon": {
+      "title": "Coming soon",
+      "body": "This section is on the roadmap."
+    }
+  },
+  "arena": {
+    "title": "ARENA",
+    "subtitle": "Pick your challenge. Post your score.",
+    "loading": "Loading challenges...",
+    "empty": "No challenges yet. Check back soon.",
+    "errorTitle": "Something went wrong",
+    "errorBody": "We could not load the challenges.",
+    "retry": "Retry",
+    "officialBadge": "OFFICIAL",
+    "scoreType": {
+      "time": "TIME",
+      "reps": "REPS"
+    },
+    "tags": {
+      "bodyweight": "Bodyweight"
+    }
+  },
+  "challenge": {
+    "loading": "Loading challenge...",
+    "notFoundTitle": "Challenge not found",
+    "notFoundBody": "It may have been removed or unapproved.",
+    "back": "Back to Arena",
+    "rulesHeading": "Rules",
+    "equipmentHeading": "Equipment",
+    "noEquipment": "Bodyweight only",
+    "ctaStart": "I'M IN",
+    "ctaComingSoon": "Score submission lands next."
+  },
+  "leaderboard": {
+    "title": "Leaderboard",
+    "loading": "Loading leaderboard...",
+    "empty": "No validated scores yet. Be the first.",
+    "errorTitle": "Could not load leaderboard",
+    "retry": "Retry",
+    "columnRank": "RANK",
+    "columnUser": "USER",
+    "columnScore": "SCORE",
+    "filters": {
+      "title": "Filters",
+      "all": "All",
+      "sex": "Sex",
+      "age": "Age",
+      "faction": "Faction",
+      "ageBrackets": {
+        "18-29": "18–29",
+        "30-39": "30–39",
+        "40-49": "40–49",
+        "50+": "50+"
+      }
+    }
+  },
+  "factions": {
+    "nomads": "Nomads",
+    "horde": "Horde",
+    "iron_alliance": "Iron Alliance"
   }
 }
