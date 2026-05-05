@@ -372,6 +372,14 @@ Challenge feed (Trending, New). Challenge detail page with rules, equipment tags
 
 ### Tasks
 
+#### App shell (navigation needed for Arena)
+
+- [ ] 🔴 App header (TRUEGRYND left, lang/theme right)
+- [ ] 🔴 Bottom dock tab bar (mobile): Overview | Arena | Clan | Profile
+- [ ] 🔴 Routes exist for the 4 tabs (Clan/Profile can be placeholders until their issues)
+- [ ] 🔴 Route protection: redirect to login if unauthenticated, to onboarding if profile incomplete
+- [ ] 🔴 All labels/copy from i18n
+
 #### Challenge feed
 
 - [ ] 🔴 Scrollable list of challenges (from `challenges` where status = approved)
@@ -557,11 +565,10 @@ Authenticated layout with 4 tabs: Overview, Arena, Clan, Profile. Overview: dail
 
 #### Layout & navigation
 
-- [ ] 🔴 Main layout with content area + tab bar (mobile bottom, desktop top or sidebar)
-- [ ] 🔴 4 tabs: Overview | Arena | Clan | Profile
-- [ ] 🔴 Next.js routing: /app or /dashboard with segments per tab
-- [ ] 🔴 Route protection: redirect to login if unauthenticated, to onboarding if profile incomplete
-- [ ] 🔴 Tab labels from i18n
+- [ ] 🔴 Polish/extend app shell: desktop variant (top tabs or sidebar), safe-area, animations
+- [ ] 🔴 Ensure tab state + active route styling across nested routes (e.g. challenge detail)
+- [ ] 🔴 Refine route protection + redirects (edge cases, back button, deep links)
+- [ ] 🔴 Tab labels from i18n (audit + consistency)
 
 #### Overview tab
 
