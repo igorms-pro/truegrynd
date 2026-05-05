@@ -185,5 +185,32 @@
     "nomads": "Nomads",
     "horde": "Horde",
     "iron_alliance": "Iron Alliance"
+  },
+  "submission": {
+    "title": "SUBMIT YOUR SCORE",
+    "loading": "Loading...",
+    "back": "Back",
+    "challengeLineTime": "{title} · ⏱ Time",
+    "challengeLineReps": "{title} · 🔁 Reps",
+    "yourScoreTime": "YOUR TIME",
+    "yourScoreReps": "YOUR REPS",
+    "timePlaceholder": "MM:SS",
+    "repsPlaceholder": "Reps",
+    "proofTitle": "PROOF (OPTIONAL)",
+    "proofBody": "No video = saved but not ranked. Add a YouTube/TikTok link to get ranked.",
+    "videoLabelOptional": "VIDEO URL (OPTIONAL)",
+    "videoHelper": "YouTube or TikTok only",
+    "submit": "SUBMIT",
+    "submitting": "SUBMITTING...",
+    "resultSavedTitle": "SAVED (NOT RANKED)",
+    "resultSavedBody": "Your score is saved. Add a video next time to appear on the leaderboard.",
+    "resultRankedTitle": "RANKED",
+    "resultRankedBody": "Your score is validated and ranked on the leaderboard.",
+    "errors": {
+      "invalidTime": "Enter a valid time (MM:SS).",
+      "invalidReps": "Enter a valid rep count.",
+      "videoInvalid": "Video URL must be a YouTube or TikTok link.",
+      "submitFailed": "Could not submit your score."
+    }
   }
 }

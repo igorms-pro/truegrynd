@@ -39,6 +39,7 @@ function NotFound() {
 export function ChallengeDetail({ challengeId }: Props) {
   const t = useTranslations('challenge');
   const tArena = useTranslations('arena');
+  const locale = useLocale();
   const { data: challenge, loading, error } = useChallenge(challengeId);
 
   if (loading) {
@@ -102,15 +103,12 @@ export function ChallengeDetail({ challengeId }: Props) {
       </div>
 
       <div className="rounded-md border border-border bg-card p-4">
-        <button
-          type="button"
-          disabled
-          aria-disabled="true"
-          className="w-full rounded-md bg-primary/40 px-4 py-3 text-sm font-black uppercase tracking-[0.18em] text-primary-foreground cursor-not-allowed"
-          title={t('ctaComingSoon')}
+        <Link
+          href={`/${locale}/app/arena/${challenge.id}/submit`}
+          className="inline-flex w-full items-center justify-center rounded-md bg-primary px-4 py-3 text-sm font-black uppercase tracking-[0.18em] text-primary-foreground hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           {t('ctaStart')}
-        </button>
+        </Link>
         <p className="mt-2 text-center text-xs text-muted-foreground">{t('ctaComingSoon')}</p>
       </div>
 

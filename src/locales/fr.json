@@ -185,5 +185,32 @@
     "nomads": "Nomades",
     "horde": "Horde",
     "iron_alliance": "Alliance de Fer"
+  },
+  "submission": {
+    "title": "SOUMETTRE TON SCORE",
+    "loading": "Chargement...",
+    "back": "Retour",
+    "challengeLineTime": "{title} · ⏱ Temps",
+    "challengeLineReps": "{title} · 🔁 Reps",
+    "yourScoreTime": "TON TEMPS",
+    "yourScoreReps": "TES REPS",
+    "timePlaceholder": "MM:SS",
+    "repsPlaceholder": "Reps",
+    "proofTitle": "PREUVE (OPTIONNELLE)",
+    "proofBody": "Sans vidéo = sauvegardé mais non classé. Ajoute un lien YouTube/TikTok pour être classé.",
+    "videoLabelOptional": "LIEN VIDÉO (OPTIONNEL)",
+    "videoHelper": "YouTube ou TikTok uniquement",
+    "submit": "ENVOYER",
+    "submitting": "EN COURS...",
+    "resultSavedTitle": "SAUVEGARDÉ (NON CLASSÉ)",
+    "resultSavedBody": "Ton score est sauvegardé. Ajoute une vidéo la prochaine fois pour apparaître dans le classement.",
+    "resultRankedTitle": "CLASSÉ",
+    "resultRankedBody": "Ton score est validé et classé dans le leaderboard.",
+    "errors": {
+      "invalidTime": "Entre un temps valide (MM:SS).",
+      "invalidReps": "Entre un nombre de reps valide.",
+      "videoInvalid": "Le lien doit être YouTube ou TikTok.",
+      "submitFailed": "Impossible d'envoyer ton score."
+    }
   }
 }
