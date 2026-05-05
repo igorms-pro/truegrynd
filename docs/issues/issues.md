@@ -2,19 +2,19 @@
 
 > Goal: Ship the MVP — async fitness competition web app (challenges, leaderboard, Smart Proof, Finisher Card, Factions).
 
-**Last updated:** March 2025
+**Last updated:** May 2026
 
 ---
 
 ## 🚀 IMMEDIATE NEXT ACTION (For AI Agent)
 
-**Target:** Issue #3: Auth (login / signup)
+**Target:** Issue #1: Supabase project & database schema
 **Workflow to execute:**
 
-1. Run: `gh issue create --title "Issue #3: Auth (login / signup)" --body "Implement passwordless email login (magic link) + Google OAuth (Apple if available) with Supabase. Build /auth UI, session handling, and post-auth redirect to onboarding if profile incomplete, else to app."`
+1. Run: `gh issue create --title "Issue #1: Supabase project & database schema" --body "Create Supabase project, schema (profiles/challenges/scores), RLS, migrations, and seed initial challenges. Align TS types with schema."`
 2. Extract the issue number from the terminal output.
-3. Run: `git checkout -b feature/issue-[NUMBER]-auth`
-4. Execute the tasks listed under "Issue #3" below.
+3. Run: `git checkout -b feature/issue-[NUMBER]-supabase-schema`
+4. Execute the tasks listed under "Issue #1" below.
 5. Check off the boxes `[x] 🟢` and update the status when finished.
 
 ---
@@ -310,7 +310,7 @@ Google, Apple (if available), and Email (magic link or OTP via Supabase). Login/
 
 ## 🎯 Issue #4: Onboarding (biometric profile + initiation + Faction)
 
-**Status:** 🟡 **IN PROGRESS**  
+**Status:** 🟢 **COMPLETED**  
 **Priority:** HIGH  
 **Phase:** Screen 2  
 **Dependencies:** Issue #3
@@ -662,9 +662,9 @@ To be done after MVP ship.
 | --------------------------- | -------------- | ---- |
 | #0 Foundation               | 🟢 Completed   | 100% |
 | #1 Supabase                 | 🔴 Not Started | 0%   |
-| #2 i18n & theme             | 🔴 Not Started | 0%   |
-| #3 Auth                     | 🔴 Not Started | 0%   |
-| #4 Onboarding               | 🔴 Not Started | 0%   |
+| #2 i18n & theme             | 🟡 In Progress | 70%  |
+| #3 Auth                     | 🟡 In Progress | 90%  |
+| #4 Onboarding               | 🟢 Completed   | 100% |
 | #5 Arena & challenges       | 🔴 Not Started | 0%   |
 | #6 Submission & Smart Proof | 🔴 Not Started | 0%   |
 | #7 Finisher Card            | 🔴 Not Started | 0%   |
@@ -672,11 +672,11 @@ To be done after MVP ship.
 | #9 Navigation & layout      | 🔴 Not Started | 0%   |
 | #10 Polish & deployment     | 🔴 Not Started | 0%   |
 
-**Overall MVP:** ~10% (foundation done, rest to do).
+**Overall MVP:** ~25% (foundation done, auth + onboarding largely done, rest to do).
 
 ---
 
-**Last updated:** March 2025  
+**Last updated:** May 2026  
 **Next review:** On each progress update
 
 **Critical path:** #0 ✅ → #1 → #2 (i18n + theme) → #3 → #4 → #5 → #6 → #7 → #8 → #9 → #10.
