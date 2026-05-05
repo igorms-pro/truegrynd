@@ -69,6 +69,13 @@ export interface Score {
   profile?: Profile;
 }
 
+export interface ScoreRespect {
+  id: string;
+  score_id: string;
+  user_id: string;
+  created_at: string;
+}
+
 export interface FactionStats {
   faction: Faction;
   total_points: number;
