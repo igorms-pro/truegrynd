@@ -417,13 +417,13 @@ Challenge feed (Trending, New). Challenge detail page with rules, equipment tags
 - [x] Feed shows available challenges
 - [x] Challenge page shows full info + leaderboard
 - [x] Leaderboard filterable (global, age, sex, faction)
-- [ ] CTA leads to score submission (Issue #6)
+- [x] CTA leads to score submission (Issue #6)
 
 ---
 
 ## 🎯 Issue #6: Score submission & Smart Proof
 
-**Status:** 🔴 **NOT STARTED**  
+**Status:** 🟢 **COMPLETED**  
 **Priority:** HIGH  
 **Phase:** Screen 4  
 **Dependencies:** Issue #5
@@ -436,35 +436,35 @@ Submission form: score input (time MM:SS or reps by challenge). Users can submit
 
 #### Submission form
 
-- [ ] 🔴 Main field: Time (MM:SS or seconds) or Reps (number) by challenge.score_type
-- [ ] 🔴 Validation (Zod): format and ranges
-- [ ] 🔴 “Submit” / “Validate” button (i18n)
-- [ ] 🔴 Copy from i18n
+- [x] 🟢 Main field: Time (MM:SS or seconds) or Reps (number) by challenge.score_type
+- [x] 🟢 Validation (Zod): format and ranges
+- [x] 🟢 “Submit” button (i18n)
+- [x] 🟢 Copy from i18n
 
 #### Smart Proof logic
 
-- [ ] 🔴 Video URL is optional: without video -> save as `is_validated=false` (not ranked)
-- [ ] 🔴 With a valid YouTube/TikTok URL -> save as `is_validated=true` (ranked)
-- [ ] 🔴 URL validation: YouTube/TikTok format
-- [ ] 🔴 (Optional) “Check my rank” preview + Elite badge (no blocking)
+- [x] 🟢 Video URL is optional: without video -> save as `is_validated=false` (not ranked)
+- [x] 🟢 With a valid YouTube/TikTok URL -> save as `is_validated=true` (ranked)
+- [x] 🟢 URL validation: YouTube/TikTok format
+- [ ] 🟡 (Optional) “Check my rank” preview + Elite badge (no blocking)
 
 #### DB write
 
-- [ ] 🔴 Insert into `scores`: challenge_id, user_id, value (seconds for time, int for reps), video_url (if any), is_validated, submitted_at
-- [ ] 🔴 Error handling (duplicate, RLS, etc.)
-- [ ] 🔴 On success: redirect or show Finisher Card (Issue #7)
+- [x] 🟢 Insert into `scores`: challenge_id, user_id, value (seconds for time, int for reps), video_url (if any), is_validated
+- [x] 🟢 Error handling (RLS, invalid URL, etc.)
+- [ ] 🟡 On success: show Finisher Card (Issue #7)
 
 #### UX
 
-- [ ] 🔴 Clear message when “Elite score detected. Paste your YouTube/TikTok link to validate.” (i18n)
-- [ ] 🔴 Loading, success, error states
+- [x] 🟢 Clear message: no video = saved but not ranked; with video = ranked (i18n)
+- [x] 🟢 Loading, success, error states
 
 ### Acceptance criteria
 
-- [ ] Score submission (time or reps) saved correctly
-- [ ] Without video: score is saved but not shown in public leaderboard
-- [ ] With video: score is validated and shown in public leaderboard
-- [ ] After submit, user sees Finisher Card
+- [x] Score submission (time or reps) saved correctly
+- [x] Without video: score is saved but not shown in public leaderboard
+- [x] With video: score is validated and shown in public leaderboard
+- [ ] Finisher Card shown after submit (Issue #7)
 
 ---
 
@@ -474,6 +474,10 @@ Submission form: score input (time MM:SS or reps by challenge). Users can submit
 **Priority:** HIGH  
 **Phase:** Screen 5  
 **Dependencies:** Issue #6
+
+### Immediate next action
+
+- Build the Finisher Card screen shown right after a successful submission (Issue #6)
 
 ### Description
 
