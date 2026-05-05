@@ -8,13 +8,13 @@
 
 ## 🚀 IMMEDIATE NEXT ACTION (For AI Agent)
 
-**Target:** Issue #1: Supabase project & database schema
+**Target:** Issue #5: Arena & challenges (feed, challenge page, leaderboard)
 **Workflow to execute:**
 
-1. Run: `gh issue create --title "Issue #1: Supabase project & database schema" --body "Create Supabase project, schema (profiles/challenges/scores), RLS, migrations, and seed initial challenges. Align TS types with schema."`
+1. Run: `gh issue create --title "Issue #5: Arena & challenges (feed, challenge page, leaderboard)" --body "Implement the Arena MVP: challenge feed (Trending/New), challenge detail page (rules + equipment tags), and per-challenge leaderboard with filters (global/age/sex/faction). Supabase read queries only; handle loading/empty/error states; i18n keys."`
 2. Extract the issue number from the terminal output.
-3. Run: `git checkout -b feature/issue-[NUMBER]-supabase-schema`
-4. Execute the tasks listed under "Issue #1" below.
+3. Run: `git checkout -b feature/issue-[NUMBER]-arena-challenges`
+4. Execute the tasks listed under "Issue #5" below.
 5. Check off the boxes `[x] 🟢` and update the status when finished.
 
 ---
