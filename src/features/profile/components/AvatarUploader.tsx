@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 
 import { uploadAvatar } from '@/features/profile/services/avatarUpload';
 import { updateAvatarUrl } from '@/features/profile/services/profile';
+import { initialsFromUsername } from '@/features/profile/lib/initials';
 
 type Props = {
   userId: string;
@@ -15,15 +16,6 @@ type Props = {
 
 const ACCEPT = 'image/png,image/jpeg,image/webp';
 const MAX_BYTES = 3 * 1024 * 1024;
-
-function initials(username: string | null): string {
-  const raw = (username ?? '').trim();
-  if (!raw) return 'TG';
-  const parts = raw.split(/\s+/).filter(Boolean);
-  const a = parts[0]?.[0] ?? raw[0] ?? 'T';
-  const b = parts[1]?.[0] ?? parts[0]?.[1] ?? 'G';
-  return `${a}${b}`.toUpperCase();
-}
 
 export function AvatarUploader({ userId, avatarUrl, username, onUpdated }: Props) {
   const t = useTranslations('profile');
@@ -83,7 +75,7 @@ export function AvatarUploader({ userId, avatarUrl, username, onUpdated }: Props
             <img src={avatarUrl} alt={t('avatar.alt')} className="h-full w-full object-cover" />
           ) : (
             <div className="flex h-full w-full items-center justify-center text-lg font-black tracking-tight">
-              {initials(username)}
+              {initialsFromUsername(username)}
             </div>
           )}
         </div>

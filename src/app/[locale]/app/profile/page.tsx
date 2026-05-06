@@ -3,6 +3,8 @@
 import { useTranslations } from 'next-intl';
 
 import { AvatarUploader } from '@/features/profile/components/AvatarUploader';
+import { FinisherGallery } from '@/features/profile/components/FinisherGallery';
+import { ProfileHeader } from '@/features/profile/components/ProfileHeader';
 import { ScoreHistory } from '@/features/profile/components/ScoreHistory';
 import { useProfile } from '@/features/profile/hooks/useProfile';
 
@@ -52,11 +54,19 @@ export default function ProfilePage() {
         {tabs('profile')}
       </h1>
 
+      <ProfileHeader profile={state.profile} />
+
       <AvatarUploader
         userId={state.profile.id}
         avatarUrl={state.profile.avatar_url}
         username={state.profile.username}
         onUpdated={refetch}
+      />
+
+      <FinisherGallery
+        userId={state.profile.id}
+        username={state.profile.username}
+        faction={state.profile.faction}
       />
 
       <ScoreHistory userId={state.profile.id} />

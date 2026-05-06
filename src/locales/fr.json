@@ -252,6 +252,24 @@
       "saved": "SAUVEGARDÉ",
       "viewChallenge": "DÉFI",
       "viewCard": "CARD"
+    },
+    "header": {
+      "unknownUser": "INCONNU",
+      "avatarAlt": "Avatar du profil",
+      "noFaction": "SANS FACTION",
+      "streak": "Série : {days}j",
+      "factions": {
+        "nomads": "NOMADES",
+        "horde": "HORDE",
+        "iron_alliance": "ALLIANCE DE FER"
+      }
+    },
+    "gallery": {
+      "title": "CARDS",
+      "loading": "Chargement des cards...",
+      "error": "Impossible de charger les cards.",
+      "empty": "Aucune card pour l'instant.",
+      "open": "Ouvrir la finisher card"
     }
   }
 }

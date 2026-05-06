@@ -252,6 +252,24 @@
       "saved": "SAVED",
       "viewChallenge": "CHALLENGE",
       "viewCard": "CARD"
+    },
+    "header": {
+      "unknownUser": "UNKNOWN",
+      "avatarAlt": "Profile avatar",
+      "noFaction": "NO FACTION",
+      "streak": "Streak: {days}d",
+      "factions": {
+        "nomads": "NOMADS",
+        "horde": "HORDE",
+        "iron_alliance": "IRON ALLIANCE"
+      }
+    },
+    "gallery": {
+      "title": "CARDS",
+      "loading": "Loading cards...",
+      "error": "Could not load cards.",
+      "empty": "No cards yet.",
+      "open": "Open finisher card"
     }
   }
 }
