@@ -212,5 +212,15 @@
       "videoInvalid": "Le lien doit être YouTube ou TikTok.",
       "submitFailed": "Impossible d'envoyer ton score."
     }
+  },
+  "finisher": {
+    "title": "FINISHER CARD",
+    "loading": "Chargement...",
+    "error": "Impossible de charger ta Finisher Card.",
+    "rankedBody": "Certifié. Tu es classé.",
+    "savedBody": "Sauvegardé. Non classé (pas de vidéo).",
+    "download": "TÉLÉCHARGER",
+    "share": "PARTAGER",
+    "backToArena": "RETOUR À L'ARÈNE"
   }
 }

@@ -21,7 +21,7 @@ type FormValues = {
 type Props = {
   challengeId: string;
   scoreType: ScoreType;
-  onSubmitted: (result: { ranked: boolean }) => void;
+  onSubmitted: (result: { ranked: boolean; insertedId: string }) => void;
 };
 
 function createSchema(t: (key: string) => string, scoreType: ScoreType) {
@@ -99,7 +99,7 @@ export function ScoreSubmissionForm({ challengeId, scoreType, onSubmitted }: Pro
           value,
           videoUrl: values.videoUrl,
         });
-        onSubmitted({ ranked: res.ranked });
+        onSubmitted({ ranked: res.ranked, insertedId: res.insertedId });
       } catch (e: unknown) {
         const message = e instanceof Error ? e.message : 'unknown';
         if (message === SUBMISSION_ERRORS.VIDEO_INVALID) {

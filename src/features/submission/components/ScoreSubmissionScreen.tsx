@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import { useChallenge } from '@/features/challenges/hooks/useChallenge';
 import { ScoreSubmissionForm } from '@/features/submission/components/ScoreSubmissionForm';
@@ -12,7 +13,7 @@ type Props = {
   challengeId: string;
 };
 
-type Result = { ranked: boolean };
+type Result = { ranked: boolean; insertedId: string };
 
 function ResultCard({ ranked }: { ranked: boolean }) {
   const t = useTranslations('submission');
@@ -30,6 +31,7 @@ export function ScoreSubmissionScreen({ challengeId }: Props) {
   const t = useTranslations('submission');
   const tArena = useTranslations('arena');
   const locale = useLocale();
+  const router = useRouter();
   const { data: challenge, loading, error } = useChallenge(challengeId);
   const [result, setResult] = useState<Result | null>(null);
 
@@ -87,7 +89,14 @@ export function ScoreSubmissionScreen({ challengeId }: Props) {
       <ScoreSubmissionForm
         challengeId={challenge.id}
         scoreType={challenge.score_type}
-        onSubmitted={(r) => setResult(r)}
+        onSubmitted={(r) => {
+          setResult(r);
+          router.push(
+            `/${locale}/app/finish?challengeId=${challenge.id}&ranked=${String(r.ranked)}&scoreId=${encodeURIComponent(
+              r.insertedId,
+            )}`,
+          );
+        }}
       />
     </section>
   );
