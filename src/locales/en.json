@@ -212,5 +212,15 @@
       "videoInvalid": "Video URL must be a YouTube or TikTok link.",
       "submitFailed": "Could not submit your score."
     }
+  },
+  "finisher": {
+    "title": "FINISHER CARD",
+    "loading": "Loading...",
+    "error": "Could not load your finisher card.",
+    "rankedBody": "Certified. You're ranked.",
+    "savedBody": "Saved. Not ranked (no video).",
+    "download": "DOWNLOAD",
+    "share": "SHARE",
+    "backToArena": "BACK TO ARENA"
   }
 }
