@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 
 import { AvatarUploader } from '@/features/profile/components/AvatarUploader';
+import { ScoreHistory } from '@/features/profile/components/ScoreHistory';
 import { useProfile } from '@/features/profile/hooks/useProfile';
 
 export default function ProfilePage() {
@@ -46,7 +47,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <section className="space-y-3">
+    <section className="space-y-6">
       <h1 className="text-2xl md:text-3xl font-black uppercase tracking-tight">
         {tabs('profile')}
       </h1>
@@ -57,6 +58,8 @@ export default function ProfilePage() {
         username={state.profile.username}
         onUpdated={refetch}
       />
+
+      <ScoreHistory userId={state.profile.id} />
     </section>
   );
 }

@@ -43,3 +43,8 @@ test('finish redirects to auth when logged out', async ({ page }) => {
   await page.goto('/en/app/finish');
   await expect(page).toHaveURL(/\/en\/auth$/);
 });
+
+test('profile redirects to auth when logged out', async ({ page }) => {
+  await page.goto('/en/app/profile');
+  await expect(page).toHaveURL(/\/en\/auth$/);
+});
