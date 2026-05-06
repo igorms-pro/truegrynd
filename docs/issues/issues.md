@@ -452,7 +452,7 @@ Submission form: score input (time MM:SS or reps by challenge). Users can submit
 
 - [x] 🟢 Insert into `scores`: challenge_id, user_id, value (seconds for time, int for reps), video_url (if any), is_validated
 - [x] 🟢 Error handling (RLS, invalid URL, etc.)
-- [ ] 🟡 On success: show Finisher Card (Issue #7)
+- [x] 🟢 On success: show Finisher Card (Issue #7)
 
 #### UX
 
@@ -464,20 +464,16 @@ Submission form: score input (time MM:SS or reps by challenge). Users can submit
 - [x] Score submission (time or reps) saved correctly
 - [x] Without video: score is saved but not shown in public leaderboard
 - [x] With video: score is validated and shown in public leaderboard
-- [ ] Finisher Card shown after submit (Issue #7)
+- [x] Finisher Card shown after submit (Issue #7)
 
 ---
 
 ## 🎯 Issue #7: Finisher Card (generation + share)
 
-**Status:** 🔴 **NOT STARTED**  
+**Status:** 🟢 **COMPLETED**  
 **Priority:** HIGH  
 **Phase:** Screen 5  
 **Dependencies:** Issue #6
-
-### Immediate next action
-
-- Build the Finisher Card screen shown right after a successful submission (Issue #6)
 
 ### Description
 
@@ -487,38 +483,42 @@ Generate image (client-side canvas): score, world rank (e.g. Top 12%), Faction, 
 
 #### Image generation
 
-- [ ] 🔴 Component or util that draws on canvas (or lib like html2canvas if needed)
-- [ ] 🔴 Content: score (formatted), rank (e.g. “Top 12% worldwide”), Faction name, Faction colors, Truegrynd logo
-- [ ] 🔴 Design per ui-design-guidelines (dark, high contrast); respect light/dark theme if applicable
-- [ ] 🔴 Export as PNG (blob or data URL)
+- [x] 🟢 Component/util draws on canvas (client-only)
+- [x] 🟢 Content: score (formatted), rank % (Top X%), Faction + branding
+- [x] 🟢 Design per ui-design-guidelines (dark, high contrast)
+- [x] 🟢 Export as PNG (blob)
 
 #### Display & download
 
-- [ ] 🔴 “Reward” screen or modal showing generated card
-- [ ] 🔴 “Download” button → trigger PNG download
-- [ ] 🔴 “Share to Story” or “Share”: Web Share API if available, else “Download” for manual Story upload
-- [ ] 🔴 Copy from i18n
+- [x] 🟢 Reward screen showing generated card
+- [x] 🟢 Download button (PNG)
+- [x] 🟢 Share (Web Share API when available) + fallback to download
+- [x] 🟢 Copy from i18n
 
 #### Data
 
-- [ ] 🔴 Score and challenge from the submission just made
-- [ ] 🔴 Rank computed after insert (position in leaderboard as %)
-- [ ] 🔴 Faction and username from profile
+- [x] 🟢 Score + challenge from the submission
+- [x] 🟢 Rank computed after insert (Top X% within validated leaderboard)
+- [x] 🟢 Faction + username from profile
 
 ### Acceptance criteria
 
-- [ ] Card generated with correct info (score, rank %, Faction, branding)
-- [ ] PNG download works
-- [ ] Share or download usable for Stories
+- [x] Card generated with correct info (score, rank %, Faction, branding)
+- [x] PNG download works
+- [x] Share or download usable for Stories
 
 ---
 
 ## 🎯 Issue #8: User profile
 
-**Status:** 🔴 **NOT STARTED**  
+**Status:** 🟡 **IN PROGRESS**  
 **Priority:** HIGH  
 **Phase:** Screen 6  
 **Dependencies:** Issue #3, #4
+
+### Immediate next action
+
+- Implement profile header + score history (no public profiles in MVP)
 
 ### Description
 
