@@ -543,15 +543,15 @@ Profile page: avatar, username, Faction, level (or simple indicator). Score hist
 
 #### Finisher Card gallery
 
-- [ ] 🔴 Show unlocked Finisher Cards (rule: latest N scores)
-- [ ] 🔴 Thumbnails clickable → open Finisher screen (share/download)
+- [x] 🟢 Show unlocked Finisher Cards (rule: latest N scores)
+- [x] 🟢 Thumbnails clickable → open Finisher screen (share/download)
 - [x] 🟢 Regenerate on the fly from score + profile + challenge (no stored images)
 
 ### Acceptance criteria
 
-- [ ] Profile shows identity + Faction
-- [ ] Score history correct and readable
-- [ ] Finisher Card gallery visible (at least recent)
+- [x] Profile shows identity + Faction
+- [x] Score history correct and readable
+- [x] Finisher Card gallery visible (at least recent)
 
 ---
 
