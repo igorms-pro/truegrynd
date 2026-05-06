@@ -241,6 +241,17 @@
         "upload": "Échec de l'upload.",
         "remove": "Impossible de supprimer l'avatar."
       }
+    },
+    "history": {
+      "title": "HISTORIQUE",
+      "loading": "Chargement des scores...",
+      "error": "Impossible de charger tes scores.",
+      "retry": "Réessayer",
+      "empty": "Aucun score pour l'instant. Va en gagner un.",
+      "ranked": "CLASSÉ",
+      "saved": "SAUVEGARDÉ",
+      "viewChallenge": "DÉFI",
+      "viewCard": "CARD"
     }
   }
 }

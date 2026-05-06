@@ -241,6 +241,17 @@
         "upload": "Upload failed.",
         "remove": "Could not remove avatar."
       }
+    },
+    "history": {
+      "title": "HISTORY",
+      "loading": "Loading scores...",
+      "error": "Could not load your scores.",
+      "retry": "Retry",
+      "empty": "No scores yet. Go earn one.",
+      "ranked": "RANKED",
+      "saved": "SAVED",
+      "viewChallenge": "CHALLENGE",
+      "viewCard": "CARD"
     }
   }
 }
