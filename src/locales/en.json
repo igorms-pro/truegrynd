@@ -222,5 +222,25 @@
     "download": "DOWNLOAD",
     "share": "SHARE",
     "backToArena": "BACK TO ARENA"
+  },
+  "profile": {
+    "loading": "Loading profile...",
+    "errorTitle": "Could not load profile",
+    "errorBody": "Try again.",
+    "retry": "Retry",
+    "avatar": {
+      "title": "AVATAR",
+      "alt": "Profile avatar",
+      "change": "CHANGE",
+      "uploading": "UPLOADING...",
+      "remove": "REMOVE",
+      "hint": "PNG/JPG/WEBP · max 3MB",
+      "errors": {
+        "type": "Unsupported file type.",
+        "size": "File is too large.",
+        "upload": "Upload failed.",
+        "remove": "Could not remove avatar."
+      }
+    }
   }
 }

@@ -222,5 +222,25 @@
     "download": "TÉLÉCHARGER",
     "share": "PARTAGER",
     "backToArena": "RETOUR À L'ARÈNE"
+  },
+  "profile": {
+    "loading": "Chargement du profil...",
+    "errorTitle": "Impossible de charger le profil",
+    "errorBody": "Réessaie.",
+    "retry": "Réessayer",
+    "avatar": {
+      "title": "AVATAR",
+      "alt": "Avatar du profil",
+      "change": "MODIFIER",
+      "uploading": "UPLOAD...",
+      "remove": "SUPPRIMER",
+      "hint": "PNG/JPG/WEBP · max 3MB",
+      "errors": {
+        "type": "Type de fichier non supporté.",
+        "size": "Fichier trop volumineux.",
+        "upload": "Échec de l'upload.",
+        "remove": "Impossible de supprimer l'avatar."
+      }
+    }
   }
 }
