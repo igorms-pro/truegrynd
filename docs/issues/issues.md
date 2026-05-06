@@ -518,7 +518,7 @@ Generate image (client-side canvas): score, world rank (e.g. Top 12%), Faction, 
 
 ### Immediate next action
 
-- Implement profile header + score history (no public profiles in MVP)
+- Implement profile identity header (username + faction badge) and finisher card gallery thumbnails
 
 ### Description
 
@@ -528,7 +528,7 @@ Profile page: avatar, username, Faction, level (or simple indicator). Score hist
 
 #### Profile header
 
-- [ ] 🔴 Avatar (photo or initials)
+- [x] 🟢 Avatar (photo or initials)
 - [ ] 🔴 Username, Faction (name + color/badge)
 - [ ] 🔴 (Optional) Level or progress indicator
 - [ ] 🔴 Data from `profiles` (+ auth)
@@ -536,16 +536,16 @@ Profile page: avatar, username, Faction, level (or simple indicator). Score hist
 
 #### Score history
 
-- [ ] 🔴 List of user’s submitted scores (newest first)
-- [ ] 🔴 Per score: challenge (title), value (formatted), rank at submit time if stored, date
-- [ ] 🔴 Link to challenge page
-- [ ] 🔴 Empty, loading, error states
+- [x] 🟢 List of user’s submitted scores (newest first)
+- [x] 🟢 Per score: challenge (title), value (formatted), date, ranked/saved
+- [x] 🟢 Link to challenge page + Finisher Card screen
+- [x] 🟢 Empty, loading, error states
 
 #### Finisher Card gallery
 
-- [ ] 🔴 Show unlocked Finisher Cards (one per challenge completed or per score — define rule)
-- [ ] 🔴 Thumbnails clickable → full view or download
-- [ ] 🔴 (Optional) Regenerate on the fly from score + profile if not storing images
+- [ ] 🔴 Show unlocked Finisher Cards (rule: latest N scores)
+- [ ] 🔴 Thumbnails clickable → open Finisher screen (share/download)
+- [x] 🟢 Regenerate on the fly from score + profile + challenge (no stored images)
 
 ### Acceptance criteria
 
