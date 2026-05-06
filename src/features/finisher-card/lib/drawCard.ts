@@ -9,6 +9,8 @@ type Options = {
   scoreType: ScoreType;
   scoreValue: number;
   topPercent: number | null;
+  rankTextOverride?: string;
+  rankSubOverride?: string;
 };
 
 function factionColor(faction: Faction): string {
@@ -78,12 +80,15 @@ export function drawFinisherCard(canvas: HTMLCanvasElement, options: Options): v
   // rank
   ctx.fillStyle = fg;
   ctx.font = '900 72px system-ui, -apple-system, Segoe UI, sans-serif';
-  const rankText = options.topPercent ? `TOP ${options.topPercent}%` : 'SAVED';
+  const rankText =
+    options.rankTextOverride ?? (options.topPercent ? `TOP ${options.topPercent}%` : 'SAVED');
   ctx.fillText(rankText, innerX + 30, innerY + 470);
 
   ctx.fillStyle = muted;
   ctx.font = '900 22px system-ui, -apple-system, Segoe UI, sans-serif';
-  const rankSub = options.topPercent ? 'WORLDWIDE (VALIDATED)' : 'NOT RANKED (NO VIDEO)';
+  const rankSub =
+    options.rankSubOverride ??
+    (options.topPercent ? 'WORLDWIDE (VALIDATED)' : 'NOT RANKED (NO VIDEO)');
   ctx.fillText(rankSub, innerX + 30, innerY + 560);
 
   // footer identity

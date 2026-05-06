@@ -11,9 +11,18 @@ type State =
 
 const initial: State = { status: 'loading', data: null, error: null };
 
-export function useMyScores(userId: string | null): { state: State; refetch: () => void } {
+type Options = {
+  limit?: number;
+};
+
+export function useMyScores(
+  userId: string | null,
+  options?: Options,
+): { state: State; refetch: () => void } {
   const [state, setState] = useState<State>(initial);
   const [reloadKey, setReloadKey] = useState(0);
+
+  const limit = options?.limit ?? 25;
 
   useEffect(() => {
     if (!userId) return undefined;
@@ -21,7 +30,7 @@ export function useMyScores(userId: string | null): { state: State; refetch: () 
     let cancelled = false;
     void (async () => {
       try {
-        const data = await listMyScores(userId);
+        const data = await listMyScores(userId, limit);
         if (!cancelled) setState({ status: 'ready', data, error: null });
       } catch (e: unknown) {
         const message = e instanceof Error ? e.message : 'unknown';
@@ -32,7 +41,7 @@ export function useMyScores(userId: string | null): { state: State; refetch: () 
     return () => {
       cancelled = true;
     };
-  }, [userId, reloadKey]);
+  }, [limit, userId, reloadKey]);
 
   const refetch = useCallback(() => {
     setState(initial);
