@@ -28,17 +28,15 @@ function initFactionMap(): Map<Faction, { points: number; members: Set<string> }
   return map;
 }
 
-function addPoints(base: number, value: number): number {
+function addWarPoints(base: number, value: number): number {
   const safe = Number.isFinite(value) ? value : 0;
   if (safe <= 0) return base;
-  // Simple, cross-challenge heuristic:
-  // - reps: contributes directly
-  // - time: contributes indirectly (smaller time => bigger value) but we don't have score_type here
-  // So we treat this as "war points" = value, capped to keep outliers reasonable.
+  // Simple cross-challenge heuristic: treats `scores.value` as contribution.
+  // This is intentionally a temporary "Clan HUD" metric until server-side faction totals exist.
   return base + Math.min(safe, 10_000);
 }
 
-export async function getFactionRankings(limit = 500): Promise<FactionRow[]> {
+async function listRecentValidatedScores(limit: number): Promise<RawScoreRow[]> {
   const { data, error } = await supabase
     .from('scores')
     .select(SCORE_SELECT)
@@ -46,8 +44,10 @@ export async function getFactionRankings(limit = 500): Promise<FactionRow[]> {
     .order('submitted_at', { ascending: false })
     .limit(limit);
   if (error) throw new Error(error.message);
+  return (data ?? []) as unknown as RawScoreRow[];
+}
 
-  const rows = (data ?? []) as unknown as RawScoreRow[];
+function computeFactionRankings(rows: readonly RawScoreRow[]): FactionRow[] {
   const map = initFactionMap();
 
   for (const row of rows) {
@@ -57,7 +57,7 @@ export async function getFactionRankings(limit = 500): Promise<FactionRow[]> {
 
     const entry = map.get(faction);
     if (!entry) continue;
-    entry.points = addPoints(entry.points, row.value);
+    entry.points = addWarPoints(entry.points, row.value);
     entry.members.add(userId);
   }
 
@@ -71,35 +71,37 @@ export async function getFactionRankings(limit = 500): Promise<FactionRow[]> {
   }).sort((a, b) => b.points - a.points);
 }
 
-export async function getTopMembersByFaction(input: {
-  faction: Faction;
-  limit?: number;
-  sampleLimit?: number;
-}): Promise<MemberRow[]> {
-  const { limit = 10, sampleLimit = 1000 } = input;
-
-  const { data, error } = await supabase
-    .from('scores')
-    .select(SCORE_SELECT)
-    .eq('is_validated', true)
-    .order('submitted_at', { ascending: false })
-    .limit(sampleLimit);
-  if (error) throw new Error(error.message);
-
-  const rows = (data ?? []) as unknown as RawScoreRow[];
+function computeTopMembersByFaction(
+  rows: readonly RawScoreRow[],
+  faction: Faction,
+  limit: number,
+): MemberRow[] {
   const byUser = new Map<string, MemberRow>();
 
   for (const row of rows) {
     const profile = row.profile;
-    if (!profile?.id || !profile.username || profile.faction !== input.faction) continue;
+    if (!profile?.id || !profile.username || profile.faction !== faction) continue;
 
     const prev = byUser.get(profile.id) ?? {
       userId: profile.id,
       username: profile.username,
       points: 0,
     };
-    byUser.set(profile.id, { ...prev, points: addPoints(prev.points, row.value) });
+    byUser.set(profile.id, { ...prev, points: addWarPoints(prev.points, row.value) });
   }
 
   return [...byUser.values()].sort((a, b) => b.points - a.points).slice(0, limit);
+}
+
+export async function getClanHudData(input: {
+  faction: Faction;
+  limit?: number;
+  sampleLimit?: number;
+}): Promise<{ rankings: FactionRow[]; members: MemberRow[] }> {
+  const { faction, limit = 10, sampleLimit = 1000 } = input;
+  const rows = await listRecentValidatedScores(sampleLimit);
+  return {
+    rankings: computeFactionRankings(rows),
+    members: computeTopMembersByFaction(rows, faction, limit),
+  };
 }

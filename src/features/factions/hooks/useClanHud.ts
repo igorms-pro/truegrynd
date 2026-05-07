@@ -4,8 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { useProfile } from '@/features/profile/hooks/useProfile';
 import {
-  getFactionRankings,
-  getTopMembersByFaction,
+  getClanHudData,
   type FactionRow,
   type MemberRow,
 } from '@/features/factions/services/clanHud';
@@ -31,10 +30,7 @@ export function useClanHud(): { state: State; refetch: () => void } {
     let cancelled = false;
     void (async () => {
       try {
-        const [rankings, members] = await Promise.all([
-          getFactionRankings(),
-          getTopMembersByFaction({ faction }),
-        ]);
+        const { rankings, members } = await getClanHudData({ faction });
         if (cancelled) return;
         setState({
           status: 'ready',

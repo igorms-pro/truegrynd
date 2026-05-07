@@ -3,6 +3,7 @@ import type { User } from '@supabase/supabase-js';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { isProfileComplete, type Profile } from '@/lib/types/database.types';
+import { buildNextUrl, normalizeNextPath } from '@/lib/navigation/nextRedirect';
 
 type PostAuthStep = 'idle' | 'fetchProfile' | 'ensureProfile' | 'redirect' | 'done';
 
@@ -92,12 +93,13 @@ export function useAuthPostRedirect({ user, initialized, locale, t }: Options): 
 
         setStep('redirect');
         const base = `/${locale}`;
-        const next = searchParams.get('next');
-        const safeNext = next && next.startsWith('/') ? next : null;
+        const safeNext = normalizeNextPath(searchParams.get('next'));
         const target =
           profile && isProfileComplete(profile)
             ? (safeNext ?? `${base}/app/overview`)
-            : `${base}/onboarding${safeNext ? `?next=${encodeURIComponent(safeNext)}` : ''}`;
+            : safeNext
+              ? buildNextUrl({ basePath: `${base}/onboarding`, next: safeNext })
+              : `${base}/onboarding`;
         router.replace(target);
         setStep('done');
       } catch (e: unknown) {

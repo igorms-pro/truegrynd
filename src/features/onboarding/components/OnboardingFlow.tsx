@@ -13,6 +13,7 @@ import { OnboardingFactionStep } from '@/features/onboarding/components/Onboardi
 import { useOnboardingViewStep } from '@/features/onboarding/hooks/useOnboardingViewStep';
 import { OnboardingShell } from '@/features/onboarding/components/OnboardingShell';
 import { OnboardingStepper } from '@/features/onboarding/components/OnboardingStepper';
+import { normalizeNextPath } from '@/lib/navigation/nextRedirect';
 
 function stepIndex(step: OnboardingStep): 1 | 2 | 3 {
   if (step === 'identity') return 1;
@@ -33,8 +34,7 @@ export function OnboardingFlow() {
   });
 
   const redirectTarget = useMemo(() => {
-    const next = searchParams.get('next');
-    const safeNext = next && next.startsWith('/') ? next : null;
+    const safeNext = normalizeNextPath(searchParams.get('next'));
     return safeNext ?? `/${locale}/app/overview`;
   }, [locale, searchParams]);
 
