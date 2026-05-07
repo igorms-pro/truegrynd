@@ -618,7 +618,7 @@ Authenticated layout with 4 tabs: Overview, Arena, Clan, Profile. Overview: dail
 
 ## 🎯 Issue #10: Polish & deployment
 
-**Status:** 🟡 **IN PROGRESS**  
+**Status:** 🟢 **COMPLETED**  
 **Priority:** HIGH  
 **Phase:** MVP delivery  
 **Dependencies:** Issues #3–#9
@@ -645,7 +645,7 @@ Basic SEO, meta tags, error handling (404), Vercel deployment, domain if needed.
 #### Deployment
 
 - [x] 🟢 Vercel project linked to repo
-- [ ] 🔴 Env vars (Supabase) set
+- [x] 🟢 Env vars (Supabase) set
 - [x] 🟢 Next.js build succeeds
 - [ ] 🔴 (Optional) Custom domain
 
@@ -658,7 +658,7 @@ Basic SEO, meta tags, error handling (404), Vercel deployment, domain if needed.
 
 - [x] 🟢 Basic SEO in place
 - [x] 🟢 404 and auth errors handled
-- [ ] 🔴 App deployed and reachable
+- [x] 🟢 App deployed and reachable
 - [x] 🟢 Smoke E2E green
 
 ---
@@ -695,7 +695,7 @@ To be done after MVP ship.
 
 ---
 
-**Last updated:** May 2026  
+**Last updated:** May 2026 π
 **Next review:** On each progress update
 
 **Critical path:** #0 ✅ → #1 → #2 (i18n + theme) → #3 → #4 → #5 → #6 → #7 → #8 → #9 → #10.
