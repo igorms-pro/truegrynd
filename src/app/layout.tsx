@@ -21,7 +21,13 @@ export const metadata: Metadata = {
   description:
     'Async fitness competition. Standardized challenges, global leaderboard, free. Prove your effort.',
   applicationName: 'Truegrynd',
-  metadataBase: new URL('https://truegrynd.app'),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL
+      ? process.env.NEXT_PUBLIC_SITE_URL
+      : process.env.VERCEL_URL
+        ? `https://${process.env.VERCEL_URL}`
+        : 'http://localhost:3000',
+  ),
   openGraph: {
     type: 'website',
     title: 'Truegrynd',
