@@ -8,13 +8,13 @@
 
 ## 🚀 IMMEDIATE NEXT ACTION (For AI Agent)
 
-**Target:** Issue #5: Arena & challenges (feed, challenge page, leaderboard)
+**Target:** Issue #9: App navigation & layout (tabs, Overview, Clan)
 **Workflow to execute:**
 
-1. Run: `gh issue create --title "Issue #5: Arena & challenges (feed, challenge page, leaderboard)" --body "Implement the Arena MVP: challenge feed (Trending/New), challenge detail page (rules + equipment tags), and per-challenge leaderboard with filters (global/age/sex/faction). Supabase read queries only; handle loading/empty/error states; i18n keys."`
-2. Extract the issue number from the terminal output.
-3. Run: `git checkout -b feature/issue-[NUMBER]-arena-challenges`
-4. Execute the tasks listed under "Issue #5" below.
+1. GitHub Issue created: #25
+2. PR for previous work (Issue #8): #24
+3. Branch: `feature/issue-25-app-overview-clan`
+4. Execute the tasks listed under "Issue #9" below.
 5. Check off the boxes `[x] 🟢` and update the status when finished.
 
 ---
@@ -511,14 +511,15 @@ Generate image (client-side canvas): score, world rank (e.g. Top 12%), Faction, 
 
 ## 🎯 Issue #8: User profile
 
-**Status:** 🟡 **IN PROGRESS**  
+**Status:** 🟢 **COMPLETED**  
 **Priority:** HIGH  
 **Phase:** Screen 6  
 **Dependencies:** Issue #3, #4
 
 ### Immediate next action
 
-- Implement profile identity header (username + faction badge) and finisher card gallery thumbnails
+- ✅ AC OK — PR #24 opened (`https://github.com/igorms-pro/truegrynd/pull/24`)
+- Note: first attempt hit GitHub 504, retry OK
 
 ### Description
 
@@ -529,10 +530,10 @@ Profile page: avatar, username, Faction, level (or simple indicator). Score hist
 #### Profile header
 
 - [x] 🟢 Avatar (photo or initials)
-- [ ] 🔴 Username, Faction (name + color/badge)
-- [ ] 🔴 (Optional) Level or progress indicator
-- [ ] 🔴 Data from `profiles` (+ auth)
-- [ ] 🔴 i18n for labels
+- [x] 🟢 Username, Faction (name + color/badge)
+- [x] 🟢 (Optional) Level or progress indicator
+- [x] 🟢 Data from `profiles` (+ auth)
+- [x] 🟢 i18n for labels
 
 #### Score history
 
@@ -543,21 +544,21 @@ Profile page: avatar, username, Faction, level (or simple indicator). Score hist
 
 #### Finisher Card gallery
 
-- [ ] 🔴 Show unlocked Finisher Cards (rule: latest N scores)
-- [ ] 🔴 Thumbnails clickable → open Finisher screen (share/download)
+- [x] 🟢 Show unlocked Finisher Cards (rule: latest N scores)
+- [x] 🟢 Thumbnails clickable → open Finisher screen (share/download)
 - [x] 🟢 Regenerate on the fly from score + profile + challenge (no stored images)
 
 ### Acceptance criteria
 
-- [ ] Profile shows identity + Faction
-- [ ] Score history correct and readable
-- [ ] Finisher Card gallery visible (at least recent)
+- [x] 🟢 Profile shows identity + Faction
+- [x] 🟢 Score history correct and readable
+- [x] 🟢 Finisher Card gallery visible (at least recent)
 
 ---
 
 ## 🎯 Issue #9: App navigation & layout (tabs, Overview, Clan)
 
-**Status:** 🔴 **NOT STARTED**  
+**Status:** 🟡 **IN PROGRESS**  
 **Priority:** HIGH  
 **Phase:** Screen 7  
 **Dependencies:** Issue #3, #4, #5
@@ -577,10 +578,10 @@ Authenticated layout with 4 tabs: Overview, Arena, Clan, Profile. Overview: dail
 
 #### Overview tab
 
-- [ ] 🔴 Summary: current rank or welcome, streak if shown
-- [ ] 🔴 “Challenge of the day” highlighted (one official challenge, click → challenge page)
-- [ ] 🔴 (Optional) “Your Faction needs points today” or Faction status
-- [ ] 🔴 i18n
+- [x] 🟢 Summary: current rank or welcome, streak if shown
+- [x] 🟢 “Challenge of the day” highlighted (one official challenge, click → challenge page)
+- [x] 🟢 (Optional) “Your Faction needs points today” or Faction status
+- [ ] 🔴 i18n (new keys under `overview.*` — add EN/FR)
 
 #### Arena tab
 
@@ -593,6 +594,11 @@ Authenticated layout with 4 tabs: Overview, Arena, Clan, Profile. Overview: dail
 - [ ] 🔴 Top 10 (or N) members of your Faction
 - [ ] 🔴 (Optional) CTA “Recruit an ally” (referral — post-MVP)
 - [ ] 🔴 i18n
+
+#### Notes (implementation status)
+
+- 🟡 Overview UI implemented locally (`src/features/overview/*`) with loading/error/empty states.
+- 🟡 Next: implement Clan + wire i18n keys for Overview/Clan.
 
 #### Profile tab
 
@@ -678,13 +684,13 @@ To be done after MVP ship.
 | #3 Auth                     | 🟡 In Progress | 90%  |
 | #4 Onboarding               | 🟢 Completed   | 100% |
 | #5 Arena & challenges       | 🟡 In Progress | 65%  |
-| #6 Submission & Smart Proof | 🔴 Not Started | 0%   |
-| #7 Finisher Card            | 🔴 Not Started | 0%   |
-| #8 Profile                  | 🔴 Not Started | 0%   |
-| #9 Navigation & layout      | 🔴 Not Started | 0%   |
+| #6 Submission & Smart Proof | 🟢 Completed   | 100% |
+| #7 Finisher Card            | 🟢 Completed   | 100% |
+| #8 Profile                  | 🟢 Completed   | 100% |
+| #9 Navigation & layout      | 🟡 In Progress | 25%  |
 | #10 Polish & deployment     | 🔴 Not Started | 0%   |
 
-**Overall MVP:** ~32% (foundation done, auth + onboarding largely done, app shell + Arena/leaderboard scaffold landed, rest to do).
+**Overall MVP:** ~55% (foundation done; auth/onboarding + submission/finisher/profile done; navigation/overview/clan next; Supabase schema + polish/deploy remaining).
 
 ---
 
