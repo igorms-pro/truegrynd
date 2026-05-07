@@ -28,6 +28,22 @@
       "magicLinkRateLimited": "Trop de tentatives. Attends quelques minutes puis réessaie.",
       "oauthFailed": "Connexion échouée. Réessaie.",
       "profileLoadFailed": "Connecté, mais impossible de charger ton profil."
+    },
+    "signInToContinue": "Connecte-toi pour continuer."
+  },
+  "errors": {
+    "notFound": {
+      "label": "404",
+      "title": "Introuvable",
+      "body": "Cette page n’existe pas. Retourne dans l’Arène.",
+      "cta": "Retour à l’aperçu"
+    },
+    "app": {
+      "label": "Erreur",
+      "title": "Ça a cassé",
+      "body": "Réessaie. Si ça continue, recharge la page.",
+      "retry": "Réessayer",
+      "home": "Aperçu"
     }
   },
   "onboarding": {

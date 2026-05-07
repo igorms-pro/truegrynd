@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLocale } from 'next-intl';
 import { useTranslations } from 'next-intl';
+import { useSearchParams } from 'next/navigation';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { signInWithMagicLink, signInWithOAuth } from '@/features/auth/services/auth';
 import { HeaderMobileSignIn } from '@/components/HeaderMobileSignIn';
@@ -20,6 +21,7 @@ export default function AuthPage() {
   const t = useTranslations('auth');
   const { user, initialized, lastEvent } = useAuth();
   const locale = useLocale();
+  const searchParams = useSearchParams();
 
   const [mounted, setMounted] = useState(false);
   const [email, setEmail] = useState('');
@@ -121,6 +123,11 @@ export default function AuthPage() {
         <div className="flex flex-col gap-2">
           <h1 className="text-4xl font-black tracking-tight">{t('title')}</h1>
           <p className="text-sm text-muted-foreground">{t('subtitle')}</p>
+          {searchParams.get('next') ? (
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-primary">
+              {t('signInToContinue')}
+            </p>
+          ) : null}
         </div>
 
         {debugEnabled ? <DevSessionReset /> : null}

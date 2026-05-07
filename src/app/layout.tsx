@@ -14,9 +14,27 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Truegrynd',
+  title: {
+    default: 'Truegrynd',
+    template: '%s · Truegrynd',
+  },
   description:
     'Async fitness competition. Standardized challenges, global leaderboard, free. Prove your effort.',
+  applicationName: 'Truegrynd',
+  metadataBase: new URL('https://truegrynd.app'),
+  openGraph: {
+    type: 'website',
+    title: 'Truegrynd',
+    description:
+      'Async fitness competition. Standardized challenges, global leaderboard, free. Prove your effort.',
+    siteName: 'Truegrynd',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Truegrynd',
+    description:
+      'Async fitness competition. Standardized challenges, global leaderboard, free. Prove your effort.',
+  },
 };
 
 export default async function RootLayout({
