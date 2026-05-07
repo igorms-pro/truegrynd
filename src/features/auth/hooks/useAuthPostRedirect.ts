@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import type { User } from '@supabase/supabase-js';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { isProfileComplete, type Profile } from '@/lib/types/database.types';
+import { buildNextUrl, normalizeNextPath } from '@/lib/navigation/nextRedirect';
 
 type PostAuthStep = 'idle' | 'fetchProfile' | 'ensureProfile' | 'redirect' | 'done';
 
@@ -21,6 +22,7 @@ type Options = {
 
 export function useAuthPostRedirect({ user, initialized, locale, t }: Options): PostAuthState {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [redirecting, setRedirecting] = useState(false);
   const [step, setStep] = useState<PostAuthStep>('idle');
   const [error, setError] = useState<string | null>(null);
@@ -91,8 +93,13 @@ export function useAuthPostRedirect({ user, initialized, locale, t }: Options): 
 
         setStep('redirect');
         const base = `/${locale}`;
+        const safeNext = normalizeNextPath(searchParams.get('next'));
         const target =
-          profile && isProfileComplete(profile) ? `${base}/app/overview` : `${base}/onboarding`;
+          profile && isProfileComplete(profile)
+            ? (safeNext ?? `${base}/app/overview`)
+            : safeNext
+              ? buildNextUrl({ basePath: `${base}/onboarding`, next: safeNext })
+              : `${base}/onboarding`;
         router.replace(target);
         setStep('done');
       } catch (e: unknown) {
@@ -111,7 +118,7 @@ export function useAuthPostRedirect({ user, initialized, locale, t }: Options): 
       cancelled = true;
       inFlightRef.current = false;
     };
-  }, [initialized, user, locale, router, t]);
+  }, [initialized, user, locale, router, searchParams, t]);
 
   return { redirecting, step, error };
 }

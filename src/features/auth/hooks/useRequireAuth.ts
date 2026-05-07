@@ -2,20 +2,25 @@
 
 import { useEffect } from 'react';
 import { useLocale } from 'next-intl';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/features/auth/AuthProvider';
+import { buildNextUrl } from '@/lib/navigation/nextRedirect';
 
 export function useRequireAuth() {
   const { user, initialized } = useAuth();
   const router = useRouter();
   const locale = useLocale();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     if (!initialized) return;
     if (!user) {
-      router.replace(`/${locale}/auth`);
+      const nextFromQuery = searchParams.get('next');
+      const next = nextFromQuery ?? pathname;
+      router.replace(buildNextUrl({ basePath: `/${locale}/auth`, next }));
     }
-  }, [initialized, user, router, locale]);
+  }, [initialized, user, router, locale, pathname, searchParams]);
 
   return { user, initialized };
 }

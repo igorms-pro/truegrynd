@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations, useLocale } from 'next-intl';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useMemo, type ReactNode } from 'react';
 
 import { useRequireAuth } from '@/features/auth/hooks/useRequireAuth';
@@ -13,6 +13,7 @@ import { OnboardingFactionStep } from '@/features/onboarding/components/Onboardi
 import { useOnboardingViewStep } from '@/features/onboarding/hooks/useOnboardingViewStep';
 import { OnboardingShell } from '@/features/onboarding/components/OnboardingShell';
 import { OnboardingStepper } from '@/features/onboarding/components/OnboardingStepper';
+import { normalizeNextPath } from '@/lib/navigation/nextRedirect';
 
 function stepIndex(step: OnboardingStep): 1 | 2 | 3 {
   if (step === 'identity') return 1;
@@ -24,6 +25,7 @@ export function OnboardingFlow() {
   const t = useTranslations('onboarding');
   const router = useRouter();
   const locale = useLocale();
+  const searchParams = useSearchParams();
 
   const { user, initialized } = useRequireAuth();
   const { profile, step, loading, error, refreshNow } = useOnboardingProfile({
@@ -31,7 +33,10 @@ export function OnboardingFlow() {
     initialized,
   });
 
-  const redirectTarget = useMemo(() => `/${locale}/app/overview`, [locale]);
+  const redirectTarget = useMemo(() => {
+    const safeNext = normalizeNextPath(searchParams.get('next'));
+    return safeNext ?? `/${locale}/app/overview`;
+  }, [locale, searchParams]);
 
   useEffect(() => {
     if (!initialized || loading) return;

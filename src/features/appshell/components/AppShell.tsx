@@ -33,7 +33,9 @@ export function AppShell({ children }: Props) {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <AppHeader />
-      <main className="mx-auto w-full max-w-5xl px-4 pt-4 pb-24 md:pb-10">{children}</main>
+      <main className="mx-auto w-full max-w-5xl px-4 pt-4 pb-[calc(6rem+env(safe-area-inset-bottom))] md:pb-10">
+        {children}
+      </main>
       <BottomDock />
     </div>
   );

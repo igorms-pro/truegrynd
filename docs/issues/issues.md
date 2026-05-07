@@ -12,8 +12,10 @@
 **Workflow to execute:**
 
 1. GitHub Issue created: #25
-2. PR for previous work (Issue #8): #24
-3. Branch: `feature/issue-25-app-overview-clan`
+2. PRs for Issue #9 work:
+   - Overview: PR #26 (merged ✅)
+   - Clan HUD: PR #27 (open)
+3. Branch: `feature/issue-25-clan-hud`
 4. Execute the tasks listed under "Issue #9" below.
 5. Check off the boxes `[x] 🟢` and update the status when finished.
 
@@ -558,7 +560,7 @@ Profile page: avatar, username, Faction, level (or simple indicator). Score hist
 
 ## 🎯 Issue #9: App navigation & layout (tabs, Overview, Clan)
 
-**Status:** 🟡 **IN PROGRESS**  
+**Status:** 🟢 **COMPLETED**  
 **Priority:** HIGH  
 **Phase:** Screen 7  
 **Dependencies:** Issue #3, #4, #5
@@ -571,47 +573,48 @@ Authenticated layout with 4 tabs: Overview, Arena, Clan, Profile. Overview: dail
 
 #### Layout & navigation
 
-- [ ] 🔴 Polish/extend app shell: desktop variant (top tabs or sidebar), safe-area, animations
-- [ ] 🔴 Ensure tab state + active route styling across nested routes (e.g. challenge detail)
-- [ ] 🔴 Refine route protection + redirects (edge cases, back button, deep links)
-- [ ] 🔴 Tab labels from i18n (audit + consistency)
+- [x] 🟢 Polish/extend app shell: desktop variant (top tabs or sidebar), safe-area, animations
+- [x] 🟢 Ensure tab state + active route styling across nested routes (e.g. challenge detail)
+- [x] 🟢 Refine route protection + redirects (edge cases, back button, deep links)
+- [x] 🟢 Tab labels from i18n (audit + consistency)
 
 #### Overview tab
 
 - [x] 🟢 Summary: current rank or welcome, streak if shown
 - [x] 🟢 “Challenge of the day” highlighted (one official challenge, click → challenge page)
 - [x] 🟢 (Optional) “Your Faction needs points today” or Faction status
-- [ ] 🔴 i18n (new keys under `overview.*` — add EN/FR)
+- [x] 🟢 i18n (keys under `overview.*` in EN/FR)
 
 #### Arena tab
 
-- [ ] 🔴 Reuse feed + challenge page (Issue #5)
+- [x] 🟢 Reuse feed + challenge page (Issue #5)
 - [ ] 🔴 (Optional) FAB “+” for create challenge (post-MVP Creator Studio)
 
 #### Clan tab
 
-- [ ] 🔴 Faction leaderboard (gauge or list of 3 Factions with total points)
-- [ ] 🔴 Top 10 (or N) members of your Faction
+- [x] 🟢 Faction leaderboard (gauge or list of 3 Factions with total points)
+- [x] 🟢 Top 10 (or N) members of your Faction
 - [ ] 🔴 (Optional) CTA “Recruit an ally” (referral — post-MVP)
-- [ ] 🔴 i18n
+- [x] 🟢 i18n
 
 #### Notes (implementation status)
 
 - 🟡 Overview UI implemented locally (`src/features/overview/*`) with loading/error/empty states.
-- 🟡 Next: implement Clan + wire i18n keys for Overview/Clan.
+- 🟢 Clan HUD implemented locally (`src/features/factions/*`) with loading/error/empty states.
+- 🟡 Next: polish navigation + desktop/mobile UX details.
 
 #### Profile tab
 
-- [ ] 🔴 Integrate profile page (Issue #8)
+- [x] 🟢 Integrate profile page (Issue #8)
 
 ### Acceptance criteria
 
-- [ ] Navigation between 4 tabs works
-- [ ] Overview shows challenge of the day + summary
-- [ ] Arena = challenge feed
-- [ ] Clan = Faction ranking + top Faction members
-- [ ] Profile = Issue #8 content
-- [ ] Theme toggle visible (from Issue #2); all copy i18n
+- [x] 🟢 Navigation between 4 tabs works
+- [x] 🟢 Overview shows challenge of the day + summary
+- [x] 🟢 Arena = challenge feed
+- [x] 🟢 Clan = Faction ranking + top Faction members
+- [x] 🟢 Profile = Issue #8 content
+- [x] 🟢 Theme toggle visible (from Issue #2); all copy i18n
 
 ---
 
