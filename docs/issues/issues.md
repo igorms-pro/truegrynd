@@ -590,15 +590,16 @@ Authenticated layout with 4 tabs: Overview, Arena, Clan, Profile. Overview: dail
 
 #### Clan tab
 
-- [ ] 🔴 Faction leaderboard (gauge or list of 3 Factions with total points)
-- [ ] 🔴 Top 10 (or N) members of your Faction
+- [x] 🟢 Faction leaderboard (gauge or list of 3 Factions with total points)
+- [x] 🟢 Top 10 (or N) members of your Faction
 - [ ] 🔴 (Optional) CTA “Recruit an ally” (referral — post-MVP)
-- [ ] 🔴 i18n
+- [x] 🟢 i18n
 
 #### Notes (implementation status)
 
 - 🟡 Overview UI implemented locally (`src/features/overview/*`) with loading/error/empty states.
-- 🟡 Next: implement Clan + wire i18n keys for Overview/Clan.
+- 🟢 Clan HUD implemented locally (`src/features/factions/*`) with loading/error/empty states.
+- 🟡 Next: polish navigation + desktop/mobile UX details.
 
 #### Profile tab
 

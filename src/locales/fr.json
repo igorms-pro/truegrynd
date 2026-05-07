@@ -143,6 +143,22 @@
     "noFactionBody": "Aucune faction enregistrée. Termine l’onboarding.",
     "noFactionCta": "ALLER À L’ONBOARDING"
   },
+  "clan": {
+    "subtitle": "Ta faction est une arme. Utilise-la.",
+    "loading": "Chargement du clan HUD...",
+    "errorTitle": "Impossible de charger le Clan",
+    "errorBody": "Réessaie.",
+    "retry": "Réessayer",
+    "factionsTitle": "GUERRE DES FACTIONS",
+    "topMembersTitle": "TES TOP SOLDATS",
+    "emptyMembers": "Aucun membre classé pour l’instant. Sois le premier à poster une preuve.",
+    "members": "{count, plural, =0 {0 membres} =1 {1 membre} other {# membres}}",
+    "faction": {
+      "nomads": "NOMADES",
+      "horde": "HORDE",
+      "iron_alliance": "ALLIANCE DE FER"
+    }
+  },
   "arena": {
     "title": "ARÈNE",
     "subtitle": "Choisis ton défi. Poste ton score.",

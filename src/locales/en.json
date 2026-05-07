@@ -143,6 +143,22 @@
     "noFactionBody": "No faction on file. Complete onboarding.",
     "noFactionCta": "GO TO ONBOARDING"
   },
+  "clan": {
+    "subtitle": "Your faction is a weapon. Use it.",
+    "loading": "Loading clan HUD...",
+    "errorTitle": "Could not load clan HUD",
+    "errorBody": "Try again.",
+    "retry": "Retry",
+    "factionsTitle": "FACTION WAR",
+    "topMembersTitle": "YOUR TOP DOGS",
+    "emptyMembers": "No ranked members yet. Be the first to post proof.",
+    "members": "{count, plural, =0 {0 members} =1 {1 member} other {# members}}",
+    "faction": {
+      "nomads": "NOMADS",
+      "horde": "HORDE",
+      "iron_alliance": "IRON ALLIANCE"
+    }
+  },
   "arena": {
     "title": "ARENA",
     "subtitle": "Pick your challenge. Post your score.",
