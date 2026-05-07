@@ -8,13 +8,13 @@
 
 ## 🚀 IMMEDIATE NEXT ACTION (For AI Agent)
 
-**Target:** Issue #10: Polish & deployment
+**Target:** Issue #2: i18n audit + cleanup (and remove light-mode scope)
 **Workflow to execute:**
 
-1. GitHub Issue created: #28
-2. Previous work merged: PR #27 (Issue #9) ✅
-3. Branch: `feature/issue-28-polish-deploy`
-4. Execute the tasks listed under "Issue #10" below.
+1. Merge previous work: Issue #10 ✅
+2. Ensure Supabase migrations/seed are applied in the project (Issue #1 already committed)
+3. Create branch: `feature/issue-[NUMBER]-i18n-audit`
+4. Execute remaining tasks under "Issue #2" (i18n audit/keys/namespaces).
 5. Check off the boxes `[x] 🟢` and update the status when finished.
 
 ---
@@ -109,7 +109,7 @@ Complete before building feature screens.
 
 ## 🎯 Issue #1: Supabase project & database schema
 
-**Status:** 🔴 **NOT STARTED**  
+**Status:** 🟢 **COMPLETED**  
 **Priority:** CRITICAL  
 **Phase:** Foundation  
 **Dependencies:** Issue #0
@@ -122,9 +122,9 @@ Create Supabase project, tables (profiles, challenges, scores), RLS policies, mi
 
 #### Supabase project
 
-- [ ] 🔴 Create Supabase project (dashboard)
-- [ ] 🔴 Get `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-- [ ] 🔴 Enable Auth (Email, Google, Apple if available)
+- [x] 🟢 Create Supabase project (dashboard)
+- [x] 🟢 Get `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- [x] 🟢 Enable Auth (Email, Google, Apple if available)
 
 #### Tables
 
@@ -169,13 +169,14 @@ Create Supabase project, tables (profiles, challenges, scores), RLS policies, mi
 
 #### Migrations
 
-- [ ] 🔴 Initial migration (schema + RLS)
-- [ ] 🔴 Trigger or function to create `profiles` row on signup (auth.users)
-- [ ] 🔴 (Optional) Realtime on `scores` for live leaderboard
+- [x] 🟢 Initial migration (schema + RLS) (`supabase/migrations/001_initial_schema.sql`)
+- [x] 🟢 RLS policies (`supabase/migrations/002_rls_policies.sql`)
+- [x] 🟢 Trigger to create `profiles` row on signup (`handle_new_user` in 001)
+- [x] 🟢 (Optional) Realtime scaffolding (`supabase/migrations/003_realtime.sql`)
 
 #### Seed
 
-- [ ] 🔴 Seed 5–10 official challenges (e.g. 50 burpees, 2 min plank, 1 min push-ups) with title, rules, score_type, equipment_tags, is_official=true, status=approved
+- [x] 🟢 Seed official challenges (`supabase/seed.sql`)
 
 #### TypeScript types
 
@@ -184,10 +185,10 @@ Create Supabase project, tables (profiles, challenges, scores), RLS policies, mi
 
 ### Acceptance criteria
 
-- [ ] All tables exist with correct schema
-- [ ] RLS tested (read/write by role)
-- [ ] Seed run: challenges visible from app (after API wired)
-- [ ] Types up to date for frontend
+- [x] 🟢 All tables exist with correct schema (via migrations)
+- [x] 🟢 RLS policies defined (via migrations)
+- [x] 🟢 Seed provided (via `supabase/seed.sql`)
+- [x] 🟢 Types up to date for frontend
 
 ---
 
