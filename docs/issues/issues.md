@@ -644,22 +644,22 @@ Basic SEO, meta tags, error handling (404), Vercel deployment, domain if needed.
 
 #### Deployment
 
-- [ ] 🔴 Vercel project linked to repo
+- [x] 🟢 Vercel project linked to repo
 - [ ] 🔴 Env vars (Supabase) set
-- [ ] 🔴 Next.js build succeeds
+- [x] 🟢 Next.js build succeeds
 - [ ] 🔴 (Optional) Custom domain
 
 #### E2E & quality
 
 - [x] 🟢 Smoke E2E: at least landing + auth (login or redirect) + one app route if possible
-- [ ] 🔴 pre-push (or CI): typecheck + test:run + e2e pass
+- [x] 🟢 pre-push (or CI): typecheck + test:run + e2e pass
 
 ### Acceptance criteria
 
-- [ ] Basic SEO in place
-- [ ] 404 and auth errors handled
-- [ ] App deployed and reachable
-- [ ] Smoke E2E green
+- [x] 🟢 Basic SEO in place
+- [ ] 🔴 404 and auth errors handled
+- [ ] 🔴 App deployed and reachable
+- [x] 🟢 Smoke E2E green
 
 ---
 
