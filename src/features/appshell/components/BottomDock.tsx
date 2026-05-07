@@ -19,7 +19,7 @@ function DockItem({ tab, isActive, href, label }: DockItemProps) {
     <li className="flex-1">
       <Link
         href={href}
-        className="relative flex h-full flex-col items-center justify-center gap-1 px-1 py-2"
+        className="relative flex h-full flex-col items-center justify-center gap-1 px-1 py-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         aria-current={isActive ? 'page' : undefined}
         aria-label={label}
       >
@@ -30,12 +30,14 @@ function DockItem({ tab, isActive, href, label }: DockItemProps) {
           />
         ) : null}
         <Icon
-          className={`h-5 w-5 ${isActive ? 'text-primary' : 'text-muted-foreground'}`}
+          className={`h-5 w-5 transition-colors ${
+            isActive ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
+          }`}
           strokeWidth={isActive ? 2.4 : 1.8}
         />
         <span
-          className={`text-[10px] font-black uppercase tracking-[0.18em] ${
-            isActive ? 'text-primary' : 'text-muted-foreground'
+          className={`text-[10px] font-black uppercase tracking-[0.18em] transition-colors ${
+            isActive ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
           }`}
         >
           {label}

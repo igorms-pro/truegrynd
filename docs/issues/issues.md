@@ -573,8 +573,8 @@ Authenticated layout with 4 tabs: Overview, Arena, Clan, Profile. Overview: dail
 
 #### Layout & navigation
 
-- [ ] 🔴 Polish/extend app shell: desktop variant (top tabs or sidebar), safe-area, animations
-- [ ] 🔴 Ensure tab state + active route styling across nested routes (e.g. challenge detail)
+- [x] 🟢 Polish/extend app shell: desktop variant (top tabs or sidebar), safe-area, animations
+- [x] 🟢 Ensure tab state + active route styling across nested routes (e.g. challenge detail)
 - [ ] 🔴 Refine route protection + redirects (edge cases, back button, deep links)
 - [ ] 🔴 Tab labels from i18n (audit + consistency)
 
