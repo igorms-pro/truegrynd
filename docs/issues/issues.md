@@ -8,15 +8,13 @@
 
 ## 🚀 IMMEDIATE NEXT ACTION (For AI Agent)
 
-**Target:** Issue #9: App navigation & layout (tabs, Overview, Clan)
+**Target:** Issue #10: Polish & deployment
 **Workflow to execute:**
 
-1. GitHub Issue created: #25
-2. PRs for Issue #9 work:
-   - Overview: PR #26 (merged ✅)
-   - Clan HUD: PR #27 (open)
-3. Branch: `feature/issue-25-clan-hud`
-4. Execute the tasks listed under "Issue #9" below.
+1. GitHub Issue created: #28
+2. Previous work merged: PR #27 (Issue #9) ✅
+3. Branch: `feature/issue-28-polish-deploy`
+4. Execute the tasks listed under "Issue #10" below.
 5. Check off the boxes `[x] 🟢` and update the status when finished.
 
 ---
@@ -620,7 +618,7 @@ Authenticated layout with 4 tabs: Overview, Arena, Clan, Profile. Overview: dail
 
 ## 🎯 Issue #10: Polish & deployment
 
-**Status:** 🔴 **NOT STARTED**  
+**Status:** 🟡 **IN PROGRESS**  
 **Priority:** HIGH  
 **Phase:** MVP delivery  
 **Dependencies:** Issues #3–#9
@@ -633,14 +631,14 @@ Basic SEO, meta tags, error handling (404), Vercel deployment, domain if needed.
 
 #### SEO & meta
 
-- [ ] 🔴 Meta title, description on main pages (landing, login, app)
-- [ ] 🔴 Open Graph / Twitter Card for sharing (at least landing)
-- [ ] 🔴 Favicon + meta consistent with brand
+- [x] 🟢 Meta title, description on main pages (landing, login, app)
+- [x] 🟢 Open Graph / Twitter Card for sharing (at least landing)
+- [x] 🟢 Favicon + meta consistent with brand
 - [ ] 🔴 (Optional) i18n per locale for meta
 
 #### Errors
 
-- [ ] 🔴 404 page (design system)
+- [x] 🟢 404 page (design system)
 - [ ] 🔴 Auth errors (session expired, etc.) with redirect or message
 - [ ] 🔴 i18n for error messages
 
@@ -653,7 +651,7 @@ Basic SEO, meta tags, error handling (404), Vercel deployment, domain if needed.
 
 #### E2E & quality
 
-- [ ] 🔴 Smoke E2E: at least landing + auth (login or redirect) + one app route if possible
+- [x] 🟢 Smoke E2E: at least landing + auth (login or redirect) + one app route if possible
 - [ ] 🔴 pre-push (or CI): typecheck + test:run + e2e pass
 
 ### Acceptance criteria
