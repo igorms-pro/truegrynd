@@ -29,7 +29,8 @@
       "oauthFailed": "Sign-in failed. Try again.",
       "profileLoadFailed": "Signed in, but we could not load your profile."
     },
-    "signInToContinue": "Sign in to continue."
+    "signInToContinue": "Sign in to continue.",
+    "sessionExpired": "Session expired. Sign in again."
   },
   "errors": {
     "notFound": {

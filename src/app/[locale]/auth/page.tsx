@@ -123,7 +123,11 @@ export default function AuthPage() {
         <div className="flex flex-col gap-2">
           <h1 className="text-4xl font-black tracking-tight">{t('title')}</h1>
           <p className="text-sm text-muted-foreground">{t('subtitle')}</p>
-          {searchParams.get('next') ? (
+          {searchParams.get('reason') === 'session_expired' ? (
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-primary">
+              {t('sessionExpired')}
+            </p>
+          ) : searchParams.get('next') ? (
             <p className="text-xs font-black uppercase tracking-[0.18em] text-primary">
               {t('signInToContinue')}
             </p>

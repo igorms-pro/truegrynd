@@ -29,7 +29,8 @@
       "oauthFailed": "Connexion échouée. Réessaie.",
       "profileLoadFailed": "Connecté, mais impossible de charger ton profil."
     },
-    "signInToContinue": "Connecte-toi pour continuer."
+    "signInToContinue": "Connecte-toi pour continuer.",
+    "sessionExpired": "Session expirée. Reconnecte-toi."
   },
   "errors": {
     "notFound": {

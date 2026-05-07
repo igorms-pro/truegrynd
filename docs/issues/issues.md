@@ -639,8 +639,8 @@ Basic SEO, meta tags, error handling (404), Vercel deployment, domain if needed.
 #### Errors
 
 - [x] 🟢 404 page (design system)
-- [ ] 🔴 Auth errors (session expired, etc.) with redirect or message
-- [ ] 🔴 i18n for error messages
+- [x] 🟢 Auth errors (session expired, etc.) with redirect or message
+- [x] 🟢 i18n for error messages
 
 #### Deployment
 
@@ -657,7 +657,7 @@ Basic SEO, meta tags, error handling (404), Vercel deployment, domain if needed.
 ### Acceptance criteria
 
 - [x] 🟢 Basic SEO in place
-- [ ] 🔴 404 and auth errors handled
+- [x] 🟢 404 and auth errors handled
 - [ ] 🔴 App deployed and reachable
 - [x] 🟢 Smoke E2E green
 
@@ -688,10 +688,10 @@ To be done after MVP ship.
 | #6 Submission & Smart Proof | 🟢 Completed   | 100% |
 | #7 Finisher Card            | 🟢 Completed   | 100% |
 | #8 Profile                  | 🟢 Completed   | 100% |
-| #9 Navigation & layout      | 🟡 In Progress | 25%  |
-| #10 Polish & deployment     | 🔴 Not Started | 0%   |
+| #9 Navigation & layout      | 🟢 Completed   | 100% |
+| #10 Polish & deployment     | 🟡 In Progress | 70%  |
 
-**Overall MVP:** ~55% (foundation done; auth/onboarding + submission/finisher/profile done; navigation/overview/clan next; Supabase schema + polish/deploy remaining).
+**Overall MVP:** ~70% (foundation done; core screens done; remaining: Supabase schema + polish/deploy validation).
 
 ---
 

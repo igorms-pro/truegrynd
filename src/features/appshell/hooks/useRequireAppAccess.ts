@@ -7,7 +7,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { fetchOrEnsureProfile } from '@/features/onboarding/services/onboarding';
 import { isProfileComplete, type CompleteProfile, type Profile } from '@/lib/types/database.types';
-import { buildNextUrl } from '@/lib/navigation/nextRedirect';
+import { buildAuthUrl, buildNextUrl } from '@/lib/navigation/nextRedirect';
 
 type State =
   | { status: 'loading'; profile: null }
@@ -37,7 +37,7 @@ export function useRequireAppAccess(): State {
     if (!user) {
       const nextFromQuery = searchParams.get('next');
       const next = nextFromQuery ?? pathname;
-      router.replace(buildNextUrl({ basePath: `/${locale}/auth`, next }));
+      router.replace(buildAuthUrl({ basePath: `/${locale}/auth`, next, reason: 'signed_out' }));
       return undefined;
     }
 
@@ -61,7 +61,9 @@ export function useRequireAppAccess(): State {
         setState(redirectingState);
         const nextFromQuery = searchParams.get('next');
         const next = nextFromQuery ?? pathname;
-        router.replace(buildNextUrl({ basePath: `/${locale}/auth`, next }));
+        router.replace(
+          buildAuthUrl({ basePath: `/${locale}/auth`, next, reason: 'session_expired' }),
+        );
       }
     })();
 
