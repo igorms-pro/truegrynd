@@ -12,8 +12,10 @@
 **Workflow to execute:**
 
 1. GitHub Issue created: #25
-2. PR for previous work (Issue #8): #24
-3. Branch: `feature/issue-25-app-overview-clan`
+2. PRs for Issue #9 work:
+   - Overview: PR #26 (merged ✅)
+   - Clan HUD: PR #27 (open)
+3. Branch: `feature/issue-25-clan-hud`
 4. Execute the tasks listed under "Issue #9" below.
 5. Check off the boxes `[x] 🟢` and update the status when finished.
 
@@ -581,11 +583,11 @@ Authenticated layout with 4 tabs: Overview, Arena, Clan, Profile. Overview: dail
 - [x] 🟢 Summary: current rank or welcome, streak if shown
 - [x] 🟢 “Challenge of the day” highlighted (one official challenge, click → challenge page)
 - [x] 🟢 (Optional) “Your Faction needs points today” or Faction status
-- [ ] 🔴 i18n (new keys under `overview.*` — add EN/FR)
+- [x] 🟢 i18n (keys under `overview.*` in EN/FR)
 
 #### Arena tab
 
-- [ ] 🔴 Reuse feed + challenge page (Issue #5)
+- [x] 🟢 Reuse feed + challenge page (Issue #5)
 - [ ] 🔴 (Optional) FAB “+” for create challenge (post-MVP Creator Studio)
 
 #### Clan tab
@@ -603,16 +605,16 @@ Authenticated layout with 4 tabs: Overview, Arena, Clan, Profile. Overview: dail
 
 #### Profile tab
 
-- [ ] 🔴 Integrate profile page (Issue #8)
+- [x] 🟢 Integrate profile page (Issue #8)
 
 ### Acceptance criteria
 
-- [ ] Navigation between 4 tabs works
-- [ ] Overview shows challenge of the day + summary
-- [ ] Arena = challenge feed
-- [ ] Clan = Faction ranking + top Faction members
-- [ ] Profile = Issue #8 content
-- [ ] Theme toggle visible (from Issue #2); all copy i18n
+- [x] 🟢 Navigation between 4 tabs works
+- [x] 🟢 Overview shows challenge of the day + summary
+- [x] 🟢 Arena = challenge feed
+- [x] 🟢 Clan = Faction ranking + top Faction members
+- [x] 🟢 Profile = Issue #8 content
+- [x] 🟢 Theme toggle visible (from Issue #2); all copy i18n
 
 ---
 
