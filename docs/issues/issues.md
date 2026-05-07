@@ -560,7 +560,7 @@ Profile page: avatar, username, Faction, level (or simple indicator). Score hist
 
 ## 🎯 Issue #9: App navigation & layout (tabs, Overview, Clan)
 
-**Status:** 🟡 **IN PROGRESS**  
+**Status:** 🟢 **COMPLETED**  
 **Priority:** HIGH  
 **Phase:** Screen 7  
 **Dependencies:** Issue #3, #4, #5
@@ -575,8 +575,8 @@ Authenticated layout with 4 tabs: Overview, Arena, Clan, Profile. Overview: dail
 
 - [x] 🟢 Polish/extend app shell: desktop variant (top tabs or sidebar), safe-area, animations
 - [x] 🟢 Ensure tab state + active route styling across nested routes (e.g. challenge detail)
-- [ ] 🔴 Refine route protection + redirects (edge cases, back button, deep links)
-- [ ] 🔴 Tab labels from i18n (audit + consistency)
+- [x] 🟢 Refine route protection + redirects (edge cases, back button, deep links)
+- [x] 🟢 Tab labels from i18n (audit + consistency)
 
 #### Overview tab
 

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useLocale } from 'next-intl';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { useAuth } from '@/features/auth/AuthProvider';
 import { fetchOrEnsureProfile } from '@/features/onboarding/services/onboarding';
@@ -26,13 +26,17 @@ export function useRequireAppAccess(): State {
   const { user, initialized } = useAuth();
   const router = useRouter();
   const locale = useLocale();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [state, setState] = useState<State>(loadingState);
 
   useEffect(() => {
     if (!initialized) return undefined;
 
     if (!user) {
-      router.replace(`/${locale}/auth`);
+      const nextFromQuery = searchParams.get('next');
+      const next = nextFromQuery ?? pathname;
+      router.replace(`/${locale}/auth?next=${encodeURIComponent(next)}`);
       return undefined;
     }
 
@@ -44,7 +48,9 @@ export function useRequireAppAccess(): State {
 
         if (!isProfileComplete(profile)) {
           setState(redirectingState);
-          router.replace(`/${locale}/onboarding`);
+          const nextFromQuery = searchParams.get('next');
+          const next = nextFromQuery ?? pathname;
+          router.replace(`/${locale}/onboarding?next=${encodeURIComponent(next)}`);
           return;
         }
 
@@ -52,14 +58,16 @@ export function useRequireAppAccess(): State {
       } catch {
         if (cancelled) return;
         setState(redirectingState);
-        router.replace(`/${locale}/auth`);
+        const nextFromQuery = searchParams.get('next');
+        const next = nextFromQuery ?? pathname;
+        router.replace(`/${locale}/auth?next=${encodeURIComponent(next)}`);
       }
     })();
 
     return () => {
       cancelled = true;
     };
-  }, [initialized, user, router, locale]);
+  }, [initialized, user, router, locale, pathname, searchParams]);
 
   return state;
 }

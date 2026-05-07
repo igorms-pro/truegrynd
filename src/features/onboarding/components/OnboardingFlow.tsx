@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations, useLocale } from 'next-intl';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useMemo, type ReactNode } from 'react';
 
 import { useRequireAuth } from '@/features/auth/hooks/useRequireAuth';
@@ -24,6 +24,7 @@ export function OnboardingFlow() {
   const t = useTranslations('onboarding');
   const router = useRouter();
   const locale = useLocale();
+  const searchParams = useSearchParams();
 
   const { user, initialized } = useRequireAuth();
   const { profile, step, loading, error, refreshNow } = useOnboardingProfile({
@@ -31,7 +32,11 @@ export function OnboardingFlow() {
     initialized,
   });
 
-  const redirectTarget = useMemo(() => `/${locale}/app/overview`, [locale]);
+  const redirectTarget = useMemo(() => {
+    const next = searchParams.get('next');
+    const safeNext = next && next.startsWith('/') ? next : null;
+    return safeNext ?? `/${locale}/app/overview`;
+  }, [locale, searchParams]);
 
   useEffect(() => {
     if (!initialized || loading) return;
