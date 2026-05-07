@@ -126,6 +126,23 @@
       "body": "This section is on the roadmap."
     }
   },
+  "overview": {
+    "nextActionTitle": "NEXT ACTION",
+    "statusTitle": "STATUS",
+    "loading": "Loading...",
+    "error": "Could not load data.",
+    "retry": "Retry",
+    "ctaGo": "GO",
+    "ctaArena": "OPEN ARENA",
+    "ctaClan": "OPEN CLAN",
+    "empty": "No challenges available yet.",
+    "streakLabel": "STREAK",
+    "streakValue": "{days}d",
+    "factionNudgeTitle": "FACTION",
+    "factionNudgeBody": "Your faction needs points today. Post a ranked score.",
+    "noFactionBody": "No faction on file. Complete onboarding.",
+    "noFactionCta": "GO TO ONBOARDING"
+  },
   "arena": {
     "title": "ARENA",
     "subtitle": "Pick your challenge. Post your score.",

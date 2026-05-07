@@ -126,6 +126,23 @@
       "body": "Cette section arrive bientôt."
     }
   },
+  "overview": {
+    "nextActionTitle": "PROCHAINE ACTION",
+    "statusTitle": "STATUT",
+    "loading": "Chargement...",
+    "error": "Impossible de charger les données.",
+    "retry": "Réessayer",
+    "ctaGo": "GO",
+    "ctaArena": "OUVRIR L’ARÈNE",
+    "ctaClan": "OUVRIR CLAN",
+    "empty": "Aucun défi disponible pour l’instant.",
+    "streakLabel": "SÉRIE",
+    "streakValue": "{days}j",
+    "factionNudgeTitle": "FACTION",
+    "factionNudgeBody": "Ta faction a besoin de points aujourd’hui. Poste un score classé.",
+    "noFactionBody": "Aucune faction enregistrée. Termine l’onboarding.",
+    "noFactionCta": "ALLER À L’ONBOARDING"
+  },
   "arena": {
     "title": "ARÈNE",
     "subtitle": "Choisis ton défi. Poste ton score.",
