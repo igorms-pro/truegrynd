@@ -668,7 +668,7 @@ Basic SEO, meta tags, error handling (404), Vercel deployment, domain if needed.
 
 To be done after MVP ship.
 
-- [x] **FEAT** – Creator Studio: users submit UGC challenges (`/app/arena/create`, pending review; RLS migration `006_ugc_challenge_access.sql`)
+- [x] **FEAT** – Creator Studio: users submit UGC challenges (`/app/arena/create`, pending review; RLS `006_ugc_challenge_access.sql`, max duration `007_challenge_max_duration.sql`) — PR [#30](https://github.com/igorms-pro/truegrynd/pull/30)
 - [ ] **CHORE** – Admin dashboard: approve/reject UGC challenges (or use Supabase Table Editor + `status` / `is_official` as needed)
 - [ ] **FEAT** – Streaks: consecutive activity days (🔥)
 - [ ] **FEAT** – Respect button (👊) on leaderboard
