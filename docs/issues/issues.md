@@ -3,7 +3,15 @@
 > **MVP livré** (auth, onboarding, arène, soumission Smart Proof, Finisher Card, profil, nav).  
 > Ce fichier ne conserve plus les anciennes issues #0–#10 : elles servaient à shipper le MVP, pas à piloter la suite.
 
-**Dernière mise à jour :** mai 2026
+**Dernière mise à jour :** 12 mai 2026
+
+---
+
+## État livraison (code vs prod)
+
+| Quoi                                              | Statut                                                                                                                                                                                                             |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **UGC Creator Studio + migrations `006` / `007`** | Code sur branche **`review-mvp`** — PR [#30](https://github.com/igorms-pro/truegrynd/pull/30) **ouverte** (pas encore mergée dans `main`). Après merge : appliquer les migrations sur le projet Supabase **prod**. |
 
 ---
 
@@ -31,24 +39,25 @@ Ordre indicatif — à ajuster selon acquisition / rétention réelles.
 
 ### 1. Boucle UGC crédible
 
-- [x] Soumettre un défi UGC (Creator Studio, pending, RLS `006` / cap temps `007`) — PR [#30](https://github.com/igorms-pro/truegrynd/pull/30)
-- [ ] **Admin (in-app ou outil dédié)** : file d’attente pending → approuver / rejeter avec motif, visible côté créateur
-- [ ] **Creator Score / réputation** : points ou badges quand un défi approuvé est joué (cf. `docs/CONTEXT.md` § innovations) — à trancher (simple compteur vs tiers)
+- [x] **FEAT** — Implémentation Creator Studio (pending, RLS `006`, cap temps `007`) — voir PR [#30](https://github.com/igorms-pro/truegrynd/pull/30) (ouverte)
+- [ ] **CHORE** — Merger PR #30 → `main` + appliquer migrations `006` / `007` sur Supabase **prod**
+- [ ] **FEAT** — **Admin (in-app ou outil dédié)** : file d’attente pending → approuver / rejeter avec motif, visible côté créateur
+- [ ] **FEAT** — **Creator Score / réputation** : points ou badges quand un défi approuvé est joué (cf. `docs/CONTEXT.md` § innovations) — à trancher (simple compteur vs tiers)
 
 ### 2. Rétention sans devenir un réseau social
 
-- [ ] **Streaks** : jours consécutifs d’activité (soumission ou ouverture arène — à définir)
-- [ ] **Respect** 👊 sur le leaderboard : micro-signal social, pas de messagerie
+- [ ] **FEAT** — **Streaks** : jours consécutifs d’activité (soumission ou ouverture arène — à définir)
+- [ ] **FEAT** — **Respect** 👊 sur le leaderboard : micro-signal social, pas de messagerie
 
 ### 3. Croissance
 
-- [ ] **Referral** : lien “recruter un allié” avec pré-sélection de Faction (déjà évoqué dans le produit)
+- [ ] **FEAT** — **Referral** : lien “recruter un allié” avec pré-sélection de Faction (déjà évoqué dans le produit)
 
 ### 4. Qualité & confiance (quand le volume augmente)
 
-- [ ] Signalement de défi / score (optionnel, modération)
-- [ ] i18n des meta / SEO par locale (optionnel qualité)
-- [ ] Domaine custom prod (optionnel)
+- [ ] **FEAT** — Signalement de défi / score (optionnel, modération)
+- [ ] **CHORE** — i18n des meta / SEO par locale (optionnel qualité)
+- [ ] **CHORE** — Domaine custom prod (optionnel)
 
 ---
 
@@ -70,22 +79,22 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 1. Choisir un item du backlog ci-dessus (ou une issue GitHub qui le découpe).
 2. Branche : `feature/…` ou `fix/…` (voir `.cursor/rules/git-workflow.mdc`).
 3. Issue GitHub optionnelle mais recommandée pour tout morceau > 1–2 PRs.
-4. PR avec description testable ; mettre à jour les cases `[ ]` → `[x]` ici quand c’est réellement en prod ou mergé selon ta règle d’équipe.
+4. PR avec description testable ; mettre à jour les cases `[ ]` → `[x]` ici quand c’est **mergé sur `main`** (et migrations prod si applicable), selon ta règle d’équipe.
 
 ---
 
 ## Suivi synthétique
 
-| Bloc                           | Avancement         |
-| ------------------------------ | ------------------ |
-| UGC création + RLS + cap temps | 🟢 Shippé (PR #30) |
-| Admin approbation défis        | 🔴                 |
-| Creator Score                  | 🔴                 |
-| Streaks                        | 🔴                 |
-| Respect leaderboard            | 🔴                 |
-| Referral                       | 🔴                 |
+| Bloc                           | Avancement                                      |
+| ------------------------------ | ----------------------------------------------- |
+| UGC création + RLS + cap temps | 🟡 Code prêt — **PR #30 ouverte**, merge + prod |
+| Admin approbation défis        | 🔴                                              |
+| Creator Score                  | 🔴                                              |
+| Streaks                        | 🔴                                              |
+| Respect leaderboard            | 🔴                                              |
+| Referral                       | 🔴                                              |
 
-**Prochain focus suggéré :** **Admin approbation UGC** — sans ça, la boucle UGC reste fragile à l’échelle.
+**Prochain focus suggéré :** merger **PR #30** + migrations prod, puis **Admin approbation UGC** — sans modération in-app (ou outil), la boucle UGC reste fragile à l’échelle.
 
 ---
 
