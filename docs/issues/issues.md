@@ -190,16 +190,16 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 
 ## Suivi synthétique
 
-| Bloc                        | Avancement                                                                                                    |
-| --------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| UGC création + cap          | 🟢 PR #30                                                                                                     |
-| Doc backlog V1 (ce fichier) | 🟡 [#31](https://github.com/igorms-pro/truegrynd/issues/31) — branche `chore/issue-31-docs-v1-strong-backlog` |
-| **`/app/admin`**            | 🔴 — suivre section **A**                                                                                     |
-| Creator Score               | 🔴 — section **B**                                                                                            |
-| Streaks                     | 🔴 — section **C**                                                                                            |
-| Respect                     | 🔴 — section **D**                                                                                            |
-| Referral                    | 🔴 — section **E**                                                                                            |
-| Confiance / plateforme      | 🔴 — section **F**                                                                                            |
+| Bloc                        | Avancement                                                                                                                                                                                                                                              |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| UGC création + cap          | 🟢 PR #30                                                                                                                                                                                                                                               |
+| Doc backlog V1 (ce fichier) | 🟡 [#31](https://github.com/igorms-pro/truegrynd/issues/31) — [`chore/issue-31-docs-v1-strong-backlog`](https://github.com/igorms-pro/truegrynd/tree/chore/issue-31-docs-v1-strong-backlog) — PR [#32](https://github.com/igorms-pro/truegrynd/pull/32) |
+| **`/app/admin`**            | 🔴 — suivre section **A**                                                                                                                                                                                                                               |
+| Creator Score               | 🔴 — section **B**                                                                                                                                                                                                                                      |
+| Streaks                     | 🔴 — section **C**                                                                                                                                                                                                                                      |
+| Respect                     | 🔴 — section **D**                                                                                                                                                                                                                                      |
+| Referral                    | 🔴 — section **E**                                                                                                                                                                                                                                      |
+| Confiance / plateforme      | 🔴 — section **F**                                                                                                                                                                                                                                      |
 
 **Ordre d’attaque recommandé :** **A** (admin) jusqu’au DoD → **B** → **C** / **D** en parallèle si capacité → **E** → **F** continu.
 
