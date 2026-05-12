@@ -7,7 +7,8 @@ Ce dossier décrit le **backlog V1 (strong)** : tâches détaillables, pas un MV
 **→ [issues.md](./issues.md)**
 
 - Vision courte + **macro-checklist**
-- **Section A** : `/app/admin` (UGC) — migrations, RPC/RLS, feature `admin/`, routes, UI, UX créateur, DoD
+- **Section A** : `/app/admin` — migrations, RPC/RLS, feature `admin/`, routes, UI, UX créateur, **A9–A10** (tri IA + batch sans auto-approve, secrets serveur)
+- **Section G** : prescription / **bibliothèque mouvements (mix)** — noyau catalogué + « autre » modéré, ≥1 bloc mesurable
 - **Sections B–F** : Creator Score, Streaks, Respect (`score_respects`), Referral, confiance & plateforme
 - Légende + workflow
 
