@@ -189,12 +189,80 @@
     "errorBody": "We could not load the challenges.",
     "retry": "Retry",
     "officialBadge": "OFFICIAL",
+    "badges": {
+      "community": "COMMUNITY",
+      "pendingReview": "PENDING REVIEW",
+      "rejected": "NOT APPROVED"
+    },
     "scoreType": {
       "time": "TIME",
       "reps": "REPS"
     },
     "tags": {
       "bodyweight": "Bodyweight"
+    },
+    "create": {
+      "cta": "NEW CHALLENGE",
+      "fab": "Create challenge",
+      "title": "NEW CHALLENGE",
+      "subtitle": "Propose a challenge for the Arena. It unlocks after review.",
+      "back": "Back to Arena",
+      "submit": "SUBMIT FOR REVIEW",
+      "submitting": "SENDING...",
+      "fields": {
+        "title": "Title",
+        "description": "Short pitch",
+        "rulesDetail": "Standards & scoring (detail)",
+        "equipmentTags": "Equipment (optional)",
+        "equipmentPlaceholder": "kettlebell, pull-up bar…"
+      },
+      "scoring": {
+        "legend": "HOW IT SCORES",
+        "helper": "For time = fixed work, fastest wins (optional max time — slower scores are blocked). AMRAP = work window, most reps / rounds wins.",
+        "forTime": "FOR TIME",
+        "amrap": "AMRAP",
+        "forTimeCapLabel": "Max time (optional, MM:SS)",
+        "forTimeCapPlaceholder": "15:00",
+        "forTimeCapHint": "Leave empty if any finish time counts. If set, times over this cannot be submitted.",
+        "amrapCapLabel": "Time cap (MM:SS)",
+        "amrapCapPlaceholder": "10:00"
+      },
+      "circuit": {
+        "legend": "CIRCUIT",
+        "helper": "Stack movements in order — reps for counts, hold + MM:SS for planks / holds.",
+        "movement": "Movement",
+        "movementPlaceholder": "Burpees",
+        "kindReps": "Reps",
+        "kindHold": "Hold",
+        "amountRepsLabel": "How many reps",
+        "amountHoldLabel": "Hold time",
+        "amountPlaceholderReps": "10",
+        "amountPlaceholderHold": "3:00",
+        "addMovement": "ADD MOVEMENT",
+        "removeRow": "Remove movement"
+      },
+      "errors": {
+        "auth": "Sign in required.",
+        "generic": "Could not create the challenge. Try again."
+      },
+      "validation": {
+        "titleMin": "Title is too short.",
+        "titleMax": "Title is too long.",
+        "descriptionMin": "Pitch needs a bit more detail.",
+        "descriptionMax": "Pitch is too long.",
+        "rulesMax": "Combined rules are too long (max 8000 characters).",
+        "combinedMin": "Add a circuit and/or enough standards — 40+ characters total.",
+        "circuitLabelMissing": "Name this movement.",
+        "circuitAmountMissing": "Enter reps or a hold time.",
+        "circuitRepsInvalid": "Use a whole number (e.g. 30).",
+        "circuitHoldInvalid": "Use MM:SS (e.g. 3:00).",
+        "tagsMax": "Equipment line is too long.",
+        "amrapCapMissing": "Set a time cap for AMRAP (e.g. 10:00).",
+        "amrapCapInvalid": "Use MM:SS for the cap (e.g. 10:00).",
+        "amrapCapZero": "Cap must be longer than 0:00.",
+        "forTimeCapInvalid": "Use MM:SS for the max time (e.g. 15:00).",
+        "forTimeCapZero": "Max time must be longer than 0:00."
+      }
     }
   },
   "challenge": {
@@ -206,7 +274,11 @@
     "equipmentHeading": "Equipment",
     "noEquipment": "Bodyweight only",
     "ctaStart": "I'M IN",
-    "ctaComingSoon": "Score submission lands next."
+    "pendingTitle": "WAITING ON REVIEW",
+    "pendingBody": "This challenge is locked until it is approved. Share the link with mods if needed.",
+    "rejectedTitle": "NOT PUBLISHED",
+    "rejectedBody": "This challenge did not pass review. Create a new version or contact support.",
+    "maxTimeCap": "Finish under {cap} — slower times cannot be submitted."
   },
   "leaderboard": {
     "title": "Leaderboard",
@@ -260,7 +332,9 @@
       "invalidTime": "Enter a valid time (MM:SS).",
       "invalidReps": "Enter a valid rep count.",
       "videoInvalid": "Video URL must be a YouTube or TikTok link.",
-      "submitFailed": "Could not submit your score."
+      "submitFailed": "Could not submit your score.",
+      "notApproved": "Scores open only after this challenge is approved.",
+      "exceedsTimeCap": "That time is over this challenge's max. It does not count — do not submit."
     }
   },
   "finisher": {
@@ -281,10 +355,9 @@
     "avatar": {
       "title": "AVATAR",
       "alt": "Profile avatar",
-      "change": "CHANGE",
+      "change": "CHANGE PHOTO",
       "uploading": "UPLOADING...",
-      "remove": "REMOVE",
-      "hint": "PNG/JPG/WEBP · max 3MB",
+      "remove": "REMOVE PHOTO",
       "errors": {
         "type": "Unsupported file type.",
         "size": "File is too large.",
@@ -306,6 +379,7 @@
     "header": {
       "unknownUser": "UNKNOWN",
       "avatarAlt": "Profile avatar",
+      "photoStamp": "COMBAT ID",
       "noFaction": "NO FACTION",
       "streak": "Streak: {days}d",
       "factions": {

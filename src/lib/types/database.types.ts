@@ -54,6 +54,8 @@ export interface Challenge {
   is_official: boolean;
   status: ChallengeStatus;
   creator_id: string | null;
+  /** For `time` challenges: reject submissions with time (seconds) greater than this. Omitted or null = no cap. */
+  max_duration_seconds?: number | null;
   created_at: string;
 }
 

@@ -1,8 +1,8 @@
 import { supabase } from '@/lib/supabase';
-import type { Challenge } from '@/lib/types/database.types';
+import type { Challenge, ScoreType } from '@/lib/types/database.types';
 
 const CHALLENGE_SELECT =
-  'id,title,description,rules,score_type,equipment_tags,is_official,status,creator_id,created_at';
+  'id,title,description,rules,score_type,equipment_tags,is_official,status,creator_id,max_duration_seconds,created_at';
 
 export async function listApprovedChallenges(): Promise<Challenge[]> {
   const { data, error } = await supabase
@@ -23,4 +23,43 @@ export async function getApprovedChallengeById(id: string): Promise<Challenge | 
     .maybeSingle<Challenge>();
   if (error) throw new Error(error.message);
   return data ?? null;
+}
+
+/** Uses RLS: approved challenges for everyone; pending/rejected visible only to creator. */
+export async function getChallengeById(id: string): Promise<Challenge | null> {
+  const { data, error } = await supabase
+    .from('challenges')
+    .select(CHALLENGE_SELECT)
+    .eq('id', id)
+    .maybeSingle<Challenge>();
+  if (error) throw new Error(error.message);
+  return data ?? null;
+}
+
+export async function createPendingChallenge(input: {
+  creatorId: string;
+  title: string;
+  description: string;
+  rules: string;
+  scoreType: ScoreType;
+  equipmentTags: string[];
+  maxDurationSeconds: number | null;
+}): Promise<Challenge> {
+  const { data, error } = await supabase
+    .from('challenges')
+    .insert({
+      title: input.title.trim(),
+      description: input.description.trim(),
+      rules: input.rules.trim(),
+      score_type: input.scoreType,
+      equipment_tags: input.equipmentTags,
+      is_official: false,
+      creator_id: input.creatorId,
+      max_duration_seconds: input.maxDurationSeconds,
+    })
+    .select(CHALLENGE_SELECT)
+    .maybeSingle<Challenge>();
+  if (error) throw new Error(error.message);
+  if (!data) throw new Error('challenge_create_failed');
+  return data;
 }

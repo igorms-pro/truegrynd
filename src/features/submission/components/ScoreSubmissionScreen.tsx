@@ -59,6 +59,22 @@ export function ScoreSubmissionScreen({ challengeId }: Props) {
     );
   }
 
+  if (challenge.status !== 'approved') {
+    return (
+      <section className="space-y-4">
+        <Link
+          href={`/${locale}/app/arena/${challenge.id}`}
+          className="inline-flex items-center gap-1 text-xs font-black uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground"
+        >
+          <ArrowLeft className="h-3.5 w-3.5" />
+          {t('back')}
+        </Link>
+        <h1 className="text-2xl font-black uppercase tracking-tight">{t('title')}</h1>
+        <p className="text-sm text-muted-foreground">{t('errors.notApproved')}</p>
+      </section>
+    );
+  }
+
   const challengeLineKey =
     challenge.score_type === 'time' ? 'challengeLineTime' : 'challengeLineReps';
 
@@ -89,6 +105,7 @@ export function ScoreSubmissionScreen({ challengeId }: Props) {
       <ScoreSubmissionForm
         challengeId={challenge.id}
         scoreType={challenge.score_type}
+        maxDurationSeconds={challenge.max_duration_seconds ?? null}
         onSubmitted={(r) => {
           setResult(r);
           router.push(

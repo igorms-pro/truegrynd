@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 
-import { getApprovedChallengeById } from '@/features/challenges/services/challenges';
+import { getChallengeById } from '@/features/challenges/services/challenges';
 import type { Challenge } from '@/lib/types/database.types';
 
 type State = {
@@ -22,7 +22,7 @@ export function useChallenge(challengeId: string | null) {
     let cancelled = false;
     void (async () => {
       try {
-        const data = await getApprovedChallengeById(challengeId);
+        const data = await getChallengeById(challengeId);
         if (!cancelled) setState({ data, loading: false, error: null });
       } catch (e: unknown) {
         if (!cancelled) {
