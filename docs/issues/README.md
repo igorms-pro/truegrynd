@@ -1,25 +1,23 @@
 # Issues – Truegrynd
 
-This folder tracks all **issues** for the project.
+Ce dossier décrit **le backlog post-MVP** et la **vision différenciation** (pourquoi l’app gagne vs tracking / comps payantes).
 
-## Main file
+## Fichier principal
 
-**→ [issues.md](./issues.md)** — Full tracker (Voyagely/OneLink style):
+**→ [issues.md](./issues.md)**
 
-- **Status legend** (🔴 Not Started, 🟡 In Progress, 🟢 Completed, etc.)
-- **One issue per feature** (#0 Foundation → #1 Supabase → #2 i18n & theme → #3 Auth → … → #10 Polish)
-- **Detailed sub-tasks** with checkboxes through MVP completion
-- **Acceptance criteria** per issue
-- **Progress table** at the bottom
+- Vision **“killer product”** (piliers + tableau)
+- **Backlog** uniquement après le MVP (UGC, admin, streaks, respect, referral, qualité)
+- Légende de statuts + workflow léger (branche, PR, cases à cocher)
 
-Single source of truth: check off `[x]` and update status (🔴/🟡/🟢) as you go.
+Le MVP n’est plus découpé issue par issue dans ce fichier : il est considéré livré ; l’historique détaillé vit dans Git / PRs / `docs/CONTEXT.md` § MVP.
 
 ## Convention
 
-- `[ ]` to do · `[x]` done
-- Prefixes: **FEAT**, **FIX**, **CHORE**, **DOC**, **PERF**
-- Status: 🔴 🟡 🟢 ⏸️ 🔵 🟣 (see legend in issues.md)
+- `[ ]` à faire · `[x]` fait
+- Préfixes : **FEAT**, **FIX**, **CHORE**, **DOC**, **PERF**
+- Statuts : 🔴 🟡 🟢 ⏸️ 🔵 🟣 (voir `issues.md`)
 
-## Later
+## Plus tard
 
-Migrate to GitHub Issues / Linear if needed.
+Migration vers GitHub Issues / Linear si le backlog grossit.

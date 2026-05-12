@@ -1,702 +1,92 @@
-# Truegrynd – Issues & Tasks Tracker
+# Truegrynd – Backlog post-MVP
 
-> Goal: Ship the MVP — async fitness competition web app (challenges, leaderboard, Smart Proof, Finisher Card, Factions).
+> **MVP livré** (auth, onboarding, arène, soumission Smart Proof, Finisher Card, profil, nav).  
+> Ce fichier ne conserve plus les anciennes issues #0–#10 : elles servaient à shipper le MVP, pas à piloter la suite.
 
-**Last updated:** May 2026
-
----
-
-## 🚀 IMMEDIATE NEXT ACTION (For AI Agent)
-
-**Target:** Post-MVP backlog triage
-**Workflow to execute:**
-
-1. MVP core issues (#0–#10) are complete ✅
-2. Pick the next Post‑MVP item (**Admin approval UI** / Streaks / Respect / Referral) — Creator Studio (submit UGC) is in the app; approve/reject still via Supabase or a future admin UI
-3. Create a branch: `feature/short-description` (or `fix/..`, `chore/..`)
-4. Create a GitHub Issue and link it in this tracker
-5. Execute and open PR
+**Dernière mise à jour :** mai 2026
 
 ---
 
-## 📋 Status legend
+## Pourquoi Truegrynd peut tuer la concurrence
 
-- 🔴 **Not Started** – Task identified, not begun
-- 🟡 **In Progress** – Actively being worked on
-- 🟢 **Completed** – Finished and validated
-- ⏸️ **Blocked** – Waiting on dependencies or decisions
-- 🔵 **Testing** – In QA or testing
-- 🟣 **On Hold** – Deferred for later
+Les “concurrents” se coupent en deux familles : **apps de suivi** (Strava, etc.) et **événements payants** (Hyrox, Spartan, compets locales). Truegrynd n’est ni un tracker ni un billet à 150 € — c’est une **arène mondiale async** avec les mêmes défis pour tous.
 
----
+| Levier                       | Ce que ça apporte                                                                                                          |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| **Barrière zéro**            | Gratuit, pas de déplacement, pas de créneau imposé — on scale là où les comps physiques ne peuvent pas.                    |
+| **Même épreuve, même règle** | Classements comparables (chrono / reps) ; pas de “mon WOD à moi”.                                                          |
+| **Smart Proof**              | Pas d’hébergement vidéo ; preuve quand ça compte (élite / top du board) — crédibilité sans coût Netflix.                   |
+| **Factions**                 | Appartenance + rivalité durable sans refaire un réseau social (pas de feed, pas de DM).                                    |
+| **UGC + modération**         | La communauté alimente les défis ; la qualité dépend d’un **flux d’approbation** clair (pas seulement Supabase à la main). |
+| **Finisher Card**            | Sortie **shareable** (image, marque, faction) — boucle de acquisition là où les trackers n’ont qu’un screenshot fade.      |
+| **Identité visuelle**        | Sombre, brut, high contrast — mémorable vs apps “wellness pastel”.                                                         |
 
-## ✅ Issue #0: git fetch origin
-
-git checkout 1-project-foundation
-
-**Status:** 🟢 **COMPLETED**  
-**Priority:** CRITICAL  
-**Phase:** Foundation
-
-### Description
-
-Project bootstrap: stack, tooling, folder structure, docs. Everything needed to build the MVP without revisiting config.
-
-### Completed tasks
-
-#### Environment & stack
-
-- [x] 🟢 Next.js 16 + TypeScript + App Router
-- [x] 🟢 ESLint (Next.js config)
-- [x] 🟢 Prettier (auto-format)
-- [x] 🟢 Tailwind CSS v4 + Truegrynd theme (colors, radius, Faction colors)
-- [x] 🟢 PostCSS config
-- [x] 🟢 Path aliases `@/*` → `src/*`
-- [x] 🟢 Base deps: Supabase, React Query, Zustand, Zod, React Hook Form, Radix (slot, dialog, dropdown, label, separator, tabs, toast, tooltip, scroll-area, popover, checkbox, switch, accordion), date-fns, uuid, clsx, tailwind-merge, cva, Sonner, Lucide
-
-#### Testing
-
-- [x] 🟢 Vitest (jsdom, setup `src/test/setup.ts`)
-- [x] 🟢 Testing Library (React, user-event)
-- [x] 🟢 Playwright E2E (config, port 3000, smoke.spec.ts)
-- [x] 🟢 e2e/ excluded from Vitest scope
-- [x] 🟢 Scripts: test, test:run, coverage, e2e, e2e:headed, e2e:report
-
-#### Quality & Git hooks
-
-- [x] 🟢 Husky pre-commit → lint-staged (ESLint + Prettier)
-- [x] 🟢 Husky pre-push → typecheck + test:run
-- [x] 🟢 lint-staged: _.ts/tsx/js/jsx + _.json,md,css
-- [x] 🟢 Scripts: typecheck, type-check, check, prepush (coverage + e2e)
-- [x] 🟢 prepare → husky
-
-#### Structure & lib
-
-- [x] 🟢 Folders: `src/app`, `src/lib`, `src/components`, `src/hooks`, `src/features` (auth, challenges, leaderboard, factions, profile, finisher-card), `src/pages`, `src/test`
-- [x] 🟢 `src/lib/utils.ts` (cn), `src/lib/supabase.ts`, `src/lib/types/database.types.ts` (Profile, Challenge, Score, Faction, etc.)
-- [x] 🟢 `.env.local.example` (Supabase URL + anon key)
-
-#### Cursor rules
-
-- [x] 🟢 truegrynd-product-rules.mdc
-- [x] 🟢 architecture-structure.mdc
-- [x] 🟢 coding-guidelines.mdc
-- [x] 🟢 backend-supabase-guidelines.mdc
-- [x] 🟢 ui-design-guidelines.mdc
-- [x] 🟢 testing-guidelines.mdc
-- [x] 🟢 git-workflow.mdc
-
-#### Documentation
-
-- [x] 🟢 PROJECT.md (root)
-- [x] 🟢 docs/CONTEXT.md (executive summary, Golden Circle, MVP, stack)
-- [x] 🟢 docs/issues/issues.md (this file)
-- [x] 🟢 docs/issues/README.md (convention)
-
-### Acceptance criteria
-
-- [x] Project builds and dev server runs
-- [x] Lint, typecheck, tests (run + e2e) executable
-- [x] Foundation aligned with Voyagely/OneLink (scripts, deps, structure)
+**Ce n’est pas “une feature” qui tue** : c’est la combinaison **légitimité du classement + friction basse + identité + viralité légère**.
 
 ---
 
-## 🎯 PHASE 1: Foundation (before screens)
+## Ce qu’il faut dans l’app pour matérialiser ça (post-MVP)
 
-Complete before building feature screens.
+Ordre indicatif — à ajuster selon acquisition / rétention réelles.
 
----
+### 1. Boucle UGC crédible
 
-## 🎯 Issue #1: Supabase project & database schema
+- [x] Soumettre un défi UGC (Creator Studio, pending, RLS `006` / cap temps `007`) — PR [#30](https://github.com/igorms-pro/truegrynd/pull/30)
+- [ ] **Admin (in-app ou outil dédié)** : file d’attente pending → approuver / rejeter avec motif, visible côté créateur
+- [ ] **Creator Score / réputation** : points ou badges quand un défi approuvé est joué (cf. `docs/CONTEXT.md` § innovations) — à trancher (simple compteur vs tiers)
 
-**Status:** 🟢 **COMPLETED**  
-**Priority:** CRITICAL  
-**Phase:** Foundation  
-**Dependencies:** Issue #0
+### 2. Rétention sans devenir un réseau social
 
-### Description
+- [ ] **Streaks** : jours consécutifs d’activité (soumission ou ouverture arène — à définir)
+- [ ] **Respect** 👊 sur le leaderboard : micro-signal social, pas de messagerie
 
-Create Supabase project, tables (profiles, challenges, scores), RLS policies, migrations, and seed for initial challenges.
+### 3. Croissance
 
-### Tasks
+- [ ] **Referral** : lien “recruter un allié” avec pré-sélection de Faction (déjà évoqué dans le produit)
 
-#### Supabase project
+### 4. Qualité & confiance (quand le volume augmente)
 
-- [x] 🟢 Create Supabase project (dashboard)
-- [x] 🟢 Get `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-- [x] 🟢 Enable Auth (Email, Google, Apple if available)
-
-#### Tables
-
-- [ ] 🔴 **Table `profiles`** (extends auth.users):
-  - [ ] id (UUID, FK auth.users)
-  - [ ] username (TEXT, unique)
-  - [ ] sex (TEXT: male | female | other)
-  - [ ] age (INT)
-  - [ ] weight_kg (NUMERIC)
-  - [ ] faction (TEXT: nomads | horde | iron_alliance, nullable)
-  - [ ] initiation_completed (BOOLEAN, default false)
-  - [ ] creator_score (INT, default 0)
-  - [ ] streak_days (INT, default 0)
-  - [ ] last_activity_at (TIMESTAMPTZ, nullable)
-  - [ ] avatar_url (TEXT, nullable)
-  - [ ] created_at, updated_at
-- [ ] 🔴 **Table `challenges`**:
-  - [ ] id (UUID, PK)
-  - [ ] title, description, rules (TEXT)
-  - [ ] score_type (TEXT: time | reps)
-  - [ ] equipment_tags (TEXT[] or JSONB)
-  - [ ] is_official (BOOLEAN)
-  - [ ] status (TEXT: pending | approved | rejected)
-  - [ ] creator_id (UUID, nullable, FK profiles)
-  - [ ] created_at
-- [ ] 🔴 **Table `scores`**:
-  - [ ] id (UUID, PK)
-  - [ ] challenge_id (FK challenges)
-  - [ ] user_id (FK profiles)
-  - [ ] value (NUMERIC — time in seconds or reps)
-  - [ ] video_url (TEXT, nullable)
-  - [ ] is_validated (BOOLEAN, default false)
-  - [ ] submitted_at (TIMESTAMPTZ)
-  - [ ] Unique constraint (user_id, challenge_id) or allow multiple attempts per spec
-
-#### RLS
-
-- [ ] 🔴 RLS enabled on `profiles`, `challenges`, `scores`
-- [ ] 🔴 profiles: read all, write own profile only
-- [ ] 🔴 challenges: read approved (or all for admin), write admin/creator per rules
-- [ ] 🔴 scores: read validated scores (or own), write own scores only
-
-#### Migrations
-
-- [x] 🟢 Initial migration (schema + RLS) (`supabase/migrations/001_initial_schema.sql`)
-- [x] 🟢 RLS policies (`supabase/migrations/002_rls_policies.sql`)
-- [x] 🟢 Trigger to create `profiles` row on signup (`handle_new_user` in 001)
-- [x] 🟢 (Optional) Realtime scaffolding (`supabase/migrations/003_realtime.sql`)
-
-#### Seed
-
-- [x] 🟢 Seed official challenges (`supabase/seed.sql`)
-
-#### TypeScript types
-
-- [ ] 🔴 Align `src/lib/types/database.types.ts` with schema (Profile, Challenge, Score, Faction)
-- [ ] 🔴 (Optional) `supabase gen types typescript` to generate from DB
-
-### Acceptance criteria
-
-- [x] 🟢 All tables exist with correct schema (via migrations)
-- [x] 🟢 RLS policies defined (via migrations)
-- [x] 🟢 Seed provided (via `supabase/seed.sql`)
-- [x] 🟢 Types up to date for frontend
+- [ ] Signalement de défi / score (optionnel, modération)
+- [ ] i18n des meta / SEO par locale (optionnel qualité)
+- [ ] Domaine custom prod (optionnel)
 
 ---
 
-## 🎯 Issue #2: i18n & light/dark theme
+## Légende des statuts
 
-**Status:** 🟢 **COMPLETED**  
-**Priority:** HIGH  
-**Phase:** Foundation  
-**Dependencies:** Issue #0, #1 (optional for theme only; i18n can start with static keys)
+- 🔴 **Not started**
+- 🟡 **In progress**
+- 🟢 **Done**
+- ⏸️ **Blocked**
+- 🔵 **Testing / QA**
+- 🟣 **On hold**
 
-### Description
-
-Internationalization (i18n) so all user-facing text uses translation keys. Light/dark theme toggle with persistence (system preference or user choice). Same foundation as Voyagely/OneLink: no hardcoded strings, theme switch in header/settings.
-
-### Tasks
-
-#### i18n setup
-
-- [x] 🟢 Install and configure i18next + react-i18next (or next-intl for Next.js App Router)
-- [x] 🟢 Browser language detection (or locale from URL/cookie)
-- [x] 🟢 Translation files: at least `en` and `fr` (e.g. `src/lib/locales/en.json`, `fr.json`)
-- [x] 🟢 Namespaces by feature: `common`, `auth`, `onboarding`, `arena`, `profile`, `errors`, etc.
-- [x] 🟢 `useTranslation` hook (or equivalent) available app-wide
-- [x] 🟢 Wrap app with i18n provider
-
-#### i18n usage
-
-- [x] 🟢 Audit: no hardcoded user-facing strings in components (MVP screens)
-- [x] 🟢 All UI text uses `t('key')` or `<Trans>` (MVP screens)
-- [x] 🟢 Key naming: `feature.section.key` (e.g. `auth.login.title`)
-- [x] 🟢 Form validation messages from i18n (where applicable in MVP)
-- [x] 🟢 (Optional) Language switcher in header or profile/settings
-
-#### Light/dark theme
-
-- [x] 🟢 Use `next-themes` (already in deps) or equivalent
-- [x] 🟢 ThemeProvider in root layout with `attribute="class"` (or data-theme)
-- [x] 🟢 CSS variables for light and dark in `globals.css` (already have dark; add light palette)
-- [x] 🟢 Theme toggle component (sun/moon icon or switch) in header or a visible place
-- [x] 🟢 Persist theme: `localStorage` + `system` option (respect `prefers-color-scheme` when “system”)
-- [x] 🟢 No flash of wrong theme on load (script in head or suppressHydrationWarning where needed)
-- [x] 🟢 All screens and components respect theme (dark-first)
-
-#### Design tokens
-
-- [x] 🟢 Light theme: define `--background`, `--foreground`, `--card`, `--primary`, etc. for light mode in `globals.css`
-- [x] 🟢 Dark theme: keep existing Truegrynd dark variables
-- [x] 🟢 Ensure contrast and readability in dark theme (WCAG 2.1 AA)
-
-### Acceptance criteria
-
-- [x] 🟢 No hardcoded user-facing strings; all text from i18n (MVP screens)
-- [x] 🟢 At least EN and FR translation files with keys for MVP screens
-- [x] 🟢 Theme toggle switches between light and dark (and system)
-- [x] 🟢 Theme preference persists across sessions
-- [x] 🟢 No theme flash on first load
-- [x] 🟢 Cursor rule or doc updated to mention i18n and theme as standard
+Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 
 ---
 
-## 🎯 PHASE 2: Screens & MVP features
+## Workflow (équipe / agent)
 
-Work in order. Each screen issue should be complete before moving to the next.
-
----
-
-## 🎯 Issue #3: Auth (login / signup)
-
-**Status:** 🟢 **COMPLETED**  
-**Priority:** HIGH  
-**Phase:** Screen 1  
-**Dependencies:** Issue #1, #2 (i18n + theme)
-
-### Description
-
-Google, Apple (if available), and Email (magic link or OTP via Supabase). Login/signup pages. Client-side session. Post-auth redirect to onboarding if profile incomplete, otherwise to app.
-
-### Tasks
-
-#### Supabase Auth config
-
-- [x] 🟢 Enable providers: Email (magic link or OTP), Google, Apple
-- [x] 🟢 Configure redirect URLs (production + localhost)
-- [x] 🟢 (Optional) Hook or middleware to protect authenticated routes
-
-#### Pages & UI
-
-- [x] 🟢 **Login** page/route: “Continue with Google”, “Continue with Apple”, “Continue with Email” (+ email field for email)
-- [x] 🟢 **Signup** page/route: MVP reuses `/auth`
-- [x] 🟢 Loading and error states (toast or inline)
-- [x] 🟢 Design system (buttons, cards, inputs) — Truegrynd dark (and light if theme done)
-- [x] 🟢 All auth copy from i18n (`auth.login.*`, `auth.signup.*`)
-
-#### Session & redirect
-
-- [x] 🟢 After login/signup: check if profile is complete (username, sex, age, weight, initiation, faction)
-- [x] 🟢 If incomplete → redirect to onboarding (Issue #4)
-- [x] 🟢 If complete → redirect to app (Overview or Arena)
-- [x] 🟢 Session persistence (Supabase Auth) + client-side read (hook or context)
-
-#### Profile creation on signup
-
-- [x] 🟢 On first signup/login: create or update `profiles` row (client upsert fallback)
-- [x] 🟢 Link auth.uid to profiles.id (profiles.id = user.id)
-
-#### Tests
-
-- [x] 🟢 (Optional) Unit tests for auth flow (mock Supabase)
-- [ ] 🔴 E2E smoke: landing → login click → redirect to auth or app
-
-### Acceptance criteria
-
-- [x] 🟢 Google login works (Email magic-link blocked by Supabase built-in quota unless custom SMTP)
-- [x] 🟢 Signup/login creates user + profiles row (via upsert fallback)
-- [x] 🟢 Post-auth redirect respects profile completion (onboarding vs app)
-- [x] 🟢 Errors and loading handled
-- [x] 🟢 Design consistent with app; all copy i18n
+1. Choisir un item du backlog ci-dessus (ou une issue GitHub qui le découpe).
+2. Branche : `feature/…` ou `fix/…` (voir `.cursor/rules/git-workflow.mdc`).
+3. Issue GitHub optionnelle mais recommandée pour tout morceau > 1–2 PRs.
+4. PR avec description testable ; mettre à jour les cases `[ ]` → `[x]` ici quand c’est réellement en prod ou mergé selon ta règle d’équipe.
 
 ---
 
-## 🎯 Issue #4: Onboarding (biometric profile + initiation + Faction)
+## Suivi synthétique
 
-**Status:** 🟢 **COMPLETED**  
-**Priority:** HIGH  
-**Phase:** Screen 2  
-**Dependencies:** Issue #3
+| Bloc                           | Avancement         |
+| ------------------------------ | ------------------ |
+| UGC création + RLS + cap temps | 🟢 Shippé (PR #30) |
+| Admin approbation défis        | 🔴                 |
+| Creator Score                  | 🔴                 |
+| Streaks                        | 🔴                 |
+| Respect leaderboard            | 🔴                 |
+| Referral                       | 🔴                 |
 
-### Description
-
-Sports identity card (username, sex, age, weight). Simplified initiation: 3 challenges “Done” (button only, no proof). Then Faction draft (Nomads, Horde, Iron Alliance). Once 3/3 + Faction chosen, profile complete and access to app.
-
-### Tasks
-
-#### Sports identity card
-
-- [x] 🟢 Screen/step: Username, Sex (select), Age (number), Weight (kg)
-- [x] 🟢 Validation (Zod): username required, age/weight in reasonable range
-- [x] 🟢 Save to DB (`profiles`): username, sex, age, weight_kg
-- [x] 🟢 Copy like “No cheating here. Your info defines your category.” (i18n)
-
-#### Initiation (Nomad status)
-
-- [x] 🟢 Show 3 onboarding challenges (hardcoded)
-- [x] 🟢 Each challenge: title + “Done” button (no score input, no proof)
-- [x] 🟢 Tracker 0/3 → 3/3
-- [x] 🟢 At 3/3: unlock Faction step
-- [x] 🟢 Set `profiles.initiation_completed = true` when 3/3
-
-#### Draft (Faction choice)
-
-- [x] 🟢 Screen with 3 Faction cards: Nomads, Horde, Iron Alliance (colors per design system)
-- [x] 🟢 CTA “Pledge allegiance”: save Faction to DB (`profiles.faction`)
-- [x] 🟢 After save: mark onboarding done, redirect to app
-
-#### Onboarding flow
-
-- [x] 🟢 Step order: Identity → Initiation (3 challenges) → Draft (Faction)
-- [x] 🟢 No skip (onboarding required for new users via post-auth redirect)
-- [x] 🟢 If user returns already complete: redirect to app
-- [x] 🟢 All onboarding copy from i18n
-
-### Acceptance criteria
-
-- [x] 🟢 Biometric profile saved to DB
-- [x] 🟢 3 initiation challenges with “Done” and 0/3 → 3/3
-- [x] 🟢 Faction choice saved
-- [x] 🟢 After onboarding complete, access to app (Overview/Arena)
-- [x] 🟢 Initiation is simple but mandatory
+**Prochain focus suggéré :** **Admin approbation UGC** — sans ça, la boucle UGC reste fragile à l’échelle.
 
 ---
 
-## 🎯 Issue #5: Arena & challenges (feed, challenge page, leaderboard)
-
-**Status:** 🟢 **COMPLETED**  
-**Priority:** HIGH  
-**Phase:** Screen 3  
-**Dependencies:** Issue #1, #2, #3, #4
-
-### Description
-
-Challenge feed (Trending, New). Challenge detail page with rules, equipment tags, leaderboard. Leaderboard filters: global, age, sex, faction. Data from seed (official challenges).
-
-### Tasks
-
-#### App shell (navigation needed for Arena)
-
-- [x] 🟢 App header (TRUEGRYND left, lang/theme right)
-- [x] 🟢 Bottom dock tab bar (mobile): Overview | Arena | Clan | Profile
-- [x] 🟢 Top inline nav (desktop md+) inside the app header
-- [x] 🟢 Routes exist for the 4 tabs (Clan/Profile placeholders for now)
-- [x] 🟢 Route protection: redirect to login if unauthenticated, to onboarding if profile incomplete
-- [x] 🟢 All labels/copy from i18n
-- [x] 🟢 Brand primary switched from orange `#ff4500` to red `#dc2626` (Combat HUD)
-
-#### Challenge feed
-
-- [x] 🟢 Scrollable list of challenges (from `challenges` where status = approved)
-- [x] 🟢 Sections/tabs: “Trending”, “New” (deferred — single feed for MVP)
-- [x] 🟢 Challenge card: title, short summary, tags, score_type, OFFICIAL badge
-- [x] 🟢 Click card → challenge detail page
-- [x] 🟢 Empty, loading, error states
-- [x] 🟢 All labels/copy from i18n
-
-#### Challenge page
-
-- [x] 🟢 Display: title, description, full rules, equipment tags, score_type
-- [x] 🟢 “Official” badge if is_official
-- [x] 🟢 Leaderboard for this challenge (below)
-- [ ] 🟡 Primary CTA “I’m in / Start” (placeholder, score submission lands in Issue #6)
-
-#### Leaderboard per challenge
-
-- [x] 🟢 Fetch validated scores for this challenge_id (sort: time asc or reps desc by score_type)
-- [x] 🟢 Columns: rank, user (username), score (formatted)
-- [x] 🟢 Filters: Global | By age bracket | By sex | By Faction
-- [x] 🟢 Pagination or lazy load if needed (capped at 100 for now)
-- [ ] 🔴 (Optional) “Respect” 👊 button (post-MVP)
-- [x] 🟢 Copy from i18n
-
-#### Data
-
-- [ ] 🟡 Use seeded challenges (Issue #1) — schema/seed will be added with Issue #1; queries already target the `challenges` table.
-- [x] 🟢 Supabase calls from `features/challenges/services/`
-
-### Acceptance criteria
-
-- [x] Feed shows available challenges
-- [x] Challenge page shows full info + leaderboard
-- [x] Leaderboard filterable (global, age, sex, faction)
-- [x] CTA leads to score submission (Issue #6)
-
----
-
-## 🎯 Issue #6: Score submission & Smart Proof
-
-**Status:** 🟢 **COMPLETED**  
-**Priority:** HIGH  
-**Phase:** Screen 4  
-**Dependencies:** Issue #5
-
-### Description
-
-Submission form: score input (time MM:SS or reps by challenge). Users can submit without proof (saved, not ranked), or submit with a YouTube/TikTok link (validated + ranked on the public leaderboard).
-
-### Tasks
-
-#### Submission form
-
-- [x] 🟢 Main field: Time (MM:SS or seconds) or Reps (number) by challenge.score_type
-- [x] 🟢 Validation (Zod): format and ranges
-- [x] 🟢 “Submit” button (i18n)
-- [x] 🟢 Copy from i18n
-
-#### Smart Proof logic
-
-- [x] 🟢 Video URL is optional: without video -> save as `is_validated=false` (not ranked)
-- [x] 🟢 With a valid YouTube/TikTok URL -> save as `is_validated=true` (ranked)
-- [x] 🟢 URL validation: YouTube/TikTok format
-- [ ] 🟡 (Optional) “Check my rank” preview + Elite badge (no blocking)
-
-#### DB write
-
-- [x] 🟢 Insert into `scores`: challenge_id, user_id, value (seconds for time, int for reps), video_url (if any), is_validated
-- [x] 🟢 Error handling (RLS, invalid URL, etc.)
-- [x] 🟢 On success: show Finisher Card (Issue #7)
-
-#### UX
-
-- [x] 🟢 Clear message: no video = saved but not ranked; with video = ranked (i18n)
-- [x] 🟢 Loading, success, error states
-
-### Acceptance criteria
-
-- [x] Score submission (time or reps) saved correctly
-- [x] Without video: score is saved but not shown in public leaderboard
-- [x] With video: score is validated and shown in public leaderboard
-- [x] Finisher Card shown after submit (Issue #7)
-
----
-
-## 🎯 Issue #7: Finisher Card (generation + share)
-
-**Status:** 🟢 **COMPLETED**  
-**Priority:** HIGH  
-**Phase:** Screen 5  
-**Dependencies:** Issue #6
-
-### Description
-
-Generate image (client-side canvas): score, world rank (e.g. Top 12%), Faction, Truegrynd logo. Bold, readable design. Download (PNG) and share (native share or download for Stories).
-
-### Tasks
-
-#### Image generation
-
-- [x] 🟢 Component/util draws on canvas (client-only)
-- [x] 🟢 Content: score (formatted), rank % (Top X%), Faction + branding
-- [x] 🟢 Design per ui-design-guidelines (dark, high contrast)
-- [x] 🟢 Export as PNG (blob)
-
-#### Display & download
-
-- [x] 🟢 Reward screen showing generated card
-- [x] 🟢 Download button (PNG)
-- [x] 🟢 Share (Web Share API when available) + fallback to download
-- [x] 🟢 Copy from i18n
-
-#### Data
-
-- [x] 🟢 Score + challenge from the submission
-- [x] 🟢 Rank computed after insert (Top X% within validated leaderboard)
-- [x] 🟢 Faction + username from profile
-
-### Acceptance criteria
-
-- [x] Card generated with correct info (score, rank %, Faction, branding)
-- [x] PNG download works
-- [x] Share or download usable for Stories
-
----
-
-## 🎯 Issue #8: User profile
-
-**Status:** 🟢 **COMPLETED**  
-**Priority:** HIGH  
-**Phase:** Screen 6  
-**Dependencies:** Issue #3, #4
-
-### Immediate next action
-
-- ✅ AC OK — PR #24 opened (`https://github.com/igorms-pro/truegrynd/pull/24`)
-- Note: first attempt hit GitHub 504, retry OK
-
-### Description
-
-Profile page: avatar, username, Faction, level (or simple indicator). Score history. Gallery of unlocked Finisher Cards.
-
-### Tasks
-
-#### Profile header
-
-- [x] 🟢 Avatar (photo or initials)
-- [x] 🟢 Username, Faction (name + color/badge)
-- [x] 🟢 (Optional) Level or progress indicator
-- [x] 🟢 Data from `profiles` (+ auth)
-- [x] 🟢 i18n for labels
-
-#### Score history
-
-- [x] 🟢 List of user’s submitted scores (newest first)
-- [x] 🟢 Per score: challenge (title), value (formatted), date, ranked/saved
-- [x] 🟢 Link to challenge page + Finisher Card screen
-- [x] 🟢 Empty, loading, error states
-
-#### Finisher Card gallery
-
-- [x] 🟢 Show unlocked Finisher Cards (rule: latest N scores)
-- [x] 🟢 Thumbnails clickable → open Finisher screen (share/download)
-- [x] 🟢 Regenerate on the fly from score + profile + challenge (no stored images)
-
-### Acceptance criteria
-
-- [x] 🟢 Profile shows identity + Faction
-- [x] 🟢 Score history correct and readable
-- [x] 🟢 Finisher Card gallery visible (at least recent)
-
----
-
-## 🎯 Issue #9: App navigation & layout (tabs, Overview, Clan)
-
-**Status:** 🟢 **COMPLETED**  
-**Priority:** HIGH  
-**Phase:** Screen 7  
-**Dependencies:** Issue #3, #4, #5
-
-### Description
-
-Authenticated layout with 4 tabs: Overview, Arena, Clan, Profile. Overview: daily summary, challenge of the day, Faction status. Arena = feed (Issue #5). Clan = Faction leaderboard + top members of your Faction. Profile = Issue #8.
-
-### Tasks
-
-#### Layout & navigation
-
-- [x] 🟢 Polish/extend app shell: desktop variant (top tabs or sidebar), safe-area, animations
-- [x] 🟢 Ensure tab state + active route styling across nested routes (e.g. challenge detail)
-- [x] 🟢 Refine route protection + redirects (edge cases, back button, deep links)
-- [x] 🟢 Tab labels from i18n (audit + consistency)
-
-#### Overview tab
-
-- [x] 🟢 Summary: current rank or welcome, streak if shown
-- [x] 🟢 “Challenge of the day” highlighted (one official challenge, click → challenge page)
-- [x] 🟢 (Optional) “Your Faction needs points today” or Faction status
-- [x] 🟢 i18n (keys under `overview.*` in EN/FR)
-
-#### Arena tab
-
-- [x] 🟢 Reuse feed + challenge page (Issue #5)
-- [x] 🟢 FAB + desktop “New challenge” → `/app/arena/create` (Creator Studio)
-
-#### Clan tab
-
-- [x] 🟢 Faction leaderboard (gauge or list of 3 Factions with total points)
-- [x] 🟢 Top 10 (or N) members of your Faction
-- [ ] 🔴 (Optional) CTA “Recruit an ally” (referral — post-MVP)
-- [x] 🟢 i18n
-
-#### Notes (implementation status)
-
-- 🟡 Overview UI implemented locally (`src/features/overview/*`) with loading/error/empty states.
-- 🟢 Clan HUD implemented locally (`src/features/factions/*`) with loading/error/empty states.
-- 🟡 Next: polish navigation + desktop/mobile UX details.
-
-#### Profile tab
-
-- [x] 🟢 Integrate profile page (Issue #8)
-
-### Acceptance criteria
-
-- [x] 🟢 Navigation between 4 tabs works
-- [x] 🟢 Overview shows challenge of the day + summary
-- [x] 🟢 Arena = challenge feed
-- [x] 🟢 Clan = Faction ranking + top Faction members
-- [x] 🟢 Profile = Issue #8 content
-- [x] 🟢 Theme toggle visible (from Issue #2); all copy i18n
-
----
-
-## 🎯 Issue #10: Polish & deployment
-
-**Status:** 🟢 **COMPLETED**  
-**Priority:** HIGH  
-**Phase:** MVP delivery  
-**Dependencies:** Issues #3–#9
-
-### Description
-
-Basic SEO, meta tags, error handling (404), Vercel deployment, domain if needed. Smoke E2E green.
-
-### Tasks
-
-#### SEO & meta
-
-- [x] 🟢 Meta title, description on main pages (landing, login, app)
-- [x] 🟢 Open Graph / Twitter Card for sharing (at least landing)
-- [x] 🟢 Favicon + meta consistent with brand
-- [ ] 🔴 (Optional) i18n per locale for meta
-
-#### Errors
-
-- [x] 🟢 404 page (design system)
-- [x] 🟢 Auth errors (session expired, etc.) with redirect or message
-- [x] 🟢 i18n for error messages
-
-#### Deployment
-
-- [x] 🟢 Vercel project linked to repo
-- [x] 🟢 Env vars (Supabase) set
-- [x] 🟢 Next.js build succeeds
-- [ ] 🔴 (Optional) Custom domain
-
-#### E2E & quality
-
-- [x] 🟢 Smoke E2E: at least landing + auth (login or redirect) + one app route if possible
-- [x] 🟢 pre-push (or CI): typecheck + test:run + e2e pass
-
-### Acceptance criteria
-
-- [x] 🟢 Basic SEO in place
-- [x] 🟢 404 and auth errors handled
-- [x] 🟢 App deployed and reachable
-- [x] 🟢 Smoke E2E green
-
----
-
-## 🎯 PHASE 3: Post-MVP (backlog)
-
-To be done after MVP ship.
-
-- [x] **FEAT** – Creator Studio: users submit UGC challenges (`/app/arena/create`, pending review; RLS `006_ugc_challenge_access.sql`, max duration `007_challenge_max_duration.sql`) — PR [#30](https://github.com/igorms-pro/truegrynd/pull/30)
-- [ ] **CHORE** – Admin dashboard: approve/reject UGC challenges (or use Supabase Table Editor + `status` / `is_official` as needed)
-- [ ] **FEAT** – Streaks: consecutive activity days (🔥)
-- [ ] **FEAT** – Respect button (👊) on leaderboard
-- [ ] **FEAT** – Referral link “Invite a brother in arms” (Faction pre-select)
-
----
-
-## 📊 Progress tracking
-
-| Issue                       | Status       | %    |
-| --------------------------- | ------------ | ---- |
-| #0 Foundation               | 🟢 Completed | 100% |
-| #1 Supabase                 | 🟢 Completed | 100% |
-| #2 i18n & theme             | 🟢 Completed | 100% |
-| #3 Auth                     | 🟢 Completed | 100% |
-| #4 Onboarding               | 🟢 Completed | 100% |
-| #5 Arena & challenges       | 🟢 Completed | 100% |
-| #6 Submission & Smart Proof | 🟢 Completed | 100% |
-| #7 Finisher Card            | 🟢 Completed | 100% |
-| #8 Profile                  | 🟢 Completed | 100% |
-| #9 Navigation & layout      | 🟢 Completed | 100% |
-| #10 Polish & deployment     | 🟢 Completed | 100% |
-
-**Overall MVP:** ~95% (MVP flow shipped end-to-end; remaining work is post‑MVP backlog).
-
----
-
-**Last updated:** May 2026
-**Next review:** On each progress update
-
-**Critical path:** #0 ✅ → #1 → #2 (i18n + theme) → #3 → #4 → #5 → #6 → #7 → #8 → #9 → #10.
+**Référence produit / technique :** [docs/CONTEXT.md](../CONTEXT.md) · **Conventions dossier :** [README.md](./README.md)
