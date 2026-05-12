@@ -6,6 +6,17 @@ alwaysApply: true
 # Truegrynd – Git Workflow
 
 ## Branch Naming
+
+When work is tied to a **GitHub Issue** (required for product/doc deliverables — see `issue-workflow.mdc`):
+
+```
+feature/issue-N-short-slug
+fix/issue-N-short-slug
+chore/issue-N-short-slug
+```
+
+Otherwise (small fix without an issue):
+
 ```
 feature/short-description
 fix/short-description
@@ -41,5 +52,6 @@ Examples:
 
 ## AI Agent Rules
 - Commit locally as needed during development
+- Do not commit deliverable code or product docs directly to `main`. Use GitHub Issue → branch `*/issue-N-*` → PR → merge (see `issue-workflow.mdc`)
 - Never push without explicit user instruction
 - Never force push to main
