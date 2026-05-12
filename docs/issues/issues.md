@@ -23,19 +23,21 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 
 ## Sommaire backlog
 
-| Bloc                       | Détail dans ce fichier            |
-| -------------------------- | --------------------------------- |
-| **`/app/admin` (UGC)**     | Section **A** — tâches détaillées |
-| **Creator Score**          | Section **B**                     |
-| **Streaks**                | Section **C**                     |
-| **Respect (leaderboard)**  | Section **D**                     |
-| **Referral**               | Section **E**                     |
-| **Confiance & plateforme** | Section **F**                     |
+| Bloc                          | Détail dans ce fichier                                  |
+| ----------------------------- | ------------------------------------------------------- |
+| **`/app/admin` (UGC)**        | Section **A** — tâches détaillées (+ **A9–A10** IA tri) |
+| **Mouvements & prescription** | Section **G** — catalogue mix + règles création         |
+| **Creator Score**             | Section **B**                                           |
+| **Streaks**                   | Section **C**                                           |
+| **Respect (leaderboard)**     | Section **D**                                           |
+| **Referral**                  | Section **E**                                           |
+| **Confiance & plateforme**    | Section **F**                                           |
 
 **Macro-checklist**
 
 - [x] **FEAT** — Creator Studio + RLS UGC + cap temps — PR [#30](https://github.com/igorms-pro/truegrynd/pull/30)
-- [ ] **FEAT** — `/app/admin` — section **A** complète
+- [ ] **FEAT** — `/app/admin` — section **A** complète (incl. **A9–A10** tri IA + batch, sans auto-approve)
+- [ ] **FEAT** — Prescription / **bibliothèque mouvements (mix)** — section **G**
 - [ ] **FEAT** — Creator Score — section **B**
 - [ ] **FEAT** — Streaks — section **C**
 - [ ] **FEAT** — Respect leaderboard — section **D**
@@ -116,6 +118,25 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 - [ ] **Pas de `console.log`** en prod ; pas de fuite PII dans toasts.
 - [ ] **`docs/issues/issues.md`** : cocher les cases **A** au fil des PRs ; lien PR sur la ligne macro ou en commentaire de section.
 
+### A9. Tri IA pour la file admin (**pas d’auto-approve**)
+
+**But :** beaucoup de `pending` ; l’IA **classe + résume** ; l’humain **filtre** (vert / orange / rouge), **sélectionne en masse** les verts et **approuve en un clic** — **aucun** `pending` → `approved` **sans** action utilisateur admin.
+
+- [ ] **DB (migration)** : ex. `challenges.ai_tier` `text NULL` avec contrainte `green` \| `orange` \| `red`, `ai_summary text NULL`, `ai_model text NULL`, `ai_checked_at timestamptz NULL` (ou un seul `jsonb ai_review`).
+- [ ] **Déclencheur** : au submit créateur **ou** bouton admin **“Analyser / Rafraîchir IA”** (re-run si le texte change, tant que `pending`).
+- [ ] **UI file** : filtres + tri (rouge en haut), badge couleur, colonne ou tooltip **résumé court** ; sélection de lignes + **Approuver la sélection** (batch).
+- [ ] **RPC batch** : ex. `admin_batch_approve_challenges(uuid[])` — `is_app_admin()` + chaque ligne `pending` + (optionnel) **uniquement `ai_tier = 'green'`** pour limiter le risque si tu veux une règle stricte.
+- [ ] **Garde-fous** : prompt sans PII inutile ; **pas de clé** dans les logs ; rate limit sur l’endpoint qui appelle le modèle.
+
+### A10. Où vit l’appel IA (**secrets hors Git**)
+
+L’IA n’a pas besoin d’être “hors du repo” au sens code : le **code** est dans Truegrynd ; les **secrets** ne le sont jamais.
+
+- [ ] **Variables d’environnement** hôte (Vercel, etc.) — **jamais** `NEXT_PUBLIC_*` pour une clé fournisseur.
+- [ ] **Option recommandée** : **Route Handler** `app/api/...` ou **Server Action** : vérifie session + `is_admin`, appelle OpenAI / Anthropic / autre, puis persiste `ai_*` via Supabase (cookie utilisateur ou RPC selon RLS).
+- [ ] **Alternative** : **Supabase Edge Function** + secret dans le dashboard Supabase.
+- [ ] **SaaS externe** (service tiers dédié) : possible plus tard ; même règle : contrat HTTP + secrets hors repo.
+
 ---
 
 ## B. Creator Score — V1 forte (réputation créateur)
@@ -172,6 +193,18 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 
 ---
 
+## G. Mouvements & prescription (création de défi) — **mix** (pas 10K au launch)
+
+**Décision produit :** pas une liste “10K mouvements” au départ ; **noyau catalogué** + **“autre”** court pour la longue traîne, avec **modération** (souvent **orange** côté tri IA / admin).
+
+- [ ] **Table ou constante versionnée** `movement` (slug stable, labels i18n) : **80–150** mouvements max en **V1** couvrant la majorité des défis (push patterns, squat/hinge, pull, carry, mono-structure, bases run/row, isométrie…).
+- [ ] **Circuit** : chaque ligne = **sélection dans la liste** **ou** option **“Autre (précise)”** → texte libre **court** + flag **`off_catalog`** (ou équivalent) pour file admin / tri **orange** par défaut.
+- [ ] **Au moins une prescription mesurable** : **≥ 1 bloc** circuit valide (label + montant reps `>0` ou hold `MM:SS`) — **Zod + message i18n** ; renfort **DB** (CHECK ou trigger) si tu veux une V1 “forte”.
+- [ ] **Synonymes** : table `movement_aliases` optionnelle (mapping “pompes” → `push_up`) pour recherche / stats plus tard.
+- [ ] **Évolution** : process interne pour **ajouter** des slugs (PR data ou script seed) — pas besoin d’encyclopédie jour 1.
+
+---
+
 ## Légende
 
 🔴 not started · 🟡 in progress · 🟢 done · ⏸️ blocked · 🔵 QA · 🟣 on hold  
@@ -182,7 +215,7 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 ## Workflow
 
 1. **GitHub Issue** d’abord (numéro `N`), puis branche **`feature/issue-N-short-slug`** ou **`chore/issue-N-short-slug`** (voir `.cursor/rules/issue-workflow.mdc`).
-2. Découper une **section (A–F)** en PRs **petites** (règle repo : ~400 lignes max par PR) ; revue **RLS** obligatoire pour tout ce qui touche `008+`.
+2. Découper une **section (A–G)** en PRs **petites** (règle repo : ~400 lignes max par PR) ; revue **RLS** obligatoire pour tout ce qui touche `008+`.
 3. **PR** : titre/body référencent **`#N`** ; merge dans `main` après revue.
 4. Mettre à jour ce fichier : **🟡** en cours → lien **PR** → **🟢** + cases `[x]` quand c’est mergé et livré.
 
@@ -190,18 +223,20 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 
 ## Suivi synthétique
 
-| Bloc                        | Avancement                                                                                                                    |
-| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| UGC création + cap          | 🟢 PR #30                                                                                                                     |
-| Doc backlog V1 (ce fichier) | 🟢 [#31](https://github.com/igorms-pro/truegrynd/issues/31) mergé — PR [#32](https://github.com/igorms-pro/truegrynd/pull/32) |
-| **`/app/admin`**            | 🔴 — suivre section **A**                                                                                                     |
-| Creator Score               | 🔴 — section **B**                                                                                                            |
-| Streaks                     | 🔴 — section **C**                                                                                                            |
-| Respect                     | 🔴 — section **D**                                                                                                            |
-| Referral                    | 🔴 — section **E**                                                                                                            |
-| Confiance / plateforme      | 🔴 — section **F**                                                                                                            |
+| Bloc                                     | Avancement                                                                                                                    |
+| ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| UGC création + cap                       | 🟢 PR #30                                                                                                                     |
+| Doc backlog V1 (ce fichier)              | 🟢 [#31](https://github.com/igorms-pro/truegrynd/issues/31) mergé — PR [#32](https://github.com/igorms-pro/truegrynd/pull/32) |
+| Doc tri IA + mouvements mix (ce fichier) | 🟡 [#35](https://github.com/igorms-pro/truegrynd/issues/35) — branche `chore/issue-35-docs-movement-ai-admin`                 |
+| **`/app/admin`**                         | 🔴 — suivre section **A**                                                                                                     |
+| Creator Score                            | 🔴 — section **B**                                                                                                            |
+| Streaks                                  | 🔴 — section **C**                                                                                                            |
+| Respect                                  | 🔴 — section **D**                                                                                                            |
+| Referral                                 | 🔴 — section **E**                                                                                                            |
+| Confiance / plateforme                   | 🔴 — section **F**                                                                                                            |
+| Mouvements / prescription (mix)          | 🔴 — section **G**                                                                                                            |
 
-**Ordre d’attaque recommandé :** **A** (admin) jusqu’au DoD → **B** → **C** / **D** en parallèle si capacité → **E** → **F** continu.
+**Ordre d’attaque recommandé :** **A** (admin, puis **A9–A10** une fois la base admin + RPC OK) → **G** (standardisation création, en parallèle possible) → **B** → **C** / **D** → **E** → **F** continu.
 
 ---
 
