@@ -1,5 +1,6 @@
 import { supabase } from '@/lib/supabase';
 
+import { assertTimeScoreWithinCap, TIME_CAP_ERROR } from '@/features/submission/lib/timeScoreCap';
 import { isAllowedVideoUrl } from '@/features/submission/lib/videoUrl';
 
 type Options = {
@@ -21,6 +22,19 @@ export async function submitScore(options: Options): Promise<Result> {
   const hasVideo = trimmedVideo.length > 0;
 
   if (hasVideo && !isAllowedVideoUrl(trimmedVideo)) throw new Error(VIDEO_INVALID_ERROR);
+
+  const { data: ch, error: chErr } = await supabase
+    .from('challenges')
+    .select('score_type, max_duration_seconds')
+    .eq('id', options.challengeId)
+    .maybeSingle<{ score_type: string; max_duration_seconds: number | null }>();
+  if (chErr) throw new Error(chErr.message);
+  if (!ch) throw new Error('challenge_not_found');
+  assertTimeScoreWithinCap({
+    scoreType: ch.score_type,
+    value: options.value,
+    maxDurationSeconds: ch.max_duration_seconds,
+  });
 
   const ranked = hasVideo;
   const is_validated = ranked;
@@ -46,4 +60,5 @@ export async function submitScore(options: Options): Promise<Result> {
 
 export const SUBMISSION_ERRORS = {
   VIDEO_INVALID: VIDEO_INVALID_ERROR,
+  EXCEEDS_TIME_CAP: TIME_CAP_ERROR,
 } as const;

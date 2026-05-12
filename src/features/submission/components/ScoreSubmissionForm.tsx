@@ -2,62 +2,44 @@
 
 import { useCallback, useMemo, useState } from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 
 import { useRequireAppAccess } from '@/features/appshell';
-import { parseTimeInput } from '@/features/submission/lib/parseTime';
-import { isAllowedVideoUrl } from '@/features/submission/lib/videoUrl';
+import { ScoreSubmissionProofFields } from '@/features/submission/components/ScoreSubmissionProofFields';
+import { ScoreSubmissionScoreFields } from '@/features/submission/components/ScoreSubmissionScoreFields';
+import {
+  buildScoreSubmissionSchema,
+  parseScoreSubmissionValue,
+  type ScoreSubmissionFormValues,
+} from '@/features/submission/lib/scoreSubmissionSchema';
 import { submitScore, SUBMISSION_ERRORS } from '@/features/submission/services/submitScore';
 import type { ScoreType } from '@/lib/types/database.types';
-
-type FormValues = {
-  time: string;
-  reps: number;
-  videoUrl: string;
-};
 
 type Props = {
   challengeId: string;
   scoreType: ScoreType;
+  maxDurationSeconds?: number | null;
   onSubmitted: (result: { ranked: boolean; insertedId: string }) => void;
 };
 
-function createSchema(t: (key: string) => string, scoreType: ScoreType) {
-  return z.object({
-    time:
-      scoreType === 'time'
-        ? z.string().refine((v) => parseTimeInput(v) !== null, { message: t('errors.invalidTime') })
-        : z.string(),
-    reps:
-      scoreType === 'reps'
-        ? z
-            .number()
-            .int()
-            .min(1, { message: t('errors.invalidReps') })
-        : z.number(),
-    videoUrl: z.string().refine((v) => v.trim().length === 0 || isAllowedVideoUrl(v), {
-      message: t('errors.videoInvalid'),
-    }),
-  });
-}
-
-function parseScoreValue(values: FormValues, scoreType: ScoreType): number | null {
-  if (scoreType === 'time') return parseTimeInput(values.time);
-  if (!Number.isFinite(values.reps) || values.reps < 1) return null;
-  return Math.floor(values.reps);
-}
-
-export function ScoreSubmissionForm({ challengeId, scoreType, onSubmitted }: Props) {
+export function ScoreSubmissionForm({
+  challengeId,
+  scoreType,
+  maxDurationSeconds = null,
+  onSubmitted,
+}: Props) {
   const t = useTranslations('submission');
   const access = useRequireAppAccess();
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const schema = useMemo(() => createSchema((k) => t(k), scoreType), [t, scoreType]);
+  const schema = useMemo(
+    () => buildScoreSubmissionSchema((k) => t(k), scoreType, maxDurationSeconds ?? null),
+    [t, scoreType, maxDurationSeconds],
+  );
 
-  const form = useForm<FormValues>({
+  const form = useForm<ScoreSubmissionFormValues>({
     resolver: zodResolver(schema),
     defaultValues: { time: '', reps: 0, videoUrl: '' },
     mode: 'onChange',
@@ -79,13 +61,13 @@ export function ScoreSubmissionForm({ challengeId, scoreType, onSubmitted }: Pro
     else setError('reps', { type: 'validate', message: t('errors.invalidReps') });
   }, [scoreType, setError, t]);
 
-  const onSubmit: SubmitHandler<FormValues> = useCallback(
+  const onSubmit: SubmitHandler<ScoreSubmissionFormValues> = useCallback(
     async (values) => {
       if (access.status !== 'ready') return;
       setSubmitting(true);
       setSubmitError(null);
 
-      const value = parseScoreValue(values, scoreType);
+      const value = parseScoreSubmissionValue(values, scoreType);
       if (value === null) {
         setSubmitting(false);
         setScoreError();
@@ -106,6 +88,10 @@ export function ScoreSubmissionForm({ challengeId, scoreType, onSubmitted }: Pro
           setError('videoUrl', { type: 'validate', message: t('errors.videoInvalid') });
           return;
         }
+        if (message === SUBMISSION_ERRORS.EXCEEDS_TIME_CAP) {
+          setError('time', { type: 'validate', message: t('errors.exceedsTimeCap') });
+          return;
+        }
         setSubmitError(`${t('errors.submitFailed')} (${message})`);
       } finally {
         setSubmitting(false);
@@ -122,66 +108,10 @@ export function ScoreSubmissionForm({ challengeId, scoreType, onSubmitted }: Pro
     );
   }
 
-  const scoreLabel = scoreType === 'time' ? t('yourScoreTime') : t('yourScoreReps');
-
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <div className="rounded-md border border-border bg-card p-4 space-y-3">
-        <p className="text-xs font-black uppercase tracking-[0.18em] text-muted-foreground">
-          {scoreLabel}
-        </p>
-
-        {scoreType === 'time' ? (
-          <div>
-            <input
-              {...register('time')}
-              placeholder={t('timePlaceholder')}
-              inputMode="numeric"
-              className="w-full rounded-md border border-border bg-background px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-ring font-mono tabular-nums"
-              aria-invalid={!!errors.time}
-            />
-            {errors.time ? (
-              <p className="mt-1 text-xs font-semibold text-primary">{errors.time.message}</p>
-            ) : null}
-          </div>
-        ) : (
-          <div>
-            <input
-              {...register('reps', { valueAsNumber: true })}
-              type="number"
-              placeholder={t('repsPlaceholder')}
-              inputMode="numeric"
-              min={1}
-              className="w-full rounded-md border border-border bg-background px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-ring font-mono tabular-nums"
-              aria-invalid={!!errors.reps}
-            />
-            {errors.reps ? (
-              <p className="mt-1 text-xs font-semibold text-primary">{errors.reps.message}</p>
-            ) : null}
-          </div>
-        )}
-      </div>
-
-      <div className="rounded-md border border-border bg-card p-4 space-y-2">
-        <p className="text-xs font-black uppercase tracking-[0.18em] text-muted-foreground">
-          {t('proofTitle')}
-        </p>
-        <p className="text-sm text-muted-foreground">{t('proofBody')}</p>
-
-        <label className="text-xs font-black uppercase tracking-[0.18em] text-muted-foreground">
-          {t('videoLabelOptional')}
-        </label>
-        <input
-          {...register('videoUrl')}
-          className="mt-2 w-full rounded-md border border-border bg-background px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-ring"
-          placeholder="youtube.com/watch?v=..."
-          aria-invalid={!!errors.videoUrl}
-        />
-        <p className="mt-1 text-xs text-muted-foreground">{t('videoHelper')}</p>
-        {errors.videoUrl ? (
-          <p className="mt-1 text-xs font-semibold text-primary">{errors.videoUrl.message}</p>
-        ) : null}
-      </div>
+      <ScoreSubmissionScoreFields scoreType={scoreType} register={register} errors={errors} />
+      <ScoreSubmissionProofFields register={register} errors={errors} />
 
       {submitError ? (
         <div className="rounded-md border border-primary/40 bg-primary/10 p-4">

@@ -189,12 +189,80 @@
     "errorBody": "Impossible de charger les défis.",
     "retry": "Réessayer",
     "officialBadge": "OFFICIEL",
+    "badges": {
+      "community": "COMMUNAUTÉ",
+      "pendingReview": "EN ATTENTE",
+      "rejected": "NON VALIDÉ"
+    },
     "scoreType": {
       "time": "TEMPS",
       "reps": "REPS"
     },
     "tags": {
       "bodyweight": "Poids du corps"
+    },
+    "create": {
+      "cta": "NOUVEAU DÉFI",
+      "fab": "Créer un défi",
+      "title": "NOUVEAU DÉFI",
+      "subtitle": "Propose un défi pour l'Arène. Il débloque après validation.",
+      "back": "Retour à l'Arène",
+      "submit": "ENVOYER POUR VALIDATION",
+      "submitting": "ENVOI...",
+      "fields": {
+        "title": "Titre",
+        "description": "Accroche courte",
+        "rulesDetail": "Standards & scoring (détail)",
+        "equipmentTags": "Équipement (optionnel)",
+        "equipmentPlaceholder": "kettlebell, barre de traction…"
+      },
+      "scoring": {
+        "legend": "COMMENT ÇA SCORE",
+        "helper": "For time = travail fixe, le plus rapide gagne (max temps optionnelle — au-delà, soumission bloquée). AMRAP = fenêtre de travail, le plus de reps / tours gagne.",
+        "forTime": "FOR TIME",
+        "amrap": "AMRAP",
+        "forTimeCapLabel": "Temps max (optionnel, MM:SS)",
+        "forTimeCapPlaceholder": "15:00",
+        "forTimeCapHint": "Vide = tout chrono accepté. Si rempli, impossible d'envoyer un temps plus long.",
+        "amrapCapLabel": "Cap temps (MM:SS)",
+        "amrapCapPlaceholder": "10:00"
+      },
+      "circuit": {
+        "legend": "CIRCUIT",
+        "helper": "Enchaîne les mouvements — reps pour les séries, hold + MM:SS pour planche / iso.",
+        "movement": "Mouvement",
+        "movementPlaceholder": "Burpees",
+        "kindReps": "Reps",
+        "kindHold": "Hold",
+        "amountRepsLabel": "Nombre de reps",
+        "amountHoldLabel": "Temps",
+        "amountPlaceholderReps": "10",
+        "amountPlaceholderHold": "3:00",
+        "addMovement": "AJOUTER UN MOUVEMENT",
+        "removeRow": "Retirer ce mouvement"
+      },
+      "errors": {
+        "auth": "Connexion requise.",
+        "generic": "Impossible de créer le défi. Réessaie."
+      },
+      "validation": {
+        "titleMin": "Titre trop court.",
+        "titleMax": "Titre trop long.",
+        "descriptionMin": "Ajoute un peu plus de détail.",
+        "descriptionMax": "Accroche trop longue.",
+        "rulesMax": "Texte des règles trop long (max 8000 caractères au total).",
+        "combinedMin": "Ajoute un circuit et/ou assez de détail dans les standards — 40+ caractères au total.",
+        "circuitLabelMissing": "Nomme ce mouvement.",
+        "circuitAmountMissing": "Indique des reps ou une durée.",
+        "circuitRepsInvalid": "Utilise un nombre entier (ex. 30).",
+        "circuitHoldInvalid": "Utilise MM:SS (ex. 3:00).",
+        "tagsMax": "Ligne équipement trop longue.",
+        "amrapCapMissing": "Indique un cap pour l'AMRAP (ex. 10:00).",
+        "amrapCapInvalid": "Utilise MM:SS pour le cap (ex. 10:00).",
+        "amrapCapZero": "Le cap doit être plus long que 0:00.",
+        "forTimeCapInvalid": "Utilise MM:SS pour le temps max (ex. 15:00).",
+        "forTimeCapZero": "Le temps max doit être plus long que 0:00."
+      }
     }
   },
   "challenge": {
@@ -206,7 +274,11 @@
     "equipmentHeading": "Équipement",
     "noEquipment": "Poids du corps uniquement",
     "ctaStart": "JE M'INSCRIS",
-    "ctaComingSoon": "La soumission de score arrive bientôt."
+    "pendingTitle": "EN ATTENTE DE VALIDATION",
+    "pendingBody": "Ce défi est verrouillé jusqu'à validation. Partage le lien avec un admin si besoin.",
+    "rejectedTitle": "NON PUBLIÉ",
+    "rejectedBody": "Ce défi n'a pas été validé. Crée une nouvelle version ou contacte le support.",
+    "maxTimeCap": "Termine sous {cap} — au-delà, impossible d'envoyer le temps."
   },
   "leaderboard": {
     "title": "Classement",
@@ -260,7 +332,9 @@
       "invalidTime": "Entre un temps valide (MM:SS).",
       "invalidReps": "Entre un nombre de reps valide.",
       "videoInvalid": "Le lien doit être YouTube ou TikTok.",
-      "submitFailed": "Impossible d'envoyer ton score."
+      "submitFailed": "Impossible d'envoyer ton score.",
+      "notApproved": "Les scores s'ouvrent seulement après validation du défi.",
+      "exceedsTimeCap": "Ce temps dépasse le max du défi. Ça ne compte pas — n'envoie pas."
     }
   },
   "finisher": {
@@ -281,10 +355,9 @@
     "avatar": {
       "title": "AVATAR",
       "alt": "Avatar du profil",
-      "change": "MODIFIER",
+      "change": "MODIFIER LA PHOTO",
       "uploading": "UPLOAD...",
-      "remove": "SUPPRIMER",
-      "hint": "PNG/JPG/WEBP · max 3MB",
+      "remove": "SUPPRIMER LA PHOTO",
       "errors": {
         "type": "Type de fichier non supporté.",
         "size": "Fichier trop volumineux.",
@@ -306,6 +379,7 @@
     "header": {
       "unknownUser": "INCONNU",
       "avatarAlt": "Avatar du profil",
+      "photoStamp": "ID COMBAT",
       "noFaction": "SANS FACTION",
       "streak": "Série : {days}j",
       "factions": {

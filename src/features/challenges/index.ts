@@ -1,4 +1,5 @@
 export { ArenaScreen } from '@/features/challenges/components/ArenaScreen';
+export { CreateChallengeScreen } from '@/features/challenges/components/CreateChallengeScreen';
 export { ChallengeDetail } from '@/features/challenges/components/ChallengeDetail';
 export { ChallengeCard } from '@/features/challenges/components/ChallengeCard';
 export { ChallengeList } from '@/features/challenges/components/ChallengeList';

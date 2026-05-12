@@ -12,7 +12,7 @@
 **Workflow to execute:**
 
 1. MVP core issues (#0–#10) are complete ✅
-2. Pick the next Post‑MVP item (Creator Studio / Admin / Streaks / Respect / Referral)
+2. Pick the next Post‑MVP item (**Admin approval UI** / Streaks / Respect / Referral) — Creator Studio (submit UGC) is in the app; approve/reject still via Supabase or a future admin UI
 3. Create a branch: `feature/short-description` (or `fix/..`, `chore/..`)
 4. Create a GitHub Issue and link it in this tracker
 5. Execute and open PR
@@ -587,7 +587,7 @@ Authenticated layout with 4 tabs: Overview, Arena, Clan, Profile. Overview: dail
 #### Arena tab
 
 - [x] 🟢 Reuse feed + challenge page (Issue #5)
-- [ ] 🔴 (Optional) FAB “+” for create challenge (post-MVP Creator Studio)
+- [x] 🟢 FAB + desktop “New challenge” → `/app/arena/create` (Creator Studio)
 
 #### Clan tab
 
@@ -668,8 +668,8 @@ Basic SEO, meta tags, error handling (404), Vercel deployment, domain if needed.
 
 To be done after MVP ship.
 
-- [ ] **FEAT** – Creator Studio: users submit UGC challenges
-- [ ] **CHORE** – Admin dashboard: approve/reject UGC challenges
+- [x] **FEAT** – Creator Studio: users submit UGC challenges (`/app/arena/create`, pending review; RLS migration `006_ugc_challenge_access.sql`)
+- [ ] **CHORE** – Admin dashboard: approve/reject UGC challenges (or use Supabase Table Editor + `status` / `is_official` as needed)
 - [ ] **FEAT** – Streaks: consecutive activity days (🔥)
 - [ ] **FEAT** – Respect button (👊) on leaderboard
 - [ ] **FEAT** – Referral link “Invite a brother in arms” (Faction pre-select)
