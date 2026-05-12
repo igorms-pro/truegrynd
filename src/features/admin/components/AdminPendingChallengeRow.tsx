@@ -11,6 +11,7 @@ function creatorLabel(row: PendingRow): string {
 
 type Props = {
   row: PendingRow;
+  submittedLabel: string;
   checked: boolean;
   onToggle: (id: string) => void;
   onApproveRow: (id: string) => void | Promise<void>;
@@ -20,6 +21,7 @@ type Props = {
 
 export function AdminPendingChallengeRow({
   row,
+  submittedLabel,
   checked,
   onToggle,
   onApproveRow,
@@ -53,6 +55,7 @@ export function AdminPendingChallengeRow({
       <td className="py-3 pr-2 text-sm font-semibold">{row.title}</td>
       <td className="py-3 pr-2 text-xs uppercase text-muted-foreground">{row.score_type}</td>
       <td className="py-3 pr-2 text-xs text-muted-foreground">{creatorLabel(row)}</td>
+      <td className="py-3 pr-2 text-xs text-muted-foreground">{submittedLabel}</td>
       <td className="py-3 text-right">
         <button
           type="button"

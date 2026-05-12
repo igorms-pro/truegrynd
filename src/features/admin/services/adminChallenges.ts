@@ -1,3 +1,4 @@
+import { normalizePostgrestCreator } from '@/features/admin/lib/normalizeCreator';
 import { supabase } from '@/lib/supabase';
 import type { Challenge } from '@/lib/types/database.types';
 
@@ -7,16 +8,6 @@ const PENDING_CHALLENGE_SELECT =
 export type AdminPendingChallenge = Challenge & {
   creator: { username: string | null } | null;
 };
-
-function normalizeCreator(raw: unknown): { username: string | null } | null {
-  if (raw == null) return null;
-  if (Array.isArray(raw)) {
-    const first = raw[0] as { username?: string | null } | undefined;
-    return first ? { username: first.username ?? null } : null;
-  }
-  const o = raw as { username?: string | null };
-  return { username: o.username ?? null };
-}
 
 export async function listPendingChallengesForAdmin(): Promise<AdminPendingChallenge[]> {
   const { data, error } = await supabase
@@ -28,7 +19,7 @@ export async function listPendingChallengesForAdmin(): Promise<AdminPendingChall
   const rows = data ?? [];
   return rows.map((row) => ({
     ...(row as Challenge),
-    creator: normalizeCreator((row as { creator?: unknown }).creator),
+    creator: normalizePostgrestCreator((row as { creator?: unknown }).creator),
   }));
 }
 

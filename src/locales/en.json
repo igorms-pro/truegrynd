@@ -285,7 +285,9 @@
     "title": "UGC MOD QUEUE",
     "subtitle": "Approve or reject community challenges. Nothing goes live without you.",
     "nav": {
-      "link": "MOD"
+      "link": "MOD",
+      "dock": "MOD",
+      "dockAria": "Open moderation queue"
     },
     "queue": {
       "loading": "Loading queue…",
@@ -299,6 +301,7 @@
       "colTitle": "Title",
       "colType": "Type",
       "colCreator": "Creator",
+      "colSubmitted": "Submitted",
       "colActions": "Actions",
       "selectRow": "Select row: {title}"
     },
@@ -306,6 +309,7 @@
       "title": "Reject challenge",
       "reasonLabel": "Reason for creator",
       "reasonTooShort": "At least 10 characters.",
+      "reasonTooLongMax": "Reason must be at most {max} characters.",
       "failed": "Reject failed",
       "cancel": "Cancel",
       "confirm": "Reject",

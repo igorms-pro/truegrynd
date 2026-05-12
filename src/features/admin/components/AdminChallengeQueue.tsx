@@ -1,9 +1,10 @@
 'use client';
 
 import { useCallback, useMemo, useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 import { AdminPendingChallengeRow } from '@/features/admin/components/AdminPendingChallengeRow';
+import { AdminQueueBatchToolbar } from '@/features/admin/components/AdminQueueBatchToolbar';
 import { AdminRejectModal } from '@/features/admin/components/AdminRejectModal';
 import { useAdminPendingChallenges } from '@/features/admin/hooks/useAdminPendingChallenges';
 import type { AdminPendingChallenge as PendingRow } from '@/features/admin/services/adminChallenges';
@@ -11,6 +12,7 @@ import type { AdminPendingChallenge as PendingRow } from '@/features/admin/servi
 export function AdminChallengeQueue() {
   const t = useTranslations('admin.queue');
   const tErr = useTranslations('admin.errors');
+  const locale = useLocale();
   const { state, approveOne, batchApprove, rejectOne } = useAdminPendingChallenges();
   const [selected, setSelected] = useState<Set<string>>(() => new Set());
   const [busyId, setBusyId] = useState<string | null>(null);
@@ -20,6 +22,15 @@ export function AdminChallengeQueue() {
 
   const rows = state.rows;
   const allIds = useMemo(() => rows.map((r) => r.id), [rows]);
+  const dateFmt = useMemo(() => new Intl.DateTimeFormat(locale, { dateStyle: 'short' }), [locale]);
+  const rowsWithLabels = useMemo(
+    () =>
+      rows.map((row) => ({
+        row,
+        submittedLabel: dateFmt.format(new Date(row.created_at)),
+      })),
+    [dateFmt, rows],
+  );
 
   const toggle = useCallback((id: string) => {
     setSelected((prev) => {
@@ -123,34 +134,16 @@ export function AdminChallengeQueue() {
           {actionError}
         </div>
       ) : null}
-      <div className="flex flex-wrap items-center gap-2">
-        <button
-          type="button"
-          onClick={selectAll}
-          disabled={batchBusy || busyId !== null}
-          className="rounded-md border border-border px-3 py-2 text-xs font-black uppercase tracking-[0.14em] hover:bg-muted disabled:opacity-50"
-        >
-          {t('selectAll')}
-        </button>
-        <button
-          type="button"
-          onClick={clearSelection}
-          disabled={batchBusy || busyId !== null}
-          className="rounded-md border border-border px-3 py-2 text-xs font-black uppercase tracking-[0.14em] hover:bg-muted disabled:opacity-50"
-        >
-          {t('clearSelection')}
-        </button>
-        <button
-          type="button"
-          onClick={handleBatchApproveClick}
-          disabled={batchBusy || busyId !== null || selected.size === 0}
-          className="rounded-md bg-primary px-3 py-2 text-xs font-black uppercase tracking-[0.14em] text-primary-foreground hover:opacity-90 disabled:opacity-50"
-        >
-          {batchBusy ? t('batchApproving') : t('approveSelected', { count: selected.size })}
-        </button>
-      </div>
+      <AdminQueueBatchToolbar
+        batchBusy={batchBusy}
+        rowBusy={busyId !== null}
+        selectedCount={selected.size}
+        onSelectAll={selectAll}
+        onClearSelection={clearSelection}
+        onBatchApprove={handleBatchApproveClick}
+      />
       <div className="overflow-x-auto rounded-md border border-border">
-        <table className="w-full min-w-[520px] text-left">
+        <table className="w-full min-w-[640px] text-left">
           <thead>
             <tr className="border-b border-border bg-muted/40 text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground">
               <th className="py-2 pr-2 w-10" scope="col">
@@ -165,16 +158,20 @@ export function AdminChallengeQueue() {
               <th className="py-2 pr-2" scope="col">
                 {t('colCreator')}
               </th>
+              <th className="py-2 pr-2" scope="col">
+                {t('colSubmitted')}
+              </th>
               <th className="py-2 text-right" scope="col">
                 {t('colActions')}
               </th>
             </tr>
           </thead>
           <tbody>
-            {rows.map((row) => (
+            {rowsWithLabels.map(({ row, submittedLabel }) => (
               <AdminPendingChallengeRow
                 key={row.id}
                 row={row}
+                submittedLabel={submittedLabel}
                 checked={selected.has(row.id)}
                 onToggle={toggle}
                 onApproveRow={handleApproveRow}

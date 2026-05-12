@@ -285,7 +285,9 @@
     "title": "FILE MODÉRATION UGC",
     "subtitle": "Approuve ou refuse les défis communautaires. Rien ne passe en ligne sans toi.",
     "nav": {
-      "link": "MOD"
+      "link": "MOD",
+      "dock": "MOD",
+      "dockAria": "Ouvrir la file de modération"
     },
     "queue": {
       "loading": "Chargement de la file…",
@@ -299,6 +301,7 @@
       "colTitle": "Titre",
       "colType": "Type",
       "colCreator": "Créateur",
+      "colSubmitted": "Soumis",
       "colActions": "Actions",
       "selectRow": "Sélectionner la ligne : {title}"
     },
@@ -306,6 +309,7 @@
       "title": "Refuser le défi",
       "reasonLabel": "Motif (visible créateur)",
       "reasonTooShort": "Au moins 10 caractères.",
+      "reasonTooLongMax": "Le motif ne peut pas dépasser {max} caractères.",
       "failed": "Refus impossible",
       "cancel": "Annuler",
       "confirm": "Refuser",
