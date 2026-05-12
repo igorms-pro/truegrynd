@@ -181,23 +181,25 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 
 ## Workflow
 
-1. Découper une **section (A–F)** en **issue(s) GitHub** + branche `feature/…`.
-2. PRs petites et revue RLS obligatoire pour tout ce qui touche `008+`.
-3. Cocher les cases ici quand **mergé `main`** + critères de la ligne satisfaits.
+1. **GitHub Issue** d’abord (numéro `N`), puis branche **`feature/issue-N-short-slug`** ou **`chore/issue-N-short-slug`** (voir `.cursor/rules/issue-workflow.mdc`).
+2. Découper une **section (A–F)** en PRs **petites** (règle repo : ~400 lignes max par PR) ; revue **RLS** obligatoire pour tout ce qui touche `008+`.
+3. **PR** : titre/body référencent **`#N`** ; merge dans `main` après revue.
+4. Mettre à jour ce fichier : **🟡** en cours → lien **PR** → **🟢** + cases `[x]` quand c’est mergé et livré.
 
 ---
 
 ## Suivi synthétique
 
-| Bloc                   | Avancement                |
-| ---------------------- | ------------------------- |
-| UGC création + cap     | 🟢 PR #30                 |
-| **`/app/admin`**       | 🔴 — suivre section **A** |
-| Creator Score          | 🔴 — section **B**        |
-| Streaks                | 🔴 — section **C**        |
-| Respect                | 🔴 — section **D**        |
-| Referral               | 🔴 — section **E**        |
-| Confiance / plateforme | 🔴 — section **F**        |
+| Bloc                        | Avancement                                                                                                    |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| UGC création + cap          | 🟢 PR #30                                                                                                     |
+| Doc backlog V1 (ce fichier) | 🟡 [#31](https://github.com/igorms-pro/truegrynd/issues/31) — branche `chore/issue-31-docs-v1-strong-backlog` |
+| **`/app/admin`**            | 🔴 — suivre section **A**                                                                                     |
+| Creator Score               | 🔴 — section **B**                                                                                            |
+| Streaks                     | 🔴 — section **C**                                                                                            |
+| Respect                     | 🔴 — section **D**                                                                                            |
+| Referral                    | 🔴 — section **E**                                                                                            |
+| Confiance / plateforme      | 🔴 — section **F**                                                                                            |
 
 **Ordre d’attaque recommandé :** **A** (admin) jusqu’au DoD → **B** → **C** / **D** en parallèle si capacité → **E** → **F** continu.
 
