@@ -19,7 +19,7 @@ _Résumé en une ligne :_ « L'effort ne s'achète pas, il se prouve. » — Com
 
 ## Issues & suivi
 
-- **[docs/issues/issues.md](./docs/issues/issues.md)** – Liste de toutes les issues (fondation, Supabase, Auth, Onboarding, Arène, etc.). Cocher `[x]` au fur et à mesure.
+- **[docs/issues/issues.md](./docs/issues/issues.md)** – Backlog **post-MVP** (admin UGC, Creator Score, streaks, etc.) + vision différenciation. Cocher `[x]` au fur et à mesure.
 
 ## Démarrer
 

@@ -7,15 +7,14 @@ alwaysApply: true
 
 When starting or finishing work tied to an Issue, follow this exact sequence.
 
+**Tracker:** `docs/issues/issues.md` is the **post-MVP backlog** (checkboxes + section Admin UGC). For work in flight, set **🟡** in **Suivi synthétique** or add a short line (GitHub `#n`, branch, PR) under the relevant bullet.
+
 ## Start an Issue (before coding)
 
 - **Merge previous work**: ensure the previous Issue is merged to main (or explicitly acknowledged as not needed).
 - **Create GitHub Issue**: create/confirm the Issue exists on GitHub and capture its number (e.g. `#25`).
 - **Create branch**: `feature/issue-[NUMBER]-short-slug` (or `fix/...`, `chore/...` per `git-workflow.mdc`).
-- **Update docs**: in `docs/issues/issues.md`, set the Issue status to **🟡 IN PROGRESS** and note:
-  - GitHub Issue number
-  - branch name
-  - (if applicable) previous PR merged
+- **Update docs**: in `docs/issues/issues.md`, mark the theme **🟡** in **Suivi synthétique** (or add GitHub number + branch under the item).
 
 ## During development
 
@@ -27,13 +26,12 @@ When starting or finishing work tied to an Issue, follow this exact sequence.
 
 - **Open PR**: create a PR referencing the GitHub Issue number in title/body.
 - **Update docs**: in `docs/issues/issues.md`:
-  - mark tasks + AC checkboxes
-  - add PR link
-  - set status to **🟢 COMPLETED** when AC is OK
+  - check off completed `[x]` where applicable
+  - add PR link next to the item (or in **Suivi synthétique**)
+  - set the row to **🟢** when merged to `main` (and migrations prod if applicable)
 - Only then start the next Issue.
 
 ## If the user says “on en a déjà”
 
 - Do **not** recreate Issues/branches/PRs.
 - Instead: verify current branch + local git status, then update `docs/issues/issues.md` to reflect reality.
-

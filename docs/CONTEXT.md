@@ -64,4 +64,4 @@ Les règles Cursor (`.cursor/rules/*.mdc`) détaillent l’architecture, le back
 
 ## 6. Issues & tracking
 
-Tasks are in **[docs/issues/issues.md](./issues/issues.md)** : full tracker by feature (Voyagely style), with detailed sub-tasks, acceptance criteria, and progress table through MVP. Includes **Issue #2: i18n & light/dark theme** right after DB (Issue #1). See [docs/issues/README.md](./issues/README.md) for the convention.
+**Backlog post-MVP** (dont périmètre **Admin UGC**) : **[docs/issues/issues.md](./issues/issues.md)**. Conventions : **[docs/issues/README.md](./issues/README.md)**.
