@@ -278,7 +278,42 @@
     "pendingBody": "Ce défi est verrouillé jusqu'à validation. Partage le lien avec un admin si besoin.",
     "rejectedTitle": "NON PUBLIÉ",
     "rejectedBody": "Ce défi n'a pas été validé. Crée une nouvelle version ou contacte le support.",
+    "rejectionModeratorNote": "Note modération :\n{note}",
     "maxTimeCap": "Termine sous {cap} — au-delà, impossible d'envoyer le temps."
+  },
+  "admin": {
+    "title": "FILE MODÉRATION UGC",
+    "subtitle": "Approuve ou refuse les défis communautaires. Rien ne passe en ligne sans toi.",
+    "nav": {
+      "link": "MOD"
+    },
+    "queue": {
+      "loading": "Chargement de la file…",
+      "empty": "Aucun défi en attente.",
+      "selectAll": "Tout sélectionner",
+      "clearSelection": "Effacer",
+      "approveSelected": "Approuver la sélection ({count})",
+      "batchApproving": "Approbation…",
+      "approve": "Approuver",
+      "reject": "Refuser",
+      "colTitle": "Titre",
+      "colType": "Type",
+      "colCreator": "Créateur",
+      "colActions": "Actions",
+      "selectRow": "Sélectionner la ligne : {title}"
+    },
+    "rejectModal": {
+      "title": "Refuser le défi",
+      "reasonLabel": "Motif (visible créateur)",
+      "reasonTooShort": "Au moins 10 caractères.",
+      "failed": "Refus impossible",
+      "cancel": "Annuler",
+      "confirm": "Refuser",
+      "submitting": "Refus…"
+    },
+    "errors": {
+      "actionFailed": "Action impossible"
+    }
   },
   "leaderboard": {
     "title": "Classement",

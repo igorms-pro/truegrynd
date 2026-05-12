@@ -1,13 +1,11 @@
 import { supabase } from '@/lib/supabase';
+import { PROFILE_COLUMNS } from '@/lib/profileSelect';
 import type { Faction, Profile, Sex } from '@/lib/types/database.types';
-
-const PROFILE_SELECT =
-  'id,username,sex,age,weight_kg,faction,initiation_completed,creator_score,streak_days,last_activity_at,avatar_url,created_at,updated_at';
 
 export async function fetchOrEnsureProfile(userId: string): Promise<Profile> {
   const { data, error } = await supabase
     .from('profiles')
-    .select(PROFILE_SELECT)
+    .select(PROFILE_COLUMNS)
     .eq('id', userId)
     .maybeSingle<Profile>();
 
@@ -17,7 +15,7 @@ export async function fetchOrEnsureProfile(userId: string): Promise<Profile> {
   const { data: upserted, error: upsertError } = await supabase
     .from('profiles')
     .upsert({ id: userId }, { onConflict: 'id' })
-    .select(PROFILE_SELECT)
+    .select(PROFILE_COLUMNS)
     .maybeSingle<Profile>();
 
   if (upsertError) throw new Error(upsertError.message);
@@ -44,7 +42,7 @@ export async function upsertIdentity(input: {
       },
       { onConflict: 'id' },
     )
-    .select(PROFILE_SELECT)
+    .select(PROFILE_COLUMNS)
     .maybeSingle<Profile>();
 
   if (error) throw new Error(error.message);
@@ -57,7 +55,7 @@ export async function completeInitiation(userId: string): Promise<Profile> {
     .from('profiles')
     .update({ initiation_completed: true })
     .eq('id', userId)
-    .select(PROFILE_SELECT)
+    .select(PROFILE_COLUMNS)
     .maybeSingle<Profile>();
 
   if (error) throw new Error(error.message);
@@ -70,7 +68,7 @@ export async function setFaction(input: { userId: string; faction: Faction }): P
     .from('profiles')
     .update({ faction: input.faction })
     .eq('id', input.userId)
-    .select(PROFILE_SELECT)
+    .select(PROFILE_COLUMNS)
     .maybeSingle<Profile>();
 
   if (error) throw new Error(error.message);

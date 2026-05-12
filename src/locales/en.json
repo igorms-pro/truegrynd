@@ -278,7 +278,42 @@
     "pendingBody": "This challenge is locked until it is approved. Share the link with mods if needed.",
     "rejectedTitle": "NOT PUBLISHED",
     "rejectedBody": "This challenge did not pass review. Create a new version or contact support.",
+    "rejectionModeratorNote": "Moderator note:\n{note}",
     "maxTimeCap": "Finish under {cap} — slower times cannot be submitted."
+  },
+  "admin": {
+    "title": "UGC MOD QUEUE",
+    "subtitle": "Approve or reject community challenges. Nothing goes live without you.",
+    "nav": {
+      "link": "MOD"
+    },
+    "queue": {
+      "loading": "Loading queue…",
+      "empty": "No pending challenges.",
+      "selectAll": "Select all",
+      "clearSelection": "Clear",
+      "approveSelected": "Approve selected ({count})",
+      "batchApproving": "Approving…",
+      "approve": "Approve",
+      "reject": "Reject",
+      "colTitle": "Title",
+      "colType": "Type",
+      "colCreator": "Creator",
+      "colActions": "Actions",
+      "selectRow": "Select row: {title}"
+    },
+    "rejectModal": {
+      "title": "Reject challenge",
+      "reasonLabel": "Reason for creator",
+      "reasonTooShort": "At least 10 characters.",
+      "failed": "Reject failed",
+      "cancel": "Cancel",
+      "confirm": "Reject",
+      "submitting": "Rejecting…"
+    },
+    "errors": {
+      "actionFailed": "Action failed"
+    }
   },
   "leaderboard": {
     "title": "Leaderboard",

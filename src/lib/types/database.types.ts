@@ -20,6 +20,7 @@ export interface Profile {
   streak_days: number;
   last_activity_at: string | null;
   avatar_url: string | null;
+  is_admin: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -54,6 +55,10 @@ export interface Challenge {
   is_official: boolean;
   status: ChallengeStatus;
   creator_id: string | null;
+  /** Set when an admin rejects the challenge; visible to the creator. */
+  rejection_reason?: string | null;
+  reviewed_at?: string | null;
+  reviewed_by?: string | null;
   /** For `time` challenges: reject submissions with time (seconds) greater than this. Omitted or null = no cap. */
   max_duration_seconds?: number | null;
   created_at: string;

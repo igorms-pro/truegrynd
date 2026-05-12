@@ -9,9 +9,10 @@
 
 ## État livraison
 
-| Quoi                                              | Statut                                                                                                                         |
-| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| **UGC Creator Studio + migrations `006` / `007`** | **Mergé `main`** — PR [#30](https://github.com/igorms-pro/truegrynd/pull/30). Ops : migrations **prod** alignées avec le repo. |
+| Quoi                                              | Statut                                                                                                                                                                                                                                  |
+| ------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **UGC Creator Studio + migrations `006` / `007`** | **Mergé `main`** — PR [#30](https://github.com/igorms-pro/truegrynd/pull/30). Ops : migrations **prod** alignées avec le repo.                                                                                                          |
+| **Admin UGC (#39)**                               | **PR à ouvrir** — branche `feature/issue-39-admin-ugc-moderation` ; GitHub [#39](https://github.com/igorms-pro/truegrynd/issues/39) ; migration **`008`** (appliquée en local / à aligner prod). **Hors scope PR :** tri IA **A9–A10**. |
 
 ---
 
