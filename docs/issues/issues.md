@@ -227,7 +227,7 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | UGC création + cap                       | 🟢 PR #30                                                                                                                     |
 | Doc backlog V1 (ce fichier)              | 🟢 [#31](https://github.com/igorms-pro/truegrynd/issues/31) mergé — PR [#32](https://github.com/igorms-pro/truegrynd/pull/32) |
-| Doc tri IA + mouvements mix (ce fichier) | 🟡 [#35](https://github.com/igorms-pro/truegrynd/issues/35) — branche `chore/issue-35-docs-movement-ai-admin`                 |
+| Doc tri IA + mouvements mix (ce fichier) | 🟢 [#35](https://github.com/igorms-pro/truegrynd/issues/35) mergé — PR [#36](https://github.com/igorms-pro/truegrynd/pull/36) |
 | **`/app/admin`**                         | 🔴 — suivre section **A**                                                                                                     |
 | Creator Score                            | 🔴 — section **B**                                                                                                            |
 | Streaks                                  | 🔴 — section **C**                                                                                                            |
