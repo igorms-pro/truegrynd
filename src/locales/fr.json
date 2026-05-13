@@ -303,7 +303,19 @@
       "colCreator": "Créateur",
       "colSubmitted": "Soumis",
       "colActions": "Actions",
-      "selectRow": "Sélectionner la ligne : {title}"
+      "selectRow": "Sélectionner la ligne : {title}",
+      "paginationPrev": "Précédent",
+      "paginationNext": "Suivant",
+      "paginationSummary": "Page {page} sur {totalPages} · {totalCount} en attente"
+    },
+    "approveConfirm": {
+      "titleSingle": "Approuver ce défi ?",
+      "titleBatch": "Approuver la sélection ?",
+      "bodySingle": "Cela publiera « {title} » dans l’Arène.",
+      "bodyBatch": "Cela publiera {count} défis.",
+      "confirm": "Approuver",
+      "cancel": "Annuler",
+      "submitting": "Approbation…"
     },
     "rejectModal": {
       "title": "Refuser le défi",

@@ -1,26 +1,31 @@
 'use client';
 
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 
-import { AdminPendingChallengeRow } from '@/features/admin/components/AdminPendingChallengeRow';
+import { AdminChallengeQueueDialogs } from '@/features/admin/components/AdminChallengeQueueDialogs';
+import { AdminPendingChallengesTable } from '@/features/admin/components/AdminPendingChallengesTable';
 import { AdminQueueBatchToolbar } from '@/features/admin/components/AdminQueueBatchToolbar';
-import { AdminRejectModal } from '@/features/admin/components/AdminRejectModal';
+import { AdminQueuePagination } from '@/features/admin/components/AdminQueuePagination';
+import { useAdminChallengeQueueUi } from '@/features/admin/hooks/useAdminChallengeQueueUi';
 import { useAdminPendingChallenges } from '@/features/admin/hooks/useAdminPendingChallenges';
+import { adminQueueMaxPage } from '@/features/admin/lib/adminQueueConstants';
 import type { AdminPendingChallenge as PendingRow } from '@/features/admin/services/adminChallenges';
 
 export function AdminChallengeQueue() {
   const t = useTranslations('admin.queue');
   const tErr = useTranslations('admin.errors');
   const locale = useLocale();
-  const { state, approveOne, batchApprove, rejectOne } = useAdminPendingChallenges();
-  const [selected, setSelected] = useState<Set<string>>(() => new Set());
-  const [busyId, setBusyId] = useState<string | null>(null);
-  const [batchBusy, setBatchBusy] = useState(false);
-  const [actionError, setActionError] = useState<string | null>(null);
-  const [rejectTarget, setRejectTarget] = useState<PendingRow | null>(null);
+  const { state, page, setPage, pageSize, approveOne, batchApprove, rejectOne } =
+    useAdminPendingChallenges();
 
-  const rows = state.rows;
+  const rows = useMemo((): PendingRow[] => {
+    return state.status === 'ready' ? state.rows : [];
+  }, [state]);
+
+  const totalCount = state.status === 'ready' ? state.totalCount : 0;
+  const totalPages = adminQueueMaxPage(totalCount, pageSize);
+
   const allIds = useMemo(() => rows.map((r) => r.id), [rows]);
   const dateFmt = useMemo(() => new Intl.DateTimeFormat(locale, { dateStyle: 'short' }), [locale]);
   const rowsWithLabels = useMemo(
@@ -32,88 +37,58 @@ export function AdminChallengeQueue() {
     [dateFmt, rows],
   );
 
-  const toggle = useCallback((id: string) => {
-    setSelected((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
-  }, []);
-
-  const selectAll = useCallback(() => {
-    setSelected(new Set(allIds));
-  }, [allIds]);
-
-  const clearSelection = useCallback(() => {
-    setSelected(new Set());
-  }, []);
-
-  const handleApproveRow = useCallback(
-    async (id: string) => {
-      setActionError(null);
-      setBusyId(id);
-      try {
-        await approveOne(id);
-        setSelected((prev) => {
-          const next = new Set(prev);
-          next.delete(id);
-          return next;
-        });
-      } catch (e: unknown) {
-        const message = e instanceof Error ? e.message : 'unknown';
-        setActionError(`${tErr('actionFailed')} (${message})`);
-      } finally {
-        setBusyId(null);
-      }
-    },
-    [approveOne, tErr],
+  const formatActionError = useCallback(
+    (message: string) => `${tErr('actionFailed')} (${message})`,
+    [tErr],
   );
 
-  const handleBatchApprove = useCallback(async () => {
-    const ids = [...selected];
-    if (ids.length === 0) return;
-    setActionError(null);
-    setBatchBusy(true);
-    try {
-      await batchApprove(ids);
-      clearSelection();
-    } catch (e: unknown) {
-      const message = e instanceof Error ? e.message : 'unknown';
-      setActionError(`${tErr('actionFailed')} (${message})`);
-    } finally {
-      setBatchBusy(false);
-    }
-  }, [batchApprove, clearSelection, selected, tErr]);
+  const {
+    selected,
+    toggle,
+    selectAll,
+    clearSelection,
+    busyId,
+    batchBusy,
+    approveBusy,
+    actionError,
+    rejectTarget,
+    approveTarget,
+    setApproveTarget,
+    requestApproveRow,
+    handleConfirmApprove,
+    handleBatchApproveRequest,
+    handleModalClose,
+    handleConfirmReject,
+    openReject,
+  } = useAdminChallengeQueueUi({
+    rows,
+    approveOne,
+    batchApprove,
+    rejectOne,
+    formatActionError,
+  });
 
-  const handleBatchApproveClick = useCallback(() => {
-    void handleBatchApprove();
-  }, [handleBatchApprove]);
+  const goPrevPage = useCallback(() => {
+    setPage(Math.max(1, page - 1));
+  }, [page, setPage]);
 
-  const openReject = useCallback(
-    (id: string) => {
-      const row = rows.find((r) => r.id === id) ?? null;
-      setRejectTarget(row);
-    },
-    [rows],
-  );
+  const goNextPage = useCallback(() => {
+    setPage(Math.min(totalPages, page + 1));
+  }, [page, setPage, totalPages]);
 
-  const handleModalClose = useCallback(() => {
-    setRejectTarget(null);
-  }, []);
+  const interactionLocked = busyId !== null || batchBusy || approveBusy;
 
-  const handleConfirmReject = useCallback(
-    async (reason: string) => {
-      if (!rejectTarget) return;
-      await rejectOne(rejectTarget.id, reason);
-      setSelected((prev) => {
-        const next = new Set(prev);
-        next.delete(rejectTarget.id);
-        return next;
-      });
-    },
-    [rejectOne, rejectTarget],
-  );
+  const handleBatchClick = useCallback(() => {
+    handleBatchApproveRequest([...selected]);
+  }, [handleBatchApproveRequest, selected]);
+
+  const handleSelectAll = useCallback(() => {
+    selectAll(allIds);
+  }, [allIds, selectAll]);
+
+  const closeApproveModal = useCallback(() => {
+    setApproveTarget(null);
+  }, [setApproveTarget]);
 
   if (state.status === 'loading') {
     return <p className="text-sm text-muted-foreground">{t('loading')}</p>;
@@ -123,9 +98,14 @@ export function AdminChallengeQueue() {
     return <p className="text-sm text-primary">{state.error}</p>;
   }
 
-  if (rows.length === 0) {
+  if (state.status === 'ready' && state.totalCount === 0) {
     return <p className="text-sm text-muted-foreground">{t('empty')}</p>;
   }
+
+  const approveModalOpen = approveTarget !== null;
+  const approveVariant = approveTarget?.kind === 'batch' ? 'batch' : 'single';
+  const batchCount = approveTarget?.kind === 'batch' ? approveTarget.ids.length : 0;
+  const singleTitle = approveTarget?.kind === 'single' ? approveTarget.row.title : '';
 
   return (
     <div className="space-y-4">
@@ -136,57 +116,40 @@ export function AdminChallengeQueue() {
       ) : null}
       <AdminQueueBatchToolbar
         batchBusy={batchBusy}
-        rowBusy={busyId !== null}
+        rowBusy={interactionLocked}
         selectedCount={selected.size}
-        onSelectAll={selectAll}
+        onSelectAll={handleSelectAll}
         onClearSelection={clearSelection}
-        onBatchApprove={handleBatchApproveClick}
+        onRequestBatchApprove={handleBatchClick}
       />
-      <div className="overflow-x-auto rounded-md border border-border">
-        <table className="w-full min-w-[640px] text-left">
-          <thead>
-            <tr className="border-b border-border bg-muted/40 text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground">
-              <th className="py-2 pr-2 w-10" scope="col">
-                {' '}
-              </th>
-              <th className="py-2 pr-2" scope="col">
-                {t('colTitle')}
-              </th>
-              <th className="py-2 pr-2" scope="col">
-                {t('colType')}
-              </th>
-              <th className="py-2 pr-2" scope="col">
-                {t('colCreator')}
-              </th>
-              <th className="py-2 pr-2" scope="col">
-                {t('colSubmitted')}
-              </th>
-              <th className="py-2 text-right" scope="col">
-                {t('colActions')}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {rowsWithLabels.map(({ row, submittedLabel }) => (
-              <AdminPendingChallengeRow
-                key={row.id}
-                row={row}
-                submittedLabel={submittedLabel}
-                checked={selected.has(row.id)}
-                onToggle={toggle}
-                onApproveRow={handleApproveRow}
-                onRejectRow={openReject}
-                busyId={busyId}
-              />
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <AdminRejectModal
-        open={rejectTarget !== null}
-        challengeTitle={rejectTarget?.title ?? ''}
-        onClose={handleModalClose}
-        onConfirm={handleConfirmReject}
+      <AdminPendingChallengesTable
+        rowsWithLabels={rowsWithLabels}
+        selected={selected}
+        busyId={busyId}
+        onToggle={toggle}
+        onApproveRow={requestApproveRow}
+        onRejectRow={openReject}
+      />
+      <AdminQueuePagination
+        page={page}
+        totalPages={totalPages}
+        totalCount={totalCount}
+        disabled={interactionLocked}
+        onPrev={goPrevPage}
+        onNext={goNextPage}
+      />
+      <AdminChallengeQueueDialogs
+        approveModalOpen={approveModalOpen}
+        approveVariant={approveVariant}
+        approveChallengeTitle={singleTitle}
+        approveBatchCount={batchCount}
+        approveBusy={approveBusy}
+        onApproveClose={closeApproveModal}
+        onApproveConfirm={handleConfirmApprove}
+        rejectOpen={rejectTarget !== null}
+        rejectChallengeTitle={rejectTarget?.title ?? ''}
+        onRejectClose={handleModalClose}
+        onRejectConfirm={handleConfirmReject}
       />
     </div>
   );

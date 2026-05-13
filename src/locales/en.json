@@ -303,7 +303,19 @@
       "colCreator": "Creator",
       "colSubmitted": "Submitted",
       "colActions": "Actions",
-      "selectRow": "Select row: {title}"
+      "selectRow": "Select row: {title}",
+      "paginationPrev": "Previous",
+      "paginationNext": "Next",
+      "paginationSummary": "Page {page} of {totalPages} · {totalCount} pending"
+    },
+    "approveConfirm": {
+      "titleSingle": "Approve challenge?",
+      "titleBatch": "Approve selection?",
+      "bodySingle": "This will publish « {title} » to the Arena.",
+      "bodyBatch": "This will publish {count} challenges.",
+      "confirm": "Approve",
+      "cancel": "Cancel",
+      "submitting": "Approving…"
     },
     "rejectModal": {
       "title": "Reject challenge",

@@ -1,3 +1,4 @@
+import { ADMIN_QUEUE_PAGE_SIZE } from '@/features/admin/lib/adminQueueConstants';
 import { normalizePostgrestCreator } from '@/features/admin/lib/normalizeCreator';
 import { supabase } from '@/lib/supabase';
 import type { Challenge } from '@/lib/types/database.types';
@@ -9,18 +10,33 @@ export type AdminPendingChallenge = Challenge & {
   creator: { username: string | null } | null;
 };
 
-export async function listPendingChallengesForAdmin(): Promise<AdminPendingChallenge[]> {
-  const { data, error } = await supabase
+export type AdminPendingListResult = {
+  rows: AdminPendingChallenge[];
+  totalCount: number;
+};
+
+export async function listPendingChallengesForAdmin(options?: {
+  page?: number;
+  pageSize?: number;
+}): Promise<AdminPendingListResult> {
+  const pageSize = options?.pageSize ?? ADMIN_QUEUE_PAGE_SIZE;
+  const page = Math.max(1, options?.page ?? 1);
+  const from = (page - 1) * pageSize;
+  const to = from + pageSize - 1;
+
+  const { data, error, count } = await supabase
     .from('challenges')
-    .select(PENDING_CHALLENGE_SELECT)
+    .select(PENDING_CHALLENGE_SELECT, { count: 'exact' })
     .eq('status', 'pending')
-    .order('created_at', { ascending: true });
+    .order('created_at', { ascending: true })
+    .range(from, to);
+
   if (error) throw new Error(error.message);
-  const rows = data ?? [];
-  return rows.map((row) => ({
+  const rows = (data ?? []).map((row) => ({
     ...(row as Challenge),
     creator: normalizePostgrestCreator((row as { creator?: unknown }).creator),
   }));
+  return { rows, totalCount: count ?? 0 };
 }
 
 export async function adminApproveChallenge(challengeId: string): Promise<void> {

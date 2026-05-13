@@ -8,7 +8,7 @@ type Props = {
   selectedCount: number;
   onSelectAll: () => void;
   onClearSelection: () => void;
-  onBatchApprove: () => void;
+  onRequestBatchApprove: () => void;
 };
 
 export function AdminQueueBatchToolbar({
@@ -17,7 +17,7 @@ export function AdminQueueBatchToolbar({
   selectedCount,
   onSelectAll,
   onClearSelection,
-  onBatchApprove,
+  onRequestBatchApprove,
 }: Props) {
   const t = useTranslations('admin.queue');
   const disabled = batchBusy || rowBusy;
@@ -42,7 +42,7 @@ export function AdminQueueBatchToolbar({
       </button>
       <button
         type="button"
-        onClick={onBatchApprove}
+        onClick={onRequestBatchApprove}
         disabled={disabled || selectedCount === 0}
         className="rounded-md bg-primary px-3 py-2 text-xs font-black uppercase tracking-[0.14em] text-primary-foreground hover:opacity-90 disabled:opacity-50"
       >

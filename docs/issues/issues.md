@@ -9,10 +9,10 @@
 
 ## État livraison
 
-| Quoi                                              | Statut                                                                                                                                                                                                                                                                                                                                                                          |
-| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **UGC Creator Studio + migrations `006` / `007`** | **Mergé `main`** — PR [#30](https://github.com/igorms-pro/truegrynd/pull/30). Ops : migrations **prod** alignées avec le repo.                                                                                                                                                                                                                                                  |
-| **Admin UGC (#39)**                               | **Suite sur branche** `feature/issue-39-admin-ugc-moderation` (PR à ouvrir / merger) — GitHub [#39](https://github.com/igorms-pro/truegrynd/issues/39) ; migration **`008`** appliquée. Dock mobile **MOD**, colonne date file, max motif 500 car., tests `normalizePostgrestCreator`. **Reste backlog :** tri IA **A9–A10**, pagination / confirm approve (A6), tests SQL RLS. |
+| Quoi                                              | Statut                                                                                                                                                                                                                                                                                                               |
+| ------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **UGC Creator Studio + migrations `006` / `007`** | **Mergé `main`** — PR [#30](https://github.com/igorms-pro/truegrynd/pull/30). Ops : migrations **prod** alignées avec le repo.                                                                                                                                                                                       |
+| **Admin UGC (#39)**                               | **Suite sur branche** `feature/issue-39-admin-ugc-moderation` — GitHub [#39](https://github.com/igorms-pro/truegrynd/issues/39) ; **`008`**. File paginée (**20**/page), **confirm** avant approve ligne/lot, dock **MOD**, motif max **500** car. **Reste backlog :** tri IA **A9–A10**, tests SQL RLS (optionnel). |
 
 ---
 
@@ -51,7 +51,7 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 
 **Objectif :** comptes **admin** voient la file **`challenges.status = 'pending'`**, **approuvent** ou **rejettent** avec **motif** + **audit** ; créateur voit **rejet + raison** ; **aucune** clé `service_role` côté client — tout passe par **RLS + RPC** (ou policies équivalentes strictes).
 
-> **Implémenté (PR #39, hors A9–A10)** : migration `008`, RPC + RLS, `/app/admin/challenges`, liste + batch approve + reject (min 10 / max 500 car.), i18n, `ChallengeDetail` + motif modération, nav **MOD** desktop + dock mobile, tests unitaires embed créateur.
+> **Implémenté (PR #39, hors A9–A10)** : migration `008`, RPC + RLS, `/app/admin/challenges`, liste paginée (**20**/page) + batch approve + reject (min 10 / max 500 car.), **confirmation** avant approve, i18n, `ChallengeDetail` + motif modération, nav **MOD** desktop + dock mobile, tests embed créateur.
 
 ### A1. Données & migrations (`008` ou suivant)
 
