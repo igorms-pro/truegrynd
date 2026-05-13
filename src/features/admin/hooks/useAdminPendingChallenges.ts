@@ -38,7 +38,7 @@ export function useAdminPendingChallenges(): {
   approveOne: (id: string) => Promise<void>;
   batchApprove: (ids: string[], options?: { onlyGreen?: boolean }) => Promise<number>;
   rejectOne: (id: string, reason: string) => Promise<void>;
-  analyzeOne: (id: string, accessToken: string | null) => Promise<void>;
+  analyzeOne: (id: string) => Promise<void>;
   analyzeBusyId: string | null;
 } {
   const [state, setState] = useState<State>(initial);
@@ -118,13 +118,10 @@ export function useAdminPendingChallenges(): {
   );
 
   const analyzeOne = useCallback(
-    async (id: string, accessToken: string | null) => {
-      if (!accessToken) {
-        throw new Error('no_session');
-      }
+    async (id: string) => {
       setAnalyzeBusyId(id);
       try {
-        await adminRunChallengeAiReview({ challengeId: id, accessToken });
+        await adminRunChallengeAiReview({ challengeId: id });
         refetch();
       } finally {
         setAnalyzeBusyId(null);

@@ -9,11 +9,11 @@
 
 ## État livraison
 
-| Quoi                                              | Statut                                                                                                                                                                                                                                                                                                   |
-| ------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **UGC Creator Studio + migrations `006` / `007`** | **Mergé `main`** — PR [#30](https://github.com/igorms-pro/truegrynd/pull/30). Ops : migrations **prod** alignées avec le repo.                                                                                                                                                                           |
-| **Admin UGC (#39)**                               | **Branche** `feature/issue-39-admin-ugc-moderation` → PR vers `main` — [#39](https://github.com/igorms-pro/truegrynd/issues/39), migration **`008`**. Paginate **20**, confirm approve, **retry** si erreur fetch, dock **MOD** + **DesktopNavLink** / **DockNavItem**, motif **500** max.               |
-| **Admin tri IA (#40)**                            | **🟡 PR à merger** — [#40](https://github.com/igorms-pro/truegrynd/issues/40), branche `feature/issue-40-admin-ai-triage`, migration **`009`** **appliquée**. Route **`POST /api/admin/challenges/[id]/ai-review`**. Sur Vercel : **`OPENAI_API_KEY`** (server-only) pour activer le bouton **AI scan**. |
+| Quoi                                              | Statut                                                                                                                                                                                                                                                                                     |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **UGC Creator Studio + migrations `006` / `007`** | **Mergé `main`** — PR [#30](https://github.com/igorms-pro/truegrynd/pull/30). Ops : migrations **prod** alignées avec le repo.                                                                                                                                                             |
+| **Admin UGC (#39)**                               | **Branche** `feature/issue-39-admin-ugc-moderation` → PR vers `main` — [#39](https://github.com/igorms-pro/truegrynd/issues/39), migration **`008`**. Paginate **20**, confirm approve, **retry** si erreur fetch, dock **MOD** + **DesktopNavLink** / **DockNavItem**, motif **500** max. |
+| **Admin tri IA (#40)**                            | **🟡 PR à merger** — [#40](https://github.com/igorms-pro/truegrynd/issues/40), branche `feature/issue-40-admin-ai-triage`, migration **`009`** **appliquée**. **Edge Function** `admin-challenge-ai-review` + secrets **`OPENAI_API_KEY`** sur **Supabase** (pas sur Vercel).              |
 
 ---
 
@@ -39,7 +39,7 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 
 - [x] **FEAT** — Creator Studio + RLS UGC + cap temps — PR [#30](https://github.com/igorms-pro/truegrynd/pull/30)
 - [x] **FEAT** — `/app/admin` **core** — modération file + RPC `008` + nav MOD (#39, branche `feature/issue-39-admin-ugc-moderation`) — **hors** tri IA **A9–A10**
-- [ ] **FEAT** — `/app/admin` **tri IA** — **A9–A10** — [#40](https://github.com/igorms-pro/truegrynd/issues/40), branche `feature/issue-40-admin-ai-triage`, migration **`009`** + route **`/api/admin/challenges/[id]/ai-review`** (IA OpenAI server-side, pas d’auto-approve)
+- [ ] **FEAT** — `/app/admin` **tri IA** — **A9–A10** — [#40](https://github.com/igorms-pro/truegrynd/issues/40), branche `feature/issue-40-admin-ai-triage`, migration **`009`** + Edge Function **`admin-challenge-ai-review`** (OpenAI côté Supabase, pas d’auto-approve)
 - [ ] **FEAT** — Prescription / **bibliothèque mouvements (mix)** — section **G**
 - [ ] **FEAT** — Creator Score — section **B**
 - [ ] **FEAT** — Streaks — section **C**
@@ -138,9 +138,9 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 
 L’IA n’a pas besoin d’être “hors du repo” au sens code : le **code** est dans Truegrynd ; les **secrets** ne le sont jamais.
 
-- [x] **Variables d’environnement** — **`OPENAI_API_KEY`** / **`OPENAI_MODEL`** server-only (voir `.env.local.example`) ; **jamais** `NEXT_PUBLIC_*` pour une clé fournisseur.
-- [x] **Route Handler** `POST /api/admin/challenges/[challengeId]/ai-review` : Bearer Supabase session + `is_app_admin()`, OpenAI, puis RPC **`admin_apply_challenge_ai_review`**.
-- [ ] **Alternative** : **Supabase Edge Function** + secret dans le dashboard Supabase (non requis si la route Next suffit).
+- [x] **Secrets** — **`OPENAI_API_KEY`** / **`OPENAI_MODEL`** (optionnel) dans **Supabase Dashboard → Edge Functions → Secrets** pour la fonction **`admin-challenge-ai-review`** ; **jamais** `NEXT_PUBLIC_*` pour une clé fournisseur.
+- [x] **Supabase Edge Function** `admin-challenge-ai-review` : JWT utilisateur + `is_app_admin()`, OpenAI, puis RPC **`admin_apply_challenge_ai_review`**. Déploiement : `supabase functions deploy admin-challenge-ai-review`.
+- [x] **Route Handler Next** : retiré au profit de l’Edge Function (plus de clé OpenAI sur l’hébergeur Vercel).
 - [ ] **SaaS externe** (service tiers dédié) : possible plus tard ; même règle : contrat HTTP + secrets hors repo.
 
 ---

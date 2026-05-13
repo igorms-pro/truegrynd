@@ -94,13 +94,13 @@ export function AdminChallengeQueue() {
     async (id: string) => {
       setAnalyzeError(null);
       try {
-        await analyzeOne(id, accessToken);
+        await analyzeOne(id);
       } catch (e: unknown) {
         const code = e instanceof Error ? e.message : 'unknown';
         setAnalyzeError(formatAdminAnalyzeError(code, tErr));
       }
     },
-    [accessToken, analyzeOne, tErr],
+    [analyzeOne, tErr],
   );
 
   const goPrevPage = useCallback(() => {

@@ -349,11 +349,13 @@
       "loadFailed": "Impossible de charger la file de modération.",
       "retry": "Réessayer",
       "analyzeNoSession": "Reconnecte-toi pour lancer le scan IA.",
-      "analyzeUnconfigured": "Scan IA non configuré (clé API absente).",
+      "analyzeUnconfigured": "Scan IA non configuré : secrets OPENAI_API_KEY (et optionnel OPENAI_MODEL) sur Supabase pour la fonction Edge admin-challenge-ai-review.",
       "analyzeFailed": "Échec du scan IA. Réessaie plus tard.",
       "analyzeForbidden": "Tu n’as pas le droit de lancer le scan IA.",
       "analyzeNotFound": "Défi introuvable.",
       "analyzeNotPending": "Seuls les défis en attente peuvent être scannés.",
+      "analyzeServerMisconfigured": "URL Supabase ou clé anon manquante dans l’app.",
+      "analyzePersistFailed": "Impossible d’enregistrer le tri IA. Vérifie que le défi est toujours en attente.",
       "analyzeGeneric": "Erreur scan IA ({code})."
     }
   },

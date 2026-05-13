@@ -14,6 +14,10 @@ export function formatAdminAnalyzeError(code: string, tErr: TranslateErrors): st
       return tErr('analyzeNotFound');
     case 'not_pending':
       return tErr('analyzeNotPending');
+    case 'server_misconfigured':
+      return tErr('analyzeServerMisconfigured');
+    case 'persist_failed':
+      return tErr('analyzePersistFailed');
     default:
       return tErr('analyzeGeneric', { code });
   }

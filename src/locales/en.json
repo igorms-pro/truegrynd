@@ -349,11 +349,13 @@
       "loadFailed": "Could not load the moderation queue.",
       "retry": "Retry",
       "analyzeNoSession": "Sign in again to run AI scan.",
-      "analyzeUnconfigured": "AI scan is not configured on the server (missing API key).",
+      "analyzeUnconfigured": "AI scan is not configured: set secrets OPENAI_API_KEY (and optional OPENAI_MODEL) on Supabase for the Edge Function admin-challenge-ai-review.",
       "analyzeFailed": "AI scan failed. Try again later.",
       "analyzeForbidden": "You are not allowed to run AI scan.",
       "analyzeNotFound": "Challenge not found.",
       "analyzeNotPending": "Only pending challenges can be scanned.",
+      "analyzeServerMisconfigured": "Missing Supabase URL or anon key in the app environment.",
+      "analyzePersistFailed": "Could not save AI triage. Check the challenge is still pending.",
       "analyzeGeneric": "AI scan error ({code})."
     }
   },
