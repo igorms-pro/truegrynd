@@ -2,28 +2,31 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Shield } from 'lucide-react';
+import { Shield, type LucideIcon } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 
 import { useOptionalAppProfile } from '@/features/appshell/context/AppProfileContext';
-import { APP_TABS, isTabActive, type AppTab } from '@/features/appshell/lib/tabs';
+import { APP_TABS, isTabActive } from '@/features/appshell/lib/tabs';
 
-type DockItemProps = {
-  tab: AppTab;
-  isActive: boolean;
+type DockNavItemProps = {
   href: string;
+  isActive: boolean;
   label: string;
+  icon: LucideIcon;
+  /** Defaults to `label` when omitted (tabs). Admin uses a longer phrase for SR-only. */
+  ariaLabel?: string;
 };
 
-function DockItem({ tab, isActive, href, label }: DockItemProps) {
-  const Icon = tab.icon;
+function DockNavItem({ href, isActive, label, icon: Icon, ariaLabel }: DockNavItemProps) {
+  const linkAria = ariaLabel ?? label;
+
   return (
     <li className="flex-1">
       <Link
         href={href}
         className="relative flex h-full flex-col items-center justify-center gap-1 px-1 py-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         aria-current={isActive ? 'page' : undefined}
-        aria-label={label}
+        aria-label={linkAria}
       >
         {isActive ? (
           <span
@@ -32,46 +35,6 @@ function DockItem({ tab, isActive, href, label }: DockItemProps) {
           />
         ) : null}
         <Icon
-          className={`h-5 w-5 transition-colors ${
-            isActive ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
-          }`}
-          strokeWidth={isActive ? 2.4 : 1.8}
-        />
-        <span
-          className={`text-[10px] font-black uppercase tracking-[0.18em] transition-colors ${
-            isActive ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
-          }`}
-        >
-          {label}
-        </span>
-      </Link>
-    </li>
-  );
-}
-
-type AdminDockItemProps = {
-  href: string;
-  isActive: boolean;
-  label: string;
-  ariaLabel: string;
-};
-
-function AdminDockItem({ href, isActive, label, ariaLabel }: AdminDockItemProps) {
-  return (
-    <li className="flex-1">
-      <Link
-        href={href}
-        className="relative flex h-full flex-col items-center justify-center gap-1 px-1 py-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-        aria-current={isActive ? 'page' : undefined}
-        aria-label={ariaLabel}
-      >
-        {isActive ? (
-          <span
-            aria-hidden="true"
-            className="absolute top-0 left-1/2 h-[2px] w-10 -translate-x-1/2 bg-primary"
-          />
-        ) : null}
-        <Shield
           className={`h-5 w-5 transition-colors ${
             isActive ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
           }`}
@@ -106,19 +69,20 @@ export function BottomDock() {
     >
       <ul className="mx-auto flex h-16 w-full max-w-md items-stretch">
         {APP_TABS.map((tab) => (
-          <DockItem
+          <DockNavItem
             key={tab.id}
-            tab={tab}
-            isActive={isTabActive(pathname, locale, tab)}
             href={`/${locale}${tab.path}`}
+            isActive={isTabActive(pathname, locale, tab)}
             label={t(tab.labelKey)}
+            icon={tab.icon}
           />
         ))}
         {profile?.is_admin ? (
-          <AdminDockItem
+          <DockNavItem
             href={adminHref}
             isActive={adminActive}
             label={tAdmin('dock')}
+            icon={Shield}
             ariaLabel={tAdmin('dockAria')}
           />
         ) : null}
