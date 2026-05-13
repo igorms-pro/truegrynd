@@ -1,6 +1,6 @@
 import { createClient } from 'npm:@supabase/supabase-js@2';
 
-import { corsHeaders } from '../_shared/cors.ts';
+import { corsHeaders } from './cors.ts';
 
 const MAX_FIELD_CHARS = 8000;
 
