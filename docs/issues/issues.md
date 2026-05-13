@@ -9,10 +9,11 @@
 
 ## État livraison
 
-| Quoi                                              | Statut                                                                                                                                                                                                                                                                                                                                           |
-| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **UGC Creator Studio + migrations `006` / `007`** | **Mergé `main`** — PR [#30](https://github.com/igorms-pro/truegrynd/pull/30). Ops : migrations **prod** alignées avec le repo.                                                                                                                                                                                                                   |
-| **Admin UGC (#39)**                               | **Branche** `feature/issue-39-admin-ugc-moderation` → PR vers `main` — [#39](https://github.com/igorms-pro/truegrynd/issues/39), migration **`008`**. Paginate **20**, confirm approve, **retry** si erreur fetch, dock **MOD** + **DesktopNavLink** / **DockNavItem**, motif **500** max. **Suite :** **A9–A10** IA, tests SQL RLS (optionnel). |
+| Quoi                                              | Statut                                                                                                                                                                                                                                                                                                   |
+| ------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **UGC Creator Studio + migrations `006` / `007`** | **Mergé `main`** — PR [#30](https://github.com/igorms-pro/truegrynd/pull/30). Ops : migrations **prod** alignées avec le repo.                                                                                                                                                                           |
+| **Admin UGC (#39)**                               | **Branche** `feature/issue-39-admin-ugc-moderation` → PR vers `main` — [#39](https://github.com/igorms-pro/truegrynd/issues/39), migration **`008`**. Paginate **20**, confirm approve, **retry** si erreur fetch, dock **MOD** + **DesktopNavLink** / **DockNavItem**, motif **500** max.               |
+| **Admin tri IA (#40)**                            | **🟡 PR à merger** — [#40](https://github.com/igorms-pro/truegrynd/issues/40), branche `feature/issue-40-admin-ai-triage`, migration **`009`** **appliquée**. Route **`POST /api/admin/challenges/[id]/ai-review`**. Sur Vercel : **`OPENAI_API_KEY`** (server-only) pour activer le bouton **AI scan**. |
 
 ---
 
@@ -38,7 +39,7 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 
 - [x] **FEAT** — Creator Studio + RLS UGC + cap temps — PR [#30](https://github.com/igorms-pro/truegrynd/pull/30)
 - [x] **FEAT** — `/app/admin` **core** — modération file + RPC `008` + nav MOD (#39, branche `feature/issue-39-admin-ugc-moderation`) — **hors** tri IA **A9–A10**
-- [ ] **FEAT** — `/app/admin` **tri IA** — **A9–A10** — branche `feature/issue-40-admin-ai-triage`, migration **`009`** + route **`/api/admin/challenges/[id]/ai-review`** (IA OpenAI server-side, pas d’auto-approve)
+- [ ] **FEAT** — `/app/admin` **tri IA** — **A9–A10** — [#40](https://github.com/igorms-pro/truegrynd/issues/40), branche `feature/issue-40-admin-ai-triage`, migration **`009`** + route **`/api/admin/challenges/[id]/ai-review`** (IA OpenAI server-side, pas d’auto-approve)
 - [ ] **FEAT** — Prescription / **bibliothèque mouvements (mix)** — section **G**
 - [ ] **FEAT** — Creator Score — section **B**
 - [ ] **FEAT** — Streaks — section **C**
