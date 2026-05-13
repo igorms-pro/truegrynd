@@ -7,8 +7,10 @@ import {
   adminApproveChallenge,
   adminBatchApproveChallenges,
   adminRejectChallenge,
+  adminRunChallengeAiReview,
   listPendingChallengesForAdmin,
   type AdminPendingChallenge,
+  type AiTierFilter,
 } from '@/features/admin/services/adminChallenges';
 
 type ReadyPayload = {
@@ -28,14 +30,33 @@ export function useAdminPendingChallenges(): {
   page: number;
   setPage: (page: number) => void;
   pageSize: number;
+  tierFilter: AiTierFilter;
+  setTierFilter: (value: AiTierFilter) => void;
+  riskFirst: boolean;
+  setRiskFirst: (value: boolean) => void;
   refetch: () => void;
   approveOne: (id: string) => Promise<void>;
-  batchApprove: (ids: string[]) => Promise<number>;
+  batchApprove: (ids: string[], options?: { onlyGreen?: boolean }) => Promise<number>;
   rejectOne: (id: string, reason: string) => Promise<void>;
+  analyzeOne: (id: string, accessToken: string | null) => Promise<void>;
+  analyzeBusyId: string | null;
 } {
   const [state, setState] = useState<State>(initial);
   const [page, setPage] = useState(1);
   const [reloadKey, setReloadKey] = useState(0);
+  const [tierFilter, setTierFilterState] = useState<AiTierFilter>('all');
+  const [riskFirst, setRiskFirstState] = useState(true);
+  const [analyzeBusyId, setAnalyzeBusyId] = useState<string | null>(null);
+
+  const setTierFilter = useCallback((value: AiTierFilter) => {
+    setTierFilterState(value);
+    setPage(1);
+  }, []);
+
+  const setRiskFirst = useCallback((value: boolean) => {
+    setRiskFirstState(value);
+    setPage(1);
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -44,6 +65,8 @@ export function useAdminPendingChallenges(): {
         const { rows, totalCount } = await listPendingChallengesForAdmin({
           page,
           pageSize: ADMIN_QUEUE_PAGE_SIZE,
+          tierFilter,
+          riskFirst,
         });
         if (cancelled) return;
         const maxPage = adminQueueMaxPage(totalCount, ADMIN_QUEUE_PAGE_SIZE);
@@ -62,7 +85,7 @@ export function useAdminPendingChallenges(): {
     return () => {
       cancelled = true;
     };
-  }, [page, reloadKey]);
+  }, [page, reloadKey, tierFilter, riskFirst]);
 
   const refetch = useCallback(() => {
     setState({ status: 'loading', rows: [], error: null });
@@ -78,8 +101,8 @@ export function useAdminPendingChallenges(): {
   );
 
   const batchApprove = useCallback(
-    async (ids: string[]) => {
-      const n = await adminBatchApproveChallenges(ids);
+    async (ids: string[], options?: { onlyGreen?: boolean }) => {
+      const n = await adminBatchApproveChallenges(ids, options);
       refetch();
       return n;
     },
@@ -94,14 +117,36 @@ export function useAdminPendingChallenges(): {
     [refetch],
   );
 
+  const analyzeOne = useCallback(
+    async (id: string, accessToken: string | null) => {
+      if (!accessToken) {
+        throw new Error('no_session');
+      }
+      setAnalyzeBusyId(id);
+      try {
+        await adminRunChallengeAiReview({ challengeId: id, accessToken });
+        refetch();
+      } finally {
+        setAnalyzeBusyId(null);
+      }
+    },
+    [refetch],
+  );
+
   return {
     state,
     page,
     setPage,
     pageSize: ADMIN_QUEUE_PAGE_SIZE,
+    tierFilter,
+    setTierFilter,
+    riskFirst,
+    setRiskFirst,
     refetch,
     approveOne,
     batchApprove,
     rejectOne,
+    analyzeOne,
+    analyzeBusyId,
   };
 }

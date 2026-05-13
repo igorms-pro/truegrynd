@@ -38,7 +38,7 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 
 - [x] **FEAT** — Creator Studio + RLS UGC + cap temps — PR [#30](https://github.com/igorms-pro/truegrynd/pull/30)
 - [x] **FEAT** — `/app/admin` **core** — modération file + RPC `008` + nav MOD (#39, branche `feature/issue-39-admin-ugc-moderation`) — **hors** tri IA **A9–A10**
-- [ ] **FEAT** — `/app/admin` **tri IA** — **A9–A10** (filtres / badges / colonnes IA ; pas d’auto-approve)
+- [ ] **FEAT** — `/app/admin` **tri IA** — **A9–A10** — branche `feature/issue-40-admin-ai-triage`, migration **`009`** + route **`/api/admin/challenges/[id]/ai-review`** (IA OpenAI server-side, pas d’auto-approve)
 - [ ] **FEAT** — Prescription / **bibliothèque mouvements (mix)** — section **G**
 - [ ] **FEAT** — Creator Score — section **B**
 - [ ] **FEAT** — Streaks — section **C**
@@ -62,7 +62,7 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 - [x] **`challenges.reviewed_by`** `uuid NULL` REFERENCES `profiles(id)` ON DELETE SET NULL`.
 - [x] Commentaires SQL sur colonnes (intention produit).
 - [x] **Seed / doc** : promouvoir un admin en prod — one-shot SQL (à exécuter côté Supabase SQL editor ; pas dans le client) :  
-      `UPDATE public.profiles SET is_admin = true WHERE id = '<uuid_auth_users>';`
+       `UPDATE public.profiles SET is_admin = true WHERE id = '<uuid_auth_users>';`
 
 ### A2. Contrat serveur (Supabase) — source de vérité
 
@@ -127,19 +127,19 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 
 **But :** beaucoup de `pending` ; l’IA **classe + résume** ; l’humain **filtre** (vert / orange / rouge), **sélectionne en masse** les verts et **approuve en un clic** — **aucun** `pending` → `approved` **sans** action utilisateur admin.
 
-- [ ] **DB (migration)** : ex. `challenges.ai_tier` `text NULL` avec contrainte `green` \| `orange` \| `red`, `ai_summary text NULL`, `ai_model text NULL`, `ai_checked_at timestamptz NULL` (ou un seul `jsonb ai_review`).
-- [ ] **Déclencheur** : au submit créateur **ou** bouton admin **“Analyser / Rafraîchir IA”** (re-run si le texte change, tant que `pending`).
-- [ ] **UI file** : filtres + tri (rouge en haut), badge couleur, colonne ou tooltip **résumé court** ; sélection de lignes + **Approuver la sélection** (batch).
-- [ ] **RPC batch** : ex. `admin_batch_approve_challenges(uuid[])` — `is_app_admin()` + chaque ligne `pending` + (optionnel) **uniquement `ai_tier = 'green'`** pour limiter le risque si tu veux une règle stricte.
-- [ ] **Garde-fous** : prompt sans PII inutile ; **pas de clé** dans les logs ; rate limit sur l’endpoint qui appelle le modèle.
+- [x] **DB (migration)** : migration **`009`** — `challenges.ai_tier` `text NULL` + contrainte `green` \| `orange` \| `red`, `ai_summary`, `ai_model`, `ai_checked_at`, colonne générée `ai_tier_rank` pour tri risque.
+- [x] **Déclencheur** : bouton admin **« AI scan »** (re-run tant que `pending`) ; **pas** d’auto analyse au submit créateur dans cette PR.
+- [x] **UI file** : filtres par niveau + tri **Highest risk first**, badge + résumé court, batch **Approuver la sélection** ; option **n’approuver en masse que les verts** (RPC).
+- [x] **RPC batch** : `admin_batch_approve_challenges(p_ids, p_only_green)` + RPC **`admin_apply_challenge_ai_review`** pour persister le résultat modèle.
+- [ ] **Garde-fous** : rate limit sur l’endpoint IA (à ajouter si abus) ; observabilité sans fuite de secrets.
 
 ### A10. Où vit l’appel IA (**secrets hors Git**)
 
 L’IA n’a pas besoin d’être “hors du repo” au sens code : le **code** est dans Truegrynd ; les **secrets** ne le sont jamais.
 
-- [ ] **Variables d’environnement** hôte (Vercel, etc.) — **jamais** `NEXT_PUBLIC_*` pour une clé fournisseur.
-- [ ] **Option recommandée** : **Route Handler** `app/api/...` ou **Server Action** : vérifie session + `is_admin`, appelle OpenAI / Anthropic / autre, puis persiste `ai_*` via Supabase (cookie utilisateur ou RPC selon RLS).
-- [ ] **Alternative** : **Supabase Edge Function** + secret dans le dashboard Supabase.
+- [x] **Variables d’environnement** — **`OPENAI_API_KEY`** / **`OPENAI_MODEL`** server-only (voir `.env.local.example`) ; **jamais** `NEXT_PUBLIC_*` pour une clé fournisseur.
+- [x] **Route Handler** `POST /api/admin/challenges/[challengeId]/ai-review` : Bearer Supabase session + `is_app_admin()`, OpenAI, puis RPC **`admin_apply_challenge_ai_review`**.
+- [ ] **Alternative** : **Supabase Edge Function** + secret dans le dashboard Supabase (non requis si la route Next suffit).
 - [ ] **SaaS externe** (service tiers dédié) : possible plus tard ; même règle : contrat HTTP + secrets hors repo.
 
 ---

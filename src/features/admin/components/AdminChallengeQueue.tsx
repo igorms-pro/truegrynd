@@ -1,23 +1,52 @@
 'use client';
 
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 
+import { AdminChallengeQueueBanner } from '@/features/admin/components/AdminChallengeQueueBanner';
+import {
+  AdminChallengeQueueEmpty,
+  AdminChallengeQueueFetchError,
+  AdminChallengeQueueLoading,
+} from '@/features/admin/components/AdminChallengeQueueStates';
 import { AdminChallengeQueueDialogs } from '@/features/admin/components/AdminChallengeQueueDialogs';
 import { AdminPendingChallengesTable } from '@/features/admin/components/AdminPendingChallengesTable';
 import { AdminQueueBatchToolbar } from '@/features/admin/components/AdminQueueBatchToolbar';
+import { AdminQueueFilters } from '@/features/admin/components/AdminQueueFilters';
 import { AdminQueuePagination } from '@/features/admin/components/AdminQueuePagination';
 import { useAdminChallengeQueueUi } from '@/features/admin/hooks/useAdminChallengeQueueUi';
 import { useAdminPendingChallenges } from '@/features/admin/hooks/useAdminPendingChallenges';
+import { useAdminQueueSubmittedLabels } from '@/features/admin/hooks/useAdminQueueSubmittedLabels';
 import { adminQueueMaxPage } from '@/features/admin/lib/adminQueueConstants';
+import { formatAdminAnalyzeError } from '@/features/admin/lib/formatAdminAnalyzeError';
 import type { AdminPendingChallenge as PendingRow } from '@/features/admin/services/adminChallenges';
+import { useAuth } from '@/features/auth/AuthProvider';
 
 export function AdminChallengeQueue() {
-  const t = useTranslations('admin.queue');
   const tErr = useTranslations('admin.errors');
   const locale = useLocale();
-  const { state, page, setPage, pageSize, refetch, approveOne, batchApprove, rejectOne } =
-    useAdminPendingChallenges();
+  const { session } = useAuth();
+  const accessToken = session?.access_token ?? null;
+
+  const {
+    state,
+    page,
+    setPage,
+    pageSize,
+    tierFilter,
+    setTierFilter,
+    riskFirst,
+    setRiskFirst,
+    refetch,
+    approveOne,
+    batchApprove,
+    rejectOne,
+    analyzeOne,
+    analyzeBusyId,
+  } = useAdminPendingChallenges();
+
+  const [batchGreenOnly, setBatchGreenOnly] = useState(false);
+  const [analyzeError, setAnalyzeError] = useState<string | null>(null);
 
   const rows = useMemo((): PendingRow[] => {
     return state.status === 'ready' ? state.rows : [];
@@ -27,15 +56,7 @@ export function AdminChallengeQueue() {
   const totalPages = adminQueueMaxPage(totalCount, pageSize);
 
   const allIds = useMemo(() => rows.map((r) => r.id), [rows]);
-  const dateFmt = useMemo(() => new Intl.DateTimeFormat(locale, { dateStyle: 'short' }), [locale]);
-  const rowsWithLabels = useMemo(
-    () =>
-      rows.map((row) => ({
-        row,
-        submittedLabel: dateFmt.format(new Date(row.created_at)),
-      })),
-    [dateFmt, rows],
-  );
+  const rowsWithLabels = useAdminQueueSubmittedLabels(rows, locale);
 
   const formatActionError = useCallback(
     (message: string) => `${tErr('actionFailed')} (${message})`,
@@ -66,7 +87,21 @@ export function AdminChallengeQueue() {
     batchApprove,
     rejectOne,
     formatActionError,
+    batchGreenOnly,
   });
+
+  const handleAnalyzeRow = useCallback(
+    async (id: string) => {
+      setAnalyzeError(null);
+      try {
+        await analyzeOne(id, accessToken);
+      } catch (e: unknown) {
+        const code = e instanceof Error ? e.message : 'unknown';
+        setAnalyzeError(formatAdminAnalyzeError(code, tErr));
+      }
+    },
+    [accessToken, analyzeOne, tErr],
+  );
 
   const goPrevPage = useCallback(() => {
     setPage(Math.max(1, page - 1));
@@ -76,7 +111,7 @@ export function AdminChallengeQueue() {
     setPage(Math.min(totalPages, page + 1));
   }, [page, setPage, totalPages]);
 
-  const interactionLocked = busyId !== null || batchBusy || approveBusy;
+  const interactionLocked = busyId !== null || batchBusy || approveBusy || analyzeBusyId !== null;
 
   const handleBatchClick = useCallback(() => {
     handleBatchApproveRequest([...selected]);
@@ -90,46 +125,30 @@ export function AdminChallengeQueue() {
     setApproveTarget(null);
   }, [setApproveTarget]);
 
-  const handleFetchRetry = useCallback(() => {
-    refetch();
-  }, [refetch]);
-
   if (state.status === 'loading') {
-    return <p className="text-sm text-muted-foreground">{t('loading')}</p>;
+    return <AdminChallengeQueueLoading />;
   }
 
   if (state.status === 'error') {
-    return (
-      <div className="space-y-3 rounded-md border border-primary/30 bg-primary/5 p-4">
-        <p className="text-sm font-semibold text-primary">{tErr('loadFailed')}</p>
-        <p className="text-xs text-muted-foreground">{state.error}</p>
-        <button
-          type="button"
-          onClick={handleFetchRetry}
-          className="rounded-md border border-border bg-background px-3 py-2 text-xs font-black uppercase tracking-[0.14em] hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-        >
-          {tErr('retry')}
-        </button>
-      </div>
-    );
+    return <AdminChallengeQueueFetchError message={state.error} onRetry={refetch} />;
   }
 
   if (state.status === 'ready' && state.totalCount === 0) {
-    return <p className="text-sm text-muted-foreground">{t('empty')}</p>;
+    return <AdminChallengeQueueEmpty />;
   }
-
-  const approveModalOpen = approveTarget !== null;
-  const approveVariant = approveTarget?.kind === 'batch' ? 'batch' : 'single';
-  const batchCount = approveTarget?.kind === 'batch' ? approveTarget.ids.length : 0;
-  const singleTitle = approveTarget?.kind === 'single' ? approveTarget.row.title : '';
 
   return (
     <div className="space-y-4">
-      {actionError ? (
-        <div className="rounded-md border border-primary/40 bg-primary/10 p-3 text-xs text-primary">
-          {actionError}
-        </div>
-      ) : null}
+      <AdminChallengeQueueBanner message={actionError ?? analyzeError} />
+      <AdminQueueFilters
+        tierFilter={tierFilter}
+        onTierFilterChange={setTierFilter}
+        riskFirst={riskFirst}
+        onRiskFirstChange={setRiskFirst}
+        batchGreenOnly={batchGreenOnly}
+        onBatchGreenOnlyChange={setBatchGreenOnly}
+        disabled={interactionLocked}
+      />
       <AdminQueueBatchToolbar
         batchBusy={batchBusy}
         rowBusy={interactionLocked}
@@ -142,9 +161,12 @@ export function AdminChallengeQueue() {
         rowsWithLabels={rowsWithLabels}
         selected={selected}
         busyId={busyId}
+        analyzeBusyId={analyzeBusyId}
+        analyzeDisabled={!accessToken}
         onToggle={toggle}
         onApproveRow={requestApproveRow}
         onRejectRow={openReject}
+        onAnalyzeRow={handleAnalyzeRow}
       />
       <AdminQueuePagination
         page={page}
@@ -155,10 +177,11 @@ export function AdminChallengeQueue() {
         onNext={goNextPage}
       />
       <AdminChallengeQueueDialogs
-        approveModalOpen={approveModalOpen}
-        approveVariant={approveVariant}
-        approveChallengeTitle={singleTitle}
-        approveBatchCount={batchCount}
+        approveModalOpen={approveTarget !== null}
+        approveVariant={approveTarget?.kind === 'batch' ? 'batch' : 'single'}
+        approveChallengeTitle={approveTarget?.kind === 'single' ? approveTarget.row.title : ''}
+        approveBatchCount={approveTarget?.kind === 'batch' ? approveTarget.ids.length : 0}
+        approveBatchGreenOnly={approveTarget?.kind === 'batch' ? batchGreenOnly : false}
         approveBusy={approveBusy}
         onApproveClose={closeApproveModal}
         onApproveConfirm={handleConfirmApprove}

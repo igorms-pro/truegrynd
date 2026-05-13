@@ -8,6 +8,7 @@ type Props = {
   approveVariant: 'single' | 'batch';
   approveChallengeTitle: string;
   approveBatchCount: number;
+  approveBatchGreenOnly: boolean;
   approveBusy: boolean;
   onApproveClose: () => void;
   onApproveConfirm: () => void | Promise<void>;
@@ -22,6 +23,7 @@ export function AdminChallengeQueueDialogs({
   approveVariant,
   approveChallengeTitle,
   approveBatchCount,
+  approveBatchGreenOnly,
   approveBusy,
   onApproveClose,
   onApproveConfirm,
@@ -37,6 +39,7 @@ export function AdminChallengeQueueDialogs({
         variant={approveVariant}
         challengeTitle={approveChallengeTitle}
         batchCount={approveBatchCount}
+        batchGreenOnly={approveBatchGreenOnly}
         busy={approveBusy}
         onClose={onApproveClose}
         onConfirm={onApproveConfirm}

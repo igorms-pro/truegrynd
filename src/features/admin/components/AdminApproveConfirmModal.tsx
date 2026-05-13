@@ -8,6 +8,7 @@ type Props = {
   variant: 'single' | 'batch';
   challengeTitle?: string;
   batchCount?: number;
+  batchGreenOnly?: boolean;
   busy: boolean;
   onClose: () => void;
   onConfirm: () => void | Promise<void>;
@@ -18,6 +19,7 @@ export function AdminApproveConfirmModal({
   variant,
   challengeTitle,
   batchCount,
+  batchGreenOnly,
   busy,
   onClose,
   onConfirm,
@@ -43,6 +45,7 @@ export function AdminApproveConfirmModal({
     variant === 'single'
       ? t('bodySingle', { title: challengeTitle ?? '' })
       : t('bodyBatch', { count: batchCount ?? 0 });
+  const bodyGreenOnly = variant === 'batch' && batchGreenOnly ? t('bodyBatchGreenOnly') : null;
 
   return (
     <div
@@ -64,6 +67,7 @@ export function AdminApproveConfirmModal({
           {title}
         </h2>
         <p className="mt-2 text-sm text-muted-foreground">{body}</p>
+        {bodyGreenOnly ? <p className="mt-2 text-xs text-accent">{bodyGreenOnly}</p> : null}
         <div className="mt-4 flex justify-end gap-2">
           <button
             type="button"

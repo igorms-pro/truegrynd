@@ -2,6 +2,7 @@ export type Faction = 'nomads' | 'horde' | 'iron_alliance';
 export type Sex = 'male' | 'female' | 'other';
 export type ScoreType = 'time' | 'reps';
 export type ChallengeStatus = 'pending' | 'approved' | 'rejected';
+export type ChallengeAiTier = 'green' | 'orange' | 'red';
 
 /**
  * Mirrors the `profiles` table.
@@ -61,6 +62,11 @@ export interface Challenge {
   reviewed_by?: string | null;
   /** For `time` challenges: reject submissions with time (seconds) greater than this. Omitted or null = no cap. */
   max_duration_seconds?: number | null;
+  /** AI triage tier; null when not analyzed yet. */
+  ai_tier?: ChallengeAiTier | null;
+  ai_summary?: string | null;
+  ai_model?: string | null;
+  ai_checked_at?: string | null;
   created_at: string;
 }
 

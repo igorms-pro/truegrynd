@@ -11,6 +11,8 @@ export {
   adminApproveChallenge,
   adminRejectChallenge,
   adminBatchApproveChallenges,
+  adminRunChallengeAiReview,
   type AdminPendingChallenge,
   type AdminPendingListResult,
+  type AiTierFilter,
 } from '@/features/admin/services/adminChallenges';

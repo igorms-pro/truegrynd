@@ -1,10 +1,12 @@
 import { ADMIN_QUEUE_PAGE_SIZE } from '@/features/admin/lib/adminQueueConstants';
 import { normalizePostgrestCreator } from '@/features/admin/lib/normalizeCreator';
 import { supabase } from '@/lib/supabase';
-import type { Challenge } from '@/lib/types/database.types';
+import type { Challenge, ChallengeAiTier } from '@/lib/types/database.types';
 
 const PENDING_CHALLENGE_SELECT =
-  'id,title,description,rules,score_type,equipment_tags,is_official,status,creator_id,max_duration_seconds,rejection_reason,reviewed_at,reviewed_by,created_at,creator:profiles!challenges_creator_id_fkey(username)';
+  'id,title,description,rules,score_type,equipment_tags,is_official,status,creator_id,max_duration_seconds,rejection_reason,reviewed_at,reviewed_by,ai_tier,ai_summary,ai_model,ai_checked_at,created_at,creator:profiles!challenges_creator_id_fkey(username)';
+
+export type AiTierFilter = 'all' | ChallengeAiTier | 'none';
 
 export type AdminPendingChallenge = Challenge & {
   creator: { username: string | null } | null;
@@ -18,18 +20,35 @@ export type AdminPendingListResult = {
 export async function listPendingChallengesForAdmin(options?: {
   page?: number;
   pageSize?: number;
+  tierFilter?: AiTierFilter;
+  riskFirst?: boolean;
 }): Promise<AdminPendingListResult> {
   const pageSize = options?.pageSize ?? ADMIN_QUEUE_PAGE_SIZE;
   const page = Math.max(1, options?.page ?? 1);
   const from = (page - 1) * pageSize;
   const to = from + pageSize - 1;
+  const tierFilter = options?.tierFilter ?? 'all';
+  const riskFirst = options?.riskFirst ?? true;
 
-  const { data, error, count } = await supabase
+  let query = supabase
     .from('challenges')
     .select(PENDING_CHALLENGE_SELECT, { count: 'exact' })
-    .eq('status', 'pending')
-    .order('created_at', { ascending: true })
-    .range(from, to);
+    .eq('status', 'pending');
+
+  if (tierFilter === 'green') query = query.eq('ai_tier', 'green');
+  else if (tierFilter === 'orange') query = query.eq('ai_tier', 'orange');
+  else if (tierFilter === 'red') query = query.eq('ai_tier', 'red');
+  else if (tierFilter === 'none') query = query.is('ai_tier', null);
+
+  if (riskFirst) {
+    query = query
+      .order('ai_tier_rank', { ascending: true })
+      .order('created_at', { ascending: true });
+  } else {
+    query = query.order('created_at', { ascending: true });
+  }
+
+  const { data, error, count } = await query.range(from, to);
 
   if (error) throw new Error(error.message);
   const rows = (data ?? []).map((row) => ({
@@ -60,12 +79,36 @@ export async function adminRejectChallenge(input: {
   if (error) throw new Error(error.message);
 }
 
-export async function adminBatchApproveChallenges(challengeIds: string[]): Promise<number> {
+export async function adminBatchApproveChallenges(
+  challengeIds: string[],
+  options?: { onlyGreen?: boolean },
+): Promise<number> {
   if (challengeIds.length === 0) return 0;
   const { data, error } = await supabase.rpc('admin_batch_approve_challenges', {
     p_ids: challengeIds,
+    p_only_green: options?.onlyGreen ?? false,
   });
   if (error) throw new Error(error.message);
   if (data === null || data === undefined) return 0;
   return typeof data === 'number' ? data : Number(data);
+}
+
+export async function adminRunChallengeAiReview(input: {
+  challengeId: string;
+  accessToken: string;
+}): Promise<void> {
+  const res = await fetch(
+    `/api/admin/challenges/${encodeURIComponent(input.challengeId)}/ai-review`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${input.accessToken}`,
+      },
+    },
+  );
+
+  if (!res.ok) {
+    const parsed = (await res.json().catch(() => null)) as { code?: string } | null;
+    throw new Error(parsed?.code ?? `http_${res.status}`);
+  }
 }

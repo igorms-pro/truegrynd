@@ -9,9 +9,10 @@ type ApproveTarget = null | { kind: 'single'; row: PendingRow } | { kind: 'batch
 type Params = {
   rows: PendingRow[];
   approveOne: (id: string) => Promise<void>;
-  batchApprove: (ids: string[]) => Promise<number>;
+  batchApprove: (ids: string[], options?: { onlyGreen?: boolean }) => Promise<number>;
   rejectOne: (id: string, reason: string) => Promise<void>;
   formatActionError: (message: string) => string;
+  batchGreenOnly: boolean;
 };
 
 export function useAdminChallengeQueueUi({
@@ -20,6 +21,7 @@ export function useAdminChallengeQueueUi({
   batchApprove,
   rejectOne,
   formatActionError,
+  batchGreenOnly,
 }: Params): {
   selected: Set<string>;
   toggle: (id: string) => void;
@@ -105,7 +107,7 @@ export function useAdminChallengeQueueUi({
       if (approveTarget.kind === 'single') {
         await runApproveSingle(approveTarget.row.id);
       } else {
-        await batchApprove(approveTarget.ids);
+        await batchApprove(approveTarget.ids, { onlyGreen: batchGreenOnly });
         clearSelection();
       }
       setApproveTarget(null);
@@ -116,7 +118,14 @@ export function useAdminChallengeQueueUi({
       setBatchBusy(false);
       setApproveBusy(false);
     }
-  }, [approveTarget, batchApprove, clearSelection, formatActionError, runApproveSingle]);
+  }, [
+    approveTarget,
+    batchApprove,
+    batchGreenOnly,
+    clearSelection,
+    formatActionError,
+    runApproveSingle,
+  ]);
 
   const handleBatchApproveRequest = useCallback((selectedIds: string[]) => {
     if (selectedIds.length === 0) return;

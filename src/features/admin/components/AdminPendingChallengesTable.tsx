@@ -14,24 +14,30 @@ type Props = {
   rowsWithLabels: RowWithLabel[];
   selected: Set<string>;
   busyId: string | null;
+  analyzeBusyId: string | null;
+  analyzeDisabled: boolean;
   onToggle: (id: string) => void;
   onApproveRow: (id: string) => void;
   onRejectRow: (id: string) => void;
+  onAnalyzeRow: (id: string) => void;
 };
 
 export function AdminPendingChallengesTable({
   rowsWithLabels,
   selected,
   busyId,
+  analyzeBusyId,
+  analyzeDisabled,
   onToggle,
   onApproveRow,
   onRejectRow,
+  onAnalyzeRow,
 }: Props) {
   const t = useTranslations('admin.queue');
 
   return (
     <div className="overflow-x-auto rounded-md border border-border">
-      <table className="w-full min-w-[640px] text-left">
+      <table className="w-full min-w-[880px] text-left">
         <thead>
           <tr className="border-b border-border bg-muted/40 text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground">
             <th className="py-2 pr-2 w-10" scope="col">
@@ -39,6 +45,9 @@ export function AdminPendingChallengesTable({
             </th>
             <th className="py-2 pr-2" scope="col">
               {t('colTitle')}
+            </th>
+            <th className="py-2 pr-2" scope="col">
+              {t('colAi')}
             </th>
             <th className="py-2 pr-2" scope="col">
               {t('colType')}
@@ -64,7 +73,10 @@ export function AdminPendingChallengesTable({
               onToggle={onToggle}
               onApproveRow={onApproveRow}
               onRejectRow={onRejectRow}
+              onAnalyzeRow={onAnalyzeRow}
               busyId={busyId}
+              analyzeBusyId={analyzeBusyId}
+              analyzeDisabled={analyzeDisabled}
             />
           ))}
         </tbody>
