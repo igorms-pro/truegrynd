@@ -431,6 +431,12 @@
     "errorTitle": "Could not load profile",
     "errorBody": "Try again.",
     "retry": "Retry",
+    "signOut": {
+      "label": "LOG OUT",
+      "aria": "Log out of your account",
+      "submitting": "Signing out...",
+      "error": "Could not sign out. Try again."
+    },
     "avatar": {
       "title": "AVATAR",
       "alt": "Profile avatar",

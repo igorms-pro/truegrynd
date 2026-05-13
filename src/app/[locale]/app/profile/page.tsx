@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 
+import { SignOutButton } from '@/features/auth/components/SignOutButton';
 import { FinisherGallery } from '@/features/profile/components/FinisherGallery';
 import { ProfileHeader } from '@/features/profile/components/ProfileHeader';
 import { ScoreHistory } from '@/features/profile/components/ScoreHistory';
@@ -54,6 +55,8 @@ export default function ProfilePage() {
       </h1>
 
       <ProfileHeader profile={state.profile} onAvatarUpdated={refetch} />
+
+      <SignOutButton />
 
       <FinisherGallery
         userId={state.profile.id}

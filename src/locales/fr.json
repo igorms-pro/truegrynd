@@ -431,6 +431,12 @@
     "errorTitle": "Impossible de charger le profil",
     "errorBody": "Réessaie.",
     "retry": "Réessayer",
+    "signOut": {
+      "label": "DÉCONNEXION",
+      "aria": "Se déconnecter du compte",
+      "submitting": "Déconnexion...",
+      "error": "Impossible de se déconnecter. Réessaie."
+    },
     "avatar": {
       "title": "AVATAR",
       "alt": "Avatar du profil",
