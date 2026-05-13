@@ -328,7 +328,9 @@
       "submitting": "Refus…"
     },
     "errors": {
-      "actionFailed": "Action impossible"
+      "actionFailed": "Action impossible",
+      "loadFailed": "Impossible de charger la file de modération.",
+      "retry": "Réessayer"
     }
   },
   "leaderboard": {

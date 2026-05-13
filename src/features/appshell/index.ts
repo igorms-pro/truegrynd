@@ -1,4 +1,5 @@
 export { AppShell } from '@/features/appshell/components/AppShell';
+export { DesktopNavLink } from '@/features/appshell/components/DesktopNavLink';
 export {
   AppProfileProvider,
   useOptionalAppProfile,

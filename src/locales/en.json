@@ -328,7 +328,9 @@
       "submitting": "Rejecting…"
     },
     "errors": {
-      "actionFailed": "Action failed"
+      "actionFailed": "Action failed",
+      "loadFailed": "Could not load the moderation queue.",
+      "retry": "Retry"
     }
   },
   "leaderboard": {

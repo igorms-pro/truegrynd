@@ -9,10 +9,10 @@
 
 ## État livraison
 
-| Quoi                                              | Statut                                                                                                                                                                                                                                                                                                               |
-| ------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **UGC Creator Studio + migrations `006` / `007`** | **Mergé `main`** — PR [#30](https://github.com/igorms-pro/truegrynd/pull/30). Ops : migrations **prod** alignées avec le repo.                                                                                                                                                                                       |
-| **Admin UGC (#39)**                               | **Suite sur branche** `feature/issue-39-admin-ugc-moderation` — GitHub [#39](https://github.com/igorms-pro/truegrynd/issues/39) ; **`008`**. File paginée (**20**/page), **confirm** avant approve ligne/lot, dock **MOD**, motif max **500** car. **Reste backlog :** tri IA **A9–A10**, tests SQL RLS (optionnel). |
+| Quoi                                              | Statut                                                                                                                                                                                                                                                                                                                                           |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **UGC Creator Studio + migrations `006` / `007`** | **Mergé `main`** — PR [#30](https://github.com/igorms-pro/truegrynd/pull/30). Ops : migrations **prod** alignées avec le repo.                                                                                                                                                                                                                   |
+| **Admin UGC (#39)**                               | **Branche** `feature/issue-39-admin-ugc-moderation` → PR vers `main` — [#39](https://github.com/igorms-pro/truegrynd/issues/39), migration **`008`**. Paginate **20**, confirm approve, **retry** si erreur fetch, dock **MOD** + **DesktopNavLink** / **DockNavItem**, motif **500** max. **Suite :** **A9–A10** IA, tests SQL RLS (optionnel). |
 
 ---
 
@@ -37,7 +37,8 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 **Macro-checklist**
 
 - [x] **FEAT** — Creator Studio + RLS UGC + cap temps — PR [#30](https://github.com/igorms-pro/truegrynd/pull/30)
-- [ ] **FEAT** — `/app/admin` — section **A** complète (incl. **A9–A10** tri IA + batch, sans auto-approve)
+- [x] **FEAT** — `/app/admin` **core** — modération file + RPC `008` + nav MOD (#39, branche `feature/issue-39-admin-ugc-moderation`) — **hors** tri IA **A9–A10**
+- [ ] **FEAT** — `/app/admin` **tri IA** — **A9–A10** (filtres / badges / colonnes IA ; pas d’auto-approve)
 - [ ] **FEAT** — Prescription / **bibliothèque mouvements (mix)** — section **G**
 - [ ] **FEAT** — Creator Score — section **B**
 - [ ] **FEAT** — Streaks — section **C**
@@ -55,71 +56,72 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 
 ### A1. Données & migrations (`008` ou suivant)
 
-- [ ] **`profiles.is_admin`** `boolean NOT NULL DEFAULT false` + index partiel si besoin.
-- [ ] **`challenges.rejection_reason`** `text NULL` (motif affiché au créateur ; `NULL` si approved).
-- [ ] **`challenges.reviewed_at`** `timestamptz NULL`.
-- [ ] **`challenges.reviewed_by`** `uuid NULL` REFERENCES `profiles(id)` ON DELETE SET NULL`.
-- [ ] Commentaires SQL sur colonnes (intention produit).
-- [ ] **Seed / doc** : comment promouvoir un user admin en **prod** (SQL one-shot ou dashboard), sans exposer de secret.
+- [x] **`profiles.is_admin`** `boolean NOT NULL DEFAULT false` + index partiel si besoin.
+- [x] **`challenges.rejection_reason`** `text NULL` (motif affiché au créateur ; `NULL` si approved).
+- [x] **`challenges.reviewed_at`** `timestamptz NULL`.
+- [x] **`challenges.reviewed_by`** `uuid NULL` REFERENCES `profiles(id)` ON DELETE SET NULL`.
+- [x] Commentaires SQL sur colonnes (intention produit).
+- [x] **Seed / doc** : promouvoir un admin en prod — one-shot SQL (à exécuter côté Supabase SQL editor ; pas dans le client) :  
+      `UPDATE public.profiles SET is_admin = true WHERE id = '<uuid_auth_users>';`
 
 ### A2. Contrat serveur (Supabase) — source de vérité
 
-- [ ] **`public.is_app_admin()`** : `EXISTS (SELECT 1 FROM profiles p WHERE p.id = auth.uid() AND p.is_admin = true)` — `SECURITY DEFINER` si nécessaire pour éviter récursion RLS sur `profiles`, ou lecture JWT `app_metadata` si tu préfères ce modèle (choisir **un** canon documenté).
-- [ ] **RPC `public.admin_set_challenge_status`** (recommandé) :
+- [x] **`public.is_app_admin()`** : `EXISTS (SELECT 1 FROM profiles p WHERE p.id = auth.uid() AND p.is_admin = true)` — `SECURITY DEFINER` si nécessaire pour éviter récursion RLS sur `profiles`, ou lecture JWT `app_metadata` si tu préfères ce modèle (choisir **un** canon documenté).
+- [x] **RPC `public.admin_set_challenge_status`** (recommandé) :
   - params : `p_challenge_id uuid`, `p_status text` (`approved` \| `rejected`), `p_rejection_reason text` (obligatoire si `rejected`, `NULL` si `approved`) ;
   - vérifie `is_app_admin()` ;
   - vérifie ligne cible `status = 'pending'` (sauf règle explicite “reopen” plus tard) ;
   - `UPDATE` uniquement : `status`, `rejection_reason`, `reviewed_at = now()`, `reviewed_by = auth.uid()` ;
   - retour : row mise à jour ou erreur contrôlée (`raise exception` messages stables pour mapping i18n côté app si besoin).
-- [ ] **`GRANT EXECUTE`** sur la RPC au rôle `authenticated` (la fonction fait le gate admin).
+- [x] **`GRANT EXECUTE`** sur la RPC au rôle `authenticated` (la fonction fait le gate admin).
 - [ ] **Alternative documentée** si pas RPC : policies `UPDATE` admin **étroites** + trigger qui empêche la modification de colonnes hors lot review (éviter qu’un admin rewrite `title` par accident).
 
 ### A3. RLS — cohérence avec créateurs
 
-- [ ] Vérifier compatibilité avec **“Creators can update own pending challenge”** : pas de conflit ; admin agit via **RPC** qui bypass RLS contrôlé **ou** policy `UPDATE` additionnelle **OR** admin.
-- [ ] **SELECT** : admin peut lire `pending` / `rejected` / `approved` (policy dédiée `is_app_admin()` sur `challenges`) pour alimenter la file et l’audit — **sans** ouvrir la lecture de tous les brouillons à tout le monde.
+- [x] Vérifier compatibilité avec **“Creators can update own pending challenge”** : pas de conflit ; admin agit via **RPC** qui bypass RLS contrôlé **ou** policy `UPDATE` additionnelle **OR** admin.
+- [x] **SELECT** : admin peut lire `pending` / `rejected` / `approved` (policy dédiée `is_app_admin()` sur `challenges`) pour alimenter la file et l’audit — **sans** ouvrir la lecture de tous les brouillons à tout le monde.
 - [ ] **Tests** (SQL ou CI) : user non-admin ne peut pas exécuter la RPC ; créateur ne peut pas approuver son propre défi via RPC ; impossible d’approuver un défi déjà `approved` sans règle explicite.
 
 ### A4. Feature Next.js — `src/features/admin/`
 
-- [ ] **`index.ts`** : API publique du module (`AdminChallengeQueue`, hooks, types exportés au besoin).
-- [ ] **`services/adminChallenges.ts`** : `listPendingChallenges`, `approveChallenge`, `rejectChallenge` — **uniquement** `supabase.rpc('admin_set_challenge_status', …)` ou queries autorisées ; **jamais** `service_role` côté client.
-- [ ] **`hooks/useAdminPendingChallenges.ts`** : fetch + pagination + `refetch` après action.
-- [ ] **`hooks/useIsAdmin.ts`** ou intégration dans le **profil déjà chargé** (`profiles.is_admin`) pour éviter N+1.
-- [ ] **Types** : réponses typées ; erreurs réseau / RPC mappées vers messages utilisateur.
+- [x] **`index.ts`** : API publique du module (`AdminChallengeQueue`, hooks, types exportés au besoin).
+- [x] **`services/adminChallenges.ts`** : `listPendingChallenges`, `approveChallenge`, `rejectChallenge` — **uniquement** `supabase.rpc('admin_set_challenge_status', …)` ou queries autorisées ; **jamais** `service_role` côté client.
+- [x] **`hooks/useAdminPendingChallenges.ts`** : fetch + pagination + `refetch` après action.
+- [x] **`hooks/useIsAdmin.ts`** ou intégration dans le **profil déjà chargé** (`profiles.is_admin`) pour éviter N+1.
+- [x] **Types** : réponses typées ; erreurs réseau / RPC mappées vers messages utilisateur.
 
 ### A5. Routes App Router — sous `/app/admin`
 
-- [ ] **`src/app/[locale]/app/admin/layout.tsx`** : garde serveur ou client — si `!isAdmin` → **404** (discrétion) ou redirect `/app/arena` ; pas de layout vide flashé longtemps (skeleton court acceptable).
-- [ ] **`src/app/[locale]/app/admin/challenges/page.tsx`** : page **fine** — compose `AdminChallengeQueue` + titre + i18n.
+- [x] **`src/app/[locale]/app/admin/layout.tsx`** : garde serveur ou client — si `!isAdmin` → **404** (discrétion) ou redirect `/app/arena` ; pas de layout vide flashé longtemps (skeleton court acceptable).
+- [x] **`src/app/[locale]/app/admin/challenges/page.tsx`** : page **fine** — compose `AdminChallengeQueue` + titre + i18n.
 - [ ] **Optionnel** : `middleware.ts` redirige `/app/admin` sans session valide (complément, pas substitut à RLS).
-- [ ] **Nav** : lien “Admin” **visible seulement** si `is_admin` (dock / header) — pas d’URL secrète comme seule sécurité.
+- [x] **Nav** : lien “Admin” **visible seulement** si `is_admin` (dock / header) — pas d’URL secrète comme seule sécurité.
 
 ### A6. UI admin — états complets (règle projet)
 
-- [ ] **Liste** : table ou cartes — colonnes : titre, `score_type`, `created_at`, username créateur (join ou denormalisation acceptable en V1).
-- [ ] **Pagination** : cursor ou offset, taille page fixe (ex. 20).
-- [ ] **Approve** : confirmation explicite (dialog) avant RPC.
-- [ ] **Reject** : modal — **motif obligatoire**, longueur min (ex. 10 car.) + max (ex. 500) ; trim ; pas de HTML.
-- [ ] **Loading** : skeleton ou spinner sur liste + disable actions pendant mutation.
-- [ ] **Empty** : copy i18n “Aucun défi en attente”.
-- [ ] **Error** : toast ou banner + **retry** sur fetch ; sur RPC erreur métier → message clair.
-- [ ] **Success** : toast + ligne retirée de la file (optimistic ou refetch).
-- [ ] **Accessibilité** : `aria-label` sur actions, focus trap modals, `focus-visible` (design system).
+- [x] **Liste** : table ou cartes — colonnes : titre, `score_type`, `created_at`, username créateur (join ou denormalisation acceptable en V1).
+- [x] **Pagination** : cursor ou offset, taille page fixe (ex. 20).
+- [x] **Approve** : confirmation explicite (dialog) avant RPC.
+- [x] **Reject** : modal — **motif obligatoire**, longueur min (ex. 10 car.) + max (ex. 500) ; trim ; pas de HTML.
+- [ ] **Loading** : skeleton ou spinner sur liste + disable actions pendant mutation (MVP : texte « Loading… » ; affiner plus tard).
+- [x] **Empty** : copy i18n “Aucun défi en attente”.
+- [x] **Error** : toast ou banner + **retry** sur fetch ; sur RPC erreur métier → message clair.
+- [x] **Success** : toast + ligne retirée de la file (optimistic ou refetch).
+- [x] **Accessibilité** : `aria-label` sur actions, focus trap modals, `focus-visible` (design system).
 
 ### A7. UX créateur (hors `/admin`)
 
-- [ ] **`ChallengeDetail`** (ou équivalent) : bannière / badge **`pending`** (“En validation”).
-- [ ] Même surface : **`rejected`** + affichage **`rejection_reason`** + `reviewed_at` (optionnel).
-- [ ] **i18n** `challenge.*` / `admin.*` / `errors.*` — **EN + FR** pour tout nouveau copy.
+- [x] **`ChallengeDetail`** (ou équivalent) : bannière / badge **`pending`** (“En validation”).
+- [x] Même surface : **`rejected`** + affichage **`rejection_reason`** + `reviewed_at` (optionnel).
+- [x] **i18n** `challenge.*` / `admin.*` / `errors.*` — **EN + FR** pour tout nouveau copy.
 - [ ] **Optionnel V1+** : route **`/app/profile/challenges`** (ou sous-onglet) “Mes défis” listant créations + statut.
 
 ### A8. Qualité & DoD admin
 
-- [ ] **Tests unit** : service / mapping erreurs RPC (mock Supabase).
+- [ ] **Tests unit** : service / mapping erreurs RPC (mock Supabase) — partiel : `normalizePostgrestCreator` seulement.
 - [ ] **Test composant** (si infra) : modal reject + bouton approve désactivé pendant submit — au moins un chemin heureux.
-- [ ] **Pas de `console.log`** en prod ; pas de fuite PII dans toasts.
-- [ ] **`docs/issues/issues.md`** : cocher les cases **A** au fil des PRs ; lien PR sur la ligne macro ou en commentaire de section.
+- [x] **Pas de `console.log`** en prod ; pas de fuite PII dans toasts.
+- [x] **`docs/issues/issues.md`** : cocher les cases **A** au fil des PRs ; lien PR sur la ligne macro ou en commentaire de section.
 
 ### A9. Tri IA pour la file admin (**pas d’auto-approve**)
 
