@@ -2,7 +2,7 @@ import { supabase } from '@/lib/supabase';
 import type { Challenge, ScoreType } from '@/lib/types/database.types';
 
 const CHALLENGE_SELECT =
-  'id,title,description,rules,score_type,equipment_tags,is_official,status,creator_id,max_duration_seconds,created_at';
+  'id,title,description,rules,score_type,equipment_tags,is_official,status,creator_id,max_duration_seconds,rejection_reason,reviewed_at,reviewed_by,created_at';
 
 export async function listApprovedChallenges(): Promise<Challenge[]> {
   const { data, error } = await supabase

@@ -157,6 +157,11 @@ export function ChallengeDetail({ challengeId }: Props) {
           <p className="mt-2 text-sm text-muted-foreground">
             {challenge.status === 'rejected' ? t('rejectedBody') : t('pendingBody')}
           </p>
+          {challenge.status === 'rejected' && challenge.rejection_reason?.trim() ? (
+            <p className="mt-3 whitespace-pre-line rounded-sm border border-border bg-background/60 p-3 text-sm text-foreground/90">
+              {t('rejectionModeratorNote', { note: challenge.rejection_reason.trim() })}
+            </p>
+          ) : null}
         </div>
       )}
 

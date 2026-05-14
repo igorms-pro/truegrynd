@@ -2,26 +2,31 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { Shield, type LucideIcon } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 
-import { APP_TABS, isTabActive, type AppTab } from '@/features/appshell/lib/tabs';
+import { useOptionalAppProfile } from '@/features/appshell/context/AppProfileContext';
+import { APP_TABS, isTabActive } from '@/features/appshell/lib/tabs';
 
-type DockItemProps = {
-  tab: AppTab;
-  isActive: boolean;
+type DockNavItemProps = {
   href: string;
+  isActive: boolean;
   label: string;
+  icon: LucideIcon;
+  /** Defaults to `label` when omitted (tabs). Admin uses a longer phrase for SR-only. */
+  ariaLabel?: string;
 };
 
-function DockItem({ tab, isActive, href, label }: DockItemProps) {
-  const Icon = tab.icon;
+function DockNavItem({ href, isActive, label, icon: Icon, ariaLabel }: DockNavItemProps) {
+  const linkAria = ariaLabel ?? label;
+
   return (
     <li className="flex-1">
       <Link
         href={href}
         className="relative flex h-full flex-col items-center justify-center gap-1 px-1 py-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         aria-current={isActive ? 'page' : undefined}
-        aria-label={label}
+        aria-label={linkAria}
       >
         {isActive ? (
           <span
@@ -51,6 +56,10 @@ export function BottomDock() {
   const pathname = usePathname();
   const locale = useLocale();
   const t = useTranslations('app.tabs');
+  const tAdmin = useTranslations('admin.nav');
+  const profile = useOptionalAppProfile();
+  const adminHref = `/${locale}/app/admin/challenges`;
+  const adminActive = pathname === adminHref || pathname.startsWith(`${adminHref}/`);
 
   return (
     <nav
@@ -60,14 +69,23 @@ export function BottomDock() {
     >
       <ul className="mx-auto flex h-16 w-full max-w-md items-stretch">
         {APP_TABS.map((tab) => (
-          <DockItem
+          <DockNavItem
             key={tab.id}
-            tab={tab}
-            isActive={isTabActive(pathname, locale, tab)}
             href={`/${locale}${tab.path}`}
+            isActive={isTabActive(pathname, locale, tab)}
             label={t(tab.labelKey)}
+            icon={tab.icon}
           />
         ))}
+        {profile?.is_admin ? (
+          <DockNavItem
+            href={adminHref}
+            isActive={adminActive}
+            label={tAdmin('dock')}
+            icon={Shield}
+            ariaLabel={tAdmin('dockAria')}
+          />
+        ) : null}
       </ul>
     </nav>
   );

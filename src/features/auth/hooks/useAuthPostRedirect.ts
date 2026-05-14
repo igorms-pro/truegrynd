@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { User } from '@supabase/supabase-js';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
+import { PROFILE_COLUMNS } from '@/lib/profileSelect';
 import { isProfileComplete, type Profile } from '@/lib/types/database.types';
 import { buildNextUrl, normalizeNextPath } from '@/lib/navigation/nextRedirect';
 
@@ -52,9 +53,7 @@ export function useAuthPostRedirect({ user, initialized, locale, t }: Options): 
           await withTimeout(
             supabase
               .from('profiles')
-              .select(
-                'id,username,sex,age,weight_kg,faction,initiation_completed,avatar_url,created_at,updated_at',
-              )
+              .select(PROFILE_COLUMNS)
               .eq('id', user.id)
               .maybeSingle<Profile>(),
             6000,
@@ -75,9 +74,7 @@ export function useAuthPostRedirect({ user, initialized, locale, t }: Options): 
               supabase
                 .from('profiles')
                 .upsert({ id: user.id }, { onConflict: 'id' })
-                .select(
-                  'id,username,sex,age,weight_kg,faction,initiation_completed,avatar_url,created_at,updated_at',
-                )
+                .select(PROFILE_COLUMNS)
                 .maybeSingle<Profile>(),
               6000,
             );

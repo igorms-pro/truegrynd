@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 
 import { AppHeader } from '@/features/appshell/components/AppHeader';
 import { BottomDock } from '@/features/appshell/components/BottomDock';
+import { AppProfileProvider } from '@/features/appshell/context/AppProfileContext';
 import { useRequireAppAccess } from '@/features/appshell/hooks/useRequireAppAccess';
 
 type Props = {
@@ -31,12 +32,14 @@ export function AppShell({ children }: Props) {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <AppHeader />
-      <main className="mx-auto w-full max-w-5xl px-4 pt-4 pb-[calc(6rem+env(safe-area-inset-bottom))] md:pb-10">
-        {children}
-      </main>
-      <BottomDock />
-    </div>
+    <AppProfileProvider profile={access.profile}>
+      <div className="min-h-screen bg-background text-foreground">
+        <AppHeader />
+        <main className="mx-auto w-full max-w-5xl px-4 pt-4 pb-[calc(6rem+env(safe-area-inset-bottom))] md:pb-10">
+          {children}
+        </main>
+        <BottomDock />
+      </div>
+    </AppProfileProvider>
   );
 }
