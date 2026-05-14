@@ -3,17 +3,17 @@
 > **MVP core livré.** Ici : **V1 sérieuse** — pas de “vite fait” : specs exécutables, cochables, prêtes pour PR + RLS + i18n.  
 > Les anciennes issues #0–#10 ne sont plus dupliquées ici (historique Git).
 
-**Dernière mise à jour :** 13 mai 2026
+**Dernière mise à jour :** 14 mai 2026
 
 ---
 
 ## État livraison
 
-| Quoi                                              | Statut                                                                                                                                                                                                                                                                                                                                                                                      |
-| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **UGC Creator Studio + migrations `006` / `007`** | **Mergé `main`** — PR [#30](https://github.com/igorms-pro/truegrynd/pull/30). Ops : migrations **prod** alignées avec le repo.                                                                                                                                                                                                                                                              |
-| **Admin UGC (#39)**                               | **Branche** `feature/issue-39-admin-ugc-moderation` → PR vers `main` — [#39](https://github.com/igorms-pro/truegrynd/issues/39), migration **`008`**. Paginate **20**, confirm approve, **retry** si erreur fetch, dock **MOD** + **DesktopNavLink** / **DockNavItem**, motif **500** max.                                                                                                  |
-| **Admin tri IA (#40)**                            | **🟡 PR ouverte** — [#40](https://github.com/igorms-pro/truegrynd/issues/40), PR [#41](https://github.com/igorms-pro/truegrynd/pull/41), branche `feature/issue-40-admin-ai-triage` **poussée**. Migration **`009`**. Edge Function **`admin-challenge-ai-review`** déployée + secrets **Supabase**. Smoke test admin à faire post-merge. **Bonus PR:** bouton **LOG OUT** sur page profil. |
+| Quoi                                              | Statut                                                                                                                                                                                                                                                                                                                                                       |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **UGC Creator Studio + migrations `006` / `007`** | **Mergé `main`** — PR [#30](https://github.com/igorms-pro/truegrynd/pull/30). Ops : migrations **prod** alignées avec le repo.                                                                                                                                                                                                                               |
+| **Admin UGC (#39)**                               | **🟢 Mergé `main`** — PR [#41](https://github.com/igorms-pro/truegrynd/pull/41), [#39](https://github.com/igorms-pro/truegrynd/issues/39), migration **`008`**.                                                                                                                                                                                              |
+| **Admin tri IA (#40)**                            | **🟢 Mergé `main`** — PR [#41](https://github.com/igorms-pro/truegrynd/pull/41), [#40](https://github.com/igorms-pro/truegrynd/issues/40) **fermée**, migration **`009`**, Edge Function **`admin-challenge-ai-review`**. **Reste (manuel / opt.)** : smoke MOD → AI scan ; rate limit endpoint (case A9 non cochée). **Bonus** : bouton **LOG OUT** profil. |
 
 ---
 
@@ -38,8 +38,8 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 **Macro-checklist**
 
 - [x] **FEAT** — Creator Studio + RLS UGC + cap temps — PR [#30](https://github.com/igorms-pro/truegrynd/pull/30)
-- [x] **FEAT** — `/app/admin` **core** — modération file + RPC `008` + nav MOD (#39, branche `feature/issue-39-admin-ugc-moderation`) — **hors** tri IA **A9–A10**
-- [ ] **FEAT** — `/app/admin` **tri IA** — **A9–A10** — [#40](https://github.com/igorms-pro/truegrynd/issues/40) — PR [#41](https://github.com/igorms-pro/truegrynd/pull/41) (`feature/issue-40-admin-ai-triage`) : migration **`009`** + Edge Function **`admin-challenge-ai-review`**
+- [x] **FEAT** — `/app/admin` **core** — modération file + RPC `008` + nav MOD — **mergé** PR [#41](https://github.com/igorms-pro/truegrynd/pull/41) ([#39](https://github.com/igorms-pro/truegrynd/issues/39))
+- [x] **FEAT** — `/app/admin` **tri IA** — **A9–A10** — [#40](https://github.com/igorms-pro/truegrynd/issues/40) — **mergé** PR [#41](https://github.com/igorms-pro/truegrynd/pull/41) : migration **`009`** + Edge Function **`admin-challenge-ai-review`**
 - [ ] **FEAT** — Prescription / **bibliothèque mouvements (mix)** — section **G**
 - [ ] **FEAT** — Creator Score — section **B**
 - [ ] **FEAT** — Streaks — section **C**
@@ -53,7 +53,7 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 
 **Objectif :** comptes **admin** voient la file **`challenges.status = 'pending'`**, **approuvent** ou **rejettent** avec **motif** + **audit** ; créateur voit **rejet + raison** ; **aucune** clé `service_role` côté client — tout passe par **RLS + RPC** (ou policies équivalentes strictes).
 
-> **Implémenté (PR #39, hors A9–A10)** : migration `008`, RPC + RLS, `/app/admin/challenges`, liste paginée (**20**/page) + batch approve + reject (min 10 / max 500 car.), **confirmation** avant approve, i18n, `ChallengeDetail` + motif modération, nav **MOD** desktop + dock mobile, tests embed créateur.
+> **Implémenté (PR #41 sur `main`, ex #39 + tri IA #40)** : migration `008`, RPC + RLS, `/app/admin/challenges`, liste paginée (**20**/page) + batch approve + reject (min 10 / max 500 car.), **confirmation** avant approve, i18n, `ChallengeDetail` + motif modération, nav **MOD** desktop + dock mobile, tests embed créateur.
 
 ### A1. Données & migrations (`008` ou suivant)
 
