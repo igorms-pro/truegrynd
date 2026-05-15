@@ -23,8 +23,8 @@ describe('combineChallengeRules', () => {
   it('merges circuit and detail', () => {
     const out = combineChallengeRules(
       [
-        { label: 'Burpees', kind: 'reps', amount: '10' },
-        { label: 'Plank', kind: 'hold', amount: '3:00' },
+        { label: 'Burpees', kind: 'reps', amount: '10', movementSlug: 'burpee' },
+        { label: 'Plank', kind: 'hold', amount: '3:00', movementSlug: 'plank' },
       ],
       'Chest to floor. Straight line.',
     );
@@ -66,7 +66,7 @@ describe('buildFullChallengeRules', () => {
       scoringMode: 'amrap',
       amrapCap: '10:00',
       forTimeFinishCap: '',
-      circuitBlocks: [{ label: 'Squats', kind: 'reps', amount: '30' }],
+      circuitBlocks: [{ label: 'Squats', kind: 'reps', amount: '30', movementSlug: 'air_squat' }],
       rulesDetail: 'y'.repeat(45),
     });
     expect(out).toContain('FORMAT: AMRAP');

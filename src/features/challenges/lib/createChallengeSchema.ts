@@ -6,6 +6,7 @@ import {
   isValidHoldTime,
   type CircuitBlock,
 } from '@/features/challenges/lib/circuitBlocks';
+import { OTHER_MOVEMENT_SLUG } from '@/features/challenges/lib/movementCatalog';
 
 export type CreateChallengeFormValues = {
   title: string;
@@ -23,6 +24,7 @@ export function buildCreateChallengeSchema(t: (key: string) => string) {
     label: z.string().max(120),
     kind: z.enum(['reps', 'hold']),
     amount: z.string().max(32),
+    movementSlug: z.string().max(80),
   });
 
   return z
@@ -91,13 +93,18 @@ export function buildCreateChallengeSchema(t: (key: string) => string) {
         }
       }
 
+      let validBlockCount = 0;
+
       for (let i = 0; i < data.circuitBlocks.length; i++) {
         const block = data.circuitBlocks[i];
+        const slug = block.movementSlug;
         const label = block.label.trim();
         const amount = block.amount.trim();
-        if (!label && !amount) continue;
+        const isOther = slug === OTHER_MOVEMENT_SLUG || slug === '';
 
-        if (!label) {
+        if (!slug && !label && !amount) continue;
+
+        if (isOther && !label) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: t('circuitLabelMissing'),
@@ -119,6 +126,7 @@ export function buildCreateChallengeSchema(t: (key: string) => string) {
               message: t('circuitRepsInvalid'),
               path: ['circuitBlocks', i, 'amount'],
             });
+            continue;
           }
         } else if (!isValidHoldTime(amount)) {
           ctx.addIssue({
@@ -126,7 +134,18 @@ export function buildCreateChallengeSchema(t: (key: string) => string) {
             message: t('circuitHoldInvalid'),
             path: ['circuitBlocks', i, 'amount'],
           });
+          continue;
         }
+
+        validBlockCount += 1;
+      }
+
+      if (validBlockCount === 0) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: t('circuitMinBlock'),
+          path: ['circuitBlocks'],
+        });
       }
 
       const combined = buildFullChallengeRules({
