@@ -2,9 +2,15 @@
 
 import { Plus, Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useCallback } from 'react';
 import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 
 import type { CreateChallengeFormValues } from '@/features/challenges/lib/createChallengeSchema';
+import {
+  movementsByCategory,
+  OTHER_MOVEMENT_SLUG,
+  type MovementCategory,
+} from '@/features/challenges/lib/movementCatalog';
 
 function FieldError({ message }: { message?: string }) {
   if (!message) return null;
@@ -15,10 +21,27 @@ function FieldError({ message }: { message?: string }) {
   );
 }
 
-const EMPTY_ROW = { label: '', kind: 'reps' as const, amount: '' };
+const EMPTY_ROW = { label: '', kind: 'reps' as const, amount: '', movementSlug: '' };
+
+const CATEGORY_ORDER: MovementCategory[] = [
+  'push',
+  'pull',
+  'squat',
+  'hinge',
+  'lunge',
+  'carry',
+  'cardio',
+  'olympic',
+  'core',
+  'isometric',
+  'plyometric',
+  'gymnastics',
+];
 
 export function CreateChallengeCircuitSection({ disabled }: { disabled: boolean }) {
   const t = useTranslations('arena.create');
+  const tMov = useTranslations('movements');
+  const tCat = useTranslations('movements.categories');
   const {
     control,
     register,
@@ -32,6 +55,19 @@ export function CreateChallengeCircuitSection({ disabled }: { disabled: boolean 
   });
 
   const blocks = useWatch({ control, name: 'circuitBlocks' }) ?? [];
+  const grouped = movementsByCategory();
+
+  const handleMovementChange = useCallback(
+    (index: number, slug: string) => {
+      setValue(`circuitBlocks.${index}.movementSlug`, slug, { shouldValidate: false });
+      if (slug && slug !== OTHER_MOVEMENT_SLUG) {
+        setValue(`circuitBlocks.${index}.label`, tMov(slug), { shouldValidate: false });
+      } else {
+        setValue(`circuitBlocks.${index}.label`, '', { shouldValidate: false });
+      }
+    },
+    [setValue, tMov],
+  );
 
   const kindBtnClass = (index: number, kind: 'reps' | 'hold') =>
     [
@@ -41,6 +77,12 @@ export function CreateChallengeCircuitSection({ disabled }: { disabled: boolean 
         : 'border-border bg-background text-muted-foreground hover:text-foreground',
     ].join(' ');
 
+  const circuitErrors = errors.circuitBlocks;
+  const rootError =
+    circuitErrors && !Array.isArray(circuitErrors)
+      ? (circuitErrors as { message?: string }).message
+      : undefined;
+
   return (
     <fieldset className="space-y-3 rounded-sm border border-border bg-muted/30 p-4">
       <legend className="text-xs font-black uppercase tracking-[0.18em] text-muted-foreground">
@@ -48,8 +90,16 @@ export function CreateChallengeCircuitSection({ disabled }: { disabled: boolean 
       </legend>
       <p className="text-xs text-muted-foreground">{t('circuit.helper')}</p>
 
+      {rootError ? (
+        <p className="text-xs font-semibold text-primary" role="alert">
+          {rootError}
+        </p>
+      ) : null}
+
       <div className="space-y-4">
         {fields.map((field, index) => {
+          const slug = blocks[index]?.movementSlug ?? '';
+          const isOther = slug === OTHER_MOVEMENT_SLUG;
           const kind = blocks[index]?.kind ?? 'reps';
           const amountPlaceholder =
             kind === 'hold'
@@ -80,21 +130,56 @@ export function CreateChallengeCircuitSection({ disabled }: { disabled: boolean 
 
               <div>
                 <label
-                  htmlFor={`cc-move-${field.id}`}
+                  htmlFor={`cc-move-select-${field.id}`}
                   className="text-[10px] font-black uppercase tracking-[0.14em] text-muted-foreground"
                 >
                   {t('circuit.movement')}
                 </label>
-                <input
-                  id={`cc-move-${field.id}`}
-                  type="text"
+                <select
+                  id={`cc-move-select-${field.id}`}
                   disabled={disabled}
-                  placeholder={t('circuit.movementPlaceholder')}
+                  value={slug}
+                  onChange={(e) => handleMovementChange(index, e.target.value)}
                   className="mt-1 w-full rounded-sm border border-border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                  {...register(`circuitBlocks.${index}.label`)}
-                />
-                <FieldError message={errors.circuitBlocks?.[index]?.label?.message} />
+                >
+                  <option value="">{t('circuit.movementPlaceholder')}</option>
+                  {CATEGORY_ORDER.map((cat) => {
+                    const items = grouped.get(cat);
+                    if (!items) return null;
+                    return (
+                      <optgroup key={cat} label={tCat(cat)}>
+                        {items.map((m) => (
+                          <option key={m.slug} value={m.slug}>
+                            {tMov(m.slug)}
+                          </option>
+                        ))}
+                      </optgroup>
+                    );
+                  })}
+                  <option value={OTHER_MOVEMENT_SLUG}>{t('circuit.otherOption')}</option>
+                </select>
+                <input type="hidden" {...register(`circuitBlocks.${index}.movementSlug`)} />
               </div>
+
+              {isOther ? (
+                <div>
+                  <label
+                    htmlFor={`cc-move-custom-${field.id}`}
+                    className="text-[10px] font-black uppercase tracking-[0.14em] text-muted-foreground"
+                  >
+                    {t('circuit.otherLabel')}
+                  </label>
+                  <input
+                    id={`cc-move-custom-${field.id}`}
+                    type="text"
+                    disabled={disabled}
+                    placeholder={t('circuit.otherPlaceholder')}
+                    className="mt-1 w-full rounded-sm border border-border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    {...register(`circuitBlocks.${index}.label`)}
+                  />
+                  <FieldError message={errors.circuitBlocks?.[index]?.label?.message} />
+                </div>
+              ) : null}
 
               <div className="flex gap-2">
                 <button
@@ -130,7 +215,7 @@ export function CreateChallengeCircuitSection({ disabled }: { disabled: boolean 
                 <input
                   id={`cc-amt-${field.id}`}
                   type="text"
-                  inputMode={kind === 'hold' ? 'numeric' : 'numeric'}
+                  inputMode="numeric"
                   disabled={disabled}
                   placeholder={amountPlaceholder}
                   autoComplete="off"

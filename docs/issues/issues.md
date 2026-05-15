@@ -203,11 +203,11 @@ L’IA n’a pas besoin d’être “hors du repo” au sens code : le **code** 
 
 **Décision produit :** pas une liste “10K mouvements” au départ ; **noyau catalogué** + **“autre”** court pour la longue traîne, avec **modération** (souvent **orange** côté tri IA / admin).
 
-- [ ] **Table ou constante versionnée** `movement` (slug stable, labels i18n) : **80–150** mouvements max en **V1** couvrant la majorité des défis (push patterns, squat/hinge, pull, carry, mono-structure, bases run/row, isométrie…).
-- [ ] **Circuit** : chaque ligne = **sélection dans la liste** **ou** option **“Autre (précise)”** → texte libre **court** + flag **`off_catalog`** (ou équivalent) pour file admin / tri **orange** par défaut.
-- [ ] **Au moins une prescription mesurable** : **≥ 1 bloc** circuit valide (label + montant reps `>0` ou hold `MM:SS`) — **Zod + message i18n** ; renfort **DB** (CHECK ou trigger) si tu veux une V1 “forte”.
+- [x] **Constante versionée** `MOVEMENT_CATALOG` (slug stable, labels i18n EN/FR) : **93 mouvements** V1 — push, pull, squat, hinge, lunge, carry, cardio, olympic, core, isometric, plyometric, gymnastics — `src/features/challenges/lib/movementCatalog.ts`.
+- [x] **Circuit** : chaque ligne = **sélection dans le catalogue** (grouped `<select>`) **ou** option **“Autre (précise)”** → texte libre + `movementSlug = ''` (off-catalog).
+- [x] **Au moins une prescription mesurable** : **≥ 1 bloc** circuit valide (label + montant reps `>0` ou hold `MM:SS`) — **Zod + message i18n** (`circuitMinBlock`).
 - [ ] **Synonymes** : table `movement_aliases` optionnelle (mapping “pompes” → `push_up`) pour recherche / stats plus tard.
-- [ ] **Évolution** : process interne pour **ajouter** des slugs (PR data ou script seed) — pas besoin d’encyclopédie jour 1.
+- [x] **Évolution** : pour ajouter un mouvement → append dans `MOVEMENT_CATALOG` + i18n key par locale (`movements.<slug>`).
 
 ---
 
@@ -240,7 +240,7 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 | Respect                                  | 🔴 — section **D**                                                                                                            |
 | Referral                                 | 🔴 — section **E**                                                                                                            |
 | Confiance / plateforme                   | 🔴 — section **F**                                                                                                            |
-| Mouvements / prescription (mix)          | 🔴 — section **G**                                                                                                            |
+| Mouvements / prescription (mix)          | 🟡 [#44](https://github.com/igorms-pro/truegrynd/issues/44) — PR branch `feature/issue-44-movement-catalog`                   |
 
 **Ordre d’attaque recommandé :** **A** (admin, puis **A9–A10** une fois la base admin + RPC OK) → **G** (standardisation création, en parallèle possible) → **B** → **C** / **D** → **E** → **F** continu.
 

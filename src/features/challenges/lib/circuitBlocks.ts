@@ -2,6 +2,8 @@ export type CircuitBlock = {
   label: string;
   kind: 'reps' | 'hold';
   amount: string;
+  /** Catalog slug when a known movement is selected; empty string for custom/off-catalog entries. */
+  movementSlug: string;
 };
 
 export type ScoringMode = 'for_time' | 'amrap';

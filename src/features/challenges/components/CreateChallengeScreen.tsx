@@ -20,7 +20,7 @@ const DEFAULT_VALUES: CreateChallengeFormValues = {
   title: '',
   description: '',
   rulesDetail: '',
-  circuitBlocks: [{ label: '', kind: 'reps', amount: '' }],
+  circuitBlocks: [{ label: '', kind: 'reps', amount: '', movementSlug: '' }],
   scoringMode: 'for_time',
   amrapCap: '',
   forTimeCap: '',
