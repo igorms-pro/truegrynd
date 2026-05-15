@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 
+import { RecruitCta } from '@/features/factions/components/RecruitCta';
 import { useClanHud } from '@/features/factions/hooks/useClanHud';
 
 function formatPoints(points: number): string {
@@ -42,6 +43,13 @@ export function ClanScreen() {
             {t('retry')}
           </button>
         </div>
+      ) : null}
+
+      {state.status === 'ready' && state.faction ? (
+        <RecruitCta
+          faction={state.faction}
+          siteUrl={process.env.NEXT_PUBLIC_SITE_URL ?? 'https://truegrynd.app'}
+        />
       ) : null}
 
       {state.status === 'ready' ? (

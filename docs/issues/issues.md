@@ -181,11 +181,12 @@ L’IA n’a pas besoin d’être “hors du repo” au sens code : le **code** 
 
 ## E. Referral — V1 forte
 
-- [ ] **Lien signé ou paramètres** : `?faction=horde` + **validation** côté onboarding (rejet si valeur invalide).
-- [ ] **Persistance** : cookie / localStorage limité + sync au signup — documenter durée TTL.
-- [ ] **Analytics** (optionnel) : event “landing referral” sans PII invasive.
-- [ ] **UI Clan / Overview** : CTA “Recruter un allié” + partage natif / copie lien.
-- [ ] **Pas de multi-niveaux MLM** en V1 sauf décision explicite.
+- [x] **Lien** : `?faction=horde` + `parseReferralFaction()` validation (rejet si valeur invalide).
+- [x] **Persistance** : `localStorage` + TTL 7 jours — `storeReferralFaction` / `loadReferralFaction` / `clearReferralFaction`.
+- [ ] **Analytics** (optionnel) : event “landing referral” sans PII invasive — reporté V1.1.
+- [x] **UI Clan** : `RecruitCta` — boutons Share (Web Share API) + Copy link, dans `ClanScreen`.
+- [x] **Onboarding** : `OnboardingFlow` lit `?faction` ou localStorage et pré-sélectionne la faction ; `clearReferralFaction` après choix.
+- [x] **Pas de MLM** : lien plat, pas de tracking multi-niveaux.
 
 ---
 
@@ -238,7 +239,7 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 | Creator Score                            | 🟡 [#46](https://github.com/igorms-pro/truegrynd/issues/46) — PR branch `feature/issue-46-creator-score`                      |
 | Streaks                                  | 🟡 [#48](https://github.com/igorms-pro/truegrynd/issues/48) — PR branch `feature/issue-48-streaks`                            |
 | Respect                                  | 🟡 [#50](https://github.com/igorms-pro/truegrynd/issues/50) — PR branch `feature/issue-50-respect`                            |
-| Referral                                 | 🔴 — section **E**                                                                                                            |
+| Referral                                 | 🟡 [#52](https://github.com/igorms-pro/truegrynd/issues/52) — PR branch `feature/issue-52-referral`                           |
 | Confiance / plateforme                   | 🔴 — section **F**                                                                                                            |
 | Mouvements / prescription (mix)          | 🟡 [#44](https://github.com/igorms-pro/truegrynd/issues/44) — PR branch `feature/issue-44-movement-catalog`                   |
 
