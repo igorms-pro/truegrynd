@@ -372,6 +372,11 @@
     "columnRank": "RANG",
     "columnUser": "JOUEUR",
     "columnScore": "SCORE",
+    "respect": {
+      "give": "Respect",
+      "undo": "Retirer le respect",
+      "aria": "Respecter ce score ({count})"
+    },
     "filters": {
       "title": "Filtres",
       "all": "Tous",

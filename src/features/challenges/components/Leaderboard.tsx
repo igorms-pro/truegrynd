@@ -4,15 +4,18 @@ import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 import { LeaderboardFiltersBar } from '@/features/challenges/components/LeaderboardFilters';
+import { RespectButton } from '@/features/challenges/components/RespectButton';
+import { useChallengeLeaderboard } from '@/features/challenges/hooks/useChallengeLeaderboard';
+import { useScoreRespects } from '@/features/challenges/hooks/useScoreRespects';
 import { applyLeaderboardFilters } from '@/features/challenges/lib/applyFilters';
-import { formatScore } from '@/features/challenges/lib/scoreFormat';
 import { sortScoresByType } from '@/features/challenges/lib/leaderboardSort';
+import { formatScore } from '@/features/challenges/lib/scoreFormat';
 import {
   EMPTY_FILTERS,
   type LeaderboardEntry,
   type LeaderboardFilters,
 } from '@/features/challenges/lib/types';
-import { useChallengeLeaderboard } from '@/features/challenges/hooks/useChallengeLeaderboard';
+import { useOptionalAppProfile } from '@/features/appshell/context/AppProfileContext';
 import type { ScoreType } from '@/lib/types/database.types';
 
 type Props = {
@@ -24,25 +27,45 @@ function LeaderboardRow({
   rank,
   entry,
   scoreType,
+  currentUserId,
+  respectCount,
+  isRespected,
+  respectDisabled,
+  onRespectToggle,
 }: {
   rank: number;
   entry: LeaderboardEntry;
   scoreType: ScoreType;
+  currentUserId: string | null;
+  respectCount: number;
+  isRespected: boolean;
+  respectDisabled: boolean;
+  onRespectToggle: (scoreId: string) => Promise<void>;
 }) {
   const username = entry.profile?.username ?? '—';
   return (
-    <li className="grid grid-cols-[3rem_1fr_auto] items-center gap-3 border-b border-border px-3 py-2 last:border-b-0">
+    <li className="grid grid-cols-[3rem_1fr_auto_auto] items-center gap-3 border-b border-border px-3 py-2 last:border-b-0">
       <span className="font-mono text-sm tabular-nums text-muted-foreground">#{rank}</span>
       <span className="truncate text-sm font-bold text-foreground">{username}</span>
       <span className="font-mono text-sm tabular-nums text-foreground">
         {formatScore(entry.value, scoreType)}
       </span>
+      <RespectButton
+        scoreId={entry.id}
+        scoreUserId={entry.user_id}
+        currentUserId={currentUserId}
+        count={respectCount}
+        respected={isRespected}
+        disabled={respectDisabled}
+        onToggle={onRespectToggle}
+      />
     </li>
   );
 }
 
 export function Leaderboard({ challengeId, scoreType }: Props) {
   const t = useTranslations('leaderboard');
+  const profile = useOptionalAppProfile();
   const { data, loading, error, refetch } = useChallengeLeaderboard({
     challengeId,
     scoreType,
@@ -53,6 +76,14 @@ export function Leaderboard({ challengeId, scoreType }: Props) {
     () => sortScoresByType(applyLeaderboardFilters(data, filters), scoreType),
     [data, filters, scoreType],
   );
+
+  const scoreIds = useMemo(() => sorted.map((e) => e.id), [sorted]);
+  const {
+    counts,
+    respected,
+    loading: respectLoading,
+    toggle,
+  } = useScoreRespects(scoreIds, profile?.id ?? null);
 
   return (
     <section className="space-y-3">
@@ -92,7 +123,17 @@ export function Leaderboard({ challengeId, scoreType }: Props) {
       {!loading && !error && sorted.length > 0 ? (
         <ol className="overflow-hidden rounded-md border border-border bg-card">
           {sorted.map((entry, index) => (
-            <LeaderboardRow key={entry.id} rank={index + 1} entry={entry} scoreType={scoreType} />
+            <LeaderboardRow
+              key={entry.id}
+              rank={index + 1}
+              entry={entry}
+              scoreType={scoreType}
+              currentUserId={profile?.id ?? null}
+              respectCount={counts.get(entry.id) ?? 0}
+              isRespected={respected.has(entry.id)}
+              respectDisabled={respectLoading}
+              onRespectToggle={toggle}
+            />
           ))}
         </ol>
       ) : null}

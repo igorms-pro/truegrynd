@@ -171,11 +171,11 @@ L’IA n’a pas besoin d’être “hors du repo” au sens code : le **code** 
 
 ## D. Respect (leaderboard) — V1 forte
 
-- [ ] **DB** : table **`score_respects`** (migration `004_score_respects.sql` — **auditer** schéma + RLS actuels ; aligner produit : une ligne par `(user_id, score_id)`, pas de self-respect côté app + optionnel contrainte DB).
-- [ ] **RLS** : insert seulement si auth ; pas de spam (unique constraint + erreur UX).
-- [ ] **UI** : bouton sur ligne leaderboard — états default / loading / disabled / “déjà respecté” ; **pas** de compteur public toxique sans réflexion (définir affichage).
-- [ ] **Anti-gaming** : pas de self-respect ; optionnel cooldown.
-- [ ] **i18n** + a11y bouton.
+- [x] **DB** : table `score_respects` déjà en place (migration `004`) — schéma + RLS audités, UNIQUE constraint `(score_id, user_id)`.
+- [x] **RLS** : INSERT auth only, DELETE own only, SELECT all — spam bloqué par UNIQUE constraint.
+- [x] **UI** : `RespectButton` sur chaque ligne leaderboard — états default / loading / disabled / respected ; compteur discret.
+- [x] **Anti-gaming** : self-respect masqué (bouton hidden si `scoreUserId === currentUserId`) + UNIQUE DB constraint.
+- [x] **i18n** EN + FR + `aria-label` (`leaderboard.respect.*`).
 
 ---
 
@@ -237,7 +237,7 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 | **`/app/admin`**                         | 🔴 — suivre section **A**                                                                                                     |
 | Creator Score                            | 🟡 [#46](https://github.com/igorms-pro/truegrynd/issues/46) — PR branch `feature/issue-46-creator-score`                      |
 | Streaks                                  | 🟡 [#48](https://github.com/igorms-pro/truegrynd/issues/48) — PR branch `feature/issue-48-streaks`                            |
-| Respect                                  | 🔴 — section **D**                                                                                                            |
+| Respect                                  | 🟡 [#50](https://github.com/igorms-pro/truegrynd/issues/50) — PR branch `feature/issue-50-respect`                            |
 | Referral                                 | 🔴 — section **E**                                                                                                            |
 | Confiance / plateforme                   | 🔴 — section **F**                                                                                                            |
 | Mouvements / prescription (mix)          | 🟡 [#44](https://github.com/igorms-pro/truegrynd/issues/44) — PR branch `feature/issue-44-movement-catalog`                   |
