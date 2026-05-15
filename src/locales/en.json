@@ -465,6 +465,18 @@
       "viewChallenge": "CHALLENGE",
       "viewCard": "CARD"
     },
+    "creatorScore": {
+      "label": "CR",
+      "aria": "Creator score: {score}",
+      "tooltipTitle": "CREATOR SCORE",
+      "tooltipBody": "You earn +1 every time someone submits a validated score on a challenge you created. Max 10 per day.",
+      "nextTier": "Next tier at {threshold}.",
+      "tiers": {
+        "bronze": "BRONZE",
+        "silver": "SILVER",
+        "gold": "GOLD"
+      }
+    },
     "header": {
       "unknownUser": "UNKNOWN",
       "avatarAlt": "Profile avatar",

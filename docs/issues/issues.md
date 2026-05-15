@@ -147,13 +147,13 @@ L’IA n’a pas besoin d’être “hors du repo” au sens code : le **code** 
 
 ## B. Creator Score — V1 forte (réputation créateur)
 
-- [ ] **Produit** : définition formelle du score (ex. +N par score **validé** sur un défi dont tu es **créateur** et `approved` ; plafond journalier anti-farming).
-- [ ] **DB** : utiliser `profiles.creator_score` existant ou migrer vers table `creator_stats` si historique/agrégats nécessaires.
-- [ ] **Trigger ou job** : incrément **côté serveur** (trigger on `scores` insert/update validated) — pas seulement client.
-- [ ] **RLS** : `creator_score` lecture publique OK ; **UPDATE** réservé trigger / `SECURITY DEFINER` — pas d’UPDATE client direct.
-- [ ] **UI profil** : affichage score + **tooltip / lien** “comment ça marche”.
-- [ ] **Badges** (optionnel V1) : seuils (bronze/argent/or) — sinon report V1.1 avec assets.
-- [ ] **i18n** + états loading/error sur bloc profil.
+- [x] **Produit** : +1 par score **validé** sur un défi dont tu es **créateur** et `approved` ; plafond **10/jour** anti-farming ; self-scores exclus.
+- [x] **DB** : utilise `profiles.creator_score` existant (migration `010`).
+- [x] **Trigger** : `increment_creator_score()` AFTER INSERT OR UPDATE on `scores` — SECURITY DEFINER, daily cap, self-score guard.
+- [x] **RLS** : `guard_server_managed_profile_fields()` BEFORE UPDATE sur `profiles` — revert client writes via GUC flag `app.server_managed_update`.
+- [x] **UI profil** : `CreatorScoreBadge` dans `ProfileHeader` — score + tier + tooltip explicatif.
+- [x] **Badges** : Bronze (≥5), Silver (≥25), Gold (≥100) — couleurs dans `CreatorScoreBadge`.
+- [x] **i18n** EN + FR (`profile.creatorScore.*`).
 
 ---
 
@@ -235,7 +235,7 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 | Doc backlog V1 (ce fichier)              | 🟢 [#31](https://github.com/igorms-pro/truegrynd/issues/31) mergé — PR [#32](https://github.com/igorms-pro/truegrynd/pull/32) |
 | Doc tri IA + mouvements mix (ce fichier) | 🟢 [#35](https://github.com/igorms-pro/truegrynd/issues/35) mergé — PR [#36](https://github.com/igorms-pro/truegrynd/pull/36) |
 | **`/app/admin`**                         | 🔴 — suivre section **A**                                                                                                     |
-| Creator Score                            | 🔴 — section **B**                                                                                                            |
+| Creator Score                            | 🟡 [#46](https://github.com/igorms-pro/truegrynd/issues/46) — PR branch `feature/issue-46-creator-score`                      |
 | Streaks                                  | 🔴 — section **C**                                                                                                            |
 | Respect                                  | 🔴 — section **D**                                                                                                            |
 | Referral                                 | 🔴 — section **E**                                                                                                            |
