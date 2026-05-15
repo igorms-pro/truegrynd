@@ -40,12 +40,12 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 - [x] **FEAT** — Creator Studio + RLS UGC + cap temps — PR [#30](https://github.com/igorms-pro/truegrynd/pull/30)
 - [x] **FEAT** — `/app/admin` **core** — modération file + RPC `008` + nav MOD — **mergé** PR [#41](https://github.com/igorms-pro/truegrynd/pull/41) ([#39](https://github.com/igorms-pro/truegrynd/issues/39))
 - [x] **FEAT** — `/app/admin` **tri IA** — **A9–A10** — [#40](https://github.com/igorms-pro/truegrynd/issues/40) — **mergé** PR [#41](https://github.com/igorms-pro/truegrynd/pull/41) : migration **`009`** + Edge Function **`admin-challenge-ai-review`**
-- [ ] **FEAT** — Prescription / **bibliothèque mouvements (mix)** — section **G**
-- [ ] **FEAT** — Creator Score — section **B**
-- [ ] **FEAT** — Streaks — section **C**
-- [ ] **FEAT** — Respect leaderboard — section **D**
-- [ ] **FEAT** — Referral — section **E**
-- [ ] **FEAT / CHORE** — Confiance & plateforme — section **F**
+- [x] **FEAT** — Prescription / **bibliothèque mouvements (mix)** — section **G** — PR [#45](https://github.com/igorms-pro/truegrynd/pull/45)
+- [x] **FEAT** — Creator Score — section **B** — PR [#47](https://github.com/igorms-pro/truegrynd/pull/47)
+- [x] **FEAT** — Streaks — section **C** — PR [#49](https://github.com/igorms-pro/truegrynd/pull/49)
+- [x] **FEAT** — Respect leaderboard — section **D** — PR [#51](https://github.com/igorms-pro/truegrynd/pull/51)
+- [x] **FEAT** — Referral — section **E** — PR [#53](https://github.com/igorms-pro/truegrynd/pull/53)
+- [x] **FEAT / CHORE** — Confiance & plateforme — section **F** — PR [#55](https://github.com/igorms-pro/truegrynd/pull/55)
 
 ---
 
@@ -235,13 +235,13 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 | UGC création + cap                       | 🟢 PR #30                                                                                                                     |
 | Doc backlog V1 (ce fichier)              | 🟢 [#31](https://github.com/igorms-pro/truegrynd/issues/31) mergé — PR [#32](https://github.com/igorms-pro/truegrynd/pull/32) |
 | Doc tri IA + mouvements mix (ce fichier) | 🟢 [#35](https://github.com/igorms-pro/truegrynd/issues/35) mergé — PR [#36](https://github.com/igorms-pro/truegrynd/pull/36) |
-| **`/app/admin`**                         | 🔴 — suivre section **A**                                                                                                     |
-| Creator Score                            | 🟡 [#46](https://github.com/igorms-pro/truegrynd/issues/46) — PR branch `feature/issue-46-creator-score`                      |
-| Streaks                                  | 🟡 [#48](https://github.com/igorms-pro/truegrynd/issues/48) — PR branch `feature/issue-48-streaks`                            |
-| Respect                                  | 🟡 [#50](https://github.com/igorms-pro/truegrynd/issues/50) — PR branch `feature/issue-50-respect`                            |
-| Referral                                 | 🟡 [#52](https://github.com/igorms-pro/truegrynd/issues/52) — PR branch `feature/issue-52-referral`                           |
-| Confiance / plateforme                   | 🟡 [#54](https://github.com/igorms-pro/truegrynd/issues/54) — PR branch `feature/issue-54-trust-platform`                     |
-| Mouvements / prescription (mix)          | 🟡 [#44](https://github.com/igorms-pro/truegrynd/issues/44) — PR branch `feature/issue-44-movement-catalog`                   |
+| **`/app/admin`**                         | 🟢 PR #41 mergé (admin + AI triage)                                                                                           |
+| Creator Score                            | 🟢 [#46](https://github.com/igorms-pro/truegrynd/issues/46) mergé — PR [#47](https://github.com/igorms-pro/truegrynd/pull/47) |
+| Streaks                                  | 🟢 [#48](https://github.com/igorms-pro/truegrynd/issues/48) mergé — PR [#49](https://github.com/igorms-pro/truegrynd/pull/49) |
+| Respect                                  | 🟢 [#50](https://github.com/igorms-pro/truegrynd/issues/50) mergé — PR [#51](https://github.com/igorms-pro/truegrynd/pull/51) |
+| Referral                                 | 🟢 [#52](https://github.com/igorms-pro/truegrynd/issues/52) mergé — PR [#53](https://github.com/igorms-pro/truegrynd/pull/53) |
+| Confiance / plateforme                   | 🟢 [#54](https://github.com/igorms-pro/truegrynd/issues/54) mergé — PR [#55](https://github.com/igorms-pro/truegrynd/pull/55) |
+| Mouvements / prescription (mix)          | 🟢 [#44](https://github.com/igorms-pro/truegrynd/issues/44) mergé — PR [#45](https://github.com/igorms-pro/truegrynd/pull/45) |
 
 **Ordre d’attaque recommandé :** **A** (admin, puis **A9–A10** une fois la base admin + RPC OK) → **G** (standardisation création, en parallèle possible) → **B** → **C** / **D** → **E** → **F** continu.
 
