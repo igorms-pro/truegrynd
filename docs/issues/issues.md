@@ -159,13 +159,13 @@ L’IA n’a pas besoin d’être “hors du repo” au sens code : le **code** 
 
 ## C. Streaks — V1 forte
 
-- [ ] **Règle produit écrite** : qu’est-ce qui allonge la série ? (ex. **au moins une soumission classée ou non** / jour calendaire UTC vs fuseau user).
-- [ ] **DB** : `profiles.streak_days`, `profiles.last_activity_at` (déjà en schéma cible) — logique **idempotente** par jour.
-- [ ] **Implémentation** : trigger sur `scores` **ou** RPC post-submit — éviter double incrément même jour.
-- [ ] **Reset** : règle si gap > 1 jour → streak = 1 ou 0 selon spec.
-- [ ] **UI** : Overview + profil — affichage + copy motivation ; **empty** si 0.
-- [ ] **Edge cases** : premier jour, changement fuseau (documenter choix : UTC recommandé en V1).
-- [ ] **Tests** : fonctions pures de calcul de streak (dates mockées).
+- [x] **Règle produit** : ≥1 score soumis par jour calendaire **UTC** allonge la série. Gap > 1 jour → reset à 1.
+- [x] **DB** : `profiles.streak_days` + `profiles.last_activity_at` (existants) — migration `011`.
+- [x] **Trigger** : `update_streak_on_score()` AFTER INSERT on `scores` — idempotent par jour, SECURITY DEFINER, GUC guard.
+- [x] **Reset** : gap > 1 jour → streak = 1. Consécutif → streak + 1. Même jour → no-op.
+- [x] **UI** : Overview + ProfileHeader affichent déjà `streak_days` (statique → dynamique via trigger).
+- [x] **Edge cases** : premier jour = 1, même jour idempotent, UTC only (documté dans le code).
+- [x] **Tests** : `computeStreak` — 6 tests (null, same-day, consecutive, gap, week gap, zero+consec).
 
 ---
 
@@ -236,7 +236,7 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 | Doc tri IA + mouvements mix (ce fichier) | 🟢 [#35](https://github.com/igorms-pro/truegrynd/issues/35) mergé — PR [#36](https://github.com/igorms-pro/truegrynd/pull/36) |
 | **`/app/admin`**                         | 🔴 — suivre section **A**                                                                                                     |
 | Creator Score                            | 🟡 [#46](https://github.com/igorms-pro/truegrynd/issues/46) — PR branch `feature/issue-46-creator-score`                      |
-| Streaks                                  | 🔴 — section **C**                                                                                                            |
+| Streaks                                  | 🟡 [#48](https://github.com/igorms-pro/truegrynd/issues/48) — PR branch `feature/issue-48-streaks`                            |
 | Respect                                  | 🔴 — section **D**                                                                                                            |
 | Referral                                 | 🔴 — section **E**                                                                                                            |
 | Confiance / plateforme                   | 🔴 — section **F**                                                                                                            |
