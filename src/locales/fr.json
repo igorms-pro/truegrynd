@@ -465,6 +465,18 @@
       "viewChallenge": "DÉFI",
       "viewCard": "CARD"
     },
+    "creatorScore": {
+      "label": "CR",
+      "aria": "Score créateur : {score}",
+      "tooltipTitle": "SCORE CRÉATEUR",
+      "tooltipBody": "Tu gagnes +1 chaque fois qu'un score validé est soumis sur un défi que tu as créé. Max 10 par jour.",
+      "nextTier": "Prochain palier à {threshold}.",
+      "tiers": {
+        "bronze": "BRONZE",
+        "silver": "ARGENT",
+        "gold": "OR"
+      }
+    },
     "header": {
       "unknownUser": "INCONNU",
       "avatarAlt": "Avatar du profil",

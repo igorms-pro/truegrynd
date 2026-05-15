@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 
+import { CreatorScoreBadge } from '@/features/profile/components/CreatorScoreBadge';
 import { AVATAR_ACCEPT, useAvatarUpload } from '@/features/profile/hooks/useAvatarUpload';
 import { initialsFromUsername } from '@/features/profile/lib/initials';
 import type { Faction, Profile } from '@/lib/types/database.types';
@@ -127,6 +128,7 @@ export function ProfileHeader({ profile, onAvatarUpdated }: Props) {
               <span className="text-xs text-muted-foreground">
                 {t('streak', { days: profile.streak_days })}
               </span>
+              <CreatorScoreBadge score={profile.creator_score} />
             </div>
           </div>
 
