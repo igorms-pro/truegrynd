@@ -5,6 +5,12 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useMemo, type ReactNode } from 'react';
 
 import { useRequireAuth } from '@/features/auth/hooks/useRequireAuth';
+import {
+  clearReferralFaction,
+  loadReferralFaction,
+  parseReferralFaction,
+  storeReferralFaction,
+} from '@/features/factions/lib/referral';
 import { useOnboardingProfile } from '@/features/onboarding/hooks/useOnboardingProfile';
 import type { OnboardingStep } from '@/features/onboarding/lib/onboardingStep';
 import { OnboardingIdentityStep } from '@/features/onboarding/components/OnboardingIdentityStep';
@@ -37,6 +43,15 @@ export function OnboardingFlow() {
     const safeNext = normalizeNextPath(searchParams.get('next'));
     return safeNext ?? `/${locale}/app/overview`;
   }, [locale, searchParams]);
+
+  const referralFaction = useMemo(() => {
+    const fromUrl = parseReferralFaction(searchParams.get('faction'));
+    if (fromUrl) {
+      storeReferralFaction(fromUrl);
+      return fromUrl;
+    }
+    return loadReferralFaction();
+  }, [searchParams]);
 
   useEffect(() => {
     if (!initialized || loading) return;
@@ -110,9 +125,10 @@ export function OnboardingFlow() {
     content = (
       <OnboardingFactionStep
         userId={profile.id}
-        initialFaction={profile.faction}
+        initialFaction={profile.faction ?? referralFaction}
         onBack={handleBack}
         onCompleted={async () => {
+          clearReferralFaction();
           await reload();
         }}
       />

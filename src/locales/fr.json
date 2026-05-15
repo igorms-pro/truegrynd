@@ -174,6 +174,15 @@
       "nomads": "NOMADES",
       "horde": "HORDE",
       "iron_alliance": "ALLIANCE DE FER"
+    },
+    "recruit": {
+      "title": "RECRUTER UN ALLIÉ",
+      "body": "Envoie ce lien pour amener quelqu'un directement dans ta faction.",
+      "share": "PARTAGER",
+      "copy": "COPIER LE LIEN",
+      "copied": "COPIÉ !",
+      "shareTitle": "Truegrynd — Rejoins ma faction",
+      "shareText": "Rejoins ma faction sur Truegrynd et compétis ensemble."
     }
   },
   "arena": {
