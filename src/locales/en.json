@@ -372,6 +372,11 @@
     "columnRank": "RANK",
     "columnUser": "USER",
     "columnScore": "SCORE",
+    "respect": {
+      "give": "Respect",
+      "undo": "Undo respect",
+      "aria": "Respect this score ({count})"
+    },
     "filters": {
       "title": "Filters",
       "all": "All",
