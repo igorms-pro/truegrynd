@@ -192,11 +192,11 @@ L’IA n’a pas besoin d’être “hors du repo” au sens code : le **code** 
 
 ## F. Confiance & plateforme — V1 forte
 
-- [ ] **Signalement** : table `reports` (target_type, target_id, reporter_id, reason, created_at) + RLS + file admin ou même RPC admin phase 2.
-- [ ] **SEO i18n** : meta `title` / `description` par locale sur landing + routes clés.
-- [ ] **Observabilité** : Sentry (ou équivalent) — erreurs client + contexte anonyme ; pas de tokens en logs.
-- [ ] **Rate limiting** : création défis / soumissions / RPC admin — policy Supabase ou Edge Function si abus.
-- [ ] **Runbook** : doc interne courte “promouvoir admin”, “rollback migration”, “revue RLS”.
+- [x] **Signalement** : table `reports` (migration `012`) + RLS (insert own, read own, admin read all) + UNIQUE constraint.
+- [x] **SEO i18n** : `generateMetadata` dans `[locale]/layout.tsx` — title/description par locale via `next-intl`.
+- [ ] **Observabilité** : Sentry — reporté V1.1 (config externe, hors repo).
+- [x] **Rate limiting** : documenté dans `docs/RUNBOOK.md` — V1 via UNIQUE constraints + admin gates ; V1.1 Edge Function.
+- [x] **Runbook** : `docs/RUNBOOK.md` — promouvoir admin, rollback migration, revue RLS, rate limiting, env vars.
 
 ---
 
@@ -240,7 +240,7 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 | Streaks                                  | 🟡 [#48](https://github.com/igorms-pro/truegrynd/issues/48) — PR branch `feature/issue-48-streaks`                            |
 | Respect                                  | 🟡 [#50](https://github.com/igorms-pro/truegrynd/issues/50) — PR branch `feature/issue-50-respect`                            |
 | Referral                                 | 🟡 [#52](https://github.com/igorms-pro/truegrynd/issues/52) — PR branch `feature/issue-52-referral`                           |
-| Confiance / plateforme                   | 🔴 — section **F**                                                                                                            |
+| Confiance / plateforme                   | 🟡 [#54](https://github.com/igorms-pro/truegrynd/issues/54) — PR branch `feature/issue-54-trust-platform`                     |
 | Mouvements / prescription (mix)          | 🟡 [#44](https://github.com/igorms-pro/truegrynd/issues/44) — PR branch `feature/issue-44-movement-catalog`                   |
 
 **Ordre d’attaque recommandé :** **A** (admin, puis **A9–A10** une fois la base admin + RPC OK) → **G** (standardisation création, en parallèle possible) → **B** → **C** / **D** → **E** → **F** continu.
