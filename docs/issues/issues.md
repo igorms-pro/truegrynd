@@ -1,19 +1,20 @@
 # Truegrynd – Backlog V1 (strong)
 
-> **MVP core livré.** Ici : **V1 sérieuse** — pas de “vite fait” : specs exécutables, cochables, prêtes pour PR + RLS + i18n.  
-> Les anciennes issues #0–#10 ne sont plus dupliquées ici (historique Git).
+> **MVP core livré.** **V1 sérieuse (sections A–G)** : **livré sur `main`** (PR [#30](https://github.com/igorms-pro/truegrynd/pull/30) → [#55](https://github.com/igorms-pro/truegrynd/pull/55)).  
+> Ce fichier reste la référence ; les cases `[ ]` restantes sont **optionnelles** ou **V1.1** (voir fin de section A et blocs B–G).
 
-**Dernière mise à jour :** 14 mai 2026
+**Dernière mise à jour :** 17 mai 2026
 
 ---
 
 ## État livraison
 
-| Quoi                                              | Statut                                                                                                                                                                                                                                                                                                                                                       |
-| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **UGC Creator Studio + migrations `006` / `007`** | **Mergé `main`** — PR [#30](https://github.com/igorms-pro/truegrynd/pull/30). Ops : migrations **prod** alignées avec le repo.                                                                                                                                                                                                                               |
-| **Admin UGC (#39)**                               | **🟢 Mergé `main`** — PR [#41](https://github.com/igorms-pro/truegrynd/pull/41), [#39](https://github.com/igorms-pro/truegrynd/issues/39), migration **`008`**.                                                                                                                                                                                              |
-| **Admin tri IA (#40)**                            | **🟢 Mergé `main`** — PR [#41](https://github.com/igorms-pro/truegrynd/pull/41), [#40](https://github.com/igorms-pro/truegrynd/issues/40) **fermée**, migration **`009`**, Edge Function **`admin-challenge-ai-review`**. **Reste (manuel / opt.)** : smoke MOD → AI scan ; rate limit endpoint (case A9 non cochée). **Bonus** : bouton **LOG OUT** profil. |
+| Quoi                                              | Statut                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **UGC Creator Studio + migrations `006` / `007`** | **Mergé `main`** — PR [#30](https://github.com/igorms-pro/truegrynd/pull/30). Ops : migrations **prod** alignées avec le repo.                                                                                                                                                                                                                                                                                                                                   |
+| **Admin UGC (#39)**                               | **🟢 Mergé `main`** — PR [#41](https://github.com/igorms-pro/truegrynd/pull/41), [#39](https://github.com/igorms-pro/truegrynd/issues/39), migration **`008`**.                                                                                                                                                                                                                                                                                                  |
+| **Admin tri IA (#40)**                            | **🟢 Mergé `main`** — PR [#41](https://github.com/igorms-pro/truegrynd/pull/41), Edge Function **`admin-challenge-ai-review`**, migration **`009`**.                                                                                                                                                                                                                                                                                                             |
+| **V1 B–G + ops DB**                               | **🟢 Mergé `main`** — PR [#45](https://github.com/igorms-pro/truegrynd/pull/45)–[#55](https://github.com/igorms-pro/truegrynd/pull/55). **Prod** : migrations **`006`–`012`** (dont **`010`–`012`** creator score, streaks, reports). **Ménage GitHub** : PR [#43](https://github.com/igorms-pro/truegrynd/pull/43) fermée (doublon), issues historiques **#15–#28, #39** fermées ; **AGENTS.md** via PR [#42](https://github.com/igorms-pro/truegrynd/pull/42). |
 
 ---
 
@@ -46,6 +47,8 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 - [x] **FEAT** — Respect leaderboard — section **D** — PR [#51](https://github.com/igorms-pro/truegrynd/pull/51)
 - [x] **FEAT** — Referral — section **E** — PR [#53](https://github.com/igorms-pro/truegrynd/pull/53)
 - [x] **FEAT / CHORE** — Confiance & plateforme — section **F** — PR [#55](https://github.com/igorms-pro/truegrynd/pull/55)
+
+**Clôture V1 (macro)** : toutes les lignes ci-dessus sont **livrées en code**. Cases `[ ]` encore présentes dans les sections détaillées = **hors périmètre V1 obligatoire** (tests admin SQL, skeleton, rate limit IA, Sentry, `movement_aliases`, etc.) → traiter en **V1.1** ou issue dédiée.
 
 ---
 
@@ -243,7 +246,7 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 | Confiance / plateforme                   | 🟢 [#54](https://github.com/igorms-pro/truegrynd/issues/54) mergé — PR [#55](https://github.com/igorms-pro/truegrynd/pull/55) |
 | Mouvements / prescription (mix)          | 🟢 [#44](https://github.com/igorms-pro/truegrynd/issues/44) mergé — PR [#45](https://github.com/igorms-pro/truegrynd/pull/45) |
 
-**Ordre d’attaque recommandé :** **A** (admin, puis **A9–A10** une fois la base admin + RPC OK) → **G** (standardisation création, en parallèle possible) → **B** → **C** / **D** → **E** → **F** continu.
+**Suite produit :** V1 macro **terminée**. Prochaine priorité = **QA smoke** (manuel) puis backlog **V1.1** (Sentry, file admin reports, rate limit IA, polish admin UX, etc.) — à définir dans une nouvelle section ou issues GitHub dédiées.
 
 ---
 
