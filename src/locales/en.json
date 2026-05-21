@@ -153,10 +153,10 @@
     "ctaArena": "OPEN ARENA",
     "ctaClan": "OPEN CLAN",
     "empty": "No challenges available yet.",
-    "streakLabel": "STREAK",
+    "streakLine": "Streak: {days}d",
     "streakValue": "{days}d",
-    "factionNudgeTitle": "FACTION",
-    "factionNudgeBody": "Your faction needs points today. Post a ranked score.",
+    "factionYourTeam": "YOUR TEAM",
+    "factionNudgeBody": "{faction} needs points today. Post a ranked score.",
     "noFactionBody": "No faction on file. Complete onboarding.",
     "noFactionCta": "GO TO ONBOARDING"
   },

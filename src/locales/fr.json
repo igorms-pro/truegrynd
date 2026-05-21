@@ -153,10 +153,10 @@
     "ctaArena": "OUVRIR L’ARÈNE",
     "ctaClan": "OUVRIR CLAN",
     "empty": "Aucun défi disponible pour l’instant.",
-    "streakLabel": "SÉRIE",
+    "streakLine": "Série : {days}j",
     "streakValue": "{days}j",
-    "factionNudgeTitle": "FACTION",
-    "factionNudgeBody": "Ta faction a besoin de points aujourd’hui. Poste un score classé.",
+    "factionYourTeam": "TON ÉQUIPE",
+    "factionNudgeBody": "{faction} a besoin de points aujourd’hui. Poste un score classé.",
     "noFactionBody": "Aucune faction enregistrée. Termine l’onboarding.",
     "noFactionCta": "ALLER À L’ONBOARDING"
   },

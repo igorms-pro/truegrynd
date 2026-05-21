@@ -5,29 +5,8 @@ import { useTranslations } from 'next-intl';
 import { CreatorScoreBadge } from '@/features/profile/components/CreatorScoreBadge';
 import { AVATAR_ACCEPT, useAvatarUpload } from '@/features/profile/hooks/useAvatarUpload';
 import { initialsFromUsername } from '@/features/profile/lib/initials';
-import type { Faction, Profile } from '@/lib/types/database.types';
-
-function factionClasses(faction: Faction): { bg: string; text: string; border: string } {
-  if (faction === 'nomads') {
-    return {
-      bg: 'bg-[var(--faction-nomads)]/15',
-      text: 'text-[var(--faction-nomads)]',
-      border: 'border-[var(--faction-nomads)]/40',
-    };
-  }
-  if (faction === 'horde') {
-    return {
-      bg: 'bg-[var(--faction-horde)]/15',
-      text: 'text-[var(--faction-horde)]',
-      border: 'border-[var(--faction-horde)]/40',
-    };
-  }
-  return {
-    bg: 'bg-[var(--faction-iron)]/15',
-    text: 'text-[var(--faction-iron)]',
-    border: 'border-[var(--faction-iron)]/40',
-  };
-}
+import { getFactionBadgeClasses } from '@/lib/factionStyles';
+import type { Profile } from '@/lib/types/database.types';
 
 function HudAvatarPlate({
   avatarUrl,
@@ -91,7 +70,7 @@ export function ProfileHeader({ profile, onAvatarUpdated }: Props) {
 
   const username = profile.username ?? t('unknownUser');
   const faction = profile.faction;
-  const badge = faction ? factionClasses(faction) : null;
+  const badge = faction ? getFactionBadgeClasses(faction) : null;
 
   return (
     <section className="rounded-sm border border-border bg-card p-4">
