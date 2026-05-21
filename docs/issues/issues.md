@@ -1,7 +1,7 @@
-# Truegrynd – Backlog V1 (strong)
+# Truegrynd – Backlog V1 / V2
 
 > **MVP core livré.** **V1 sérieuse (sections A–G)** : **livré sur `main`** (PR [#30](https://github.com/igorms-pro/truegrynd/pull/30) → [#55](https://github.com/igorms-pro/truegrynd/pull/55)).  
-> Ce fichier reste la référence ; les cases `[ ]` restantes sont **optionnelles** ou **V1.1** (voir fin de section A et blocs B–G).
+> **V2** : stratégie dans [docs/V2_STRATEGY.md](../V2_STRATEGY.md). Angle : compétition fitness accessible, divisions de niveau, weekly challenges, équipes/factions, progression amateur.
 
 **Dernière mise à jour :** 17 mai 2026
 
@@ -26,15 +26,16 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 
 ## Sommaire backlog
 
-| Bloc                          | Détail dans ce fichier                                  |
-| ----------------------------- | ------------------------------------------------------- |
-| **`/app/admin` (UGC)**        | Section **A** — tâches détaillées (+ **A9–A10** IA tri) |
-| **Mouvements & prescription** | Section **G** — catalogue mix + règles création         |
-| **Creator Score**             | Section **B**                                           |
-| **Streaks**                   | Section **C**                                           |
-| **Respect (leaderboard)**     | Section **D**                                           |
-| **Referral**                  | Section **E**                                           |
-| **Confiance & plateforme**    | Section **F**                                           |
+| Bloc                            | Détail dans ce fichier                                  |
+| ------------------------------- | ------------------------------------------------------- |
+| **`/app/admin` (UGC)**          | Section **A** — tâches détaillées (+ **A9–A10** IA tri) |
+| **Mouvements & prescription**   | Section **G** — catalogue mix + règles création         |
+| **Creator Score**               | Section **B**                                           |
+| **Streaks**                     | Section **C**                                           |
+| **Respect (leaderboard)**       | Section **D**                                           |
+| **Referral**                    | Section **E**                                           |
+| **Confiance & plateforme**      | Section **F**                                           |
+| **V2 — Accessible competition** | Section **H** — backlog issue-par-issue                 |
 
 **Macro-checklist**
 
@@ -49,6 +50,21 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 - [x] **FEAT / CHORE** — Confiance & plateforme — section **F** — PR [#55](https://github.com/igorms-pro/truegrynd/pull/55)
 
 **Clôture V1 (macro)** : toutes les lignes ci-dessus sont **livrées en code**. Cases `[ ]` encore présentes dans les sections détaillées = **hors périmètre V1 obligatoire** (tests admin SQL, skeleton, rate limit IA, Sentry, `movement_aliases`, etc.) → traiter en **V1.1** ou issue dédiée.
+
+**Macro V2 proposée (à transformer en GitHub issues avant dev)**
+
+- [ ] **V2-01** — Divisions de niveau (Rookie / Regular / Savage / Elite)
+- [ ] **V2-02** — Variantes officielles / scaling par challenge
+- [ ] **V2-03** — Weekly Global Challenge
+- [ ] **V2-04** — Leaderboards par division, faction, ville, pays
+- [ ] **V2-05** — Truegrynd Rating (Engine / Power / Strength / Grit / Consistency)
+- [ ] **V2-06** — Challenge Passport / palmarès amateur
+- [ ] **V2-07** — Rival Matches (1v1 / petits groupes)
+- [ ] **V2-08** — Team Wars / Faction Wars par division
+- [ ] **V2-09** — Micro-events async (24h / 7j / 30j)
+- [ ] **V2-10** — Proof Levels (Honor / Video / Community / Judge / Event)
+- [ ] **V2-11** — Growth loops (cards, invitations, comeback weeks)
+- [ ] **V2-12** — Monétisation exploratoire (après signal d'usage)
 
 ---
 
@@ -215,6 +231,117 @@ L’IA n’a pas besoin d’être “hors du repo” au sens code : le **code** 
 
 ---
 
+## H. V2 — Accessible Competitive Fitness
+
+**Décision produit :** ne pas copier les gros events fitness. Truegrynd attaque leur angle mort : **l'énergie compétition sans ticket à 110 €, sans déplacement, sans élitisme**. Les gens jouent **dans leur division**, avec **leur team**, contre des gens de niveau comparable. Le leaderboard global reste une vitrine, pas l'expérience principale.
+
+Référence stratégie : [docs/V2_STRATEGY.md](../V2_STRATEGY.md).
+
+### V2-01. Divisions De Niveau
+
+- [ ] **Produit** : définir les divisions canoniques V2 : `rookie`, `regular`, `savage`, `elite` (noms finaux à confirmer).
+- [ ] **Règle d'entrée** : chaque utilisateur a une division par défaut (`rookie`) puis peut monter selon performance / rating.
+- [ ] **DB** : ajouter une représentation stable des divisions (enum/check ou table `divisions`) + champ dérivé côté profil ou rating.
+- [ ] **UI** : badge division visible sur profil, leaderboard, finisher card.
+- [ ] **Leaderboard** : filtre division par défaut, global disponible mais secondaire.
+- [ ] **i18n EN/FR** + tests de mapping division.
+
+### V2-02. Variantes Officielles / Scaling Par Challenge
+
+- [ ] **Produit** : chaque challenge important peut avoir des variantes officielles : no equipment, bodyweight, dumbbell, standard, savage.
+- [ ] **DB** : modèle `challenge_variants` ou champ structuré validé (éviter texte libre non exploitable).
+- [ ] **Création défi** : auteur choisit au moins une variante ; admin voit le niveau de friction / matériel.
+- [ ] **Soumission** : score attaché à une variante précise.
+- [ ] **Leaderboard** : classement par variante + division.
+- [ ] **UX** : copy claire : scaling officiel ≠ mode honteux.
+
+### V2-03. Weekly Global Challenge
+
+- [ ] **Produit** : un défi global par semaine, simple, partageable, jouable partout.
+- [ ] **DB** : table ou champs pour `weekly_challenges` (challenge_id, starts_at, ends_at, status).
+- [ ] **App** : bloc homepage/overview “Weekly Challenge” avec CTA score.
+- [ ] **Leaderboards** : division + faction + ville/pays.
+- [ ] **Finisher Card** : variante weekly avec badge semaine.
+- [ ] **Admin** : choisir / programmer le weekly sans migration.
+
+### V2-04. Leaderboards Par Division, Faction, Ville, Pays
+
+- [ ] **Produit** : permettre “Top Rookie Paris”, “Horde Regular France”, “Savage Global”.
+- [ ] **Profil** : ajouter ville/pays optionnels ou inférés prudemment (pas de géoloc invasive V2.1).
+- [ ] **DB / query** : index et filtres performants pour division + faction + location.
+- [ ] **UI leaderboard** : presets simples plutôt qu'un panneau de filtres monstrueux.
+- [ ] **Privacy** : ne pas afficher une localisation trop précise par défaut.
+
+### V2-05. Truegrynd Rating
+
+- [ ] **Produit** : rating global + axes `engine`, `power`, `strength`, `grit`, `consistency`.
+- [ ] **Algorithme V1** : commencer simple (percentiles validés + catégories de challenge), pas d'Elo opaque au début.
+- [ ] **DB** : table `profile_ratings` ou colonnes dédiées + historique minimal.
+- [ ] **Jobs/triggers** : recalcul à la soumission validée ou job périodique.
+- [ ] **UI** : carte rating sur profil + explication lisible.
+- [ ] **Tests** : fonctions pures de calcul rating + cas de bord (peu de scores, anciens scores, changement division).
+
+### V2-06. Challenge Passport / Palmarès Amateur
+
+- [ ] **Produit** : transformer le profil en CV compétitif amateur.
+- [ ] **Contenu** : divisions atteintes, meilleurs scores, badges, weekly complétés, rival matches gagnés, finisher cards.
+- [ ] **UI** : page/onglet “Passport” mobile-first.
+- [ ] **Share** : lien public optionnel ou image partageable.
+- [ ] **Privacy** : permettre de masquer certains détails.
+
+### V2-07. Rival Matches
+
+- [ ] **Produit** : 1v1 ou petit groupe sur 1 à 3 challenges, durée 24h/7j.
+- [ ] **Matching** : même division par défaut ; option faction adverse / ami / ville.
+- [ ] **DB** : `rival_matches`, participants, challenge set, status, winner.
+- [ ] **UX** : créer, accepter, soumettre, résultat.
+- [ ] **Notifications** : minimal V2 (email/toast/polling), pas besoin d'un réseau social complet.
+- [ ] **Anti-abus** : refuser spam d'invitations.
+
+### V2-08. Team Wars / Faction Wars Par Division
+
+- [ ] **Produit** : guerre collective hebdo : faction x division x challenge.
+- [ ] **Score équipe** : agrégat robuste (ex. top N scores + participation) pour éviter qu'une grosse faction écrase tout.
+- [ ] **UI** : scoreboard faction, contribution personnelle, reward/badge.
+- [ ] **Fairness** : divisions séparées, pas Rookie contre Elite.
+- [ ] **Finisher Card** : “I scored for Horde Rookie”.
+
+### V2-09. Micro-Events Async
+
+- [ ] **Produit** : events 24h / 7j / 30j sans lieu physique : Rookie Week, No Equipment Cup, Faction War Weekend.
+- [ ] **DB** : `events`, `event_challenges`, `event_scores`, status.
+- [ ] **Admin** : créer/programmer un event depuis l'admin.
+- [ ] **Classements** : event leaderboard + divisions.
+- [ ] **Fin** : recap, badges, cards, classement final.
+- [ ] **Ops** : pas de paiement au départ ; prouver l'engagement avant monétisation.
+
+### V2-10. Proof Levels
+
+- [ ] **Produit** : niveaux de preuve : Honor, Video Ranked, Community Verified, Judge Verified, Event Verified.
+- [ ] **DB** : champ `proof_level` côté score + audit de validation.
+- [ ] **UI** : badge preuve sur leaderboard et profil.
+- [ ] **Règles** : certains classements peuvent filtrer `video_ranked+` ou `judge_verified+`.
+- [ ] **Admin/judge** : validation manuelle sans service_role client.
+- [ ] **Trust** : reporting abus lié au score.
+
+### V2-11. Growth Loops
+
+- [ ] **Finisher cards V2** : division, rating delta, faction contribution, weekly badge.
+- [ ] **Invitations** : inviter quelqu'un sur un rival match ou weekly challenge.
+- [ ] **Comeback weeks** : relancer ceux qui ont raté 1-2 semaines sans culpabilisation.
+- [ ] **Referral V2** : faction + division context (“Join Horde Rookie Week”).
+- [ ] **Analytics** : mesurer share → signup → first score.
+
+### V2-12. Monétisation Exploratoire
+
+- [ ] **Principe** : ne pas bloquer le core compétitif trop tôt.
+- [ ] **Hypothèses** : premium passport, cosmetics cards, micro-event packs, sponsor challenges, gym/team dashboards.
+- [ ] **Validation** : attendre signal d'usage (weekly retention, rival completion, share rate).
+- [ ] **Stripe** : seulement après choix clair d'une offre.
+- [ ] **No pay-to-win** : payer ne doit jamais améliorer un rang sportif.
+
+---
+
 ## Légende
 
 🔴 not started · 🟡 in progress · 🟢 done · ⏸️ blocked · 🔵 QA · 🟣 on hold  
@@ -245,8 +372,10 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 | Referral                                 | 🟢 [#52](https://github.com/igorms-pro/truegrynd/issues/52) mergé — PR [#53](https://github.com/igorms-pro/truegrynd/pull/53) |
 | Confiance / plateforme                   | 🟢 [#54](https://github.com/igorms-pro/truegrynd/issues/54) mergé — PR [#55](https://github.com/igorms-pro/truegrynd/pull/55) |
 | Mouvements / prescription (mix)          | 🟢 [#44](https://github.com/igorms-pro/truegrynd/issues/44) mergé — PR [#45](https://github.com/igorms-pro/truegrynd/pull/45) |
+| **V2 — Accessible competition**          | 🔴 cadré dans [docs/V2_STRATEGY.md](../V2_STRATEGY.md) — issues candidates **V2-01 → V2-12** en section **H**                 |
+| **QA V1 (manuel)**                       | 🟡 [docs/QA_V1_CHECKLIST.md](../QA_V1_CHECKLIST.md) — à cocher avant V2-01                                                    |
 
-**Suite produit :** V1 macro **terminée**. Prochaine priorité = **QA smoke** (manuel) puis backlog **V1.1** (Sentry, file admin reports, rate limit IA, polish admin UX, etc.) — à définir dans une nouvelle section ou issues GitHub dédiées.
+**Suite produit :** V1 macro **terminée**. Prochaine priorité = **QA V1** ([checklist](../QA_V1_CHECKLIST.md)), puis choisir le premier lot **V2** : recommandation produit = **V2-01 → V2-03** (divisions, scaling, weekly challenge).
 
 ---
 
