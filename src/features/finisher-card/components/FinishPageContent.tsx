@@ -32,6 +32,7 @@ export function FinishPageContent() {
       scoreType: ready.challenge.score_type,
       scoreValue: ready.score.value,
       topPercent: ready.topPercent,
+      weeklyBadge: ready.weeklyBadge ?? undefined,
       ranked,
       isValidated: ready.score.is_validated,
     });

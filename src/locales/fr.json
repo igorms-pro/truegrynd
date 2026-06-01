@@ -145,6 +145,8 @@
   },
   "overview": {
     "nextActionTitle": "PROCHAINE ACTION",
+    "weeklyTitle": "DÉFI HEBDO",
+    "weeklyEmpty": "Aucun défi hebdo programmé. Consulte l’Arène ou reviens lundi.",
     "statusTitle": "STATUT",
     "loading": "Chargement...",
     "error": "Impossible de charger les données.",
@@ -365,6 +367,7 @@
   "admin": {
     "title": "FILE MODÉRATION UGC",
     "subtitle": "Modération vs Arène. En revue → approuver. Live = ouvert dans l’Arène. Terminé = fermé. Refusé = bloqué.",
+    "weeklyLink": "PROGRAMMER LE DÉFI HEBDO →",
     "nav": {
       "link": "MOD",
       "dock": "MOD",
@@ -445,6 +448,35 @@
       "confirm": "Approuver",
       "cancel": "Annuler",
       "submitting": "Approbation…"
+    },
+    "weekly": {
+      "title": "DÉFI HEBDO",
+      "subtitle": "Lie un défi approuvé à une fenêtre horaire. Sans déploiement.",
+      "loading": "Chargement du planning…",
+      "error": "Impossible de charger le planning hebdo.",
+      "retry": "Réessayer",
+      "formCreateTitle": "Programmer la semaine",
+      "formEditTitle": "Modifier la semaine",
+      "challenge": "Défi",
+      "challengePlaceholder": "Choisir un défi",
+      "startsAt": "Début",
+      "endsAt": "Fin",
+      "status": "Statut",
+      "weekLabel": "Libellé semaine",
+      "weekLabelPlaceholder": "S22 · 2026 (optionnel)",
+      "create": "Programmer",
+      "update": "Enregistrer",
+      "saving": "Enregistrement…",
+      "cancelEdit": "Annuler",
+      "listTitle": "Fenêtres récentes",
+      "empty": "Aucune fenêtre hebdo.",
+      "edit": "Modifier",
+      "statuses": {
+        "scheduled": "Programmé",
+        "active": "Actif",
+        "completed": "Terminé",
+        "cancelled": "Annulé"
+      }
     },
     "rejectModal": {
       "title": "Refuser le défi",
@@ -551,6 +583,12 @@
       "notApproved": "Les scores s'ouvrent seulement après validation du défi.",
       "exceedsTimeCap": "Ce temps dépasse le max du défi. Ça ne compte pas — n'envoie pas."
     }
+  },
+  "weekly": {
+    "bannerTitle": "DÉFI GLOBAL HEBDO",
+    "bannerAria": "Défi hebdo {label}",
+    "endsIn": "Fin dans {days}j {hours}h",
+    "ended": "Cette semaine est terminée"
   },
   "finisher": {
     "title": "FINISHER CARD",

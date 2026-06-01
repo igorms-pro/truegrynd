@@ -10,8 +10,10 @@ import { ChallengeDetailHero } from '@/features/challenges/components/ChallengeD
 import { ChallengeDetailLockedPanel } from '@/features/challenges/components/ChallengeDetailLockedPanel';
 import { ChallengeDetailSpecPanels } from '@/features/challenges/components/ChallengeDetailSpecPanels';
 import { Leaderboard } from '@/features/challenges/components/Leaderboard';
+import { WeeklyChallengeBanner } from '@/features/challenges/components/WeeklyChallengeBanner';
 import { useChallenge } from '@/features/challenges/hooks/useChallenge';
 import { useMyChallengeParticipation } from '@/features/challenges/hooks/useMyChallengeParticipation';
+import { useWeeklyChallengeMatch } from '@/features/challenges/hooks/useWeeklyChallengeMatch';
 import { parseChallengeRules } from '@/features/challenges/lib/parseChallengeRules';
 
 type Props = {
@@ -63,6 +65,7 @@ function DetailSkeleton() {
 export function ChallengeDetail({ challengeId }: Props) {
   const locale = useLocale();
   const { data: challenge, loading, error } = useChallenge(challengeId);
+  const weeklyMatch = useWeeklyChallengeMatch(challengeId);
   const participationState = useMyChallengeParticipation(
     challengeId,
     challenge?.score_type ?? 'reps',
@@ -82,6 +85,9 @@ export function ChallengeDetail({ challengeId }: Props) {
   return (
     <section className="space-y-5">
       <BackLink />
+      {weeklyMatch.status === 'ready' && weeklyMatch.weekly ? (
+        <WeeklyChallengeBanner weekly={weeklyMatch.weekly} />
+      ) : null}
       <ChallengeDetailHero
         challenge={challenge}
         locale={locale}

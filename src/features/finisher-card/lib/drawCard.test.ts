@@ -63,4 +63,22 @@ describe('drawFinisherCard', () => {
       }),
     ).not.toThrow();
   });
+
+  it('renders weekly badge layout without throwing', () => {
+    const canvas = createCanvas();
+    expect(() =>
+      drawFinisherCard(canvas, {
+        width: 360,
+        height: 640,
+        faction: 'nomads',
+        division: 'regular',
+        username: 'grinder',
+        challengeTitle: 'Weekly Burpees',
+        scoreType: 'reps',
+        scoreValue: 120,
+        topPercent: 12,
+        weeklyBadge: 'W22 · 2026',
+      }),
+    ).not.toThrow();
+  });
 });

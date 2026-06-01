@@ -5,6 +5,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRequireAppAccess } from '@/features/appshell';
 import { getChallengeById } from '@/lib/challenges';
 import { formatTopPercent, getRankCounts, percentileFromCounts } from '@/lib/rank';
+import { getWeeklyChallengeForChallengeId } from '@/lib/weekly';
+import { resolveWeeklyDisplayLabel } from '@/features/overview/hooks/useWeeklyChallenge';
 import { getScoreById } from '@/features/finisher-card/services/scores';
 import type { Challenge, Division, Faction, Score } from '@/lib/types/database.types';
 
@@ -27,6 +29,7 @@ export type FinisherCardState =
       username: string;
       faction: Faction;
       division: Division;
+      weeklyBadge: string | null;
     };
 
 type InnerState = Exclude<FinisherCardState, { status: 'gated' } | { status: 'missing_params' }>;
@@ -97,13 +100,26 @@ export function useFinisherCard(params: Params): FinisherCardState & { retry: ()
         const topPercent = await loadTopPercent(params.ranked, score, challenge);
         if (cancelled) return;
 
+        const weekly = await getWeeklyChallengeForChallengeId(challenge.id);
+        const weeklyBadge = weekly ? resolveWeeklyDisplayLabel(weekly) : null;
+        if (cancelled) return;
+
         const { username, faction, division } = access.profile;
         if (!username || !faction) {
           setState({ status: 'error', message: 'profile_incomplete' });
           return;
         }
 
-        setState({ status: 'ready', score, challenge, topPercent, username, faction, division });
+        setState({
+          status: 'ready',
+          score,
+          challenge,
+          topPercent,
+          username,
+          faction,
+          division,
+          weeklyBadge,
+        });
       } catch (e: unknown) {
         const message = e instanceof Error ? e.message : 'unknown';
         if (!cancelled) setState({ status: 'error', message });

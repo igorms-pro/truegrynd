@@ -12,6 +12,8 @@ export type FinisherCardDrawOptions = {
   topPercent: number | null;
   rankTextOverride?: string;
   rankSubOverride?: string;
+  /** V2-03: e.g. "W22 · 2026" when score is on the current weekly challenge. */
+  weeklyBadge?: string;
 };
 
 type RankedLabels = {
@@ -40,6 +42,7 @@ type FullParams = RankedLabels & {
   scoreType: ScoreType;
   scoreValue: number;
   topPercent: number | null;
+  weeklyBadge?: string;
 };
 
 export function buildFinisherCardOptionsFull(params: FullParams): FinisherCardDrawOptions {
@@ -54,6 +57,7 @@ export function buildFinisherCardOptionsFull(params: FullParams): FinisherCardDr
     scoreType: params.scoreType,
     scoreValue: params.scoreValue,
     topPercent: params.topPercent,
+    weeklyBadge: params.weeklyBadge,
     ...labels,
   };
 }
