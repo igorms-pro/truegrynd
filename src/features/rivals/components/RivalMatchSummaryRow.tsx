@@ -1,6 +1,7 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
+import Link from 'next/link';
+import { useLocale, useTranslations } from 'next-intl';
 
 import type { RivalMatchView } from '@/features/rivals/services/rivalMatches';
 
@@ -12,24 +13,30 @@ export function RivalMatchSummaryRow({ match }: Props) {
   const t = useTranslations('rivals.list');
   const tStatus = useTranslations('rivals.status');
   const tDivisions = useTranslations('divisions');
+  const locale = useLocale();
   const challengeTitles = match.challenges.map((c) => c.title).join(' · ');
 
   return (
-    <article className="rounded-sm border border-border bg-card px-4 py-3">
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          <p className="text-xs font-black uppercase tracking-[0.18em] text-primary">
-            {tStatus(match.status)}
-          </p>
-          <p className="mt-1 text-sm font-black uppercase tracking-tight">{challengeTitles}</p>
-          <p className="mt-1 text-xs text-muted-foreground">
-            {t('divisionLine', { division: tDivisions(match.division) })}
-          </p>
+    <Link
+      href={`/${locale}/app/rivals/${match.id}`}
+      className="block rounded-sm border border-border bg-card px-4 py-3 transition-colors hover:border-primary/40"
+    >
+      <article>
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-primary">
+              {tStatus(match.status)}
+            </p>
+            <p className="mt-1 text-sm font-black uppercase tracking-tight">{challengeTitles}</p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              {t('divisionLine', { division: tDivisions(match.division) })}
+            </p>
+          </div>
+          <span className="text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+            {match.durationHours === 24 ? t('duration24') : t('duration7d')}
+          </span>
         </div>
-        <span className="text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground">
-          {match.durationHours === 24 ? t('duration24') : t('duration7d')}
-        </span>
-      </div>
-    </article>
+      </article>
+    </Link>
   );
 }

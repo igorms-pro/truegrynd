@@ -1,5 +1,6 @@
 export { CreateRivalMatchScreen } from '@/features/rivals/components/CreateRivalMatchScreen';
 export { RivalHubLink } from '@/features/rivals/components/RivalHubLink';
+export { RivalMatchDetailScreen } from '@/features/rivals/components/RivalMatchDetailScreen';
 export { RivalMatchesScreen } from '@/features/rivals/components/RivalMatchesScreen';
 export { useCreateRivalMatch } from '@/features/rivals/hooks/useCreateRivalMatch';
 export { useMyRivalMatches } from '@/features/rivals/hooks/useMyRivalMatches';
@@ -14,11 +15,15 @@ export {
   computeRivalWinnerFromScores,
   createRivalMatch,
   fetchRivalMatch,
+  fetchRivalMatchDetailData,
   listMyRivalMatches,
   respondRivalMatchInvite,
 } from '@/features/rivals/services/rivalMatches';
 export type {
+  RivalChallengeScoresView,
   RivalMatchChallengeView,
+  RivalMatchDetailData,
   RivalMatchParticipantView,
   RivalMatchView,
+  RivalParticipantScoreView,
 } from '@/features/rivals/services/rivalMatches';
