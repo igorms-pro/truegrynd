@@ -56,7 +56,12 @@ export function ClanScreen() {
       {state.status === 'ready' ? (
         <>
           <div className="grid gap-4 lg:grid-cols-2">
-            <ClanFactionWarCard rankings={state.rankings} userFaction={state.faction} />
+            <ClanFactionWarCard
+              rankings={state.rankings}
+              userFaction={state.faction}
+              war={state.war}
+              myContribution={state.myContribution}
+            />
             <ClanTopMembersCard
               members={state.members}
               userFaction={state.faction}

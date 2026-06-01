@@ -2,23 +2,25 @@
 
 import { useCallback, useEffect, useState } from 'react';
 
+import { useOptionalAppProfile } from '@/features/appshell/context/AppProfileContext';
 import { parseFactionSlug } from '@/features/factions/lib/factionSlug';
 import {
   getClanHudData,
+  type ClanHudData,
   type FactionRow,
   type MemberRow,
 } from '@/features/factions/services/clanHud';
 import type { Faction } from '@/lib/types/database.types';
 
+type ReadyState = ClanHudData & {
+  status: 'ready';
+  faction: Faction;
+  error: null;
+};
+
 type State =
   | { status: 'loading'; faction: Faction | null; rankings: null; members: null; error: null }
-  | {
-      status: 'ready';
-      faction: Faction;
-      rankings: FactionRow[];
-      members: MemberRow[];
-      error: null;
-    }
+  | ReadyState
   | { status: 'invalid'; faction: null; rankings: null; members: null; error: null }
   | { status: 'error'; faction: Faction | null; rankings: null; members: null; error: string };
 
@@ -32,24 +34,27 @@ const initial: State = {
 
 export function useFactionPage(slug: string): { state: State; refetch: () => void } {
   const parsed = parseFactionSlug(slug);
+  const appProfile = useOptionalAppProfile();
   const [state, setState] = useState<State>(initial);
   const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
-    if (!parsed) {
-      return;
-    }
+    if (!parsed || !appProfile?.division) return;
 
     let cancelled = false;
     void (async () => {
       try {
-        const { rankings, members } = await getClanHudData({ faction: parsed, limit: 10 });
+        const data = await getClanHudData({
+          faction: parsed,
+          division: appProfile.division,
+          userId: appProfile.id,
+          limit: 10,
+        });
         if (cancelled) return;
         setState({
           status: 'ready',
           faction: parsed,
-          rankings,
-          members,
+          ...data,
           error: null,
         });
       } catch (e: unknown) {
@@ -69,7 +74,7 @@ export function useFactionPage(slug: string): { state: State; refetch: () => voi
     return () => {
       cancelled = true;
     };
-  }, [parsed, reloadKey]);
+  }, [parsed, appProfile, reloadKey]);
 
   const refetch = useCallback(() => {
     setState(initial);
@@ -85,3 +90,5 @@ export function useFactionPage(slug: string): { state: State; refetch: () => voi
 
   return { state, refetch };
 }
+
+export type { FactionRow, MemberRow };

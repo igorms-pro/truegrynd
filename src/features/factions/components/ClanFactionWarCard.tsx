@@ -6,16 +6,20 @@ import { useLocale, useTranslations } from 'next-intl';
 import { CLAN_ROW_LINK_CLASS } from '@/features/factions/lib/clanRowLinkClass';
 import { factionPath } from '@/features/factions/lib/factionSlug';
 import { formatClanPoints } from '@/features/factions/lib/formatClanPoints';
+import { ClanFactionWarMeta } from '@/features/factions/components/ClanFactionWarMeta';
 import type { FactionRow } from '@/features/factions/services/clanHud';
+import type { FactionWarContext } from '@/features/factions/services/factionWar';
 import { getFactionBadgeClasses } from '@/lib/factionStyles';
 import type { Faction } from '@/lib/types/database.types';
 
 type Props = {
   rankings: FactionRow[];
   userFaction: Faction;
+  war: FactionWarContext | null;
+  myContribution: number;
 };
 
-export function ClanFactionWarCard({ rankings, userFaction }: Props) {
+export function ClanFactionWarCard({ rankings, userFaction, war, myContribution }: Props) {
   const locale = useLocale();
   const t = useTranslations('clan');
 
@@ -24,6 +28,7 @@ export function ClanFactionWarCard({ rankings, userFaction }: Props) {
       <p className="text-xs font-black uppercase tracking-[0.18em] text-muted-foreground">
         {t('factionsTitle')}
       </p>
+      <ClanFactionWarMeta war={war} myContribution={myContribution} />
       <ul className="mt-3 space-y-2">
         {rankings.map((row, idx) => {
           const isYours = row.faction === userFaction;
