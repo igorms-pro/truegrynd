@@ -3,10 +3,10 @@
 import Link from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
 
-import { AdminWeeklyScheduler } from '@/features/admin/components/AdminWeeklyScheduler';
+import { AdminEventsScheduler } from '@/features/admin/components/AdminEventsScheduler';
 
-export default function AdminWeeklyPage() {
-  const t = useTranslations('admin.weekly');
+export default function AdminEventsPage() {
+  const t = useTranslations('admin.events');
   const tAdmin = useTranslations('admin');
   const locale = useLocale();
 
@@ -21,16 +21,16 @@ export default function AdminWeeklyPage() {
             ← {tAdmin('nav.link')}
           </Link>
           <Link
-            href={`/${locale}/app/admin/events`}
+            href={`/${locale}/app/admin/weekly`}
             className="text-xs font-black uppercase tracking-[0.18em] text-accent hover:opacity-90"
           >
-            {tAdmin('eventsLink')}
+            {tAdmin('weeklyLink')}
           </Link>
         </div>
         <h1 className="text-2xl font-black uppercase tracking-tight">{t('title')}</h1>
         <p className="text-sm text-muted-foreground">{t('subtitle')}</p>
       </header>
-      <AdminWeeklyScheduler />
+      <AdminEventsScheduler />
     </section>
   );
 }

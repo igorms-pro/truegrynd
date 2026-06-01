@@ -7,6 +7,15 @@ export type ScoreType = 'time' | 'reps';
 export type ChallengeStatus = 'pending' | 'approved' | 'rejected';
 export type ChallengeAiTier = 'green' | 'orange' | 'red';
 export type WeeklyChallengeStatus = 'scheduled' | 'active' | 'completed' | 'cancelled';
+export type EventType =
+  | 'rookie_week'
+  | 'no_equipment_cup'
+  | 'faction_war_weekend'
+  | 'city_clash'
+  | 'grit_open'
+  | 'comeback_week'
+  | 'custom';
+export type EventStatus = 'scheduled' | 'active' | 'completed' | 'cancelled';
 export type RivalMatchStatus = 'pending' | 'active' | 'completed' | 'cancelled' | 'expired';
 export type RivalParticipantStatus = 'invited' | 'accepted' | 'declined' | 'left';
 
@@ -17,6 +26,37 @@ export interface WeeklyChallenge {
   ends_at: string;
   status: WeeklyChallengeStatus;
   week_label: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface MicroEvent {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  event_type: EventType;
+  starts_at: string;
+  ends_at: string;
+  status: EventStatus;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface EventChallenge {
+  event_id: string;
+  challenge_id: string;
+  sort_order: number;
+}
+
+export interface EventScore {
+  id: string;
+  event_id: string;
+  user_id: string;
+  challenge_id: string;
+  division: Division;
+  score_id: string | null;
+  points: number;
   created_at: string;
   updated_at: string;
 }

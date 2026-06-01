@@ -161,7 +161,10 @@
     "factionYourTeam": "TON ÉQUIPE",
     "factionNudgeBody": "{faction} a besoin de points aujourd’hui. Poste un score classé.",
     "noFactionBody": "Aucune faction enregistrée. Termine l’onboarding.",
-    "noFactionCta": "ALLER À L’ONBOARDING"
+    "noFactionCta": "ALLER À L’ONBOARDING",
+    "eventsTitle": "MICRO-ÉVÉNEMENTS",
+    "eventsEmpty": "Aucun événement actif pour l’instant.",
+    "eventsCta": "VOIR TOUS LES ÉVÉNEMENTS"
   },
   "clan": {
     "subtitle": "Ta faction est une arme. Utilise-la.",
@@ -373,6 +376,7 @@
     "title": "FILE MODÉRATION UGC",
     "subtitle": "Modération vs Arène. En revue → approuver. Live = ouvert dans l’Arène. Terminé = fermé. Refusé = bloqué.",
     "weeklyLink": "PROGRAMMER LE DÉFI HEBDO →",
+    "eventsLink": "PROGRAMMER UN MICRO-ÉVÉNEMENT →",
     "nav": {
       "link": "MOD",
       "dock": "MOD",
@@ -476,6 +480,47 @@
       "listTitle": "Fenêtres récentes",
       "empty": "Aucune fenêtre hebdo.",
       "edit": "Modifier",
+      "statuses": {
+        "scheduled": "Programmé",
+        "active": "Actif",
+        "completed": "Terminé",
+        "cancelled": "Annulé"
+      }
+    },
+    "events": {
+      "title": "MICRO-ÉVÉNEMENTS",
+      "subtitle": "Événements async (24h–30j) avec 1 à 5 défis. Sans déploiement.",
+      "loading": "Chargement des événements…",
+      "error": "Impossible de charger les événements.",
+      "retry": "Réessayer",
+      "formCreateTitle": "Créer un événement",
+      "formEditTitle": "Modifier l’événement",
+      "nameLabel": "Titre",
+      "slug": "Slug URL",
+      "slugPlaceholder": "rookie-week-juin (auto depuis le titre si vide)",
+      "description": "Description",
+      "eventType": "Type d’événement",
+      "startsAt": "Début",
+      "endsAt": "Fin",
+      "status": "Statut",
+      "challenges": "Défis",
+      "challengeShort": "déf.",
+      "create": "Créer",
+      "update": "Enregistrer",
+      "saving": "Enregistrement…",
+      "cancelEdit": "Annuler",
+      "listTitle": "Événements récents",
+      "empty": "Aucun événement.",
+      "edit": "Modifier",
+      "types": {
+        "rookie_week": "Semaine Rookie",
+        "no_equipment_cup": "Coupe sans matériel",
+        "faction_war_weekend": "Week-end guerre des factions",
+        "city_clash": "City Clash",
+        "grit_open": "Grit Open",
+        "comeback_week": "Semaine comeback",
+        "custom": "Personnalisé"
+      },
       "statuses": {
         "scheduled": "Programmé",
         "active": "Actif",
@@ -603,6 +648,48 @@
     "bannerAria": "Défi hebdo {label}",
     "endsIn": "Fin dans {days}j {hours}h",
     "ended": "Cette semaine est terminée"
+  },
+  "events": {
+    "listTitle": "MICRO-ÉVÉNEMENTS",
+    "listSubtitle": "Compétitions async — de 24h à 30 jours.",
+    "backOverview": "APERÇU",
+    "backEvents": "TOUS LES ÉVÉNEMENTS",
+    "loading": "Chargement des événements…",
+    "error": "Impossible de charger les événements.",
+    "retry": "Réessayer",
+    "empty": "Aucun événement programmé.",
+    "notFound": "Événement introuvable.",
+    "viewEvent": "ENTRER",
+    "challengeCount": "{count, plural, one {# défi} other {# défis}}",
+    "endsIn": "Fin dans {days}j {hours}h",
+    "challengesTitle": "DÉFIS DE L’ÉVÉNEMENT",
+    "submitScore": "SCORE →",
+    "types": {
+      "rookie_week": "Semaine Rookie",
+      "no_equipment_cup": "Coupe sans matériel",
+      "faction_war_weekend": "Week-end guerre des factions",
+      "city_clash": "City Clash",
+      "grit_open": "Grit Open",
+      "comeback_week": "Semaine comeback",
+      "custom": "Personnalisé"
+    },
+    "status": {
+      "scheduled": "Programmé",
+      "active": "En cours",
+      "completed": "Terminé",
+      "cancelled": "Annulé"
+    },
+    "leaderboard": {
+      "title": "CLASSEMENT ÉVÉNEMENT",
+      "divisionFilter": "Filtrer par division",
+      "loading": "Chargement du classement…",
+      "empty": "Aucun score classé dans cette division.",
+      "challengesScored": "{count, plural, one {# défi} other {# défis}}"
+    },
+    "recap": {
+      "title": "CLASSEMENT FINAL",
+      "subtitle": "Top par division à la clôture de l’événement."
+    }
   },
   "rivals": {
     "hubLink": {

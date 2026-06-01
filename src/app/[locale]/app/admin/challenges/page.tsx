@@ -16,9 +16,15 @@ export default function AdminChallengesPage() {
         <p className="mt-1 text-sm text-muted-foreground">{t('subtitle')}</p>
         <Link
           href={`/${locale}/app/admin/weekly`}
-          className="mt-2 inline-block text-xs font-black uppercase tracking-[0.18em] text-accent hover:opacity-90"
+          className="mt-2 mr-4 inline-block text-xs font-black uppercase tracking-[0.18em] text-accent hover:opacity-90"
         >
           {t('weeklyLink')}
+        </Link>
+        <Link
+          href={`/${locale}/app/admin/events`}
+          className="mt-2 inline-block text-xs font-black uppercase tracking-[0.18em] text-accent hover:opacity-90"
+        >
+          {t('eventsLink')}
         </Link>
       </header>
       <AdminChallengeQueue />
