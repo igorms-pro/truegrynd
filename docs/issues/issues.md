@@ -64,7 +64,7 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 
 - [x] **FIX UI** — Flow soumission score (POST SCORE → formulaire → SUBMIT) — section **J** — 🟢 [#63](https://github.com/igorms-pro/truegrynd/issues/63) PR [#64](https://github.com/igorms-pro/truegrynd/pull/64)
 - [x] **FIX** — Bugs QA B1–B3 (finish page, gallery retry, thumb layout) — 🟢 [#65](https://github.com/igorms-pro/truegrynd/issues/65) PR [#66](https://github.com/igorms-pro/truegrynd/pull/66)
-- [ ] **FEAT** — Statut défi + historique actions + LB dedupe + migration **`014`** — 🟡 [#67](https://github.com/igorms-pro/truegrynd/issues/67) branche `feature/issue-67-participation-history-lb-dedupe`
+- [ ] **FEAT** — Statut défi + historique actions + LB dedupe + migration **`014`** — 🟡 [#67](https://github.com/igorms-pro/truegrynd/issues/67) PR [#68](https://github.com/igorms-pro/truegrynd/pull/68)
 
 **Macro V2 proposée (à transformer en GitHub issues avant dev)**
 
@@ -594,11 +594,11 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 | **V1.5 — Pages Faction**                      | 🟢 [#57](https://github.com/igorms-pro/truegrynd/issues/57) — PR [#56](https://github.com/igorms-pro/truegrynd/pull/56) + [#58](https://github.com/igorms-pro/truegrynd/pull/58) mergés                                                             |
 | **V1.5 — Profil & Historique**                | 🟢 [#59](https://github.com/igorms-pro/truegrynd/issues/59) PR [#60](https://github.com/igorms-pro/truegrynd/pull/60) + Settings [#61](https://github.com/igorms-pro/truegrynd/issues/61) PR [#62](https://github.com/igorms-pro/truegrynd/pull/62) |
 | **Fix flow submit (POST SCORE → formulaire)** | 🟢 [#63](https://github.com/igorms-pro/truegrynd/issues/63) PR [#64](https://github.com/igorms-pro/truegrynd/pull/64)                                                                                                                               |
-| **Post-QA polish (#67)**                      | 🟡 [#67](https://github.com/igorms-pro/truegrynd/issues/67) — participation + history actions + LB dedupe + migration **`014`**                                                                                                                     |
+| **Post-QA polish (#67)**                      | 🟡 [#67](https://github.com/igorms-pro/truegrynd/issues/67) PR [#68](https://github.com/igorms-pro/truegrynd/pull/68) — migration **`014`** appliquée prod                                                                                          |
 | **V2 — Accessible competition**               | 🔴 [docs/V2_STRATEGY.md](../V2_STRATEGY.md) — **V2-00** (exclusions) puis **V2-01 → V2-12** section **H**                                                                                                                                           |
 | **QA V1 (manuel)**                            | 🟢 GO [docs/QA_V1_CHECKLIST.md](../QA_V1_CHECKLIST.md) — migration **`014`** appliquée prod                                                                                                                                                         |
 
-**Suite produit :** V1 macro **terminée**. **V1.5** livrée. **QA V1 GO**. En cours : PR **#67** (polish post-QA). Prochaine priorité après merge = **V2-00** puis **V2-01**.
+**Suite produit :** V1 macro **terminée**. **V1.5** livrée. **QA V1 GO**. En cours : PR [#68](https://github.com/igorms-pro/truegrynd/pull/68). Prochaine priorité après merge = **V2-00** puis **V2-01**.
 
 ---
 
