@@ -1,4 +1,5 @@
 export type Faction = 'nomads' | 'horde' | 'iron_alliance';
+export type Division = 'rookie' | 'regular' | 'savage' | 'elite';
 export type Sex = 'male' | 'female' | 'other';
 export type ScoreType = 'time' | 'reps';
 export type ChallengeStatus = 'pending' | 'approved' | 'rejected';
@@ -16,6 +17,7 @@ export interface Profile {
   age: number | null;
   weight_kg: number | null;
   faction: Faction | null;
+  division: Division;
   initiation_completed: boolean;
   creator_score: number;
   streak_days: number;

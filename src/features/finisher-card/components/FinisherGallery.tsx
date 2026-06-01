@@ -8,7 +8,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import { drawFinisherCard } from '@/features/finisher-card/lib/drawCard';
 import { useMyScores } from '@/hooks/useMyScores';
 import { buildFinisherCardOptionsThumb } from '@/lib/finisher';
-import type { Faction } from '@/lib/types/database.types';
+import type { Division, Faction } from '@/lib/types/database.types';
 
 const GALLERY_PREVIEW_LIMIT = 4;
 
@@ -16,11 +16,13 @@ type Props = {
   userId: string;
   username: string | null;
   faction: Faction | null;
+  division: Division;
 };
 
 function ThumbCanvas({
   username,
   faction,
+  division,
   challengeTitle,
   scoreType,
   scoreValue,
@@ -28,6 +30,7 @@ function ThumbCanvas({
 }: {
   username: string;
   faction: Faction;
+  division: Division;
   challengeTitle: string;
   scoreType: 'time' | 'reps';
   scoreValue: number;
@@ -39,13 +42,14 @@ function ThumbCanvas({
     () =>
       buildFinisherCardOptionsThumb({
         faction,
+        division,
         username,
         challengeTitle,
         scoreType,
         scoreValue,
         ranked,
       }),
-    [challengeTitle, faction, ranked, scoreType, scoreValue, username],
+    [challengeTitle, division, faction, ranked, scoreType, scoreValue, username],
   );
 
   useEffect(() => {
@@ -57,7 +61,7 @@ function ThumbCanvas({
   return <canvas ref={ref} className="h-auto w-full block" />;
 }
 
-export function FinisherGallery({ userId, username, faction }: Props) {
+export function FinisherGallery({ userId, username, faction, division }: Props) {
   const t = useTranslations('profile.gallery');
   const locale = useLocale();
   const { state, refetch } = useMyScores(userId, {
@@ -152,6 +156,7 @@ export function FinisherGallery({ userId, username, faction }: Props) {
               <ThumbCanvas
                 username={username}
                 faction={faction}
+                division={division}
                 challengeTitle={s.challengeTitle}
                 scoreType={s.scoreType}
                 scoreValue={s.value}

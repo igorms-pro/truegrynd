@@ -34,6 +34,7 @@ const profile = {
   age: 28,
   weight_kg: 80,
   faction: 'horde' as const,
+  division: 'regular' as const,
   initiation_completed: true,
   creator_score: 0,
   streak_days: 0,

@@ -8,6 +8,7 @@ import { RespectButton } from '@/features/challenges/components/RespectButton';
 import { useChallengeLeaderboard } from '@/features/challenges/hooks/useChallengeLeaderboard';
 import { useScoreRespects } from '@/features/challenges/hooks/useScoreRespects';
 import { applyLeaderboardFilters } from '@/features/challenges/lib/applyFilters';
+import { resolveLeaderboardFilters } from '@/features/challenges/lib/resolveLeaderboardFilters';
 import { sortScoresByType } from '@/features/challenges/lib/leaderboardSort';
 import { formatScore } from '@/features/challenges/lib/scoreFormat';
 import {
@@ -16,6 +17,7 @@ import {
   type LeaderboardFilters,
 } from '@/features/challenges/lib/types';
 import { useOptionalAppProfile } from '@/features/appshell/context/AppProfileContext';
+import { DivisionBadge } from '@/components/DivisionBadge';
 import type { ScoreType } from '@/lib/types/database.types';
 
 type Props = {
@@ -32,6 +34,7 @@ function LeaderboardRow({
   isRespected,
   respectDisabled,
   onRespectToggle,
+  showDivisionBadge,
 }: {
   rank: number;
   entry: LeaderboardEntry;
@@ -41,12 +44,18 @@ function LeaderboardRow({
   isRespected: boolean;
   respectDisabled: boolean;
   onRespectToggle: (scoreId: string) => Promise<void>;
+  showDivisionBadge: boolean;
 }) {
   const username = entry.profile?.username ?? '—';
   return (
     <li className="grid grid-cols-[3rem_1fr_auto_auto] items-center gap-3 border-b border-border px-3 py-2 last:border-b-0">
       <span className="font-mono text-sm tabular-nums text-muted-foreground">#{rank}</span>
-      <span className="truncate text-sm font-bold text-foreground">{username}</span>
+      <div className="min-w-0">
+        <span className="block truncate text-sm font-bold text-foreground">{username}</span>
+        {showDivisionBadge && entry.profile?.division ? (
+          <DivisionBadge division={entry.profile.division} className="mt-1" />
+        ) : null}
+      </div>
       <span className="font-mono text-sm tabular-nums text-foreground">
         {formatScore(entry.value, scoreType)}
       </span>
@@ -71,11 +80,27 @@ export function Leaderboard({ challengeId, scoreType }: Props) {
     scoreType,
   });
   const [filters, setFilters] = useState<LeaderboardFilters>(EMPTY_FILTERS);
+  const [divisionFilterTouched, setDivisionFilterTouched] = useState(false);
+
+  const effectiveFilters = resolveLeaderboardFilters(
+    filters,
+    profile?.division,
+    divisionFilterTouched,
+  );
+
+  const handleFiltersChange = (next: LeaderboardFilters): void => {
+    if (next.division !== filters.division) {
+      setDivisionFilterTouched(true);
+    }
+    setFilters(next);
+  };
 
   const sorted = useMemo(
-    () => sortScoresByType(applyLeaderboardFilters(data, filters), scoreType),
-    [data, filters, scoreType],
+    () => sortScoresByType(applyLeaderboardFilters(data, effectiveFilters), scoreType),
+    [data, effectiveFilters, scoreType],
   );
+
+  const showDivisionBadge = effectiveFilters.division === null;
 
   const scoreIds = useMemo(() => sorted.map((e) => e.id), [sorted]);
   const {
@@ -91,7 +116,7 @@ export function Leaderboard({ challengeId, scoreType }: Props) {
         <h2 className="text-lg font-black uppercase tracking-tight">{t('title')}</h2>
       </header>
 
-      <LeaderboardFiltersBar filters={filters} onChange={setFilters} />
+      <LeaderboardFiltersBar filters={effectiveFilters} onChange={handleFiltersChange} />
 
       {loading ? (
         <p role="status" aria-live="polite" className="text-sm text-muted-foreground">
@@ -133,6 +158,7 @@ export function Leaderboard({ challengeId, scoreType }: Props) {
               isRespected={respected.has(entry.id)}
               respectDisabled={respectLoading}
               onRespectToggle={toggle}
+              showDivisionBadge={showDivisionBadge}
             />
           ))}
         </ol>

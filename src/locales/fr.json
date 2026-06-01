@@ -474,6 +474,8 @@
     "filters": {
       "title": "Filtres",
       "all": "Tous",
+      "global": "Global",
+      "division": "Division",
       "sex": "Sexe",
       "age": "Âge",
       "faction": "Faction",
@@ -489,6 +491,12 @@
     "nomads": "Nomades",
     "horde": "Horde",
     "iron_alliance": "Alliance de Fer"
+  },
+  "divisions": {
+    "rookie": "Rookie",
+    "regular": "Regular",
+    "savage": "Savage",
+    "elite": "Elite"
   },
   "submission": {
     "title": "SOUMETTRE TON SCORE",

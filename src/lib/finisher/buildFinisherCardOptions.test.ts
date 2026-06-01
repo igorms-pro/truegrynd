@@ -8,6 +8,7 @@ import {
 describe('buildFinisherCardOptions', () => {
   const base = {
     faction: 'nomads' as const,
+    division: 'rookie' as const,
     username: 'athlete',
     challengeTitle: 'Burpee test',
     scoreType: 'reps' as const,

@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { CreatorScoreBadge } from '@/features/profile/components/CreatorScoreBadge';
 import { AVATAR_ACCEPT, useAvatarUpload } from '@/features/profile/hooks/useAvatarUpload';
 import { initialsFromUsername } from '@/features/profile/lib/initials';
+import { DivisionBadge } from '@/components/DivisionBadge';
 import { getFactionBadgeClasses } from '@/lib/factionStyles';
 import type { Profile } from '@/lib/types/database.types';
 
@@ -103,6 +104,8 @@ export function ProfileHeader({ profile, onAvatarUpdated }: Props) {
                   {t('noFaction')}
                 </span>
               )}
+
+              <DivisionBadge division={profile.division} />
 
               <span className="text-xs text-muted-foreground">
                 {t('streak', { days: profile.streak_days })}

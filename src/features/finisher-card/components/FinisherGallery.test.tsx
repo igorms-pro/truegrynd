@@ -15,7 +15,7 @@ vi.mock('@/hooks/useMyScores', () => ({
 function renderGallery() {
   return render(
     <NextIntlClientProvider locale="en" messages={en}>
-      <FinisherGallery userId="user-1" username="grinder" faction="horde" />
+      <FinisherGallery userId="user-1" username="grinder" faction="horde" division="rookie" />
     </NextIntlClientProvider>,
   );
 }

@@ -21,6 +21,12 @@
     --faction-nomads: #4a9e6f;
     --faction-horde: #c0392b;
     --faction-iron: #7f8c8d;
+
+    /* Divisions (V2-01) */
+    --division-rookie: #6b9bd1;
+    --division-regular: #9ca3af;
+    --division-savage: #f97316;
+    --division-elite: #ffb800;
   }
 
   .dark {
@@ -42,6 +48,11 @@
     --faction-nomads: #4a9e6f;
     --faction-horde: #c0392b;
     --faction-iron: #7f8c8d;
+
+    --division-rookie: #6b9bd1;
+    --division-regular: #9ca3af;
+    --division-savage: #f97316;
+    --division-elite: #ffb800;
   }
 }
 

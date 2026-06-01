@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 
 import { AGE_BRACKETS, type AgeBracket } from '@/features/challenges/lib/ageBracket';
 import type { LeaderboardFilters } from '@/features/challenges/lib/types';
+import { DIVISIONS } from '@/lib/divisions';
 import type { Faction, Sex } from '@/lib/types/database.types';
 
 const SEXES: readonly Sex[] = ['male', 'female', 'other'];
@@ -37,10 +38,31 @@ function FilterRow({ legend, children }: { legend: string; children: React.React
 export function LeaderboardFiltersBar({ filters, onChange }: Props) {
   const t = useTranslations('leaderboard.filters');
   const tFactions = useTranslations('factions');
+  const tDivisions = useTranslations('divisions');
   const tSex = useTranslations('onboarding.identity.sexes');
 
   return (
     <div className="space-y-2">
+      <FilterRow legend={t('division')}>
+        <button
+          type="button"
+          onClick={() => onChange({ ...filters, division: null })}
+          className={chipClass(filters.division === null)}
+        >
+          {t('global')}
+        </button>
+        {DIVISIONS.map((d) => (
+          <button
+            key={d}
+            type="button"
+            onClick={() => onChange({ ...filters, division: d })}
+            className={chipClass(filters.division === d)}
+          >
+            {tDivisions(d)}
+          </button>
+        ))}
+      </FilterRow>
+
       <FilterRow legend={t('sex')}>
         <button
           type="button"
