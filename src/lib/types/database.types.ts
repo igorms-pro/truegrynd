@@ -4,6 +4,12 @@ export type ChallengeVariant = 'no_equipment' | 'bodyweight' | 'dumbbell' | 'sta
 export type ChallengeRatingAxis = 'engine' | 'power' | 'strength' | 'grit';
 export type Sex = 'male' | 'female' | 'other';
 export type ScoreType = 'time' | 'reps';
+export type ProofLevel =
+  | 'honor'
+  | 'video_ranked'
+  | 'community_verified'
+  | 'event_verified'
+  | 'judge_verified';
 export type ChallengeStatus = 'pending' | 'approved' | 'rejected';
 export type ChallengeAiTier = 'green' | 'orange' | 'red';
 export type WeeklyChallengeStatus = 'scheduled' | 'active' | 'completed' | 'cancelled';
@@ -181,6 +187,7 @@ export interface Score {
   value: number;
   video_url: string | null;
   is_validated: boolean;
+  proof_level: ProofLevel;
   variant: ChallengeVariant;
   is_hidden?: boolean;
   submitted_at: string;

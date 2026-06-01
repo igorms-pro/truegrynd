@@ -1,4 +1,11 @@
-import type { Faction, Sex, Division, ChallengeVariant } from '@/lib/types/database.types';
+import type { ProofMinFilter } from '@/lib/proof/proofLevel';
+import type {
+  Faction,
+  Sex,
+  Division,
+  ChallengeVariant,
+  ProofLevel,
+} from '@/lib/types/database.types';
 
 export type LeaderboardProfileSlim = {
   id: string;
@@ -19,6 +26,7 @@ export type LeaderboardEntry = {
   value: number;
   video_url: string | null;
   is_validated: boolean;
+  proof_level: ProofLevel;
   variant: ChallengeVariant;
   submitted_at: string;
   profile: LeaderboardProfileSlim | null;
@@ -34,6 +42,7 @@ export type LeaderboardFilters = {
   city: string | null;
   /** ISO 3166-1 alpha-2 uppercase. */
   countryCode: string | null;
+  proofMin: ProofMinFilter | null;
 };
 
 export const EMPTY_FILTERS: LeaderboardFilters = {
@@ -44,4 +53,5 @@ export const EMPTY_FILTERS: LeaderboardFilters = {
   variant: null,
   city: null,
   countryCode: null,
+  proofMin: null,
 };

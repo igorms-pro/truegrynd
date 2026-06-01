@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
 
+import { ProofLevelBadge } from '@/components/ProofLevelBadge';
 import { formatScore } from '@/lib/scoring';
 import { HistoryScoreActions } from '@/features/profile/components/HistoryScoreActions';
 import type { HistoryItem } from '@/features/profile/types';
@@ -68,8 +69,6 @@ export function HistoryItemRow({ item, userId, onScoreChanged }: Props) {
     );
   }
 
-  const scoreLabel = item.isValidated ? t('badges.ranked') : t('badges.saved');
-  const badgeTone = item.isValidated ? 'ranked' : 'saved';
   const toFinisher = `/${locale}/app/finish?challengeId=${item.challengeId}&ranked=${String(
     item.isValidated,
   )}&scoreId=${encodeURIComponent(item.id)}`;
@@ -86,7 +85,7 @@ export function HistoryItemRow({ item, userId, onScoreChanged }: Props) {
             {formattedScore} · {new Date(item.submittedAt).toLocaleDateString()}
           </p>
         </div>
-        <StatusBadge tone={badgeTone}>{scoreLabel}</StatusBadge>
+        <ProofLevelBadge level={item.proofLevel} />
       </div>
 
       <div className="mt-3 flex flex-wrap items-center justify-end gap-2">

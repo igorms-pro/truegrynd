@@ -83,8 +83,8 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 - [x] **V2-07** — Rival Matches (1v1 / petits groupes) — 🟢 [#85](https://github.com/igorms-pro/truegrynd/issues/85) · PR1–3 [#86](https://github.com/igorms-pro/truegrynd/pull/86) [#87](https://github.com/igorms-pro/truegrynd/pull/87) [#88](https://github.com/igorms-pro/truegrynd/pull/88) · PR4 [#89](https://github.com/igorms-pro/truegrynd/pull/89) · migrations **`021`** **`022`** prod
 - [x] **V2-08** — Team Wars / Faction Wars par division — 🟢 [#90](https://github.com/igorms-pro/truegrynd/issues/90) PR [#91](https://github.com/igorms-pro/truegrynd/pull/91) · migration **`023`** prod
 - [x] **V2-09** — Micro-events async (24h / 7j / 30j) — 🟢 [#92](https://github.com/igorms-pro/truegrynd/issues/92) PR [#93](https://github.com/igorms-pro/truegrynd/pull/93) · migration **`024`** prod
-- [ ] **V2-10** — Proof Levels (Honor / Video / Community / Judge / Event)
-- [ ] **V2-11** — Growth loops (cards, invitations, comeback weeks)
+- [ ] **V2-10** — Proof Levels — 🟡 [#95](https://github.com/igorms-pro/truegrynd/issues/95) PR [#96](https://github.com/igorms-pro/truegrynd/pull/96) · migration **`027`** prod
+- [ ] **V2-11** — Growth loops (cards, invitations, comeback weeks) — [#94](https://github.com/igorms-pro/truegrynd/issues/94)
 - [ ] **V2-12** — Monétisation exploratoire (après signal d'usage)
 
 ---
@@ -703,12 +703,13 @@ Branche : `chore/issue-69-production-hardening`
 
 ### V2-10. Proof Levels
 
-- [ ] **Produit** : niveaux de preuve : Honor, Video Ranked, Community Verified, Judge Verified, Event Verified.
-- [ ] **DB** : champ `proof_level` côté score + audit de validation.
-- [ ] **UI** : badge preuve sur leaderboard et profil.
-- [ ] **Règles** : certains classements peuvent filtrer `video_ranked+` ou `judge_verified+`.
-- [ ] **Admin/judge** : validation manuelle sans service_role client.
-- [ ] **Trust** : reporting abus lié au score.
+- [x] **Produit** : niveaux de preuve : Honor, Video Ranked, Community Verified, Judge Verified, Event Verified.
+- [x] **DB** : champ `proof_level` côté score + audit de validation — migration **`027`**.
+- [x] **UI** : badge preuve sur leaderboard et profil/historique.
+- [x] **Règles** : filtres LB `video_ranked+` / `community_verified+` / `judge_verified`.
+- [x] **Admin/judge** : `/app/admin/proof` + RPC `admin_set_score_proof_level`.
+- [x] **Trust** : signalement score sur leaderboard (table `reports` existante).
+- [ ] **Ops** : merge PR + QA prod.
 
 ### V2-11. Growth Loops
 
@@ -763,10 +764,11 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 | **Fix flow submit (POST SCORE → formulaire)** | 🟢 [#63](https://github.com/igorms-pro/truegrynd/issues/63) PR [#64](https://github.com/igorms-pro/truegrynd/pull/64)                                                                                                                               |
 | **Post-QA polish (#67)**                      | 🟢 [#67](https://github.com/igorms-pro/truegrynd/issues/67) mergé — PR [#68](https://github.com/igorms-pro/truegrynd/pull/68) ; migration **`014`** prod                                                                                            |
 | **Production hardening (#69)**                | 🟢 [#69](https://github.com/igorms-pro/truegrynd/issues/69) PR [#70](https://github.com/igorms-pro/truegrynd/pull/70) — section **L**                                                                                                               |
-| **V2 — Accessible competition**               | 🟢 V2-00–09 [#92](https://github.com/igorms-pro/truegrynd/issues/92) PR [#93](https://github.com/igorms-pro/truegrynd/pull/93) · migrations **`022`** **`023`** **`024`** prod                                                                      |
+| **V2 — Accessible competition**               | 🟢 V2-00–09 [#92](https://github.com/igorms-pro/truegrynd/issues/92) PR [#93](https://github.com/igorms-pro/truegrynd/pull/93) · prod migrations **`015`–`026`** (Jun 2026 — drift repair + **`026`** micro-events backfill)                        |
+| **V2-10 — Proof levels**                      | 🟡 [#95](https://github.com/igorms-pro/truegrynd/issues/95) PR [#96](https://github.com/igorms-pro/truegrynd/pull/96) · migration **`027`** prod                                                                                                    |
 | **QA V1**                                     | 🟢 GO (juin 2026) — périmètre critique testé                                                                                                                                                                                                        |
 
-**Suite produit :** appliquer migrations **`022`** **`023`** **`024`** prod → **QA V2 globale** (V2-00–09) → choisir prochain lot (**V2-11** growth / polish ou **V2-10** proof si priorisé).
+**Suite produit :** merge **V2-10** ([#95](https://github.com/igorms-pro/truegrynd/issues/95)) → QA proof badges / filtres LB / admin proof → **V2-11** growth ([#94](https://github.com/igorms-pro/truegrynd/issues/94)).
 
 ---
 

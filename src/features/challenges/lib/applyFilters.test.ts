@@ -14,6 +14,7 @@ const entry = (
   value: 60,
   video_url: null,
   is_validated: true,
+  proof_level: 'video_ranked',
   variant,
   submitted_at: '2025-01-01T00:00:00Z',
   profile: {
@@ -104,5 +105,18 @@ describe('applyLeaderboardFilters', () => {
     expect(
       applyLeaderboardFilters(list, { ...EMPTY_FILTERS, countryCode: 'FR' }).map((e) => e.id),
     ).toEqual(['a']);
+  });
+
+  it('filters by proof minimum tier', () => {
+    const list = [
+      { ...entry('a'), proof_level: 'video_ranked' as const },
+      { ...entry('b'), proof_level: 'community_verified' as const },
+      { ...entry('c'), proof_level: 'judge_verified' as const },
+    ];
+    expect(
+      applyLeaderboardFilters(list, { ...EMPTY_FILTERS, proofMin: 'judge_verified' }).map(
+        (e) => e.id,
+      ),
+    ).toEqual(['c']);
   });
 });

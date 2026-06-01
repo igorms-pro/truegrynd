@@ -26,6 +26,12 @@ export default function AdminWeeklyPage() {
           >
             {tAdmin('eventsLink')}
           </Link>
+          <Link
+            href={`/${locale}/app/admin/proof`}
+            className="text-xs font-black uppercase tracking-[0.18em] text-accent hover:opacity-90"
+          >
+            {tAdmin('proofLink')}
+          </Link>
         </div>
         <h1 className="text-2xl font-black uppercase tracking-tight">{t('title')}</h1>
         <p className="text-sm text-muted-foreground">{t('subtitle')}</p>
