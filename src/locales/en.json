@@ -546,7 +546,7 @@
       "error": "Could not sign out. Try again."
     },
     "settings": {
-      "aria": "Profile settings"
+      "aria": "Open settings"
     },
     "avatar": {
       "title": "AVATAR",
@@ -645,6 +645,61 @@
         "saved": "No saved honor scores yet.",
         "won": "No wins yet. Rank top 10% or crush an official challenge."
       }
+    }
+  },
+  "settings": {
+    "title": "SETTINGS",
+    "back": "PROFILE",
+    "backAria": "Back to profile",
+    "loading": "Loading settings...",
+    "errorTitle": "Could not load settings",
+    "errorBody": "Try again.",
+    "retry": "Retry",
+    "passport": {
+      "kicker": "PASSPORT",
+      "title": "Edit my passport",
+      "body": "Keep your category data accurate for fair leaderboards.",
+      "usernameLabel": "USERNAME",
+      "sexLabel": "SEX",
+      "ageLabel": "AGE",
+      "weightLabel": "WEIGHT (KG)",
+      "save": "SAVE CHANGES",
+      "saving": "SAVING...",
+      "saved": "Changes saved.",
+      "saveError": "Could not save changes ({message})."
+    },
+    "gym": {
+      "kicker": "AFFILIATION",
+      "title": "My gym",
+      "body": "Link your physical box for local Inter-Gym league standings.",
+      "currentGymLabel": "CURRENT GYM",
+      "placeholder": "No gym linked",
+      "comingSoon": "Gym linking arrives with Truegrynd V3 (Inter-Gym league)."
+    },
+    "preferences": {
+      "kicker": "PREFERENCES",
+      "title": "Display & units",
+      "unitsLabel": "MEASUREMENT UNITS",
+      "units": {
+        "metric": "METRIC (KG, KM)",
+        "imperial": "IMPERIAL (LBS, MI)"
+      }
+    },
+    "data": {
+      "kicker": "ACCOUNT",
+      "title": "Data management",
+      "export": "EXPORT MY DATA",
+      "exporting": "EXPORTING...",
+      "exportError": "Export failed ({message}).",
+      "delete": "DELETE MY ACCOUNT",
+      "deleteConfirmTitle": "Delete account?",
+      "deleteConfirmBody": "Full account deletion is processed manually for now. Contact privacy@truegrynd.com after confirming to complete GDPR removal within 30 days.",
+      "deleteCancel": "CANCEL",
+      "deleteConfirm": "REQUEST DELETION",
+      "deletePending": "Deletion request noted. Email privacy@truegrynd.com from your account email to finalize."
+    },
+    "footer": {
+      "logoutHint": "Log out ends your session on this device."
     }
   },
   "movements": {

@@ -546,7 +546,7 @@
       "error": "Impossible de se déconnecter. Réessaie."
     },
     "settings": {
-      "aria": "Paramètres du profil"
+      "aria": "Ouvrir les paramètres"
     },
     "avatar": {
       "title": "AVATAR",
@@ -645,6 +645,61 @@
         "saved": "Aucun score honor sauvegardé pour l'instant.",
         "won": "Aucun coup d'éclat pour l'instant. Top 10 % ou écrase un défi officiel."
       }
+    }
+  },
+  "settings": {
+    "title": "PARAMÈTRES",
+    "back": "PROFIL",
+    "backAria": "Retour au profil",
+    "loading": "Chargement des paramètres...",
+    "errorTitle": "Impossible de charger les paramètres",
+    "errorBody": "Réessaie.",
+    "retry": "Réessayer",
+    "passport": {
+      "kicker": "PASSEPORT",
+      "title": "Éditer mon passeport",
+      "body": "Garde tes données de catégorie à jour pour un classement juste.",
+      "usernameLabel": "PSEUDO",
+      "sexLabel": "SEXE",
+      "ageLabel": "ÂGE",
+      "weightLabel": "POIDS (KG)",
+      "save": "ENREGISTRER",
+      "saving": "ENREGISTREMENT...",
+      "saved": "Modifications enregistrées.",
+      "saveError": "Impossible d'enregistrer ({message})."
+    },
+    "gym": {
+      "kicker": "AFFILIATION",
+      "title": "Ma salle",
+      "body": "Lie ta box pour le classement local Inter-Gym.",
+      "currentGymLabel": "SALLE ACTUELLE",
+      "placeholder": "Aucune salle liée",
+      "comingSoon": "Liaison salle avec Truegrynd V3 (ligue Inter-Gym)."
+    },
+    "preferences": {
+      "kicker": "PRÉFÉRENCES",
+      "title": "Affichage & unités",
+      "unitsLabel": "UNITÉS DE MESURE",
+      "units": {
+        "metric": "MÉTRIQUE (KG, KM)",
+        "imperial": "IMPÉRIAL (LBS, MI)"
+      }
+    },
+    "data": {
+      "kicker": "COMPTE",
+      "title": "Gestion des données",
+      "export": "EXPORTER MES DONNÉES",
+      "exporting": "EXPORT...",
+      "exportError": "Échec de l'export ({message}).",
+      "delete": "SUPPRIMER MON COMPTE",
+      "deleteConfirmTitle": "Supprimer le compte ?",
+      "deleteConfirmBody": "La suppression complète est traitée manuellement pour l'instant. Contacte privacy@truegrynd.com après confirmation pour finaliser sous 30 jours (RGPD).",
+      "deleteCancel": "ANNULER",
+      "deleteConfirm": "DEMANDER LA SUPPRESSION",
+      "deletePending": "Demande notée. Envoie un email à privacy@truegrynd.com depuis ton adresse de compte pour finaliser."
+    },
+    "footer": {
+      "logoutHint": "La déconnexion ferme ta session sur cet appareil."
     }
   },
   "movements": {
