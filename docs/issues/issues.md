@@ -56,7 +56,7 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 
 **Macro V1.5 (avant premier lot V2 compétitif)**
 
-- [ ] **V1.5** — Pages `/app/faction/[slug]` + symétrie Clan / Overview — section **I** — 🟡 [#57](https://github.com/igorms-pro/truegrynd/issues/57) code prêt, QA §7 reste
+- [x] **V1.5** — Pages `/app/faction/[slug]` + symétrie Clan / Overview — section **I** — 🟢 [#57](https://github.com/igorms-pro/truegrynd/issues/57) PR [#58](https://github.com/igorms-pro/truegrynd/pull/58) (QA checklist §7 reste manuel)
 - [ ] **V1.5** — Profil épuré + page Historique dédiée (`Show More` → `/app/profile/history`) — section **K**
 
 **Macro pré-V2 (polish post-QA V1, avant V2-01)**
@@ -279,7 +279,7 @@ Vues dynamiques par slug (`nomads` \| `horde` \| `iron_alliance`). Charte = coul
 
 ### Tâches implémentation V1.5
 
-**Livré — PR [#56](https://github.com/igorms-pro/truegrynd/pull/56) mergé `main`** — socle QA + parcours public ; **pages faction** → [#57](https://github.com/igorms-pro/truegrynd/issues/57).
+**Livré — PR [#56](https://github.com/igorms-pro/truegrynd/pull/56) + [#58](https://github.com/igorms-pro/truegrynd/pull/58) mergés `main`** — [#57](https://github.com/igorms-pro/truegrynd/issues/57) clos.
 
 - [x] **Profil public** : `src/app/[locale]/app/u/[username]/page.tsx` — `PublicProfileScreen`, `usePublicProfile`, `getProfileByUsername`.
 - [x] **Clan — Top Dogs** : `ClanTopMembersCard` — lignes → `/app/u/[username]` (soi → `/app/profile`).
@@ -295,7 +295,7 @@ Vues dynamiques par slug (`nomads` \| `horde` \| `iron_alliance`). Charte = coul
 - [x] **i18n EN/FR** : namespace `factionPage.*` + aria labels.
 - [ ] **QA** : cocher §7 Clan + nouveau parcours faction dans [docs/QA_V1_CHECKLIST.md](../QA_V1_CHECKLIST.md).
 
-**Branche suite :** `feature/issue-57-faction-pages` — GitHub [#57](https://github.com/igorms-pro/truegrynd/issues/57).
+**Branche suite :** `main` — section **K** (profil / historique) prochaine.
 
 ---
 
@@ -576,25 +576,25 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 
 ## Suivi synthétique
 
-| Bloc                                      | Avancement                                                                                                                                                          |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| UGC création + cap                        | 🟢 PR #30                                                                                                                                                           |
-| Doc backlog V1 (ce fichier)               | 🟢 [#31](https://github.com/igorms-pro/truegrynd/issues/31) mergé — PR [#32](https://github.com/igorms-pro/truegrynd/pull/32)                                       |
-| Doc tri IA + mouvements mix (ce fichier)  | 🟢 [#35](https://github.com/igorms-pro/truegrynd/issues/35) mergé — PR [#36](https://github.com/igorms-pro/truegrynd/pull/36)                                       |
-| **`/app/admin`**                          | 🟢 PR #41 mergé (admin + AI triage)                                                                                                                                 |
-| Creator Score                             | 🟢 [#46](https://github.com/igorms-pro/truegrynd/issues/46) mergé — PR [#47](https://github.com/igorms-pro/truegrynd/pull/47)                                       |
-| Streaks                                   | 🟢 [#48](https://github.com/igorms-pro/truegrynd/issues/48) mergé — PR [#49](https://github.com/igorms-pro/truegrynd/pull/49)                                       |
-| Respect                                   | 🟢 [#50](https://github.com/igorms-pro/truegrynd/issues/50) mergé — PR [#51](https://github.com/igorms-pro/truegrynd/pull/51)                                       |
-| Referral                                  | 🟢 [#52](https://github.com/igorms-pro/truegrynd/issues/52) mergé — PR [#53](https://github.com/igorms-pro/truegrynd/pull/53)                                       |
-| Confiance / plateforme                    | 🟢 [#54](https://github.com/igorms-pro/truegrynd/issues/54) mergé — PR [#55](https://github.com/igorms-pro/truegrynd/pull/55)                                       |
-| Mouvements / prescription (mix)           | 🟢 [#44](https://github.com/igorms-pro/truegrynd/issues/44) mergé — PR [#45](https://github.com/igorms-pro/truegrynd/pull/45)                                       |
-| **V1.5 — Pages Faction**                  | 🟡 [#57](https://github.com/igorms-pro/truegrynd/issues/57) — PR [#56](https://github.com/igorms-pro/truegrynd/pull/56) mergé ; reste `/app/faction/[slug]` + liens |
-| **V1.5 — Profil & Historique**            | 🔴 spec section **K** — carrousel 3–4 cartes + `/app/profile/history` + filtres (Show More)                                                                         |
-| **Fix flow submit (I'M IN → formulaire)** | 🔴 section **J** — polish pré-V2 (QA V1 §4, copy CTA)                                                                                                               |
-| **V2 — Accessible competition**           | 🔴 [docs/V2_STRATEGY.md](../V2_STRATEGY.md) — **V2-00** (exclusions) puis **V2-01 → V2-12** section **H**                                                           |
-| **QA V1 (manuel)**                        | 🟡 [docs/QA_V1_CHECKLIST.md](../QA_V1_CHECKLIST.md) — à cocher ; ajouter parcours faction après V1.5                                                                |
+| Bloc                                      | Avancement                                                                                                                                                                              |
+| ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| UGC création + cap                        | 🟢 PR #30                                                                                                                                                                               |
+| Doc backlog V1 (ce fichier)               | 🟢 [#31](https://github.com/igorms-pro/truegrynd/issues/31) mergé — PR [#32](https://github.com/igorms-pro/truegrynd/pull/32)                                                           |
+| Doc tri IA + mouvements mix (ce fichier)  | 🟢 [#35](https://github.com/igorms-pro/truegrynd/issues/35) mergé — PR [#36](https://github.com/igorms-pro/truegrynd/pull/36)                                                           |
+| **`/app/admin`**                          | 🟢 PR #41 mergé (admin + AI triage)                                                                                                                                                     |
+| Creator Score                             | 🟢 [#46](https://github.com/igorms-pro/truegrynd/issues/46) mergé — PR [#47](https://github.com/igorms-pro/truegrynd/pull/47)                                                           |
+| Streaks                                   | 🟢 [#48](https://github.com/igorms-pro/truegrynd/issues/48) mergé — PR [#49](https://github.com/igorms-pro/truegrynd/pull/49)                                                           |
+| Respect                                   | 🟢 [#50](https://github.com/igorms-pro/truegrynd/issues/50) mergé — PR [#51](https://github.com/igorms-pro/truegrynd/pull/51)                                                           |
+| Referral                                  | 🟢 [#52](https://github.com/igorms-pro/truegrynd/issues/52) mergé — PR [#53](https://github.com/igorms-pro/truegrynd/pull/53)                                                           |
+| Confiance / plateforme                    | 🟢 [#54](https://github.com/igorms-pro/truegrynd/issues/54) mergé — PR [#55](https://github.com/igorms-pro/truegrynd/pull/55)                                                           |
+| Mouvements / prescription (mix)           | 🟢 [#44](https://github.com/igorms-pro/truegrynd/issues/44) mergé — PR [#45](https://github.com/igorms-pro/truegrynd/pull/45)                                                           |
+| **V1.5 — Pages Faction**                  | 🟢 [#57](https://github.com/igorms-pro/truegrynd/issues/57) — PR [#56](https://github.com/igorms-pro/truegrynd/pull/56) + [#58](https://github.com/igorms-pro/truegrynd/pull/58) mergés |
+| **V1.5 — Profil & Historique**            | 🔴 spec section **K** — carrousel 3–4 cartes + `/app/profile/history` + filtres (Show More)                                                                                             |
+| **Fix flow submit (I'M IN → formulaire)** | 🔴 section **J** — polish pré-V2 (QA V1 §4, copy CTA)                                                                                                                                   |
+| **V2 — Accessible competition**           | 🔴 [docs/V2_STRATEGY.md](../V2_STRATEGY.md) — **V2-00** (exclusions) puis **V2-01 → V2-12** section **H**                                                                               |
+| **QA V1 (manuel)**                        | 🟡 [docs/QA_V1_CHECKLIST.md](../QA_V1_CHECKLIST.md) — à cocher ; ajouter parcours faction après V1.5                                                                                    |
 
-**Suite produit :** V1 macro **terminée**. Prochaine priorité = finir **V1.5 (sections I + K)** + **QA V1** (+ **section J** si ambiguïté submit confirmée en §4), puis **V2-00** (cadrage) + lot **V2-01 → V2-03** (divisions, scaling, weekly). **Ne pas** sauter V1.5 pour coder des « teams perso ».
+**Suite produit :** V1 macro **terminée**. **Section I (V1.5 faction)** livrée. Prochaine priorité = **section K** (profil épuré + `/app/profile/history`) puis **section J** (fix submit flow) + fin **QA V1**, puis **V2-00**.
 
 ---
 
