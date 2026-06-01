@@ -143,6 +143,37 @@ Garder la friction basse, mais donner des couches de crédibilité :
 
 Les leaderboards sérieux peuvent filtrer par niveau de preuve.
 
+## Cadre Factions & Exclusions Sociales (V2 early)
+
+**À lire avant V2-01 (divisions) et impératif avant V2-07 / V2-08 (rivals, Team Wars).**
+
+Truegrynd reste une **arène compétitive async**, pas un réseau social fitness. Les factions sont le seul vecteur d'appartenance collective ; V2 enrichit la compétition par **niveau** (divisions, scaling, weekly), pas par création de micro-communautés privées.
+
+### Ce que Truegrynd n'est pas (V2 early — ne pas coder)
+
+| Exclusion                 | Règle                                                                                                                                                                  |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Teams perso**           | Pas de sous-équipes ni de « team avec les potos » hors des **3 factions mondiales** (`nomads`, `horde`, `iron_alliance`).                                              |
+| **Réseau social**         | Pas de messagerie privée (DM), pas de graphe Follow/Unfollow, pas de fil d'activité.                                                                                   |
+| **Modes faction-only**    | Pas de catalogue de défis « Horde only » / « Iron only ». La faction est un **camp de guerre**, pas un mode de jeu séparé. Tous les challenges restent ouverts à tous. |
+| **Social au-delà du MVP** | Interaction sociale limitée au **👊 Respect** sur lignes de leaderboard, plus referral faction et vitrines publiques (profil, pages faction).                          |
+
+### Déjà livré (V1 / V1.5 — ne pas refaire)
+
+- Choix de faction à l'onboarding, **immuable** en MVP.
+- Referral `?faction=` + CTA Recruit.
+- Pages `/app/faction/[slug]` symétriques : overview rivale, hall of fame, CTA Arena (section I).
+- Respect leaderboard, streaks, creator score, finisher cards, profil/historique public.
+
+### Ce que V2 ajoute par-dessus (issues V2-01+)
+
+- **Divisions + scaling + weekly** (V2-01–03) : compétition **par niveau**, pas par team custom.
+- **Rival Matches** (V2-07) : duel 1v1 / petit groupe sur défis — compétition légère, **pas** remplacement des 3 factions.
+- **Faction Wars par division** (V2-08) : score équipe **serveur**, events, contribution perso — remplace l'heuristique Clan HUD.
+- **Micro-events** (V2-09) : Faction War Weekend, City Clash, etc. — formats async, pas de ticket physique.
+
+**Principe :** « avec **leur team** » dans le positionnement V2 = **faction mondiale + division**, jamais une équipe privée recrutée ad hoc.
+
 ## Roadmap V2 Recommandée
 
 ### V2.1 — Divisions + Weekly Challenge

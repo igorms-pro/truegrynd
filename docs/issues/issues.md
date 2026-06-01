@@ -73,7 +73,7 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 
 **Macro V2 proposée (à transformer en GitHub issues avant dev)**
 
-- [ ] **V2-00** — Cadre factions & **exclusions sociales** (pas teams perso / pas DM) + prérequis V1.5 — section **H**
+- [x] **V2-00** — Cadre factions & **exclusions sociales** (pas teams perso / pas DM) + prérequis V1.5 — section **H** — 🟡 [#71](https://github.com/igorms-pro/truegrynd/issues/71)
 - [ ] **V2-01** — Divisions de niveau (Rookie / Regular / Savage / Elite)
 - [ ] **V2-02** — Variantes officielles / scaling par challenge
 - [ ] **V2-03** — Weekly Global Challenge
@@ -583,16 +583,22 @@ Branche : `chore/issue-69-production-hardening`
 
 **Exclusions explicites (ne pas coder)**
 
-- [ ] **Pas** de sous-équipes / « team perso avec des potos » privée hors des 3 factions mondiales.
-- [ ] **Pas** de messagerie privée (DM), **pas** de graphe Follow/Unfollow.
-- [ ] **Pas** de catalogue de défis « Horde only » / « Iron only » — la faction est un **camp de guerre**, pas un mode de jeu séparé.
-- [ ] **Interaction sociale MVP** : uniquement **👊 Respect** (`+1`) sur lignes de leaderboard ; le reste = referral faction + vitrines publiques.
+- [x] **Pas** de sous-équipes / « team perso avec des potos » privée hors des 3 factions mondiales.
+- [x] **Pas** de messagerie privée (DM), **pas** de graphe Follow/Unfollow.
+- [x] **Pas** de catalogue de défis « Horde only » / « Iron only » — la faction est un **camp de guerre**, pas un mode de jeu séparé.
+- [x] **Interaction sociale MVP** : uniquement **👊 Respect** (`+1`) sur lignes de leaderboard ; le reste = referral faction + vitrines publiques.
 
 **Effet de groupe autorisé en V1 / V1.5**
 
 - Parrainage **faction globale** (`?faction=` + Recruit).
 - Affiliation **salle physique** (piste B2B → [docs/V3_STRATEGY.md](../V3_STRATEGY.md)).
 - Pages **`/app/faction/[slug]`** symétriques (section **I**) : overview rivale, hall of fame, CTA Arena.
+
+**Livrables V2-00 (doc / produit)**
+
+- [x] Valider les 4 exclusions ci-dessus (table + règles dans [V2_STRATEGY.md](../V2_STRATEGY.md)).
+- [x] Aligner `.cursor/rules/truegrynd-product-rules.mdc` (boundaries factions + social MVP).
+- [x] Prérequis confirmés : section **I (V1.5)** + **L (#69)** + QA Clan/faction OK.
 
 **Ce que V2 ajoute par-dessus (issues suivantes, pas en V1.5)**
 
@@ -743,10 +749,10 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 | **Fix flow submit (POST SCORE → formulaire)** | 🟢 [#63](https://github.com/igorms-pro/truegrynd/issues/63) PR [#64](https://github.com/igorms-pro/truegrynd/pull/64)                                                                                                                               |
 | **Post-QA polish (#67)**                      | 🟢 [#67](https://github.com/igorms-pro/truegrynd/issues/67) mergé — PR [#68](https://github.com/igorms-pro/truegrynd/pull/68) ; migration **`014`** prod                                                                                            |
 | **Production hardening (#69)**                | 🟢 [#69](https://github.com/igorms-pro/truegrynd/issues/69) PR [#70](https://github.com/igorms-pro/truegrynd/pull/70) — section **L**                                                                                                               |
-| **V2 — Accessible competition**               | 🔴 section **H** + [V2_STRATEGY.md](../V2_STRATEGY.md) — **prochaine : V2-00** (cadre factions) puis **V2-01**                                                                                                                                      |
+| **V2 — Accessible competition**               | 🟡 V2-00 [#71](https://github.com/igorms-pro/truegrynd/issues/71) — cadre factions doc ; **prochaine : V2-01** (divisions)                                                                                                                          |
 | **QA V1**                                     | 🟢 GO (juin 2026) — périmètre critique testé                                                                                                                                                                                                        |
 
-**Suite produit :** Produit **lancé** sur `main`, **#69** mergée (PR #70). **Prochaine action = V2-00** (section **H**, doc stratégie **V2_STRATEGY.md**) → créer Issue GitHub + branche avant code → **V2-01** (divisions).
+**Suite produit :** Produit **lancé** sur `main`, **#69** mergée (PR #70). **V2-00** en cours ([#71](https://github.com/igorms-pro/truegrynd/issues/71)) — cadre factions doc → merge PR → **V2-01** (divisions).
 
 ---
 
