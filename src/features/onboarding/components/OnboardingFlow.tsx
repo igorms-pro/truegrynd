@@ -6,11 +6,13 @@ import { useCallback, useEffect, useMemo, type ReactNode } from 'react';
 
 import { useRequireAuth } from '@/features/auth/hooks/useRequireAuth';
 import {
-  clearReferralFaction,
-  loadReferralFaction,
-  parseReferralFaction,
-  storeReferralFaction,
+  clearReferralContext,
+  loadReferralContext,
+  parseReferralParams,
+  storeReferralContext,
 } from '@/features/factions/lib/referral';
+import { ANALYTICS_EVENTS } from '@/lib/analytics/events';
+import { trackEvent } from '@/lib/analytics/trackEvent';
 import { useOnboardingProfile } from '@/features/onboarding/hooks/useOnboardingProfile';
 import type { OnboardingStep } from '@/features/onboarding/lib/onboardingStep';
 import { OnboardingIdentityStep } from '@/features/onboarding/components/OnboardingIdentityStep';
@@ -44,13 +46,13 @@ export function OnboardingFlow() {
     return safeNext ?? `/${locale}/app/overview`;
   }, [locale, searchParams]);
 
-  const referralFaction = useMemo(() => {
-    const fromUrl = parseReferralFaction(searchParams.get('faction'));
+  const referralContext = useMemo(() => {
+    const fromUrl = parseReferralParams(searchParams);
     if (fromUrl) {
-      storeReferralFaction(fromUrl);
+      storeReferralContext(fromUrl);
       return fromUrl;
     }
-    return loadReferralFaction();
+    return loadReferralContext();
   }, [searchParams]);
 
   useEffect(() => {
@@ -125,10 +127,15 @@ export function OnboardingFlow() {
     content = (
       <OnboardingFactionStep
         userId={profile.id}
-        initialFaction={profile.faction ?? referralFaction}
+        initialFaction={profile.faction ?? referralContext?.faction ?? null}
         onBack={handleBack}
         onCompleted={async () => {
-          clearReferralFaction();
+          trackEvent(ANALYTICS_EVENTS.signupCompleted, {
+            faction: referralContext?.faction ?? '',
+            division: referralContext?.division ?? '',
+            weekly: referralContext?.weekly ?? '',
+          });
+          clearReferralContext();
           await reload();
         }}
       />

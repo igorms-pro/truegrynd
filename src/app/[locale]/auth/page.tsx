@@ -4,6 +4,7 @@ import { Suspense } from 'react';
 import { useTranslations } from 'next-intl';
 
 import { AuthScreen } from '@/features/auth/components/AuthScreen';
+import { ReferralCapture } from '@/features/growth/components/ReferralCapture';
 
 function AuthPageFallback() {
   const t = useTranslations('auth');
@@ -17,6 +18,7 @@ function AuthPageFallback() {
 export default function AuthPage() {
   return (
     <Suspense fallback={<AuthPageFallback />}>
+      <ReferralCapture />
       <AuthScreen />
     </Suspense>
   );

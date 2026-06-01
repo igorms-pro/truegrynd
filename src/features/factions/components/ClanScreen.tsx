@@ -6,6 +6,10 @@ import { ClanArenaCta } from '@/features/factions/components/ClanArenaCta';
 import { ClanFactionWarCard } from '@/features/factions/components/ClanFactionWarCard';
 import { ClanTopMembersCard } from '@/features/factions/components/ClanTopMembersCard';
 import { RecruitCta } from '@/features/factions/components/RecruitCta';
+import {
+  resolveWeeklyDisplayLabel,
+  useWeeklyChallenge,
+} from '@/features/overview/hooks/useWeeklyChallenge';
 import { useOptionalAppProfile } from '@/features/appshell/context/AppProfileContext';
 import { useClanHud } from '@/features/factions/hooks/useClanHud';
 
@@ -14,8 +18,13 @@ export function ClanScreen() {
   const t = useTranslations('clan');
 
   const { state, refetch } = useClanHud();
+  const { state: weeklyState } = useWeeklyChallenge();
   const appProfile = useOptionalAppProfile();
   const currentUserId = appProfile?.id ?? null;
+  const weeklyLabel =
+    weeklyState.status === 'ready' && weeklyState.weekly
+      ? resolveWeeklyDisplayLabel(weeklyState.weekly)
+      : null;
 
   return (
     <section className="space-y-6">
@@ -50,6 +59,8 @@ export function ClanScreen() {
         <RecruitCta
           faction={state.faction}
           siteUrl={process.env.NEXT_PUBLIC_SITE_URL ?? 'https://truegrynd.app'}
+          division={appProfile?.division ?? null}
+          weeklyLabel={weeklyLabel}
         />
       ) : null}
 

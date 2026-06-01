@@ -3,11 +3,21 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useRequireAppAccess } from '@/features/appshell';
+import {
+  fetchActiveEventBadgeForChallenge,
+  fetchRatingDeltaNearSubmit,
+  resolveFactionWarPoints,
+} from '@/features/finisher-card/services/growthExtras';
+import { getScoreById } from '@/features/finisher-card/services/scores';
+import { resolveWeeklyDisplayLabel } from '@/features/overview/hooks/useWeeklyChallenge';
+import {
+  buildFinisherTagline,
+  formatRatingDelta,
+  formatWarPoints,
+} from '@/lib/growth/finisherTagline';
 import { getChallengeById } from '@/lib/challenges';
 import { formatTopPercent, getRankCounts, percentileFromCounts } from '@/lib/rank';
 import { getWeeklyChallengeForChallengeId } from '@/lib/weekly';
-import { resolveWeeklyDisplayLabel } from '@/features/overview/hooks/useWeeklyChallenge';
-import { getScoreById } from '@/features/finisher-card/services/scores';
 import type { Challenge, Division, Faction, Score } from '@/lib/types/database.types';
 
 type Params = {
@@ -30,6 +40,10 @@ export type FinisherCardState =
       faction: Faction;
       division: Division;
       weeklyBadge: string | null;
+      eventBadge: string | null;
+      tagline: string;
+      ratingDeltaText: string | null;
+      warPointsText: string | null;
     };
 
 type InnerState = Exclude<FinisherCardState, { status: 'gated' } | { status: 'missing_params' }>;
@@ -104,11 +118,26 @@ export function useFinisherCard(params: Params): FinisherCardState & { retry: ()
         const weeklyBadge = weekly ? resolveWeeklyDisplayLabel(weekly) : null;
         if (cancelled) return;
 
+        const [ratingDelta, eventBadge] = await Promise.all([
+          score.is_validated
+            ? fetchRatingDeltaNearSubmit(userId, score.submitted_at)
+            : Promise.resolve(null),
+          fetchActiveEventBadgeForChallenge(challenge.id),
+        ]);
+        if (cancelled) return;
+
         const { username, faction, division } = access.profile;
         if (!username || !faction) {
           setState({ status: 'error', message: 'profile_incomplete' });
           return;
         }
+
+        const warPoints = resolveFactionWarPoints(
+          score.is_validated,
+          score.value,
+          challenge.score_type,
+          Boolean(weekly),
+        );
 
         setState({
           status: 'ready',
@@ -119,6 +148,10 @@ export function useFinisherCard(params: Params): FinisherCardState & { retry: ()
           faction,
           division,
           weeklyBadge,
+          eventBadge,
+          tagline: buildFinisherTagline(faction, division),
+          ratingDeltaText: ratingDelta !== null ? formatRatingDelta(ratingDelta) : null,
+          warPointsText: warPoints !== null ? formatWarPoints(warPoints) : null,
         });
       } catch (e: unknown) {
         const message = e instanceof Error ? e.message : 'unknown';

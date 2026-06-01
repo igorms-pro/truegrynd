@@ -203,7 +203,9 @@
       "shareAria": "Share recruit link for {faction}",
       "copyAria": "Copy recruit link to clipboard",
       "shareTitle": "Truegrynd — Join {faction}",
-      "shareText": "Join {faction} on Truegrynd. Async fitness battles, no fluff."
+      "shareText": "Join {faction} on Truegrynd. Async fitness battles, no fluff.",
+      "shareTitleContextual": "Truegrynd — Join {faction} {division} Week",
+      "shareTextContextual": "Join {faction} {division} on Truegrynd. {weekly} is live — post a ranked score."
     }
   },
   "factionPage": {
@@ -861,6 +863,36 @@
       "not_invited": "You are not invited to this match.",
       "match_not_pending": "This invite is no longer pending.",
       "cannot_cancel": "Could not cancel this match."
+    }
+  },
+  "growth": {
+    "share": {
+      "share": "SHARE",
+      "copy": "COPY LINK",
+      "copied": "COPIED!"
+    },
+    "comeback": {
+      "kicker": "WELCOME BACK",
+      "eventKicker": "COMEBACK WEEK",
+      "body": "You stepped away for {weeks} week(s). No guilt — jump back in with one ranked score.",
+      "hint": "Your faction war still counts. One proof video is enough to re-enter the fight.",
+      "cta": "POST A SCORE"
+    },
+    "rivalInvite": {
+      "title": "INVITE A RIVAL",
+      "body": "Share this link so a friend can accept your duel.",
+      "shareTitle": "Truegrynd — Rival duel invite",
+      "shareText": "I challenged you on Truegrynd. Accept the duel.",
+      "shareAria": "Share rival match invite link",
+      "copyAria": "Copy rival match invite link"
+    },
+    "weeklyInvite": {
+      "title": "INVITE TO WEEKLY",
+      "body": "Recruit allies for this week's challenge.",
+      "shareTitle": "Truegrynd — Join {faction} {division} · {weekly}",
+      "shareText": "Join {faction} {division} on Truegrynd. This week's challenge is live.",
+      "shareAria": "Share weekly challenge invite link",
+      "copyAria": "Copy weekly challenge invite link"
     }
   },
   "finisher": {

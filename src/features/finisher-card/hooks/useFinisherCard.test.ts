@@ -31,6 +31,12 @@ vi.mock('@/features/overview/hooks/useWeeklyChallenge', () => ({
   resolveWeeklyDisplayLabel: () => 'W22 · 2026',
 }));
 
+vi.mock('@/features/finisher-card/services/growthExtras', () => ({
+  fetchRatingDeltaNearSubmit: vi.fn().mockResolvedValue(null),
+  fetchActiveEventBadgeForChallenge: vi.fn().mockResolvedValue(null),
+  resolveFactionWarPoints: vi.fn().mockReturnValue(null),
+}));
+
 vi.mock('@/features/appshell', () => ({
   useRequireAppAccess: () => useRequireAppAccessMock(),
 }));

@@ -11,7 +11,10 @@ import {
 } from '@/features/overview/hooks/useWeeklyChallenge';
 import { EventCard } from '@/features/events/components/EventCard';
 import { useActiveEvents } from '@/features/events/hooks/useActiveEvents';
+import { ComebackWeekBanner } from '@/features/growth/components/ComebackWeekBanner';
+import { WeeklyChallengeInvite } from '@/features/growth/components/WeeklyChallengeInvite';
 import { useOptionalAppProfile } from '@/features/appshell/context/AppProfileContext';
+import { getComebackEligibility } from '@/lib/growth/comebackWeek';
 import { getFactionBadgeClasses } from '@/lib/factionStyles';
 import { getWeeklyTimeRemaining } from '@/lib/weekly';
 
@@ -47,6 +50,14 @@ export function OverviewScreen() {
   const weekly = weeklyState.status === 'ready' ? weeklyState.weekly : null;
   const weeklyLabel = weekly ? resolveWeeklyDisplayLabel(weekly) : null;
   const weeklyRemaining = weekly ? getWeeklyTimeRemaining(new Date(weekly.ends_at)) : null;
+  const comeback = readyProfile
+    ? getComebackEligibility(readyProfile.last_activity_at)
+    : { eligible: false, weeksAway: null };
+  const hasComebackEvent =
+    eventsState.status === 'ready' &&
+    eventsState.events.some((event) => event.event_type === 'comeback_week');
+  const siteFaction = userFaction;
+  const userDivision = readyProfile?.division ?? null;
 
   return (
     <section className="space-y-6">
@@ -56,6 +67,14 @@ export function OverviewScreen() {
         </h1>
         <p className="text-sm text-muted-foreground">{tApp('overviewBody')}</p>
       </header>
+
+      {comeback.eligible && comeback.weeksAway !== null ? (
+        <ComebackWeekBanner
+          weeksAway={comeback.weeksAway}
+          weeklyChallengeId={weekly?.challenge.id ?? null}
+          hasComebackEvent={hasComebackEvent}
+        />
+      ) : null}
 
       <div className="grid gap-4 md:grid-cols-2">
         <article className="rounded-md border border-border bg-card p-4">
@@ -105,6 +124,14 @@ export function OverviewScreen() {
                 href={`/${locale}/app/arena/${weekly.challenge.id}`}
                 label={t('ctaGo')}
               />
+              {siteFaction && userDivision && weeklyLabel ? (
+                <WeeklyChallengeInvite
+                  challengeId={weekly.challenge.id}
+                  faction={siteFaction}
+                  division={userDivision}
+                  weeklyLabel={weeklyLabel}
+                />
+              ) : null}
             </div>
           ) : null}
 

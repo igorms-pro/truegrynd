@@ -713,11 +713,11 @@ Branche : `chore/issue-69-production-hardening`
 
 ### V2-11. Growth Loops
 
-- [ ] **Finisher cards V2** : division, rating delta, faction contribution, weekly badge.
-- [ ] **Invitations** : inviter quelqu'un sur un rival match ou weekly challenge.
-- [ ] **Comeback weeks** : relancer ceux qui ont raté 1-2 semaines sans culpabilisation.
-- [ ] **Referral V2** : faction + division context (“Join Horde Rookie Week”).
-- [ ] **Analytics** : mesurer share → signup → first score.
+- [x] **Finisher cards V2** : division, rating delta, faction contribution, weekly/event badge, tagline faction+division.
+- [x] **Invitations** : share link rival match + weekly challenge (Overview, rival detail).
+- [x] **Comeback weeks** : banner Overview si 1–2 semaines d'inactivité (+ event comeback_week).
+- [x] **Referral V2** : `?faction=&division=&weekly=` + capture auth/onboarding.
+- [x] **Analytics** : events share/signup/first score (PostHog HTTP optionnel).
 
 ### V2-12. Monétisation Exploratoire
 
