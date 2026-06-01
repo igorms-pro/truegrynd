@@ -3,12 +3,12 @@ import userEvent from '@testing-library/user-event';
 import { NextIntlClientProvider } from 'next-intl';
 import { describe, expect, it, vi } from 'vitest';
 
-import { FinisherGallery } from '@/features/profile/components/FinisherGallery';
+import { FinisherGallery } from '@/features/finisher-card/components/FinisherGallery';
 import en from '@/locales/en.json';
 
 const useMyScoresMock = vi.fn();
 
-vi.mock('@/features/profile/hooks/useMyScores', () => ({
+vi.mock('@/hooks/useMyScores', () => ({
   useMyScores: (...args: unknown[]) => useMyScoresMock(...args),
 }));
 

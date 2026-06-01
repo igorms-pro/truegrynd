@@ -9,7 +9,7 @@ import { GymAffiliationSection } from '@/features/settings/components/GymAffilia
 import { PassportSettingsSection } from '@/features/settings/components/PassportSettingsSection';
 import { PreferencesSection } from '@/features/settings/components/PreferencesSection';
 import { SettingsFooter } from '@/features/settings/components/SettingsFooter';
-import { useProfile } from '@/features/profile/hooks/useProfile';
+import { useProfile } from '@/hooks/useProfile';
 
 export function SettingsScreen() {
   const locale = useLocale();

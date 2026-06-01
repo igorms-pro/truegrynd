@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
 
-import { formatScore } from '@/features/challenges/lib/scoreFormat';
+import { formatScore } from '@/lib/scoring';
 import { useMyScores } from '@/features/profile/hooks/useMyScores';
 
 type Props = {

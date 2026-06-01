@@ -1,7 +1,7 @@
 import { supabase } from '@/lib/supabase';
 
 import { assertTimeScoreWithinCap, TIME_CAP_ERROR } from '@/features/submission/lib/timeScoreCap';
-import { isAllowedVideoUrl } from '@/features/submission/lib/videoUrl';
+import { isAllowedVideoUrl } from '@/lib/scoring';
 
 type Options = {
   challengeId: string;

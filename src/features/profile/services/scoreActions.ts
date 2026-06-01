@@ -1,4 +1,4 @@
-import { isAllowedVideoUrl } from '@/features/submission/lib/videoUrl';
+import { isAllowedVideoUrl } from '@/lib/scoring';
 import { supabase } from '@/lib/supabase';
 
 const VIDEO_INVALID_ERROR = 'video_invalid';

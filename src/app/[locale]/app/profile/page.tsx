@@ -2,10 +2,8 @@
 
 import { useTranslations } from 'next-intl';
 
-import { FinisherGallery } from '@/features/profile/components/FinisherGallery';
-import { ProfileHeader } from '@/features/profile/components/ProfileHeader';
-import { ProfileSettingsLink } from '@/features/profile/components/ProfileSettingsLink';
-import { useProfile } from '@/features/profile/hooks/useProfile';
+import { FinisherGallery } from '@/features/finisher-card';
+import { ProfileHeader, ProfileSettingsLink, useProfile } from '@/features/profile';
 
 export default function ProfilePage() {
   const tabs = useTranslations('app.tabs');

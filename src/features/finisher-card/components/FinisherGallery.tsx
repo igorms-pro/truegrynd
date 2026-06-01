@@ -6,9 +6,11 @@ import { useLocale, useTranslations } from 'next-intl';
 import { useEffect, useMemo, useRef } from 'react';
 
 import { drawFinisherCard } from '@/features/finisher-card/lib/drawCard';
-import { useMyScores } from '@/features/profile/hooks/useMyScores';
-import { PROFILE_CARD_PREVIEW_LIMIT } from '@/features/profile/types';
+import { useMyScores } from '@/hooks/useMyScores';
+import { buildFinisherCardOptionsThumb } from '@/lib/finisher';
 import type { Faction } from '@/lib/types/database.types';
+
+const GALLERY_PREVIEW_LIMIT = 4;
 
 type Props = {
   userId: string;
@@ -34,18 +36,15 @@ function ThumbCanvas({
   const ref = useRef<HTMLCanvasElement | null>(null);
 
   const options = useMemo(
-    () => ({
-      width: 360,
-      height: 640,
-      faction,
-      username,
-      challengeTitle,
-      scoreType,
-      scoreValue,
-      topPercent: null,
-      rankTextOverride: ranked ? 'RANKED' : 'SAVED',
-      rankSubOverride: ranked ? 'VALIDATED' : 'NO VIDEO',
-    }),
+    () =>
+      buildFinisherCardOptionsThumb({
+        faction,
+        username,
+        challengeTitle,
+        scoreType,
+        scoreValue,
+        ranked,
+      }),
     [challengeTitle, faction, ranked, scoreType, scoreValue, username],
   );
 
@@ -62,7 +61,7 @@ export function FinisherGallery({ userId, username, faction }: Props) {
   const t = useTranslations('profile.gallery');
   const locale = useLocale();
   const { state, refetch } = useMyScores(userId, {
-    limit: PROFILE_CARD_PREVIEW_LIMIT,
+    limit: GALLERY_PREVIEW_LIMIT,
     excludeHidden: true,
   });
   const historyHref = `/${locale}/app/profile/history`;

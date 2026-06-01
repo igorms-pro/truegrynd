@@ -1,5 +1,4 @@
-import { formatTopPercent, percentileFromCounts } from '@/features/finisher-card/lib/percentile';
-import { getRankCounts } from '@/features/finisher-card/services/rank';
+import { formatTopPercent, getRankCounts, percentileFromCounts } from '@/lib/rank';
 import type { ProfileScoreItem } from '@/features/profile/types';
 
 export async function enrichScoresWithTopPercent(

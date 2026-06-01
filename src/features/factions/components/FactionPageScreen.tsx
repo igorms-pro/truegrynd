@@ -8,7 +8,7 @@ import { FactionHallOfFame } from '@/features/factions/components/FactionHallOfF
 import { RecruitCta } from '@/features/factions/components/RecruitCta';
 import { useFactionPage } from '@/features/factions/hooks/useFactionPage';
 import { formatClanPoints } from '@/features/factions/lib/formatClanPoints';
-import { useProfile } from '@/features/profile/hooks/useProfile';
+import { useOptionalAppProfile } from '@/features/appshell/context/AppProfileContext';
 import { getFactionBadgeClasses } from '@/lib/factionStyles';
 
 type Props = {
@@ -20,12 +20,12 @@ export function FactionPageScreen({ slug }: Props) {
   const t = useTranslations('factionPage');
   const tClan = useTranslations('clan.faction');
   const { state, refetch } = useFactionPage(slug);
-  const { state: profileState } = useProfile();
+  const appProfile = useOptionalAppProfile();
 
   const clanHref = `/${locale}/app/clan`;
   const arenaHref = `/${locale}/app/arena`;
-  const currentUserId = profileState.status === 'ready' ? profileState.profile.id : null;
-  const userFaction = profileState.status === 'ready' ? profileState.profile.faction : null;
+  const currentUserId = appProfile?.id ?? null;
+  const userFaction = appProfile?.faction ?? null;
 
   if (state.status === 'invalid') {
     return (

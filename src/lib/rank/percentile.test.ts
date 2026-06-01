@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { formatTopPercent, percentileFromCounts } from '@/features/finisher-card/lib/percentile';
+import { formatTopPercent, percentileFromCounts } from '@/lib/rank/percentile';
 
 describe('percentileFromCounts', () => {
   it('returns null for invalid totals', () => {
