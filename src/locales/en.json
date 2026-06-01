@@ -518,6 +518,7 @@
     "title": "FINISHER CARD",
     "loading": "Loading...",
     "error": "Could not load your finisher card.",
+    "retry": "RETRY",
     "rankedBody": "Certified. You're ranked.",
     "savedBody": "Saved. Not ranked (no video).",
     "download": "DOWNLOAD",

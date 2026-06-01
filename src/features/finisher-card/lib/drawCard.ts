@@ -110,9 +110,13 @@ export function drawFinisherCard(canvas: HTMLCanvasElement, options: Options): v
   const title = truncateToWidth(ctx, options.challengeTitle.toUpperCase(), maxTextW);
   ctx.fillText(title, textX, lineY(0.13));
 
+  const scoreTop = lineY(0.26);
+  const labelTop = lineY(0.52);
+  const maxScoreHeight = Math.max(24, labelTop - scoreTop - Math.floor(innerH * 0.02));
+
   const scoreText =
     options.scoreType === 'time' ? formatSeconds(options.scoreValue) : String(options.scoreValue);
-  const scoreSize = fitFontSize(
+  let scoreSize = fitFontSize(
     ctx,
     scoreText,
     maxTextW,
@@ -120,15 +124,24 @@ export function drawFinisherCard(canvas: HTMLCanvasElement, options: Options): v
     'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
     Math.floor(innerW * 0.44),
   );
+  scoreSize = Math.min(scoreSize, maxScoreHeight);
+
   ctx.fillStyle = fg;
   ctx.font = `900 ${scoreSize}px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace`;
-  ctx.fillText(scoreText, textX, lineY(0.26));
+  ctx.fillText(scoreText, textX, scoreTop);
 
-  const labelSize = Math.floor(innerW * 0.072);
+  const compact = options.height <= 700;
+  const labelY = compact ? lineY(0.54) : lineY(0.52);
+  const rankY = compact ? lineY(0.6) : lineY(0.58);
+  const rankSubY = compact ? lineY(0.66) : lineY(0.68);
+  const usernameY = compact ? lineY(0.76) : lineY(0.78);
+  const factionY = compact ? lineY(0.84) : lineY(0.85);
+
+  const labelSize = Math.floor(innerW * (compact ? 0.06 : 0.072));
   ctx.fillStyle = muted;
   ctx.font = `900 ${labelSize}px system-ui, -apple-system, Segoe UI, sans-serif`;
   const label = options.scoreType === 'time' ? 'TIME (MM:SS)' : 'REPS';
-  ctx.fillText(label, textX, lineY(0.52));
+  ctx.fillText(label, textX, labelY);
 
   const rankText =
     options.rankTextOverride ?? (options.topPercent ? `TOP ${options.topPercent}%` : 'SAVED');
@@ -138,11 +151,11 @@ export function drawFinisherCard(canvas: HTMLCanvasElement, options: Options): v
     maxTextW,
     900,
     'system-ui, -apple-system, Segoe UI, sans-serif',
-    Math.floor(innerW * 0.2),
+    Math.floor(innerW * (compact ? 0.16 : 0.2)),
   );
   ctx.fillStyle = fg;
   ctx.font = `900 ${rankSize}px system-ui, -apple-system, Segoe UI, sans-serif`;
-  ctx.fillText(rankText, textX, lineY(0.58));
+  ctx.fillText(rankText, textX, rankY);
 
   const rankSub =
     options.rankSubOverride ??
@@ -153,24 +166,24 @@ export function drawFinisherCard(canvas: HTMLCanvasElement, options: Options): v
     maxTextW,
     900,
     'system-ui, -apple-system, Segoe UI, sans-serif',
-    Math.floor(innerW * 0.058),
-    12,
+    Math.floor(innerW * (compact ? 0.05 : 0.058)),
+    compact ? 10 : 12,
   );
   ctx.fillStyle = muted;
   ctx.font = `900 ${rankSubSize}px system-ui, -apple-system, Segoe UI, sans-serif`;
   const rankSubLine = truncateToWidth(ctx, rankSub, maxTextW);
-  ctx.fillText(rankSubLine, textX, lineY(0.68));
+  ctx.fillText(rankSubLine, textX, rankSubY);
 
-  const usernameSize = Math.floor(innerW * 0.072);
+  const usernameSize = Math.floor(innerW * (compact ? 0.06 : 0.072));
   ctx.fillStyle = accent;
   ctx.font = `900 ${usernameSize}px system-ui, -apple-system, Segoe UI, sans-serif`;
-  ctx.fillText(truncateToWidth(ctx, options.username.toUpperCase(), maxTextW), textX, lineY(0.78));
+  ctx.fillText(truncateToWidth(ctx, options.username.toUpperCase(), maxTextW), textX, usernameY);
 
   const factionLabel = options.faction.replace('_', ' ').toUpperCase();
-  const factionSize = Math.floor(innerW * 0.058);
+  const factionSize = Math.floor(innerW * (compact ? 0.05 : 0.058));
   ctx.fillStyle = muted;
   ctx.font = `900 ${factionSize}px system-ui, -apple-system, Segoe UI, sans-serif`;
-  ctx.fillText(truncateToWidth(ctx, factionLabel, maxTextW), textX, lineY(0.85));
+  ctx.fillText(truncateToWidth(ctx, factionLabel, maxTextW), textX, factionY);
 }
 
 function formatSeconds(totalSeconds: number): string {

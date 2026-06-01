@@ -18,7 +18,7 @@ function FinishPageContent() {
   const ranked = searchParams.get('ranked') === 'true';
   const scoreId = searchParams.get('scoreId');
   const challengeId = searchParams.get('challengeId');
-  const state = useFinisherCard({ ranked, scoreId, challengeId });
+  const { retry, ...state } = useFinisherCard({ ranked, scoreId, challengeId });
 
   const cardOptions = useMemo(() => {
     if (state.status !== 'ready') return null;
@@ -84,12 +84,21 @@ function FinishPageContent() {
           <p className="text-sm text-muted-foreground">{t('error')}</p>
         </header>
         <p className="text-xs text-muted-foreground">{state.message}</p>
-        <Link
-          href={`/${locale}/app/arena${challengeId ? `/${challengeId}` : ''}`}
-          className="inline-flex items-center justify-center rounded-md border border-border bg-background px-4 py-3 text-sm font-black uppercase tracking-[0.18em] text-foreground hover:bg-muted"
-        >
-          {t('backToArena')}
-        </Link>
+        <div className="flex flex-wrap gap-3">
+          <button
+            type="button"
+            onClick={retry}
+            className="inline-flex min-h-11 items-center justify-center rounded-md bg-primary px-4 py-3 text-sm font-black uppercase tracking-[0.18em] text-primary-foreground hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            {t('retry')}
+          </button>
+          <Link
+            href={`/${locale}/app/arena${challengeId ? `/${challengeId}` : ''}`}
+            className="inline-flex min-h-11 items-center justify-center rounded-md border border-border bg-background px-4 py-3 text-sm font-black uppercase tracking-[0.18em] text-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            {t('backToArena')}
+          </Link>
+        </div>
       </section>
     );
   }
