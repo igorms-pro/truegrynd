@@ -57,6 +57,7 @@ export function useCreateChallenge(): {
         rules,
         scoreType,
         equipmentTags: tags,
+        variants: values.variants,
         maxDurationSeconds,
       });
     } catch (e: unknown) {

@@ -1,10 +1,24 @@
 import { ADMIN_QUEUE_PAGE_SIZE } from '@/features/admin/lib/adminQueueConstants';
 import { normalizePostgrestCreator } from '@/features/admin/lib/normalizeCreator';
 import { supabase } from '@/lib/supabase';
-import type { Challenge, ChallengeAiTier } from '@/lib/types/database.types';
+import type { Challenge, ChallengeAiTier, ChallengeVariant } from '@/lib/types/database.types';
 
 const PENDING_CHALLENGE_SELECT =
-  'id,title,description,rules,score_type,equipment_tags,is_official,status,creator_id,max_duration_seconds,rejection_reason,reviewed_at,reviewed_by,ai_tier,ai_summary,ai_model,ai_checked_at,ends_at,created_at,creator:profiles!challenges_creator_id_fkey(username)';
+  'id,title,description,rules,score_type,equipment_tags,is_official,status,creator_id,max_duration_seconds,rejection_reason,reviewed_at,reviewed_by,ai_tier,ai_summary,ai_model,ai_checked_at,ends_at,created_at,creator:profiles!challenges_creator_id_fkey(username),challenge_variants(variant)';
+
+type AdminChallengeRow = Challenge & {
+  challenge_variants: { variant: ChallengeVariant }[] | null;
+  creator?: unknown;
+};
+
+function mapAdminChallengeRow(row: AdminChallengeRow): AdminPendingChallenge {
+  const { challenge_variants, creator, ...challenge } = row;
+  return {
+    ...(challenge as Challenge),
+    variants: (challenge_variants ?? []).map((item) => item.variant),
+    creator: normalizePostgrestCreator(creator),
+  };
+}
 
 export type AiTierFilter = 'all' | ChallengeAiTier | 'none';
 
@@ -107,10 +121,7 @@ export async function listChallengesForAdmin(options?: {
   const { data, error, count } = await query.range(from, to);
 
   if (error) throw new Error(error.message);
-  const rows = (data ?? []).map((row) => ({
-    ...(row as Challenge),
-    creator: normalizePostgrestCreator((row as { creator?: unknown }).creator),
-  }));
+  const rows = (data ?? []).map((row) => mapAdminChallengeRow(row as AdminChallengeRow));
   return { rows, totalCount: count ?? 0 };
 }
 

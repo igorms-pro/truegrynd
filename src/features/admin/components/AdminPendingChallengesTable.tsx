@@ -70,6 +70,9 @@ export function AdminPendingChallengesTable({
               {t('colType')}
             </th>
             <th className="py-2 pr-2" scope="col">
+              {t('colVariants')}
+            </th>
+            <th className="py-2 pr-2" scope="col">
               {t('colCreator')}
             </th>
             <th className="py-2 pr-2" scope="col">

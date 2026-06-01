@@ -39,6 +39,7 @@ export async function createPendingChallenge(input: {
   rules: string;
   scoreType: ScoreType;
   equipmentTags: string[];
+  variants: import('@/lib/types/database.types').ChallengeVariant[];
   maxDurationSeconds: number | null;
 }): Promise<Challenge> {
   const { data, error } = await supabase
@@ -57,5 +58,14 @@ export async function createPendingChallenge(input: {
     .maybeSingle<Challenge>();
   if (error) throw new Error(error.message);
   if (!data) throw new Error('challenge_create_failed');
-  return data;
+
+  const { error: variantError } = await supabase.from('challenge_variants').insert(
+    input.variants.map((variant) => ({
+      challenge_id: data.id,
+      variant,
+    })),
+  );
+  if (variantError) throw new Error(variantError.message);
+
+  return { ...data, variants: input.variants };
 }

@@ -263,7 +263,16 @@
         "rulesDetail": "Standards & scoring (détail)",
         "rulesDetailPlaceholder": "Standards, amplitude, no-rep, départage…",
         "equipmentTags": "Équipement (optionnel)",
-        "equipmentPlaceholder": "kettlebell, barre de traction…"
+        "equipmentPlaceholder": "kettlebell, barre de traction…",
+        "variants": "Variantes officielles",
+        "variantsHint": "Choisis au moins une. Classements séparés — ce n'est pas un mode honteux."
+      },
+      "variants": {
+        "no_equipment": "Sans matériel",
+        "bodyweight": "Poids du corps",
+        "dumbbell": "Haltères",
+        "standard": "Standard",
+        "savage": "Savage"
       },
       "scoring": {
         "legend": "COMMENT ÇA SCORE",
@@ -314,7 +323,9 @@
         "amrapCapInvalid": "Utilise MM:SS pour le cap (ex. 10:00).",
         "amrapCapZero": "Le cap doit être plus long que 0:00.",
         "forTimeCapInvalid": "Utilise MM:SS pour le temps max (ex. 15:00).",
-        "forTimeCapZero": "Le temps max doit être plus long que 0:00."
+        "forTimeCapZero": "Le temps max doit être plus long que 0:00.",
+        "variantsMin": "Active au moins une variante officielle.",
+        "variantsInvalid": "Choisis des variantes valides uniquement."
       }
     }
   },
@@ -336,6 +347,8 @@
     "rulesHeading": "Règles",
     "equipmentHeading": "Équipement",
     "noEquipment": "Poids du corps uniquement",
+    "variantsHeading": "Scaling officiel",
+    "variantsBody": "Même défi, voies différentes. Classements par voie — choisis la tienne et affronte des pairs.",
     "ctaStart": "POSTER MON SCORE",
     "ctaRetry": "RE-TENTER / AMÉLIORER TON SCORE",
     "participationSummary": "Défis soumis : {count} fois. Ton meilleur score : {score} ({status}).",
@@ -411,6 +424,7 @@
       "colTitle": "Titre",
       "colAi": "Tri IA",
       "colType": "Type",
+      "colVariants": "Scaling",
       "colCreator": "Créateur",
       "colSubmitted": "Soumis",
       "colActions": "Actions",
@@ -476,6 +490,8 @@
       "all": "Tous",
       "global": "Global",
       "division": "Division",
+      "variant": "Scaling",
+      "allVariants": "Toutes les voies",
       "sex": "Sexe",
       "age": "Âge",
       "faction": "Faction",
@@ -498,6 +514,13 @@
     "savage": "Savage",
     "elite": "Elite"
   },
+  "variants": {
+    "no_equipment": "Sans matériel",
+    "bodyweight": "Poids du corps",
+    "dumbbell": "Haltères",
+    "standard": "Standard",
+    "savage": "Savage"
+  },
   "submission": {
     "title": "SOUMETTRE TON SCORE",
     "loading": "Chargement...",
@@ -510,6 +533,8 @@
     "repsPlaceholder": "0",
     "proofTitle": "PREUVE (OPTIONNELLE)",
     "proofBody": "Sans vidéo = sauvegardé mais non classé. Ajoute un lien YouTube/TikTok pour être classé.",
+    "variantTitle": "TA VOIE DE SCALING",
+    "variantBody": "Scaling officiel — classé à part. Ce n'est pas un mode honteux.",
     "videoLabelOptional": "LIEN VIDÉO (OPTIONNEL)",
     "videoHelper": "YouTube ou TikTok uniquement",
     "submit": "SOUMETTRE MON SCORE",

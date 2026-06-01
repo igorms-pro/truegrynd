@@ -1,9 +1,10 @@
 'use client';
 
-import { Dumbbell, ScrollText } from 'lucide-react';
+import { Dumbbell, Layers, ScrollText } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { ChallengeDetailSection } from '@/features/challenges/components/ChallengeDetailSection';
+import { ChallengeVariantBadges } from '@/components/ChallengeVariantBadges';
 import type { ParsedChallengeRules } from '@/features/challenges/lib/parseChallengeRules';
 import type { Challenge } from '@/lib/types/database.types';
 
@@ -17,9 +18,15 @@ export function ChallengeDetailSpecPanels({ challenge, parsed }: Props) {
   const hasScoring = parsed.scoring.trim().length > 0;
   const hasStandards = parsed.standards.trim().length > 0;
   const hasEquipment = challenge.equipment_tags.length > 0;
+  const variants = challenge.variants ?? ['standard'];
 
   return (
     <div className="space-y-4">
+      <ChallengeDetailSection tone="neutral" icon={Layers} title={t('variantsHeading')} withWash>
+        <p className="mb-3 text-xs text-muted-foreground">{t('variantsBody')}</p>
+        <ChallengeVariantBadges variants={variants} />
+      </ChallengeDetailSection>
+
       <div
         className={
           hasScoring && hasStandards

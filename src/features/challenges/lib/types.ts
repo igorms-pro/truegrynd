@@ -1,4 +1,4 @@
-import type { Faction, Sex, Division } from '@/lib/types/database.types';
+import type { Faction, Sex, Division, ChallengeVariant } from '@/lib/types/database.types';
 
 export type LeaderboardProfileSlim = {
   id: string;
@@ -16,6 +16,7 @@ export type LeaderboardEntry = {
   value: number;
   video_url: string | null;
   is_validated: boolean;
+  variant: ChallengeVariant;
   submitted_at: string;
   profile: LeaderboardProfileSlim | null;
 };
@@ -25,6 +26,7 @@ export type LeaderboardFilters = {
   ageBracket: import('@/features/challenges/lib/ageBracket').AgeBracket | null;
   faction: Faction | null;
   division: Division | null;
+  variant: ChallengeVariant | null;
 };
 
 export const EMPTY_FILTERS: LeaderboardFilters = {
@@ -32,4 +34,5 @@ export const EMPTY_FILTERS: LeaderboardFilters = {
   ageBracket: null,
   faction: null,
   division: null,
+  variant: null,
 };

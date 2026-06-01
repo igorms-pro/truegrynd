@@ -4,7 +4,7 @@ import { supabase } from '@/lib/supabase';
 import type { ScoreType } from '@/lib/types/database.types';
 
 const LEADERBOARD_SELECT =
-  'id,challenge_id,user_id,value,video_url,is_validated,submitted_at,profile:profiles!scores_user_id_fkey(id,username,sex,age,faction,division)';
+  'id,challenge_id,user_id,value,video_url,is_validated,variant,submitted_at,profile:profiles!scores_user_id_fkey(id,username,sex,age,faction,division)';
 
 type Options = {
   challengeId: string;

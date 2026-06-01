@@ -4,27 +4,33 @@ type Entry = {
   id: string;
   user_id: string;
   value: number;
+  variant?: string;
 };
 
-/** Keeps one row per user: best validated attempt for the challenge score type. */
+function dedupeKey(entry: Entry): string {
+  return `${entry.user_id}:${entry.variant ?? 'standard'}`;
+}
+
+/** Keeps one row per user per variant: best validated attempt for the challenge score type. */
 export function pickBestScorePerUser<T extends Entry>(
   entries: readonly T[],
   scoreType: ScoreType,
 ): T[] {
-  const byUser = new Map<string, T>();
+  const byUserVariant = new Map<string, T>();
 
   for (const entry of entries) {
-    const prev = byUser.get(entry.user_id);
+    const key = dedupeKey(entry);
+    const prev = byUserVariant.get(key);
     if (!prev) {
-      byUser.set(entry.user_id, entry);
+      byUserVariant.set(key, entry);
       continue;
     }
     if (scoreType === 'time') {
-      if (entry.value < prev.value) byUser.set(entry.user_id, entry);
+      if (entry.value < prev.value) byUserVariant.set(key, entry);
     } else if (entry.value > prev.value) {
-      byUser.set(entry.user_id, entry);
+      byUserVariant.set(key, entry);
     }
   }
 
-  return [...byUser.values()];
+  return [...byUserVariant.values()];
 }

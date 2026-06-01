@@ -10,6 +10,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { CreateChallengeCircuitSection } from '@/features/challenges/components/CreateChallengeCircuitSection';
 import { CreateChallengeScoringSection } from '@/features/challenges/components/CreateChallengeScoringSection';
+import { CreateChallengeVariantsSection } from '@/features/challenges/components/CreateChallengeVariantsSection';
 import { useCreateChallenge } from '@/features/challenges/hooks/useCreateChallenge';
 import {
   buildCreateChallengeSchema,
@@ -25,6 +26,7 @@ const DEFAULT_VALUES: CreateChallengeFormValues = {
   amrapCap: '',
   forTimeCap: '',
   equipmentTagsRaw: '',
+  variants: ['standard'],
 };
 
 function FieldError({ message }: { message?: string }) {
@@ -139,6 +141,8 @@ export function CreateChallengeScreen() {
           </div>
 
           <CreateChallengeScoringSection disabled={busy} />
+
+          <CreateChallengeVariantsSection disabled={busy} />
 
           <div>
             <label

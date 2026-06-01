@@ -1,5 +1,6 @@
 export type Faction = 'nomads' | 'horde' | 'iron_alliance';
 export type Division = 'rookie' | 'regular' | 'savage' | 'elite';
+export type ChallengeVariant = 'no_equipment' | 'bodyweight' | 'dumbbell' | 'standard' | 'savage';
 export type Sex = 'male' | 'female' | 'other';
 export type ScoreType = 'time' | 'reps';
 export type ChallengeStatus = 'pending' | 'approved' | 'rejected';
@@ -72,6 +73,8 @@ export interface Challenge {
   /** When set and in the past, approved challenge is closed in Arena (done). */
   ends_at?: string | null;
   created_at: string;
+  /** Official scaling lanes enabled for this challenge (from challenge_variants). */
+  variants?: ChallengeVariant[];
 }
 
 export interface Score {
@@ -82,6 +85,7 @@ export interface Score {
   value: number;
   video_url: string | null;
   is_validated: boolean;
+  variant: ChallengeVariant;
   is_hidden?: boolean;
   submitted_at: string;
   profile?: Profile;
