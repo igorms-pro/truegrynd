@@ -62,7 +62,7 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 
 **Macro pré-V2 (polish post-QA V1, avant V2-01)**
 
-- [ ] **FIX UI** — Flow soumission score (I'M IN → formulaire → SUBMIT) — section **J** — 🟡 [#63](https://github.com/igorms-pro/truegrynd/issues/63) branche `fix/issue-63-submit-flow-cta` (copy + garde-fous ; QA §4)
+- [x] **FIX UI** — Flow soumission score (POST SCORE → formulaire → SUBMIT) — section **J** — 🟢 [#63](https://github.com/igorms-pro/truegrynd/issues/63) PR [#64](https://github.com/igorms-pro/truegrynd/pull/64)
 
 **Macro V2 proposée (à transformer en GitHub issues avant dev)**
 
@@ -591,11 +591,11 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 | Mouvements / prescription (mix)               | 🟢 [#44](https://github.com/igorms-pro/truegrynd/issues/44) mergé — PR [#45](https://github.com/igorms-pro/truegrynd/pull/45)                                                                                                                       |
 | **V1.5 — Pages Faction**                      | 🟢 [#57](https://github.com/igorms-pro/truegrynd/issues/57) — PR [#56](https://github.com/igorms-pro/truegrynd/pull/56) + [#58](https://github.com/igorms-pro/truegrynd/pull/58) mergés                                                             |
 | **V1.5 — Profil & Historique**                | 🟢 [#59](https://github.com/igorms-pro/truegrynd/issues/59) PR [#60](https://github.com/igorms-pro/truegrynd/pull/60) + Settings [#61](https://github.com/igorms-pro/truegrynd/issues/61) PR [#62](https://github.com/igorms-pro/truegrynd/pull/62) |
-| **Fix flow submit (POST SCORE → formulaire)** | 🟡 section **J** — [#63](https://github.com/igorms-pro/truegrynd/issues/63) branche `fix/issue-63-submit-flow-cta` (QA V1 §4, copy CTA)                                                                                                             |
+| **Fix flow submit (POST SCORE → formulaire)** | 🟢 [#63](https://github.com/igorms-pro/truegrynd/issues/63) PR [#64](https://github.com/igorms-pro/truegrynd/pull/64)                                                                                                                               |
 | **V2 — Accessible competition**               | 🔴 [docs/V2_STRATEGY.md](../V2_STRATEGY.md) — **V2-00** (exclusions) puis **V2-01 → V2-12** section **H**                                                                                                                                           |
 | **QA V1 (manuel)**                            | 🟡 [docs/QA_V1_CHECKLIST.md](../QA_V1_CHECKLIST.md) — à cocher ; ajouter parcours faction après V1.5                                                                                                                                                |
 
-**Suite produit :** V1 macro **terminée**. **V1.5 (I + K + Settings)** livrée. Prochaine priorité = **section J** (fix submit flow) + fin **QA V1**, puis **V2-00**.
+**Suite produit :** V1 macro **terminée**. **V1.5 (I + K + Settings)** livrée. **Section J** (submit flow) livrée PR [#64](https://github.com/igorms-pro/truegrynd/pull/64). Prochaine priorité = fin **QA V1** manuel, puis **V2-00**.
 
 ---
 
