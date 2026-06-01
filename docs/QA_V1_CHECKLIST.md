@@ -29,7 +29,7 @@ Coche : `[ ]` à faire · `[x]` OK · `[!]` bug (noter en bas)
 | 1.2 | Page auth : magic link              | Formulaire visible, pas de crash                         | [ ] | [ ] |
 | 1.3 | OAuth Google / Apple (si configuré) | Login OK ou erreur claire                                | [ ] | [ ] |
 | 1.4 | Routes protégées sans session       | `/en/app/arena`, `/profile`, `/onboarding` → auth        | [ ] | [ ] |
-| 1.5 | **LOG OUT** (profil)                | Retour auth, session invalidée, routes app inaccessibles | [ ] | [ ] |
+| 1.5 | **LOG OUT** (profil → ⚙️ settings)  | Retour auth, session invalidée, routes app inaccessibles | [ ] | [ ] |
 
 ---
 
@@ -83,13 +83,15 @@ Coche : `[ ]` à faire · `[x]` OK · `[!]` bug (noter en bas)
 
 ## 6. Profil
 
-| #   | Test                                                              | Attendu                                                     | EN  | FR  |
-| --- | ----------------------------------------------------------------- | ----------------------------------------------------------- | --- | --- |
-| 6.1 | Affichage streak                                                  | `streak_days` cohérent après nouvelle soumission (jour UTC) | [x] | [x] |
-| 6.2 | **Creator score** + badge (bronze/silver/gold si seuils atteints) | Affichage + tooltip / copy                                  | [x] | [x] |
-| 6.3 | Historique scores                                                 | Liste avec états ranked / saved si applicable               | [x] | [x] |
-| 6.4 | Galerie finisher cards                                            | Chargement / empty / erreur + retry                         | [!] | [!] |
-| 6.5 | Changement avatar                                                 | Upload OK, erreur si fichier trop gros / mauvais type       | [x] | [x] |
+| #    | Test                                                              | Attendu                                                                                                       | EN  | FR  |
+| ---- | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | --- | --- |
+| 6.1  | Affichage streak                                                  | `streak_days` cohérent après nouvelle soumission (jour UTC)                                                   | [x] | [x] |
+| 6.2  | **Creator score** + badge (bronze/silver/gold si seuils atteints) | Affichage + tooltip / copy                                                                                    | [x] | [x] |
+| 6.3  | Historique scores                                                 | Liste avec états ranked / saved si applicable                                                                 | [x] | [x] |
+| 6.3b | **Show More** → `/app/profile/history`                            | Page history : filtres Tout / En cours / Validés / Sauvegardés / Gagnés ; lignes badge + CARD ; retour profil | [ ] | [ ] |
+| 6.3c | Profil principal sans section HISTORY en bas                      | Carrousel CARDS max 3–4 ; Log out dans menu ⚙️ header                                                         | [ ] | [ ] |
+| 6.4  | Galerie finisher cards                                            | Chargement / empty / erreur + retry                                                                           | [!] | [!] |
+| 6.5  | Changement avatar                                                 | Upload OK, erreur si fichier trop gros / mauvais type                                                         | [x] | [x] |
 
 **Streak (DB) :** après 1ère soumission du jour → streak ≥ 1 ; 2e soumission même jour → pas de double incrément (idempotent).
 
