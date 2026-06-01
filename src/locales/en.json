@@ -337,6 +337,11 @@
     "equipmentHeading": "Equipment",
     "noEquipment": "Bodyweight only",
     "ctaStart": "POST SCORE",
+    "ctaRetry": "RE-TRY / IMPROVE YOUR SCORE",
+    "participationSummary": "Submitted {count} times. Best: {score} ({status}).",
+    "viewAttempts": "View my attempts →",
+    "statusRanked": "RANKED",
+    "statusSaved": "SAVED",
     "pendingTitle": "NOT IN THE ARENA YET",
     "pendingBody": "Saved and in review. It will show up in the public feed once approved — then anyone can post a score.",
     "rejectedTitle": "NOT PUBLISHED",
@@ -523,7 +528,8 @@
     "savedBody": "Saved. Not ranked (no video).",
     "download": "DOWNLOAD",
     "share": "SHARE",
-    "backToArena": "BACK TO ARENA"
+    "backToArena": "BACK TO ARENA",
+    "viewProof": "VIEW PROOF VIDEO"
   },
   "profile": {
     "loading": "Loading profile...",
@@ -635,9 +641,19 @@
         "saved": "SAVED",
         "inProgress": "IN PROGRESS"
       },
+      "challengeFilterBanner": "Showing attempts for this challenge only.",
       "actions": {
         "card": "CARD",
-        "submit": "SUBMIT"
+        "submit": "SUBMIT",
+        "proof": "PROOF",
+        "menuAria": "Score actions",
+        "updateVideo": "Update proof link",
+        "hideFromCards": "Hide from cards",
+        "videoLabel": "Video URL",
+        "save": "SAVE",
+        "cancel": "CANCEL",
+        "videoInvalid": "Must be a YouTube or TikTok link.",
+        "updateFailed": "Could not update."
       },
       "empty": {
         "all": "No history yet. Hit the Arena.",

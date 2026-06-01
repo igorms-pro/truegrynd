@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
 
 import { formatScore } from '@/features/challenges/lib/scoreFormat';
+import { HistoryScoreActions } from '@/features/profile/components/HistoryScoreActions';
 import type { HistoryItem } from '@/features/profile/types';
 
 type BadgeTone = 'ranked' | 'saved' | 'in_progress' | 'won';
@@ -30,9 +31,11 @@ function StatusBadge({ children, tone }: { children: string; tone: BadgeTone }) 
 
 type Props = {
   item: HistoryItem;
+  userId: string | null;
+  onScoreChanged: () => void;
 };
 
-export function HistoryItemRow({ item }: Props) {
+export function HistoryItemRow({ item, userId, onScoreChanged }: Props) {
   const t = useTranslations('profile.historyPage');
   const locale = useLocale();
 
@@ -86,13 +89,31 @@ export function HistoryItemRow({ item }: Props) {
         <StatusBadge tone={badgeTone}>{scoreLabel}</StatusBadge>
       </div>
 
-      <div className="mt-3 flex justify-end">
+      <div className="mt-3 flex flex-wrap items-center justify-end gap-2">
+        {item.videoUrl ? (
+          <a
+            href={item.videoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-11 items-center justify-center rounded-md border border-border bg-muted px-3 py-2 text-[11px] font-black uppercase tracking-[0.18em] text-foreground hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            {t('actions.proof')}
+          </a>
+        ) : null}
         <Link
           href={toFinisher}
           className="inline-flex min-h-11 items-center justify-center rounded-md bg-primary px-3 py-2 text-[11px] font-black uppercase tracking-[0.18em] text-primary-foreground hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           {t('actions.card')}
         </Link>
+        {userId ? (
+          <HistoryScoreActions
+            scoreId={item.id}
+            userId={userId}
+            currentVideoUrl={item.videoUrl}
+            onChanged={onScoreChanged}
+          />
+        ) : null}
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
+import { pickBestScorePerUser } from '@/features/challenges/lib/pickBestScorePerUser';
+import type { LeaderboardEntry } from '@/features/challenges/lib/types';
 import { supabase } from '@/lib/supabase';
 import type { ScoreType } from '@/lib/types/database.types';
-import type { LeaderboardEntry } from '@/features/challenges/lib/types';
 
 const LEADERBOARD_SELECT =
   'id,challenge_id,user_id,value,video_url,is_validated,submitted_at,profile:profiles!scores_user_id_fkey(id,username,sex,age,faction)';
@@ -24,5 +25,6 @@ export async function listLeaderboardScores({
     .order('value', { ascending: scoreType === 'time' })
     .limit(limit);
   if (error) throw new Error(error.message);
-  return (data ?? []) as unknown as LeaderboardEntry[];
+  const rows = (data ?? []) as unknown as LeaderboardEntry[];
+  return pickBestScorePerUser(rows, scoreType);
 }

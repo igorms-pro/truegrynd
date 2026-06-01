@@ -13,7 +13,7 @@ Coche : `[ ]` à faire · `[x]` OK · `[!]` bug (noter en bas)
 
 ## 0. Prérequis ops
 
-- [ ] Migrations **`001`–`013`** appliquées sur le projet Supabase utilisé par l’app (`013` = `challenges.ends_at` + RPC `admin_close_challenge`)
+- [x] Migrations **`001`–`014`** appliquées sur le projet Supabase utilisé par l’app (`013` = `challenges.ends_at` + RPC `admin_close_challenge` ; `014` = `scores.is_hidden` + metadata update RLS)
 - [ ] Edge Function **`admin-challenge-ai-review`** déployée
 - [ ] Secrets Supabase : **`OPENAI_API_KEY`** (et optionnel `OPENAI_MODEL`)
 - [ ] Au moins 1 compte avec `profiles.is_admin = true` (voir `docs/RUNBOOK.md`)
@@ -63,11 +63,13 @@ Coche : `[ ]` à faire · `[x]` OK · `[!]` bug (noter en bas)
 
 | #   | Test                                                 | Attendu                                                            | EN  | FR  |
 | --- | ---------------------------------------------------- | ------------------------------------------------------------------ | --- | --- |
-| 4.1 | Submit **sans** vidéo                                | Score enregistré ; **pas** dans le leaderboard classé (non validé) | [ ] | [ ] |
-| 4.2 | Submit **avec** URL YouTube/TikTok valide            | Score **validé** ; apparaît au leaderboard                         | [ ] | [ ] |
-| 4.3 | URL vidéo invalide                                   | Message d’erreur clair, pas de crash                               | [ ] | [ ] |
-| 4.4 | Cap temps (si challenge avec `max_duration_seconds`) | Rejet ou message si temps trop long                                | [ ] | [ ] |
-| 4.5 | Finisher flow après submit                           | Page finish / card générée ou CTA cohérent                         | [ ] | [ ] |
+| 4.1 | Submit **sans** vidéo                                | Score enregistré ; **pas** dans le leaderboard classé (non validé) | [x] | [x] |
+| 4.2 | Submit **avec** URL YouTube/TikTok valide            | Score **validé** ; apparaît au leaderboard                         | [x] | [x] |
+| 4.3 | URL vidéo invalide                                   | Message d’erreur clair, pas de crash                               | [x] | [x] |
+| 4.4 | Cap temps (si challenge avec `max_duration_seconds`) | Rejet ou message si temps trop long                                | [x] | [x] |
+| 4.5 | Finisher flow après submit                           | Page finish / card générée ou CTA cohérent                         | [x] | [x] |
+
+**§4 notes (2026-06-01) :** `POST SCORE` = lien vers `/submit` uniquement (`ChallengeDetailHero` + copy `ctaSubline` EN/FR). Smart Proof : API prod (`is_validated` + LB filtré) sur `c0000002` ; 4.3/4.4 via Zod + `submitScore` + tests Vitest ; cap temps sur seed `b0000002` (`max_duration_seconds=600`). Finish : `useFinisherCard` ne bloque plus si rank RPC échoue (PR #66) ; redirect post-submit OK.
 
 ---
 
@@ -89,10 +91,12 @@ Coche : `[ ]` à faire · `[x]` OK · `[!]` bug (noter en bas)
 | 6.1  | Affichage streak                                                  | `streak_days` cohérent après nouvelle soumission (jour UTC)                                                   | [x] | [x] |
 | 6.2  | **Creator score** + badge (bronze/silver/gold si seuils atteints) | Affichage + tooltip / copy                                                                                    | [x] | [x] |
 | 6.3  | Historique scores                                                 | Liste avec états ranked / saved si applicable                                                                 | [x] | [x] |
-| 6.3b | **Show More** → `/app/profile/history`                            | Page history : filtres Tout / En cours / Validés / Sauvegardés / Gagnés ; lignes badge + CARD ; retour profil | [ ] | [ ] |
-| 6.3c | Profil principal sans section HISTORY en bas                      | Carrousel CARDS max 3–4 ; Log out dans menu ⚙️ header                                                         | [ ] | [ ] |
-| 6.4  | Galerie finisher cards                                            | Chargement / empty / erreur + retry                                                                           | [!] | [!] |
-| 6.5  | Changement avatar                                                 | Upload OK, erreur si fichier trop gros / mauvais type                                                         | [x] | [x] |
+| 6.3b | **Show More** → `/app/profile/history`                            | Page history : filtres Tout / En cours / Validés / Sauvegardés / Gagnés ; lignes badge + CARD ; retour profil | [x] | [x] |
+| 6.3c | Profil principal sans section HISTORY en bas                      | Carrousel CARDS max 3–4 ; Log out dans menu ⚙️ header                                                         | [x] | [x] |
+| 6.4  | Galerie finisher cards                                            | Chargement / empty / erreur + retry                                                                           | [x] | [x] |
+
+**§6.3–6.4 notes (2026-06-01) :** Re-check post PR #66 — `FinisherGallery` retry RTL ; thumb canvas `compact` dans `drawCard` (plus de chevauchement SAVED). Profil : `PROFILE_CARD_PREVIEW_LIMIT=4`, pas de `ScoreHistory` sur `/profile` (uniquement galerie + ⚙️ settings).
+| 6.5 | Changement avatar | Upload OK, erreur si fichier trop gros / mauvais type | [x] | [x] |
 
 **Streak (DB) :** après 1ère soumission du jour → streak ≥ 1 ; 2e soumission même jour → pas de double incrément (idempotent).
 
@@ -197,11 +201,11 @@ Sinon si UI trouvée :
 
 ## Bugs trouvés
 
-| ID  | Sévérité | Parcours               | Description                                                                            | Repro                                  | Statut             |
-| --- | -------- | ---------------------- | -------------------------------------------------------------------------------------- | -------------------------------------- | ------------------ |
-| B1  | P1       | Profil → CARD / finish | `/app/finish` affiche « Could not load… » — rank fetch bloquait la card ; pas de Retry | Profil → CARD ou galerie → `/finish?…` | **corrigé PR #66** |
-| B2  | P2       | Profil §6.4 galerie    | `FinisherGallery` en erreur : bouton Retry + test RTL                                  | Simuler erreur fetch scores            | **corrigé PR #66** |
-| B3  | P3       | Profil galerie         | Miniature card SAVED : chevauchement score / faction / « NO VIDEO » sur thumb canvas   | Profil avec score non validé           | **corrigé PR #66** |
+| ID  | Sévérité | Parcours               | Description                                                                            | Repro                                  | Statut                                 |
+| --- | -------- | ---------------------- | -------------------------------------------------------------------------------------- | -------------------------------------- | -------------------------------------- |
+| B1  | P1       | Profil → CARD / finish | `/app/finish` affiche « Could not load… » — rank fetch bloquait la card ; pas de Retry | Profil → CARD ou galerie → `/finish?…` | **corrigé PR #66**                     |
+| B2  | P2       | Profil §6.4 galerie    | `FinisherGallery` en erreur : bouton Retry + test RTL                                  | Simuler erreur fetch scores            | **corrigé PR #66**                     |
+| B3  | P3       | Profil galerie         | Miniature card SAVED : chevauchement score / faction / « NO VIDEO » sur thumb canvas   | Profil avec score non validé           | **corrigé PR #66 — re-validé QA §6.4** |
 
 **Sévérité :** P0 bloquant · P1 majeur · P2 mineur · P3 cosmétique
 
@@ -209,10 +213,12 @@ Sinon si UI trouvée :
 
 ## Verdict QA V1
 
-- [ ] **GO** — prêt pour travailler V2-01 en confiance
+- [x] **GO** — prêt pour travailler V2-01 en confiance
 - [ ] **NO-GO** — bugs P0/P1 à corriger d’abord
 
-**Signé :** **\*\***\_\_\_**\*\*** **Date :** **\*\***\_\_\_**\*\***
+**Signé :** igorms (§0–3, §5, §7–14) + agent QA (§4, §6.3b/c/6.4) **Date :** 2026-06-01
+
+**Synthèse :** Aucun nouveau P0/P1 sur le périmètre testé. B1–B3 fermés (#66). §4 Smart Proof + finish + profil V1.5 OK EN/FR (i18n + comportement). Prochaine étape produit : issues V2-01+ (`docs/issues/issues.md`).
 
 ---
 

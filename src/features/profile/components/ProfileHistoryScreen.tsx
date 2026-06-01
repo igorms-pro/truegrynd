@@ -3,11 +3,14 @@
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
+import { useSearchParams } from 'next/navigation';
+import { useMemo } from 'react';
 
 import { HistoryItemRow } from '@/features/profile/components/HistoryItemRow';
 import { ProfileHistoryTabs } from '@/features/profile/components/ProfileHistoryTabs';
 import { useProfile } from '@/features/profile/hooks/useProfile';
 import { useProfileHistory } from '@/features/profile/hooks/useProfileHistory';
+import { filterHistoryByChallenge } from '@/features/profile/lib/filterHistoryByChallenge';
 import type { HistoryTab } from '@/features/profile/types';
 
 function emptyCopyKey(tab: HistoryTab): string {
@@ -17,11 +20,17 @@ function emptyCopyKey(tab: HistoryTab): string {
 export function ProfileHistoryScreen() {
   const locale = useLocale();
   const t = useTranslations('profile.historyPage');
+  const searchParams = useSearchParams();
+  const challengeFilter = searchParams.get('challenge');
   const { state: profileState } = useProfile();
   const userId = profileState.status === 'ready' ? profileState.profile.id : null;
   const { state, activeTab, setActiveTab, filteredItems, refetch } = useProfileHistory(userId);
 
   const profileHref = `/${locale}/app/profile`;
+  const displayItems = useMemo(
+    () => filterHistoryByChallenge(filteredItems, challengeFilter),
+    [challengeFilter, filteredItems],
+  );
 
   if (profileState.status === 'loading' || state.status === 'loading') {
     return (
@@ -92,18 +101,26 @@ export function ProfileHistoryScreen() {
 
       <h1 className="text-2xl md:text-3xl font-black uppercase tracking-tight">{t('title')}</h1>
 
+      {challengeFilter ? (
+        <p className="rounded-md border border-border bg-muted/40 px-3 py-2 text-xs font-black uppercase tracking-[0.14em] text-muted-foreground">
+          {t('challengeFilterBanner')}
+        </p>
+      ) : null}
+
       <ProfileHistoryTabs active={activeTab} onChange={setActiveTab} disabled={false} />
 
-      {filteredItems.length === 0 ? (
+      {displayItems.length === 0 ? (
         <div className="rounded-md border border-border bg-card p-4">
           <p className="text-sm text-muted-foreground">{t(emptyKey)}</p>
         </div>
       ) : (
         <div className="space-y-2" role="tabpanel">
-          {filteredItems.map((item) => (
+          {displayItems.map((item) => (
             <HistoryItemRow
               key={item.kind === 'score' ? item.id : `progress-${item.challengeId}`}
               item={item}
+              userId={userId}
+              onScoreChanged={refetch}
             />
           ))}
         </div>

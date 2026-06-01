@@ -13,6 +13,7 @@ const initial: State = { status: 'loading', data: null, error: null };
 
 type Options = {
   limit?: number;
+  excludeHidden?: boolean;
 };
 
 export function useMyScores(
@@ -30,7 +31,9 @@ export function useMyScores(
     let cancelled = false;
     void (async () => {
       try {
-        const data = await listMyScores(userId, limit);
+        const data = await listMyScores(userId, limit, {
+          excludeHidden: options?.excludeHidden,
+        });
         if (!cancelled) setState({ status: 'ready', data, error: null });
       } catch (e: unknown) {
         const message = e instanceof Error ? e.message : 'unknown';
@@ -41,7 +44,7 @@ export function useMyScores(
     return () => {
       cancelled = true;
     };
-  }, [limit, userId, reloadKey]);
+  }, [limit, options?.excludeHidden, userId, reloadKey]);
 
   const refetch = useCallback(() => {
     setState(initial);

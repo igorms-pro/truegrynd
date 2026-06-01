@@ -80,6 +80,7 @@ export interface Score {
   value: number;
   video_url: string | null;
   is_validated: boolean;
+  is_hidden?: boolean;
   submitted_at: string;
   profile?: Profile;
 }
