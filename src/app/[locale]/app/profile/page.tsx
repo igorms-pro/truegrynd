@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 
 import { FinisherGallery } from '@/features/profile/components/FinisherGallery';
 import { ProfileHeader } from '@/features/profile/components/ProfileHeader';
-import { ProfileSettingsMenu } from '@/features/profile/components/ProfileSettingsMenu';
+import { ProfileSettingsLink } from '@/features/profile/components/ProfileSettingsLink';
 import { useProfile } from '@/features/profile/hooks/useProfile';
 
 export default function ProfilePage() {
@@ -53,7 +53,7 @@ export default function ProfilePage() {
         <h1 className="text-2xl md:text-3xl font-black uppercase tracking-tight">
           {tabs('profile')}
         </h1>
-        <ProfileSettingsMenu />
+        <ProfileSettingsLink />
       </div>
 
       <ProfileHeader profile={state.profile} onAvatarUpdated={refetch} />
