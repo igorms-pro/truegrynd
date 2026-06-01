@@ -1,4 +1,4 @@
-import type { ScoreType } from '@/lib/types/database.types';
+import type { ScoreType, ProofLevel } from '@/lib/types/database.types';
 
 export type HistoryTab = 'all' | 'in_progress' | 'validated' | 'saved' | 'won';
 
@@ -9,6 +9,7 @@ export type ProfileScoreItem = {
   scoreType: ScoreType;
   value: number;
   isValidated: boolean;
+  proofLevel: ProofLevel;
   isHidden: boolean;
   videoUrl: string | null;
   isOfficial: boolean;

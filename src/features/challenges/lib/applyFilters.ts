@@ -1,5 +1,6 @@
 import { isInBracket } from '@/features/challenges/lib/ageBracket';
 import type { LeaderboardEntry, LeaderboardFilters } from '@/features/challenges/lib/types';
+import { meetsMinProofLevel } from '@/lib/proof/proofLevel';
 import { normalizeCity } from '@/lib/location';
 
 export function applyLeaderboardFilters(
@@ -9,6 +10,7 @@ export function applyLeaderboardFilters(
   return entries.filter((entry) => {
     const profile = entry.profile;
     if (!profile) return false;
+    if (!meetsMinProofLevel(entry.proof_level, filters.proofMin)) return false;
     if (filters.sex && profile.sex !== filters.sex) return false;
     if (filters.faction && profile.faction !== filters.faction) return false;
     if (filters.division && profile.division !== filters.division) return false;

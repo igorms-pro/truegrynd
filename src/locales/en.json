@@ -377,6 +377,7 @@
     "subtitle": "Moderation vs Arena. In review → approve. Live = open in Arena. Done = closed. Rejected = blocked.",
     "weeklyLink": "SCHEDULE WEEKLY CHALLENGE →",
     "eventsLink": "SCHEDULE MICRO-EVENT →",
+    "proofLink": "PROOF REVIEW →",
     "nav": {
       "link": "MOD",
       "dock": "MOD",
@@ -551,6 +552,49 @@
       "analyzeServerMisconfigured": "Missing Supabase URL or anon key in the app environment.",
       "analyzePersistFailed": "Could not save AI triage. Check the challenge is still pending.",
       "analyzeGeneric": "AI scan error ({code})."
+    },
+    "proof": {
+      "title": "PROOF REVIEW",
+      "subtitle": "Reported scores — verify video and set proof level.",
+      "loading": "Loading reported scores…",
+      "errorTitle": "Could not load proof queue",
+      "retry": "Retry",
+      "empty": "No reported scores in the queue.",
+      "watchVideo": "Watch video",
+      "auditNote": "Admin proof review",
+      "levelsLegend": "Tiers",
+      "actions": {
+        "judge_verified": "Judge verified",
+        "honor": "Reject → honor"
+      }
+    }
+  },
+  "proof": {
+    "levels": {
+      "honor": "Honor",
+      "honorShort": "Honor",
+      "video_ranked": "Video ranked",
+      "video_rankedShort": "Video",
+      "community_verified": "Community verified",
+      "community_verifiedShort": "Community",
+      "event_verified": "Event verified",
+      "event_verifiedShort": "Event",
+      "judge_verified": "Judge verified",
+      "judge_verifiedShort": "Judge"
+    },
+    "report": {
+      "cta": "Report score",
+      "aria": "Report this score for review",
+      "reasonLabel": "Reason for report",
+      "reasonPlaceholder": "Describe the issue (min 5 characters)",
+      "submit": "Send report",
+      "cancel": "Cancel",
+      "thanks": "Report submitted",
+      "errors": {
+        "reasonTooShort": "Reason must be at least 5 characters.",
+        "alreadyReported": "You already reported this score.",
+        "generic": "Could not submit report. Try again."
+      }
     }
   },
   "leaderboard": {
@@ -577,6 +621,11 @@
       "sex": "Sex",
       "age": "Age",
       "faction": "Faction",
+      "proof": "Proof",
+      "allProof": "All ranked",
+      "videoRanked": "Video+",
+      "communityVerified": "Community+",
+      "judgeVerified": "Judge only",
       "ageBrackets": {
         "18-29": "18–29",
         "30-39": "30–39",

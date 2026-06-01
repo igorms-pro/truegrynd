@@ -377,6 +377,7 @@
     "subtitle": "Modération vs Arène. En revue → approuver. Live = ouvert dans l’Arène. Terminé = fermé. Refusé = bloqué.",
     "weeklyLink": "PROGRAMMER LE DÉFI HEBDO →",
     "eventsLink": "PROGRAMMER UN MICRO-ÉVÉNEMENT →",
+    "proofLink": "REVUE DES PREUVES →",
     "nav": {
       "link": "MOD",
       "dock": "MOD",
@@ -551,6 +552,49 @@
       "analyzeServerMisconfigured": "URL Supabase ou clé anon manquante dans l’app.",
       "analyzePersistFailed": "Impossible d’enregistrer le tri IA. Vérifie que le défi est toujours en attente.",
       "analyzeGeneric": "Erreur scan IA ({code})."
+    },
+    "proof": {
+      "title": "REVUE DES PREUVES",
+      "subtitle": "Scores signalés — vérifier la vidéo et définir le niveau de preuve.",
+      "loading": "Chargement des scores signalés…",
+      "errorTitle": "Impossible de charger la file preuve",
+      "retry": "Réessayer",
+      "empty": "Aucun score signalé pour l'instant.",
+      "watchVideo": "Voir la vidéo",
+      "auditNote": "Revue admin preuve",
+      "levelsLegend": "Niveaux",
+      "actions": {
+        "judge_verified": "Validé juge",
+        "honor": "Rejeter → honor"
+      }
+    }
+  },
+  "proof": {
+    "levels": {
+      "honor": "Honor",
+      "honorShort": "Honor",
+      "video_ranked": "Classé vidéo",
+      "video_rankedShort": "Vidéo",
+      "community_verified": "Validé communauté",
+      "community_verifiedShort": "Communauté",
+      "event_verified": "Validé événement",
+      "event_verifiedShort": "Événement",
+      "judge_verified": "Validé juge",
+      "judge_verifiedShort": "Juge"
+    },
+    "report": {
+      "cta": "Signaler",
+      "aria": "Signaler ce score",
+      "reasonLabel": "Motif du signalement",
+      "reasonPlaceholder": "Décris le problème (min. 5 caractères)",
+      "submit": "Envoyer",
+      "cancel": "Annuler",
+      "thanks": "Signalement envoyé",
+      "errors": {
+        "reasonTooShort": "Le motif doit contenir au moins 5 caractères.",
+        "alreadyReported": "Tu as déjà signalé ce score.",
+        "generic": "Envoi impossible. Réessaie."
+      }
     }
   },
   "leaderboard": {
@@ -577,6 +621,11 @@
       "sex": "Sexe",
       "age": "Âge",
       "faction": "Faction",
+      "proof": "Preuve",
+      "allProof": "Tous classés",
+      "videoRanked": "Vidéo+",
+      "communityVerified": "Communauté+",
+      "judgeVerified": "Juge seul",
       "ageBrackets": {
         "18-29": "18–29",
         "30-39": "30–39",

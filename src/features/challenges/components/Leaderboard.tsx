@@ -25,6 +25,8 @@ import {
 } from '@/features/challenges/lib/types';
 import { useOptionalAppProfile } from '@/features/appshell/context/AppProfileContext';
 import { DivisionBadge } from '@/components/DivisionBadge';
+import { ProofLevelBadge } from '@/components/ProofLevelBadge';
+import { ReportScoreButton } from '@/features/challenges/components/ReportScoreButton';
 import type { ScoreType } from '@/lib/types/database.types';
 
 type Props = {
@@ -56,25 +58,35 @@ function LeaderboardRow({
 }) {
   const username = entry.profile?.username ?? '—';
   return (
-    <li className="grid grid-cols-[3rem_1fr_auto_auto] items-center gap-3 border-b border-border px-3 py-2 last:border-b-0">
-      <span className="font-mono text-sm tabular-nums text-muted-foreground">#{rank}</span>
-      <div className="min-w-0">
-        <span className="block truncate text-sm font-bold text-foreground">{username}</span>
-        {showDivisionBadge && entry.profile?.division ? (
-          <DivisionBadge division={entry.profile.division} className="mt-1" />
-        ) : null}
+    <li className="border-b border-border px-3 py-2 last:border-b-0">
+      <div className="grid grid-cols-[3rem_1fr_auto_auto] items-center gap-3">
+        <span className="font-mono text-sm tabular-nums text-muted-foreground">#{rank}</span>
+        <div className="min-w-0">
+          <span className="block truncate text-sm font-bold text-foreground">{username}</span>
+          <div className="mt-1 flex flex-wrap items-center gap-1">
+            <ProofLevelBadge level={entry.proof_level} compact />
+            {showDivisionBadge && entry.profile?.division ? (
+              <DivisionBadge division={entry.profile.division} />
+            ) : null}
+          </div>
+        </div>
+        <span className="font-mono text-sm tabular-nums text-foreground">
+          {formatScore(entry.value, scoreType)}
+        </span>
+        <RespectButton
+          scoreId={entry.id}
+          scoreUserId={entry.user_id}
+          currentUserId={currentUserId}
+          count={respectCount}
+          respected={isRespected}
+          disabled={respectDisabled}
+          onToggle={onRespectToggle}
+        />
       </div>
-      <span className="font-mono text-sm tabular-nums text-foreground">
-        {formatScore(entry.value, scoreType)}
-      </span>
-      <RespectButton
+      <ReportScoreButton
         scoreId={entry.id}
         scoreUserId={entry.user_id}
         currentUserId={currentUserId}
-        count={respectCount}
-        respected={isRespected}
-        disabled={respectDisabled}
-        onToggle={onRespectToggle}
       />
     </li>
   );

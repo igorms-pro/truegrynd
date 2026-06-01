@@ -22,9 +22,15 @@ export default function AdminChallengesPage() {
         </Link>
         <Link
           href={`/${locale}/app/admin/events`}
-          className="mt-2 inline-block text-xs font-black uppercase tracking-[0.18em] text-accent hover:opacity-90"
+          className="mt-2 mr-4 inline-block text-xs font-black uppercase tracking-[0.18em] text-accent hover:opacity-90"
         >
           {t('eventsLink')}
+        </Link>
+        <Link
+          href={`/${locale}/app/admin/proof`}
+          className="mt-2 inline-block text-xs font-black uppercase tracking-[0.18em] text-accent hover:opacity-90"
+        >
+          {t('proofLink')}
         </Link>
       </header>
       <AdminChallengeQueue />

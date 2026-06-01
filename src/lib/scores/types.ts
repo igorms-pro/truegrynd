@@ -1,4 +1,4 @@
-import type { ScoreType } from '@/lib/types/database.types';
+import type { ScoreType, ProofLevel } from '@/lib/types/database.types';
 
 export type UserScoreItem = {
   id: string;
@@ -7,6 +7,7 @@ export type UserScoreItem = {
   scoreType: ScoreType;
   value: number;
   isValidated: boolean;
+  proofLevel: ProofLevel;
   isHidden: boolean;
   videoUrl: string | null;
   isOfficial: boolean;

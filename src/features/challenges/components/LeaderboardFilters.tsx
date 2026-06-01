@@ -4,9 +4,16 @@ import { useTranslations } from 'next-intl';
 
 import { AGE_BRACKETS, type AgeBracket } from '@/features/challenges/lib/ageBracket';
 import type { LeaderboardFilters } from '@/features/challenges/lib/types';
+import type { ProofMinFilter } from '@/lib/proof/proofLevel';
 import { DIVISIONS } from '@/lib/divisions';
 import type { ChallengeVariant, Faction, Sex } from '@/lib/types/database.types';
 
+const PROOF_FILTERS: readonly { id: ProofMinFilter | null; key: string }[] = [
+  { id: null, key: 'allProof' },
+  { id: 'video_ranked', key: 'videoRanked' },
+  { id: 'community_verified', key: 'communityVerified' },
+  { id: 'judge_verified', key: 'judgeVerified' },
+];
 const SEXES: readonly Sex[] = ['male', 'female', 'other'];
 const FACTIONS: readonly Faction[] = ['nomads', 'horde', 'iron_alliance'];
 
@@ -85,6 +92,19 @@ export function LeaderboardFiltersBar({ filters, availableVariants, onChange }: 
             className={chipClass(filters.division === d)}
           >
             {tDivisions(d)}
+          </button>
+        ))}
+      </FilterRow>
+
+      <FilterRow legend={t('proof')}>
+        {PROOF_FILTERS.map(({ id, key }) => (
+          <button
+            key={key}
+            type="button"
+            onClick={() => onChange({ ...filters, proofMin: id })}
+            className={chipClass(filters.proofMin === id)}
+          >
+            {t(key)}
           </button>
         ))}
       </FilterRow>
