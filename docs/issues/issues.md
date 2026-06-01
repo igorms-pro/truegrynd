@@ -57,7 +57,7 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 **Macro V1.5 (avant premier lot V2 compétitif)**
 
 - [x] **V1.5** — Pages `/app/faction/[slug]` + symétrie Clan / Overview — section **I** — 🟢 [#57](https://github.com/igorms-pro/truegrynd/issues/57) PR [#58](https://github.com/igorms-pro/truegrynd/pull/58) (QA checklist §7 reste manuel)
-- [ ] **V1.5** — Profil épuré + page Historique dédiée (`Show More` → `/app/profile/history`) — section **K**
+- [ ] **V1.5** — Profil épuré + page Historique dédiée (`Show More` → `/app/profile/history`) — section **K** — 🟡 [#59](https://github.com/igorms-pro/truegrynd/issues/59) branche `feature/issue-59-profile-history`
 
 **Macro pré-V2 (polish post-QA V1, avant V2-01)**
 
@@ -589,7 +589,7 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 | Confiance / plateforme                    | 🟢 [#54](https://github.com/igorms-pro/truegrynd/issues/54) mergé — PR [#55](https://github.com/igorms-pro/truegrynd/pull/55)                                                           |
 | Mouvements / prescription (mix)           | 🟢 [#44](https://github.com/igorms-pro/truegrynd/issues/44) mergé — PR [#45](https://github.com/igorms-pro/truegrynd/pull/45)                                                           |
 | **V1.5 — Pages Faction**                  | 🟢 [#57](https://github.com/igorms-pro/truegrynd/issues/57) — PR [#56](https://github.com/igorms-pro/truegrynd/pull/56) + [#58](https://github.com/igorms-pro/truegrynd/pull/58) mergés |
-| **V1.5 — Profil & Historique**            | 🔴 spec section **K** — carrousel 3–4 cartes + `/app/profile/history` + filtres (Show More)                                                                                             |
+| **V1.5 — Profil & Historique**            | 🟡 [#59](https://github.com/igorms-pro/truegrynd/issues/59) — carrousel 3–4 cartes + `/app/profile/history` + filtres (Show More) — branche `feature/issue-59-profile-history`          |
 | **Fix flow submit (I'M IN → formulaire)** | 🔴 section **J** — polish pré-V2 (QA V1 §4, copy CTA)                                                                                                                                   |
 | **V2 — Accessible competition**           | 🔴 [docs/V2_STRATEGY.md](../V2_STRATEGY.md) — **V2-00** (exclusions) puis **V2-01 → V2-12** section **H**                                                                               |
 | **QA V1 (manuel)**                        | 🟡 [docs/QA_V1_CHECKLIST.md](../QA_V1_CHECKLIST.md) — à cocher ; ajouter parcours faction après V1.5                                                                                    |

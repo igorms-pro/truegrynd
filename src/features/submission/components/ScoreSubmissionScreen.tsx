@@ -3,10 +3,14 @@
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { useChallenge } from '@/features/challenges/hooks/useChallenge';
+import {
+  clearChallengeCommitment,
+  recordChallengeCommitment,
+} from '@/features/profile/lib/challengeCommitments';
 import { ScoreSubmissionForm } from '@/features/submission/components/ScoreSubmissionForm';
 
 type Props = {
@@ -34,6 +38,11 @@ export function ScoreSubmissionScreen({ challengeId }: Props) {
   const router = useRouter();
   const { data: challenge, loading, error } = useChallenge(challengeId);
   const [result, setResult] = useState<Result | null>(null);
+
+  useEffect(() => {
+    if (!challenge || challenge.status !== 'approved') return;
+    recordChallengeCommitment(challenge.id, challenge.title);
+  }, [challenge]);
 
   if (loading) {
     return (
@@ -107,6 +116,7 @@ export function ScoreSubmissionScreen({ challengeId }: Props) {
         scoreType={challenge.score_type}
         maxDurationSeconds={challenge.max_duration_seconds ?? null}
         onSubmitted={(r) => {
+          clearChallengeCommitment(challenge.id);
           setResult(r);
           router.push(
             `/${locale}/app/finish?challengeId=${challenge.id}&ranked=${String(r.ranked)}&scoreId=${encodeURIComponent(

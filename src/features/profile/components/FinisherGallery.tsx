@@ -1,11 +1,13 @@
 'use client';
 
 import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useEffect, useMemo, useRef } from 'react';
 
 import { drawFinisherCard } from '@/features/finisher-card/lib/drawCard';
 import { useMyScores } from '@/features/profile/hooks/useMyScores';
+import { PROFILE_CARD_PREVIEW_LIMIT } from '@/features/profile/types';
 import type { Faction } from '@/lib/types/database.types';
 
 type Props = {
@@ -59,7 +61,8 @@ function ThumbCanvas({
 export function FinisherGallery({ userId, username, faction }: Props) {
   const t = useTranslations('profile.gallery');
   const locale = useLocale();
-  const { state } = useMyScores(userId, { limit: 6 });
+  const { state, refetch } = useMyScores(userId, { limit: PROFILE_CARD_PREVIEW_LIMIT });
+  const historyHref = `/${locale}/app/profile/history`;
 
   if (!username || !faction) {
     return null;
@@ -83,6 +86,13 @@ export function FinisherGallery({ userId, username, faction }: Props) {
           {t('title')}
         </p>
         <p className="mt-2 text-sm text-muted-foreground">{t('error')}</p>
+        <button
+          type="button"
+          onClick={() => refetch()}
+          className="mt-3 inline-flex min-h-11 items-center justify-center rounded-md bg-primary px-3 py-2 text-xs font-black uppercase tracking-[0.18em] text-primary-foreground hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          {t('retry')}
+        </button>
       </section>
     );
   }
@@ -90,9 +100,19 @@ export function FinisherGallery({ userId, username, faction }: Props) {
   if (state.data.length === 0) {
     return (
       <section className="rounded-md border border-border bg-card p-4">
-        <p className="text-xs font-black uppercase tracking-[0.18em] text-muted-foreground">
-          {t('title')}
-        </p>
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-xs font-black uppercase tracking-[0.18em] text-muted-foreground">
+            {t('title')}
+          </p>
+          <Link
+            href={historyHref}
+            aria-label={t('showMoreAria')}
+            className="inline-flex min-h-11 items-center gap-1 text-[11px] font-black uppercase tracking-[0.18em] text-primary hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            {t('showMore')}
+            <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+          </Link>
+        </div>
         <p className="mt-2 text-sm text-muted-foreground">{t('empty')}</p>
       </section>
     );
@@ -100,10 +120,21 @@ export function FinisherGallery({ userId, username, faction }: Props) {
 
   return (
     <section className="space-y-3">
-      <p className="text-xs font-black uppercase tracking-[0.18em] text-muted-foreground">
-        {t('title')}
-      </p>
-      <div className="grid max-w-sm grid-cols-2 gap-3">
+      <div className="flex items-center justify-between gap-3">
+        <p className="text-xs font-black uppercase tracking-[0.18em] text-muted-foreground">
+          {t('title')}
+        </p>
+        <Link
+          href={historyHref}
+          aria-label={t('showMoreAria')}
+          className="inline-flex min-h-11 shrink-0 items-center gap-1 text-[11px] font-black uppercase tracking-[0.18em] text-primary hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          {t('showMore')}
+          <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+        </Link>
+      </div>
+
+      <div className="-mx-1 flex gap-3 overflow-x-auto px-1 pb-1 snap-x snap-mandatory">
         {state.data.map((s) => {
           const href = `/${locale}/app/finish?challengeId=${s.challengeId}&ranked=${String(
             s.isValidated,
@@ -113,7 +144,7 @@ export function FinisherGallery({ userId, username, faction }: Props) {
             <Link
               key={s.id}
               href={href}
-              className="rounded-md border border-border bg-card p-2 hover:border-primary/40"
+              className="w-[42%] min-w-[9.5rem] max-w-[11rem] shrink-0 snap-start rounded-md border border-border bg-card p-2 hover:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               aria-label={t('open')}
             >
               <ThumbCanvas

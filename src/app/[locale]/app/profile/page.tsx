@@ -2,10 +2,9 @@
 
 import { useTranslations } from 'next-intl';
 
-import { SignOutButton } from '@/features/auth/components/SignOutButton';
 import { FinisherGallery } from '@/features/profile/components/FinisherGallery';
 import { ProfileHeader } from '@/features/profile/components/ProfileHeader';
-import { ScoreHistory } from '@/features/profile/components/ScoreHistory';
+import { ProfileSettingsMenu } from '@/features/profile/components/ProfileSettingsMenu';
 import { useProfile } from '@/features/profile/hooks/useProfile';
 
 export default function ProfilePage() {
@@ -50,21 +49,20 @@ export default function ProfilePage() {
 
   return (
     <section className="space-y-6">
-      <h1 className="text-2xl md:text-3xl font-black uppercase tracking-tight">
-        {tabs('profile')}
-      </h1>
+      <div className="flex items-start justify-between gap-3">
+        <h1 className="text-2xl md:text-3xl font-black uppercase tracking-tight">
+          {tabs('profile')}
+        </h1>
+        <ProfileSettingsMenu />
+      </div>
 
       <ProfileHeader profile={state.profile} onAvatarUpdated={refetch} />
-
-      <SignOutButton />
 
       <FinisherGallery
         userId={state.profile.id}
         username={state.profile.username}
         faction={state.profile.faction}
       />
-
-      <ScoreHistory userId={state.profile.id} />
     </section>
   );
 }

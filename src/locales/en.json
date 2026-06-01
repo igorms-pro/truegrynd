@@ -545,6 +545,9 @@
       "submitting": "Signing out...",
       "error": "Could not sign out. Try again."
     },
+    "settings": {
+      "aria": "Profile settings"
+    },
     "avatar": {
       "title": "AVATAR",
       "alt": "Profile avatar",
@@ -598,7 +601,50 @@
       "loading": "Loading cards...",
       "error": "Could not load cards.",
       "empty": "No cards yet.",
-      "open": "Open finisher card"
+      "open": "Open finisher card",
+      "showMore": "SHOW MORE",
+      "showMoreAria": "View full score history",
+      "retry": "Retry"
+    },
+    "historyPage": {
+      "title": "MY HISTORY",
+      "back": "PROFILE",
+      "backAria": "Back to profile",
+      "loading": "Loading history...",
+      "errorTitle": "Could not load history",
+      "errorBody": "Try again.",
+      "retry": "Retry",
+      "tabs": {
+        "listAria": "History filters",
+        "all": "ALL",
+        "in_progress": "IN PROGRESS",
+        "validated": "VALIDATED",
+        "saved": "SAVED",
+        "won": "WON",
+        "aria": {
+          "all": "Show all history",
+          "in_progress": "Show in-progress challenges",
+          "validated": "Show validated ranked scores",
+          "saved": "Show saved honor scores",
+          "won": "Show won highlights"
+        }
+      },
+      "badges": {
+        "ranked": "RANKED",
+        "saved": "SAVED",
+        "inProgress": "IN PROGRESS"
+      },
+      "actions": {
+        "card": "CARD",
+        "submit": "SUBMIT"
+      },
+      "empty": {
+        "all": "No history yet. Hit the Arena.",
+        "in_progress": "No challenges in progress. Tap I'M IN on a challenge to start.",
+        "validated": "No validated scores yet. Post proof to rank.",
+        "saved": "No saved honor scores yet.",
+        "won": "No wins yet. Rank top 10% or crush an official challenge."
+      }
     }
   },
   "movements": {

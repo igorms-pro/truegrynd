@@ -6,7 +6,12 @@ import { useLocale, useTranslations } from 'next-intl';
 
 import { signOut } from '@/features/auth/services/auth';
 
-export function SignOutButton(): ReactElement {
+type Props = {
+  variant?: 'card' | 'menu';
+  onSignedOut?: () => void;
+};
+
+export function SignOutButton({ variant = 'card', onSignedOut }: Props): ReactElement {
   const t = useTranslations('profile.signOut');
   const locale = useLocale();
   const router = useRouter();
@@ -18,6 +23,7 @@ export function SignOutButton(): ReactElement {
     setBusy(true);
     try {
       await signOut();
+      onSignedOut?.();
       router.push(`/${locale}/auth`);
       router.refresh();
     } catch {
@@ -25,11 +31,38 @@ export function SignOutButton(): ReactElement {
     } finally {
       setBusy(false);
     }
-  }, [locale, router, t]);
+  }, [locale, onSignedOut, router, t]);
 
   const onClick = useCallback(() => {
     void handleClick();
   }, [handleClick]);
+
+  const buttonClass =
+    variant === 'menu'
+      ? 'inline-flex w-full min-h-11 items-center justify-center rounded-md px-3 py-2 text-xs font-black uppercase tracking-[0.14em] text-muted-foreground hover:bg-muted hover:text-foreground disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
+      : 'inline-flex min-h-11 min-w-11 items-center justify-center rounded-md border border-border px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-muted-foreground hover:bg-muted hover:text-foreground disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
+
+  if (variant === 'menu') {
+    return (
+      <div>
+        {error ? (
+          <p className="mb-2 px-2 text-xs font-semibold text-primary" role="alert">
+            {error}
+          </p>
+        ) : null}
+        <button
+          type="button"
+          onClick={onClick}
+          disabled={busy}
+          aria-label={t('aria')}
+          role="menuitem"
+          className={buttonClass}
+        >
+          {busy ? t('submitting') : t('label')}
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="rounded-sm border border-border bg-card p-4">
@@ -43,7 +76,7 @@ export function SignOutButton(): ReactElement {
         onClick={onClick}
         disabled={busy}
         aria-label={t('aria')}
-        className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md border border-border px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-muted-foreground hover:bg-muted hover:text-foreground disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className={buttonClass}
       >
         {busy ? t('submitting') : t('label')}
       </button>

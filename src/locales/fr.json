@@ -545,6 +545,9 @@
       "submitting": "Déconnexion...",
       "error": "Impossible de se déconnecter. Réessaie."
     },
+    "settings": {
+      "aria": "Paramètres du profil"
+    },
     "avatar": {
       "title": "AVATAR",
       "alt": "Avatar du profil",
@@ -598,7 +601,50 @@
       "loading": "Chargement des cards...",
       "error": "Impossible de charger les cards.",
       "empty": "Aucune card pour l'instant.",
-      "open": "Ouvrir la finisher card"
+      "open": "Ouvrir la finisher card",
+      "showMore": "VOIR PLUS",
+      "showMoreAria": "Voir l'historique complet",
+      "retry": "Réessayer"
+    },
+    "historyPage": {
+      "title": "MON HISTORIQUE",
+      "back": "PROFIL",
+      "backAria": "Retour au profil",
+      "loading": "Chargement de l'historique...",
+      "errorTitle": "Impossible de charger l'historique",
+      "errorBody": "Réessaie.",
+      "retry": "Réessayer",
+      "tabs": {
+        "listAria": "Filtres historique",
+        "all": "TOUT",
+        "in_progress": "EN COURS",
+        "validated": "VALIDÉS",
+        "saved": "SAUVEGARDÉS",
+        "won": "GAGNÉS",
+        "aria": {
+          "all": "Afficher tout l'historique",
+          "in_progress": "Afficher les défis en cours",
+          "validated": "Afficher les scores validés classés",
+          "saved": "Afficher les scores honor sauvegardés",
+          "won": "Afficher les coups d'éclat gagnés"
+        }
+      },
+      "badges": {
+        "ranked": "CLASSÉ",
+        "saved": "SAUVEGARDÉ",
+        "inProgress": "EN COURS"
+      },
+      "actions": {
+        "card": "CARD",
+        "submit": "SOUMETTRE"
+      },
+      "empty": {
+        "all": "Aucun historique pour l'instant. Va à l'Arène.",
+        "in_progress": "Aucun défi en cours. Clique JE M'INSCRIS sur un défi pour commencer.",
+        "validated": "Aucun score validé pour l'instant. Poste une preuve pour être classé.",
+        "saved": "Aucun score honor sauvegardé pour l'instant.",
+        "won": "Aucun coup d'éclat pour l'instant. Top 10 % ou écrase un défi officiel."
+      }
     }
   },
   "movements": {
