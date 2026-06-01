@@ -147,7 +147,30 @@ export async function cancelRivalMatch(matchId: string): Promise<void> {
   if (error) throw new Error(error.message);
 }
 
+export async function finalizeRivalMatch(matchId: string): Promise<void> {
+  const { error } = await supabase.rpc('finalize_rival_match', {
+    p_match_id: matchId,
+  });
+
+  if (error) throw new Error(error.message);
+}
+
+export async function finalizeMyDueRivalMatches(): Promise<void> {
+  const { error } = await supabase.rpc('finalize_my_due_rival_matches');
+  if (error) throw new Error(error.message);
+}
+
+async function syncRivalMatchLifecycle(matchId: string): Promise<void> {
+  try {
+    await finalizeRivalMatch(matchId);
+  } catch {
+    /* non-fatal: match may already be terminal or caller lacks access */
+  }
+}
+
 export async function fetchRivalMatch(matchId: string): Promise<RivalMatchView | null> {
+  await syncRivalMatchLifecycle(matchId);
+
   const { data: match, error: matchError } = await supabase
     .from('rival_matches')
     .select(MATCH_COLUMNS)
@@ -184,6 +207,12 @@ export async function fetchRivalMatch(matchId: string): Promise<RivalMatchView |
 }
 
 export async function listMyRivalMatches(userId: string): Promise<RivalMatchView[]> {
+  try {
+    await finalizeMyDueRivalMatches();
+  } catch {
+    /* keep listing even if batch finalize fails */
+  }
+
   const { data: participantRows, error: participantError } = await supabase
     .from('rival_match_participants')
     .select('match_id')
@@ -279,8 +308,17 @@ export async function fetchRivalMatchDetailData(
 export async function computeRivalWinnerFromScores(
   match: RivalMatchView,
 ): Promise<RivalWinnerResult> {
-  if (!match.startsAt || !match.endsAt || match.status !== 'active') {
+  if (
+    !match.startsAt ||
+    !match.endsAt ||
+    (match.status !== 'active' && match.status !== 'completed')
+  ) {
     return { winnerId: null, challengeWinners: new Map(), reason: 'incomplete' };
+  }
+
+  if (match.status === 'completed' && match.winnerId) {
+    const { winnerResult } = await fetchRivalMatchDetailData(match);
+    return { ...winnerResult, winnerId: match.winnerId };
   }
 
   const { winnerResult } = await fetchRivalMatchDetailData(match);

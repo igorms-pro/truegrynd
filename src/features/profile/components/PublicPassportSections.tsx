@@ -3,6 +3,7 @@
 import { FinisherGallery } from '@/features/finisher-card';
 import { PassportBadgesSection } from '@/features/profile/components/passport/PassportBadgesSection';
 import { PassportDivisionSection } from '@/features/profile/components/passport/PassportDivisionSection';
+import { PassportRivalsSection } from '@/features/profile/components/passport/PassportRivalsSection';
 import { PassportTopScoresSection } from '@/features/profile/components/passport/PassportTopScoresSection';
 import { PassportWeeklySection } from '@/features/profile/components/passport/PassportWeeklySection';
 import { ProfileRatingCard } from '@/features/profile/components/ProfileRatingCard';
@@ -60,6 +61,10 @@ export function PublicPassportSections({ profile }: Props) {
 
       {privacy.showWeekliesOnPublic ? (
         <PassportWeeklySection weeklies={passportData?.weeklies ?? []} loading={dataLoading} />
+      ) : null}
+
+      {privacy.showRivalWinsOnPublic ? (
+        <PassportRivalsSection wins={passportData?.rivalWins ?? []} loading={dataLoading} />
       ) : null}
 
       {privacy.showFinishersOnPublic ? (

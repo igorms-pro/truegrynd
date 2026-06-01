@@ -17,6 +17,7 @@ export async function updatePassportPrivacy(input: {
       show_badges_on_public: input.settings.showBadgesOnPublic,
       show_weeklies_on_public: input.settings.showWeekliesOnPublic,
       show_finishers_on_public: input.settings.showFinishersOnPublic,
+      show_rival_wins_on_public: input.settings.showRivalWinsOnPublic,
     })
     .eq('id', input.userId)
     .select(PROFILE_COLUMNS)

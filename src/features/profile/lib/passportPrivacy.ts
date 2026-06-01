@@ -8,6 +8,7 @@ export type PassportPrivacySettings = {
   showBadgesOnPublic: boolean;
   showWeekliesOnPublic: boolean;
   showFinishersOnPublic: boolean;
+  showRivalWinsOnPublic: boolean;
 };
 
 export type PassportPrivacyKey = keyof PassportPrivacySettings;
@@ -20,6 +21,7 @@ export const PASSPORT_PRIVACY_KEYS: PassportPrivacyKey[] = [
   'showBadgesOnPublic',
   'showWeekliesOnPublic',
   'showFinishersOnPublic',
+  'showRivalWinsOnPublic',
 ];
 
 export function parsePassportPrivacy(profile: Profile): PassportPrivacySettings {
@@ -31,6 +33,7 @@ export function parsePassportPrivacy(profile: Profile): PassportPrivacySettings 
     showBadgesOnPublic: profile.show_badges_on_public ?? true,
     showWeekliesOnPublic: profile.show_weeklies_on_public ?? true,
     showFinishersOnPublic: profile.show_finishers_on_public ?? true,
+    showRivalWinsOnPublic: profile.show_rival_wins_on_public ?? true,
   };
 }
 

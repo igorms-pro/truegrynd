@@ -80,7 +80,7 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 - [x] **V2-04** — Leaderboards par division, faction, ville, pays — 🟢 [#79](https://github.com/igorms-pro/truegrynd/issues/79) PR [#80](https://github.com/igorms-pro/truegrynd/pull/80) · migration **`018`** prod
 - [x] **V2-05** — Truegrynd Rating (Engine / Power / Strength / Grit / Consistency) — 🟢 [#81](https://github.com/igorms-pro/truegrynd/issues/81) PR [#82](https://github.com/igorms-pro/truegrynd/pull/82) · migration **`019`** prod
 - [x] **V2-06** — Challenge Passport / palmarès amateur — 🟢 [#83](https://github.com/igorms-pro/truegrynd/issues/83) PR [#84](https://github.com/igorms-pro/truegrynd/pull/84) · migration **`020`** prod
-- [ ] **V2-07** — Rival Matches (1v1 / petits groupes) — 🟡 [#85](https://github.com/igorms-pro/truegrynd/issues/85) · PR1 [#86](https://github.com/igorms-pro/truegrynd/pull/86) PR2 [#87](https://github.com/igorms-pro/truegrynd/pull/87) PR3 [#88](https://github.com/igorms-pro/truegrynd/pull/88) · PR4 en suite
+- [ ] **V2-07** — Rival Matches (1v1 / petits groupes) — 🟡 [#85](https://github.com/igorms-pro/truegrynd/issues/85) · PR1 [#86](https://github.com/igorms-pro/truegrynd/pull/86) PR2 [#87](https://github.com/igorms-pro/truegrynd/pull/87) PR3 [#88](https://github.com/igorms-pro/truegrynd/pull/88) · **PR4** en cours (`feature/issue-85-rival-matches-pr4`)
 - [ ] **V2-08** — Team Wars / Faction Wars par division
 - [ ] **V2-09** — Micro-events async (24h / 7j / 30j)
 - [ ] **V2-10** — Proof Levels (Honor / Video / Community / Judge / Event)
@@ -669,12 +669,12 @@ Branche : `chore/issue-69-production-hardening`
 
 ### V2-07. Rival Matches
 
-**GitHub :** [#85](https://github.com/igorms-pro/truegrynd/issues/85) · **Branche :** `main` · **Statut :** 🟡 · PR1 [#86](https://github.com/igorms-pro/truegrynd/pull/86) + PR2 [#87](https://github.com/igorms-pro/truegrynd/pull/87) + PR3 [#88](https://github.com/igorms-pro/truegrynd/pull/88) mergés
+**GitHub :** [#85](https://github.com/igorms-pro/truegrynd/issues/85) · **Branche :** `feature/issue-85-rival-matches-pr4` · **Statut :** 🟡 · PR1 [#86](https://github.com/igorms-pro/truegrynd/pull/86) + PR2 [#87](https://github.com/igorms-pro/truegrynd/pull/87) + PR3 [#88](https://github.com/igorms-pro/truegrynd/pull/88) mergés · **PR4** finalize + résultat UI + passport rival wins
 
 - [ ] **Produit** : 1v1 ou petit groupe sur 1 à 3 challenges, durée 24h/7j.
 - [x] **DB** : `rival_matches`, participants, challenge set, status, winner — PR [#86](https://github.com/igorms-pro/truegrynd/pull/86) · migration **`021`** prod
-- [ ] **UX** : créer, accepter, soumettre, résultat — PR2 [#87](https://github.com/igorms-pro/truegrynd/pull/87) create/invite · PR3 [#88](https://github.com/igorms-pro/truegrynd/pull/88) play/detail · PR4 résultat/passport en suite
-- [ ] **Notifications** : minimal V2 (email/toast/polling) — polling PR3 [#88](https://github.com/igorms-pro/truegrynd/pull/88) ✅ · toast/email PR4+
+- [ ] **UX** : créer, accepter, soumettre, résultat — PR2 [#87](https://github.com/igorms-pro/truegrynd/pull/87) create/invite · PR3 [#88](https://github.com/igorms-pro/truegrynd/pull/88) play/detail · **PR4** finalize RPC **`022`** + résultat UI + passport rival wins
+- [ ] **Notifications** : minimal V2 (email/toast/polling) — polling PR3 [#88](https://github.com/igorms-pro/truegrynd/pull/88) ✅ · toast/email post-PR4
 - [x] **Anti-abus** : max 5 pending invites (RPC + migration **`021`**)
 
 ### V2-08. Team Wars / Faction Wars Par Division

@@ -72,6 +72,7 @@ export interface Profile {
   show_badges_on_public: boolean;
   show_weeklies_on_public: boolean;
   show_finishers_on_public: boolean;
+  show_rival_wins_on_public: boolean;
   initiation_completed: boolean;
   creator_score: number;
   streak_days: number;

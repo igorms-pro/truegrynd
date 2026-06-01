@@ -40,6 +40,7 @@ const profile: CompleteProfile = {
   show_badges_on_public: true,
   show_weeklies_on_public: true,
   show_finishers_on_public: true,
+  show_rival_wins_on_public: true,
   initiation_completed: true,
   creator_score: 0,
   streak_days: 0,

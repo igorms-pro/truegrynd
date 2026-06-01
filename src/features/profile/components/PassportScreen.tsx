@@ -9,6 +9,7 @@ import { ProfileRatingCard } from '@/features/profile/components/ProfileRatingCa
 import { PassportBadgesSection } from '@/features/profile/components/passport/PassportBadgesSection';
 import { PassportDivisionSection } from '@/features/profile/components/passport/PassportDivisionSection';
 import { PassportPrivacySection } from '@/features/profile/components/passport/PassportPrivacySection';
+import { PassportRivalsSection } from '@/features/profile/components/passport/PassportRivalsSection';
 import { PassportShareBar } from '@/features/profile/components/passport/PassportShareBar';
 import { PassportTopScoresSection } from '@/features/profile/components/passport/PassportTopScoresSection';
 import { PassportWeeklySection } from '@/features/profile/components/passport/PassportWeeklySection';
@@ -94,6 +95,8 @@ export function PassportScreen() {
       <PassportBadgesSection profile={profile} />
 
       <PassportWeeklySection weeklies={passportData?.weeklies ?? []} loading={dataLoading} />
+
+      <PassportRivalsSection wins={passportData?.rivalWins ?? []} loading={dataLoading} />
 
       <FinisherGallery
         userId={profile.id}

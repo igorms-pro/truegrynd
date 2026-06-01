@@ -16,6 +16,8 @@ export {
   createRivalMatch,
   fetchRivalMatch,
   fetchRivalMatchDetailData,
+  finalizeMyDueRivalMatches,
+  finalizeRivalMatch,
   listMyRivalMatches,
   respondRivalMatchInvite,
 } from '@/features/rivals/services/rivalMatches';

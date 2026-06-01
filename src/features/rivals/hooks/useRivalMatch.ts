@@ -63,16 +63,20 @@ export function useRivalMatch(matchId: string | null): {
     };
   }, [matchId, reloadKey]);
 
-  const activeMatchId =
-    state.status === 'ready' && state.match?.status === 'active' ? matchId : null;
+  const pollingMatchId =
+    state.status === 'ready' &&
+    state.match &&
+    (state.match.status === 'active' || state.match.status === 'pending')
+      ? matchId
+      : null;
 
   useEffect(() => {
-    if (!activeMatchId) return undefined;
+    if (!pollingMatchId) return undefined;
 
     const intervalId = window.setInterval(() => {
       void (async () => {
         try {
-          const { match, detail } = await loadMatchDetail(activeMatchId);
+          const { match, detail } = await loadMatchDetail(pollingMatchId);
           setState({ status: 'ready', match, detail, error: null });
         } catch {
           /* keep last good state on poll failure */
@@ -83,7 +87,7 @@ export function useRivalMatch(matchId: string | null): {
     return () => {
       window.clearInterval(intervalId);
     };
-  }, [activeMatchId]);
+  }, [pollingMatchId]);
 
   const refetch = useCallback(() => {
     setState(initial);

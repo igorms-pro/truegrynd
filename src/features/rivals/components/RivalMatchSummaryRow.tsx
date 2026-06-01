@@ -15,6 +15,9 @@ export function RivalMatchSummaryRow({ match }: Props) {
   const tDivisions = useTranslations('divisions');
   const locale = useLocale();
   const challengeTitles = match.challenges.map((c) => c.title).join(' · ');
+  const winnerUsername = match.winnerId
+    ? match.participants.find((p) => p.userId === match.winnerId)?.username
+    : null;
 
   return (
     <Link
@@ -31,6 +34,11 @@ export function RivalMatchSummaryRow({ match }: Props) {
             <p className="mt-1 text-xs text-muted-foreground">
               {t('divisionLine', { division: tDivisions(match.division) })}
             </p>
+            {match.status === 'completed' && winnerUsername ? (
+              <p className="mt-1 text-[10px] font-black uppercase tracking-[0.14em] text-accent">
+                {t('winnerLine', { username: winnerUsername })}
+              </p>
+            ) : null}
           </div>
           <span className="text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground">
             {match.durationHours === 24 ? t('duration24') : t('duration7d')}

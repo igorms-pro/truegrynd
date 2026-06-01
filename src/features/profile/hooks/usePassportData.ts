@@ -6,9 +6,11 @@ import {
   divisionsReached,
   fetchPassportTopScores,
   fetchProfileRatingHistory,
+  listRivalWins,
   listWeeklyCompletions,
   type PassportTopScore,
   type RatingHistoryEntry,
+  type RivalWin,
   type WeeklyCompletion,
 } from '@/features/profile/services/passport';
 import type { Division } from '@/lib/types/database.types';
@@ -17,6 +19,7 @@ type PassportData = {
   history: RatingHistoryEntry[];
   topScores: PassportTopScore[];
   weeklies: WeeklyCompletion[];
+  rivalWins: RivalWin[];
   divisions: Division[];
 };
 
@@ -40,10 +43,11 @@ export function usePassportData(
     let cancelled = false;
     void (async () => {
       try {
-        const [history, topScores, weeklies] = await Promise.all([
+        const [history, topScores, weeklies, rivalWins] = await Promise.all([
           fetchProfileRatingHistory(userId),
           fetchPassportTopScores(userId),
           listWeeklyCompletions(userId),
+          listRivalWins(userId),
         ]);
         if (cancelled) return;
         setState({
@@ -52,6 +56,7 @@ export function usePassportData(
             history,
             topScores,
             weeklies,
+            rivalWins,
             divisions: divisionsReached(currentDivision, history),
           },
           error: null,

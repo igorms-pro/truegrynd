@@ -665,7 +665,8 @@
     "list": {
       "divisionLine": "Division {division}",
       "duration24": "24h",
-      "duration7d": "7j"
+      "duration7d": "7j",
+      "winnerLine": "V @{username}"
     },
     "detail": {
       "back": "RIVALS",
@@ -691,7 +692,13 @@
       "unknown": "rival",
       "roundWin": "VICTOIRE",
       "winner": "Vainqueur : @{username}",
+      "youWon": "Tu as gagné ce duel.",
       "tie": "Égalité — pas de vainqueur pour l'instant.",
+      "tieFinal": "Résultat final : égalité — pas de vainqueur.",
+      "noWinnerFinal": "Résultat final : pas de vainqueur — scores classés incomplets.",
+      "expiredHint": "Cette invitation a expiré avant le début du duel.",
+      "cancelledHint": "Ce duel a été annulé.",
+      "finalizedHint": "Scores finaux et vainqueur verrouillés.",
       "pollingHint": "Scores rafraîchis toutes les 30s pendant le match."
     },
     "status": {
@@ -840,6 +847,16 @@
         "badge": "FAIT",
         "weekFallback": "HEBDO"
       },
+      "rivals": {
+        "title": "VICTOIRES RIVAL",
+        "body": "Duels async gagnés contre des rivals de ta division.",
+        "loading": "Chargement des victoires rival...",
+        "empty": "Aucune victoire rival. Lance un duel depuis Rivals.",
+        "badge": "WIN",
+        "versus": "Victoire vs {opponent}",
+        "unknown": "rival",
+        "challengesFallback": "Rival match"
+      },
       "badges": {
         "title": "BADGES & SÉRIE",
         "streak": "Série d'activité",
@@ -868,7 +885,8 @@
           "topScores": "Meilleurs scores par axe",
           "badges": "Streak et badges créateur",
           "weeklies": "Weekly challenges complétés",
-          "finishers": "Galerie finisher cards"
+          "finishers": "Galerie finisher cards",
+          "rivalWins": "Victoires en rival match"
         }
       }
     },
