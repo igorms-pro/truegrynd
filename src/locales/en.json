@@ -533,6 +533,15 @@
         "40-49": "40–49",
         "50+": "50+"
       }
+    },
+    "presets": {
+      "legend": "Leaderboard presets",
+      "localTop": "Top {division} {city}",
+      "factionNational": "{faction} {division} {country}",
+      "divisionGlobal": "{division} Global",
+      "local_top": "Local top",
+      "faction_national": "National faction",
+      "division_global": "Division global"
     }
   },
   "factions": {
@@ -751,6 +760,13 @@
       "sexLabel": "SEX",
       "ageLabel": "AGE",
       "weightLabel": "WEIGHT (KG)",
+      "locationTitle": "LOCATION (OPTIONAL)",
+      "locationBody": "Used for local and national leaderboard presets. No GPS — you choose what to share.",
+      "cityLabel": "CITY",
+      "cityPlaceholder": "Paris",
+      "countryLabel": "COUNTRY",
+      "countryNone": "Not set",
+      "showLocationLabel": "Show my city on leaderboard rows (off by default)",
       "save": "SAVE CHANGES",
       "saving": "SAVING...",
       "saved": "Changes saved.",

@@ -23,6 +23,9 @@ const entry = (
     age: 25,
     faction: 'horde',
     division: 'rookie',
+    city: null,
+    country_code: null,
+    show_location_on_leaderboard: false,
     ...overrides,
   },
 });
@@ -83,5 +86,23 @@ describe('applyLeaderboardFilters', () => {
   it('drops entries without an attached profile', () => {
     const list: LeaderboardEntry[] = [entry('a'), { ...entry('b'), profile: null }];
     expect(applyLeaderboardFilters(list, EMPTY_FILTERS).map((e) => e.id)).toEqual(['a']);
+  });
+
+  it('filters by normalized city', () => {
+    const list = [
+      entry('a', { city: 'Paris' }),
+      entry('b', { city: 'Lyon' }),
+      entry('c', { city: '  paris  ' }),
+    ];
+    expect(
+      applyLeaderboardFilters(list, { ...EMPTY_FILTERS, city: 'paris' }).map((e) => e.id),
+    ).toEqual(['a', 'c']);
+  });
+
+  it('filters by country code', () => {
+    const list = [entry('a', { country_code: 'FR' }), entry('b', { country_code: 'US' })];
+    expect(
+      applyLeaderboardFilters(list, { ...EMPTY_FILTERS, countryCode: 'FR' }).map((e) => e.id),
+    ).toEqual(['a']);
   });
 });

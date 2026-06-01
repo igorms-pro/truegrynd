@@ -7,6 +7,9 @@ export type LeaderboardProfileSlim = {
   age: number | null;
   faction: Faction | null;
   division: Division;
+  city: string | null;
+  country_code: string | null;
+  show_location_on_leaderboard: boolean;
 };
 
 export type LeaderboardEntry = {
@@ -27,6 +30,10 @@ export type LeaderboardFilters = {
   faction: Faction | null;
   division: Division | null;
   variant: ChallengeVariant | null;
+  /** Normalized lowercase city for matching. */
+  city: string | null;
+  /** ISO 3166-1 alpha-2 uppercase. */
+  countryCode: string | null;
 };
 
 export const EMPTY_FILTERS: LeaderboardFilters = {
@@ -35,4 +42,6 @@ export const EMPTY_FILTERS: LeaderboardFilters = {
   faction: null,
   division: null,
   variant: null,
+  city: null,
+  countryCode: null,
 };
