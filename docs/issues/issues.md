@@ -322,11 +322,11 @@ Le bouton **« I'M IN »** ne doit **pas** soumettre le score directement en bas
 
 ### Tâches
 
-- [ ] **Copy EN/FR** : renommer ou clarifier le CTA détail (ex. garder kicker « ENTER THE GRIND » mais CTA explicite **POST SCORE** / **SOUMETTRE**, ou renforcer la subline sous I'M IN).
-- [ ] **Audit code** : confirmer qu’aucun handler sur I'M IN n’appelle `submitScore` / insert Supabase (aujourd’hui : OK via `Link` seul — documenter en test).
-- [ ] **Écran B** : bouton submit sticky bas viewport ; états loading / disabled / error inchangés.
-- [ ] **Tests** : RTL ou e2e — clic I'M IN → **0 insert** ; submit valide → 1 insert ; §4 checklist [docs/QA_V1_CHECKLIST.md](../QA_V1_CHECKLIST.md).
-- [x] **GitHub Issue** + branche `fix/issue-63-submit-flow-cta` avant merge — [#63](https://github.com/igorms-pro/truegrynd/issues/63).
+- [x] **Copy EN/FR** : CTA détail **POST SCORE** / **POSTER MON SCORE** + subline « rien enregistré tant que tu n'envoies pas » — PR [#64](https://github.com/igorms-pro/truegrynd/pull/64).
+- [x] **Audit code** : CTA détail = `Link` seul, test RTL confirme 0 appel `submitScore`.
+- [x] **Écran B** : bouton submit sticky bas viewport ; reps default 0 ; label **SUBMIT YOUR SCORE** / **SOUMETTRE MON SCORE**.
+- [x] **Tests** : RTL — CTA détail → 0 insert ; submit valide → 1 insert.
+- [x] **GitHub Issue** + branche `fix/issue-63-submit-flow-cta` — [#63](https://github.com/igorms-pro/truegrynd/issues/63) PR [#64](https://github.com/igorms-pro/truegrynd/pull/64).
 
 **Fichiers probables :** `ChallengeDetailHero.tsx`, `ScoreSubmissionScreen` (+ hooks/services submit), `src/locales/en.json` / `fr.json` (`challenge.ctaStart`, `ctaSubline`, submit.\*).
 
