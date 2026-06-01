@@ -6,6 +6,7 @@ import { EMPTY_FILTERS, type LeaderboardEntry } from '@/features/challenges/lib/
 const entry = (
   id: string,
   overrides: Partial<LeaderboardEntry['profile']> = {},
+  variant: LeaderboardEntry['variant'] = 'standard',
 ): LeaderboardEntry => ({
   id,
   challenge_id: 'c1',
@@ -13,6 +14,7 @@ const entry = (
   value: 60,
   video_url: null,
   is_validated: true,
+  variant,
   submitted_at: '2025-01-01T00:00:00Z',
   profile: {
     id: `p-${id}`,
@@ -57,6 +59,17 @@ describe('applyLeaderboardFilters', () => {
     ];
     expect(
       applyLeaderboardFilters(list, { ...EMPTY_FILTERS, division: 'savage' }).map((e) => e.id),
+    ).toEqual(['b']);
+  });
+
+  it('filters by variant', () => {
+    const list = [
+      entry('a', {}, 'standard'),
+      entry('b', {}, 'bodyweight'),
+      entry('c', {}, 'savage'),
+    ];
+    expect(
+      applyLeaderboardFilters(list, { ...EMPTY_FILTERS, variant: 'bodyweight' }).map((e) => e.id),
     ).toEqual(['b']);
   });
 

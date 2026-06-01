@@ -8,17 +8,20 @@ import { useTranslations } from 'next-intl';
 import { useRequireAppAccess } from '@/features/appshell';
 import { ScoreSubmissionProofFields } from '@/features/submission/components/ScoreSubmissionProofFields';
 import { ScoreSubmissionScoreFields } from '@/features/submission/components/ScoreSubmissionScoreFields';
+import { ScoreSubmissionVariantFields } from '@/features/submission/components/ScoreSubmissionVariantFields';
 import {
   buildScoreSubmissionSchema,
   parseScoreSubmissionValue,
   type ScoreSubmissionFormValues,
 } from '@/features/submission/lib/scoreSubmissionSchema';
 import { submitScore, SUBMISSION_ERRORS } from '@/features/submission/services/submitScore';
-import type { ScoreType } from '@/lib/types/database.types';
+import { pickDefaultChallengeVariant } from '@/lib/variants';
+import type { ChallengeVariant, ScoreType } from '@/lib/types/database.types';
 
 type Props = {
   challengeId: string;
   scoreType: ScoreType;
+  availableVariants: readonly ChallengeVariant[];
   maxDurationSeconds?: number | null;
   onSubmitted: (result: { ranked: boolean; insertedId: string }) => void;
 };
@@ -26,6 +29,7 @@ type Props = {
 export function ScoreSubmissionForm({
   challengeId,
   scoreType,
+  availableVariants,
   maxDurationSeconds = null,
   onSubmitted,
 }: Props) {
@@ -33,6 +37,9 @@ export function ScoreSubmissionForm({
   const access = useRequireAppAccess();
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [variant, setVariant] = useState<ChallengeVariant>(() =>
+    pickDefaultChallengeVariant(availableVariants),
+  );
 
   const schema = useMemo(
     () => buildScoreSubmissionSchema((k) => t(k), scoreType, maxDurationSeconds ?? null),
@@ -79,6 +86,7 @@ export function ScoreSubmissionForm({
           challengeId,
           userId: access.profile.id,
           value,
+          variant,
           videoUrl: values.videoUrl,
         });
         onSubmitted({ ranked: res.ranked, insertedId: res.insertedId });
@@ -97,7 +105,7 @@ export function ScoreSubmissionForm({
         setSubmitting(false);
       }
     },
-    [access, challengeId, onSubmitted, scoreType, setError, setScoreError, t],
+    [access, challengeId, onSubmitted, scoreType, setError, setScoreError, t, variant],
   );
 
   if (access.status !== 'ready') {
@@ -110,6 +118,12 @@ export function ScoreSubmissionForm({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 pb-4">
+      <ScoreSubmissionVariantFields
+        variants={availableVariants}
+        value={variant}
+        disabled={!canInteract}
+        onChange={setVariant}
+      />
       <ScoreSubmissionScoreFields scoreType={scoreType} register={register} errors={errors} />
       <ScoreSubmissionProofFields register={register} errors={errors} />
 

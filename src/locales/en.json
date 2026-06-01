@@ -263,7 +263,16 @@
         "rulesDetail": "Standards & scoring (detail)",
         "rulesDetailPlaceholder": "Standards, range of motion, no-rep rules, tie-breaks…",
         "equipmentTags": "Equipment (optional)",
-        "equipmentPlaceholder": "kettlebell, pull-up bar…"
+        "equipmentPlaceholder": "kettlebell, pull-up bar…",
+        "variants": "Official scaling lanes",
+        "variantsHint": "Pick at least one. These are ranked separately — not a shame mode."
+      },
+      "variants": {
+        "no_equipment": "No equipment",
+        "bodyweight": "Bodyweight",
+        "dumbbell": "Dumbbell",
+        "standard": "Standard",
+        "savage": "Savage"
       },
       "scoring": {
         "legend": "HOW IT SCORES",
@@ -314,7 +323,9 @@
         "amrapCapInvalid": "Use MM:SS for the cap (e.g. 10:00).",
         "amrapCapZero": "Cap must be longer than 0:00.",
         "forTimeCapInvalid": "Use MM:SS for the max time (e.g. 15:00).",
-        "forTimeCapZero": "Max time must be longer than 0:00."
+        "forTimeCapZero": "Max time must be longer than 0:00.",
+        "variantsMin": "Enable at least one official scaling lane.",
+        "variantsInvalid": "Pick valid scaling lanes only."
       }
     }
   },
@@ -336,6 +347,8 @@
     "rulesHeading": "Rules",
     "equipmentHeading": "Equipment",
     "noEquipment": "Bodyweight only",
+    "variantsHeading": "Official scaling",
+    "variantsBody": "Same challenge, different lanes. Rankings are per lane — pick yours and compete fairly.",
     "ctaStart": "POST SCORE",
     "ctaRetry": "RE-TRY / IMPROVE YOUR SCORE",
     "participationSummary": "Submitted {count} times. Best: {score} ({status}).",
@@ -411,6 +424,7 @@
       "colTitle": "Title",
       "colAi": "AI triage",
       "colType": "Type",
+      "colVariants": "Scaling",
       "colCreator": "Creator",
       "colSubmitted": "Submitted",
       "colActions": "Actions",
@@ -476,6 +490,8 @@
       "all": "All",
       "global": "Global",
       "division": "Division",
+      "variant": "Scaling",
+      "allVariants": "All lanes",
       "sex": "Sex",
       "age": "Age",
       "faction": "Faction",
@@ -498,6 +514,13 @@
     "savage": "Savage",
     "elite": "Elite"
   },
+  "variants": {
+    "no_equipment": "No equipment",
+    "bodyweight": "Bodyweight",
+    "dumbbell": "Dumbbell",
+    "standard": "Standard",
+    "savage": "Savage"
+  },
   "submission": {
     "title": "SUBMIT YOUR SCORE",
     "loading": "Loading...",
@@ -510,6 +533,8 @@
     "repsPlaceholder": "0",
     "proofTitle": "PROOF (OPTIONAL)",
     "proofBody": "No video = saved but not ranked. Add a YouTube/TikTok link to get ranked.",
+    "variantTitle": "YOUR SCALING LANE",
+    "variantBody": "Official scaling — ranked separately. Not a shame mode.",
     "videoLabelOptional": "VIDEO URL (OPTIONAL)",
     "videoHelper": "YouTube or TikTok only",
     "submit": "SUBMIT YOUR SCORE",

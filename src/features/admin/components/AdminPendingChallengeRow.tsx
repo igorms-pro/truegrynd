@@ -5,6 +5,7 @@ import { useCallback } from 'react';
 import { useTranslations } from 'next-intl';
 
 import { arenaDisplayStatus, type ArenaDisplayStatus } from '@/features/admin/lib/arenaLifecycle';
+import { ChallengeVariantBadges } from '@/components/ChallengeVariantBadges';
 import type { AdminPendingChallenge as PendingRow } from '@/features/admin/services/adminChallenges';
 import type { ChallengeAiTier } from '@/lib/types/database.types';
 
@@ -151,6 +152,9 @@ export function AdminPendingChallengeRow({
         </td>
       ) : null}
       <td className="py-3 pr-2 text-xs uppercase text-muted-foreground">{row.score_type}</td>
+      <td className="py-3 pr-2 max-w-[10rem]">
+        <ChallengeVariantBadges variants={row.variants ?? ['standard']} />
+      </td>
       <td className="py-3 pr-2 text-xs text-muted-foreground">{creatorLabel(row)}</td>
       <td className="py-3 pr-2 text-xs text-muted-foreground">{dateLabel}</td>
       <td className="py-3 text-right">

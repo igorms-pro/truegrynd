@@ -94,7 +94,11 @@ export function ChallengeDetail({ challengeId }: Props) {
       ) : null}
       <ChallengeDetailSpecPanels challenge={challenge} parsed={parsedRules} />
       {isApproved ? (
-        <Leaderboard challengeId={challenge.id} scoreType={challenge.score_type} />
+        <Leaderboard
+          challengeId={challenge.id}
+          scoreType={challenge.score_type}
+          availableVariants={challenge.variants ?? ['standard']}
+        />
       ) : null}
     </section>
   );

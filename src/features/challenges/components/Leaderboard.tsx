@@ -23,6 +23,7 @@ import type { ScoreType } from '@/lib/types/database.types';
 type Props = {
   challengeId: string;
   scoreType: ScoreType;
+  availableVariants: readonly import('@/lib/types/database.types').ChallengeVariant[];
 };
 
 function LeaderboardRow({
@@ -72,7 +73,7 @@ function LeaderboardRow({
   );
 }
 
-export function Leaderboard({ challengeId, scoreType }: Props) {
+export function Leaderboard({ challengeId, scoreType, availableVariants }: Props) {
   const t = useTranslations('leaderboard');
   const profile = useOptionalAppProfile();
   const { data, loading, error, refetch } = useChallengeLeaderboard({
@@ -81,16 +82,22 @@ export function Leaderboard({ challengeId, scoreType }: Props) {
   });
   const [filters, setFilters] = useState<LeaderboardFilters>(EMPTY_FILTERS);
   const [divisionFilterTouched, setDivisionFilterTouched] = useState(false);
+  const [variantFilterTouched, setVariantFilterTouched] = useState(false);
 
-  const effectiveFilters = resolveLeaderboardFilters(
+  const effectiveFilters = resolveLeaderboardFilters({
     filters,
-    profile?.division,
+    profileDivision: profile?.division,
     divisionFilterTouched,
-  );
+    availableVariants,
+    variantFilterTouched,
+  });
 
   const handleFiltersChange = (next: LeaderboardFilters): void => {
     if (next.division !== filters.division) {
       setDivisionFilterTouched(true);
+    }
+    if (next.variant !== filters.variant) {
+      setVariantFilterTouched(true);
     }
     setFilters(next);
   };
@@ -116,7 +123,11 @@ export function Leaderboard({ challengeId, scoreType }: Props) {
         <h2 className="text-lg font-black uppercase tracking-tight">{t('title')}</h2>
       </header>
 
-      <LeaderboardFiltersBar filters={effectiveFilters} onChange={handleFiltersChange} />
+      <LeaderboardFiltersBar
+        filters={effectiveFilters}
+        availableVariants={availableVariants}
+        onChange={handleFiltersChange}
+      />
 
       {loading ? (
         <p role="status" aria-live="polite" className="text-sm text-muted-foreground">

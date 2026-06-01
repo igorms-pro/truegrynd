@@ -5,13 +5,14 @@ import { useTranslations } from 'next-intl';
 import { AGE_BRACKETS, type AgeBracket } from '@/features/challenges/lib/ageBracket';
 import type { LeaderboardFilters } from '@/features/challenges/lib/types';
 import { DIVISIONS } from '@/lib/divisions';
-import type { Faction, Sex } from '@/lib/types/database.types';
+import type { ChallengeVariant, Faction, Sex } from '@/lib/types/database.types';
 
 const SEXES: readonly Sex[] = ['male', 'female', 'other'];
 const FACTIONS: readonly Faction[] = ['nomads', 'horde', 'iron_alliance'];
 
 type Props = {
   filters: LeaderboardFilters;
+  availableVariants: readonly ChallengeVariant[];
   onChange: (next: LeaderboardFilters) => void;
 };
 
@@ -35,14 +36,39 @@ function FilterRow({ legend, children }: { legend: string; children: React.React
   );
 }
 
-export function LeaderboardFiltersBar({ filters, onChange }: Props) {
+export function LeaderboardFiltersBar({ filters, availableVariants, onChange }: Props) {
   const t = useTranslations('leaderboard.filters');
   const tFactions = useTranslations('factions');
   const tDivisions = useTranslations('divisions');
+  const tVariants = useTranslations('variants');
   const tSex = useTranslations('onboarding.identity.sexes');
+
+  const showVariantFilters = availableVariants.length > 1;
 
   return (
     <div className="space-y-2">
+      {showVariantFilters ? (
+        <FilterRow legend={t('variant')}>
+          <button
+            type="button"
+            onClick={() => onChange({ ...filters, variant: null })}
+            className={chipClass(filters.variant === null)}
+          >
+            {t('allVariants')}
+          </button>
+          {availableVariants.map((variant) => (
+            <button
+              key={variant}
+              type="button"
+              onClick={() => onChange({ ...filters, variant })}
+              className={chipClass(filters.variant === variant)}
+            >
+              {tVariants(variant)}
+            </button>
+          ))}
+        </FilterRow>
+      ) : null}
+
       <FilterRow legend={t('division')}>
         <button
           type="button"

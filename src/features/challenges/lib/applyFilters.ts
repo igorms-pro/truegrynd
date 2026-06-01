@@ -11,6 +11,7 @@ export function applyLeaderboardFilters(
     if (filters.sex && profile.sex !== filters.sex) return false;
     if (filters.faction && profile.faction !== filters.faction) return false;
     if (filters.division && profile.division !== filters.division) return false;
+    if (filters.variant && entry.variant !== filters.variant) return false;
     if (filters.ageBracket && !isInBracket(profile.age, filters.ageBracket)) return false;
     return true;
   });

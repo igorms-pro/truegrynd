@@ -111,6 +111,7 @@ export function ScoreSubmissionScreen({ challengeId }: Props) {
       <ScoreSubmissionForm
         challengeId={challenge.id}
         scoreType={challenge.score_type}
+        availableVariants={challenge.variants ?? ['standard']}
         maxDurationSeconds={challenge.max_duration_seconds ?? null}
         onSubmitted={(r) => {
           clearChallengeCommitment(challenge.id);

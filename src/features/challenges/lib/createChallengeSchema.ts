@@ -7,6 +7,7 @@ import {
   type CircuitBlock,
 } from '@/features/challenges/lib/circuitBlocks';
 import { OTHER_MOVEMENT_SLUG } from '@/features/challenges/lib/movementCatalog';
+import type { ChallengeVariant } from '@/lib/types/database.types';
 
 export type CreateChallengeFormValues = {
   title: string;
@@ -17,6 +18,7 @@ export type CreateChallengeFormValues = {
   amrapCap: string;
   forTimeCap: string;
   equipmentTagsRaw: string;
+  variants: ChallengeVariant[];
 };
 
 export function buildCreateChallengeSchema(t: (key: string) => string) {
@@ -43,6 +45,9 @@ export function buildCreateChallengeSchema(t: (key: string) => string) {
       amrapCap: z.string().max(10),
       forTimeCap: z.string().max(10),
       equipmentTagsRaw: z.string().max(500, { message: t('tagsMax') }),
+      variants: z
+        .array(z.enum(['no_equipment', 'bodyweight', 'dumbbell', 'standard', 'savage']))
+        .min(1, { message: t('variantsMin') }),
     })
     .superRefine((data, ctx) => {
       if (data.scoringMode === 'for_time') {

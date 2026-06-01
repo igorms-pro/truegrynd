@@ -43,7 +43,12 @@ const profile: CompleteProfile = {
 function renderForm(onSubmitted = vi.fn()) {
   return render(
     <NextIntlClientProvider locale="en" messages={en}>
-      <ScoreSubmissionForm challengeId="challenge-1" scoreType="reps" onSubmitted={onSubmitted} />
+      <ScoreSubmissionForm
+        challengeId="challenge-1"
+        scoreType="reps"
+        availableVariants={['standard']}
+        onSubmitted={onSubmitted}
+      />
     </NextIntlClientProvider>,
   );
 }
@@ -74,6 +79,7 @@ describe('ScoreSubmissionForm', () => {
       challengeId: 'challenge-1',
       userId: 'user-1',
       value: 42,
+      variant: 'standard',
       videoUrl: '',
     });
   });

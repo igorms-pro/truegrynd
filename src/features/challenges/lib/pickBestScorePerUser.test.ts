@@ -20,4 +20,17 @@ describe('pickBestScorePerUser', () => {
     ];
     expect(pickBestScorePerUser(entries, 'reps')).toEqual([{ id: 'a2', user_id: 'u1', value: 55 }]);
   });
+
+  it('keeps best score per user per variant', () => {
+    const entries = [
+      { id: 'a1', user_id: 'u1', value: 40, variant: 'standard' },
+      { id: 'a2', user_id: 'u1', value: 55, variant: 'standard' },
+      { id: 'b1', user_id: 'u1', value: 30, variant: 'bodyweight' },
+    ];
+    expect(
+      pickBestScorePerUser(entries, 'reps')
+        .map((e) => e.id)
+        .sort(),
+    ).toEqual(['a2', 'b1']);
+  });
 });

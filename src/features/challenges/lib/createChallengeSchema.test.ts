@@ -33,6 +33,7 @@ describe('buildCreateChallengeSchema — circuitMinBlock', () => {
     amrapCap: '',
     forTimeCap: '',
     equipmentTagsRaw: '',
+    variants: ['standard'],
   };
 
   it('rejects zero valid circuit blocks', () => {
