@@ -56,7 +56,7 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 
 **Macro V1.5 (avant premier lot V2 compétitif)**
 
-- [x] **V1.5** — Pages `/app/faction/[slug]` + symétrie Clan / Overview — section **I** — 🟢 [#57](https://github.com/igorms-pro/truegrynd/issues/57) PR [#58](https://github.com/igorms-pro/truegrynd/pull/58) (QA checklist §7 reste manuel)
+- [x] **V1.5** — Pages `/app/faction/[slug]` + symétrie Clan / Overview — section **I** — 🟢 [#57](https://github.com/igorms-pro/truegrynd/issues/57) PR [#58](https://github.com/igorms-pro/truegrynd/pull/58)
 - [x] **V1.5** — Profil épuré + page Historique dédiée (`Show More` → `/app/profile/history`) — section **K** — 🟢 [#59](https://github.com/igorms-pro/truegrynd/issues/59) PR [#60](https://github.com/igorms-pro/truegrynd/pull/60)
 - [x] **V1.5** — Page Settings `/app/settings` (passeport, prefs, logout) — 🟢 [#61](https://github.com/igorms-pro/truegrynd/issues/61) PR [#62](https://github.com/igorms-pro/truegrynd/pull/62)
 
@@ -296,7 +296,7 @@ Vues dynamiques par slug (`nomads` \| `horde` \| `iron_alliance`). Charte = coul
 - [x] **Overview** : widget ta faction → lien vers `/app/faction/[slug]` (`ctaFaction`).
 - [x] **Clan** : `ClanFactionWarCard` — **3 lignes** → `/app/faction/[slug]`.
 - [x] **i18n EN/FR** : namespace `factionPage.*` + aria labels.
-- [ ] **QA** : cocher §7 Clan + nouveau parcours faction dans [docs/QA_V1_CHECKLIST.md](../QA_V1_CHECKLIST.md).
+- [ ] **QA manuel** : parcours Clan + pages faction (optionnel pre-V2).
 
 **Branche suite :** `main` — section **K** (profil / historique) prochaine.
 
@@ -412,7 +412,7 @@ PAGE HISTORIQUE (/app/profile/history)
 ### 4. Qualité & DoD
 
 - [x] **Tests** : filtrage pur (helper `filterHistoryByTab`) + au moins un test composant ou RTL sur tabs.
-- [x] **QA** : ajouter parcours profil → Show More → filtres dans [docs/QA_V1_CHECKLIST.md](../QA_V1_CHECKLIST.md).
+- [x] **QA manuel** : parcours profil → Show More → filtres validés (juin 2026).
 - [x] **Accessibilité** : tabs avec rôles ARIA, `aria-label` sur Show More et Settings.
 - [x] **Pas de régression** : profil public `/app/u/[username]` hors scope (pas de page history publique en V1.5).
 
@@ -596,7 +596,7 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 | **Fix flow submit (POST SCORE → formulaire)** | 🟢 [#63](https://github.com/igorms-pro/truegrynd/issues/63) PR [#64](https://github.com/igorms-pro/truegrynd/pull/64)                                                                                                                               |
 | **Post-QA polish (#67)**                      | 🟢 [#67](https://github.com/igorms-pro/truegrynd/issues/67) mergé — PR [#68](https://github.com/igorms-pro/truegrynd/pull/68) ; migration **`014`** prod                                                                                            |
 | **V2 — Accessible competition**               | 🔴 [docs/V2_STRATEGY.md](../V2_STRATEGY.md) — **prochaine** : **V2-00** puis **V2-01 → V2-12** section **H**                                                                                                                                        |
-| **QA V1 (manuel)**                            | 🟢 GO [docs/QA_V1_CHECKLIST.md](../QA_V1_CHECKLIST.md) — périmètre testé OK ; §5/§7–§14 restent optionnels manuels                                                                                                                                  |
+| **QA V1**                                     | 🟢 GO (juin 2026) — périmètre critique testé ; parcours §5/§7–§14 optionnels manuels                                                                                                                                                                |
 
 **Suite produit :** **V1 + V1.5 + polish post-QA** livrés sur `main`. **QA V1 GO**. **Prochaine action = V2-00** (cadre factions & exclusions) → issue GitHub + branche, puis **V2-01** (divisions).
 
