@@ -12,6 +12,8 @@ A B2C web app for async fitness competition. Users submit scores on standardized
 - Not a workout tracker (no sets/reps logging for personal training)
 - Not a social network (no following, no DMs, no feed of activity)
 - Not a video hosting platform (we never store videos — only external URLs)
+- Not a team/clan builder — no custom squads or private friend groups outside the 3 global factions
+- Not faction-gated gameplay — no "Horde only" / "Iron only" challenge catalog; faction is a war camp, not a separate game mode
 
 ## MVP Scope (build only this)
 1. Auth (Google / Apple / Email via Supabase)
@@ -25,6 +27,16 @@ A B2C web app for async fitness competition. Users submit scores on standardized
 Three factions: `nomads`, `horde`, `iron_alliance`
 - User belongs to one faction (chosen at onboarding, cannot change in MVP)
 - Faction score = sum of individual member scores
+- Faction pages (`/app/faction/[slug]`), referral (`?faction=`), and Recruit CTA are the collective identity layer — already shipped in V1.5
+- V2 Team Wars (V2-08) adds server-side faction × division scoring — does not introduce custom teams
+
+## Social MVP (V1 → V2 early)
+Allowed social interactions only:
+- **Respect** (`+1`) on leaderboard rows
+- Faction referral links and public profile/faction vitrines
+- Rival Matches (V2-07) are competitive duels, not a social graph — no DMs or follow system
+
+Explicitly excluded in V2 early: private messaging, Follow/Unfollow, activity feeds, custom friend teams, faction-only challenge catalogs
 
 ## Smart Proof Logic
 - Users can submit scores **with or without** a video URL
