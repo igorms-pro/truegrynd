@@ -145,6 +145,8 @@
   },
   "overview": {
     "nextActionTitle": "NEXT ACTION",
+    "weeklyTitle": "WEEKLY CHALLENGE",
+    "weeklyEmpty": "No weekly challenge scheduled. Check the Arena or come back Monday.",
     "statusTitle": "STATUS",
     "loading": "Loading...",
     "error": "Could not load data.",
@@ -365,6 +367,7 @@
   "admin": {
     "title": "UGC MOD QUEUE",
     "subtitle": "Moderation vs Arena. In review → approve. Live = open in Arena. Done = closed. Rejected = blocked.",
+    "weeklyLink": "SCHEDULE WEEKLY CHALLENGE →",
     "nav": {
       "link": "MOD",
       "dock": "MOD",
@@ -445,6 +448,35 @@
       "confirm": "Approve",
       "cancel": "Cancel",
       "submitting": "Approving…"
+    },
+    "weekly": {
+      "title": "WEEKLY CHALLENGE",
+      "subtitle": "Link an approved challenge to a time window. No deploy needed.",
+      "loading": "Loading schedule…",
+      "error": "Could not load weekly schedule.",
+      "retry": "Retry",
+      "formCreateTitle": "Schedule week",
+      "formEditTitle": "Edit week",
+      "challenge": "Challenge",
+      "challengePlaceholder": "Select challenge",
+      "startsAt": "Starts",
+      "endsAt": "Ends",
+      "status": "Status",
+      "weekLabel": "Week label",
+      "weekLabelPlaceholder": "W22 · 2026 (optional)",
+      "create": "Schedule",
+      "update": "Save",
+      "saving": "Saving…",
+      "cancelEdit": "Cancel edit",
+      "listTitle": "Recent windows",
+      "empty": "No weekly windows yet.",
+      "edit": "Edit",
+      "statuses": {
+        "scheduled": "Scheduled",
+        "active": "Active",
+        "completed": "Completed",
+        "cancelled": "Cancelled"
+      }
     },
     "rejectModal": {
       "title": "Reject challenge",
@@ -551,6 +583,12 @@
       "notApproved": "Scores open only after this challenge is approved.",
       "exceedsTimeCap": "That time is over this challenge's max. It does not count — do not submit."
     }
+  },
+  "weekly": {
+    "bannerTitle": "WEEKLY GLOBAL CHALLENGE",
+    "bannerAria": "Weekly challenge {label}",
+    "endsIn": "Ends in {days}d {hours}h",
+    "ended": "This week is over"
   },
   "finisher": {
     "title": "FINISHER CARD",

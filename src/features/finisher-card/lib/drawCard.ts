@@ -87,6 +87,26 @@ export function drawFinisherCard(canvas: HTMLCanvasElement, options: Options): v
   ctx.font = `900 ${brandSize}px system-ui, -apple-system, Segoe UI, sans-serif`;
   ctx.fillText('TRUEGRYND', textX, lineY(0.04));
 
+  const titleStartPct = options.weeklyBadge ? 0.1 : 0.13;
+  if (options.weeklyBadge) {
+    const weeklySize = fitFontSize(
+      ctx,
+      options.weeklyBadge.toUpperCase(),
+      maxTextW,
+      900,
+      'system-ui, -apple-system, Segoe UI, sans-serif',
+      Math.floor(innerW * 0.055),
+      12,
+    );
+    ctx.fillStyle = '#ffb800';
+    ctx.font = `900 ${weeklySize}px system-ui, -apple-system, Segoe UI, sans-serif`;
+    ctx.fillText(
+      truncateToWidth(ctx, options.weeklyBadge.toUpperCase(), maxTextW),
+      textX,
+      lineY(0.085),
+    );
+  }
+
   const titleSize = fitFontSize(
     ctx,
     options.challengeTitle.toUpperCase(),
@@ -99,7 +119,7 @@ export function drawFinisherCard(canvas: HTMLCanvasElement, options: Options): v
   ctx.fillStyle = muted;
   ctx.font = `900 ${titleSize}px system-ui, -apple-system, Segoe UI, sans-serif`;
   const title = truncateToWidth(ctx, options.challengeTitle.toUpperCase(), maxTextW);
-  ctx.fillText(title, textX, lineY(0.13));
+  ctx.fillText(title, textX, lineY(titleStartPct));
 
   const scoreTop = lineY(0.26);
   const labelTop = lineY(0.52);

@@ -5,9 +5,13 @@ import Link from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
 
 import { factionPath } from '@/features/factions/lib/factionSlug';
-import { useChallengeOfTheDay } from '@/features/overview/hooks/useChallengeOfTheDay';
+import {
+  resolveWeeklyDisplayLabel,
+  useWeeklyChallenge,
+} from '@/features/overview/hooks/useWeeklyChallenge';
 import { useOptionalAppProfile } from '@/features/appshell/context/AppProfileContext';
 import { getFactionBadgeClasses } from '@/lib/factionStyles';
+import { getWeeklyTimeRemaining } from '@/lib/weekly';
 
 function PrimaryButtonLink({ href, label }: { href: string; label: string }) {
   return (
@@ -24,9 +28,10 @@ export function OverviewScreen() {
   const locale = useLocale();
   const tApp = useTranslations('app');
   const t = useTranslations('overview');
+  const tWeekly = useTranslations('weekly');
   const tFactions = useTranslations('factions');
 
-  const { state: cotd, refetch: refetchCotd } = useChallengeOfTheDay();
+  const { state: weeklyState, refetch: refetchWeekly } = useWeeklyChallenge();
   const appProfile = useOptionalAppProfile();
 
   const clanHref = `/${locale}/app/clan`;
@@ -35,6 +40,10 @@ export function OverviewScreen() {
   const factionBadge = userFaction ? getFactionBadgeClasses(userFaction) : null;
   const factionName = userFaction ? tFactions(userFaction) : null;
   const factionHref = userFaction ? factionPath(locale, userFaction) : clanHref;
+
+  const weekly = weeklyState.status === 'ready' ? weeklyState.weekly : null;
+  const weeklyLabel = weekly ? resolveWeeklyDisplayLabel(weekly) : null;
+  const weeklyRemaining = weekly ? getWeeklyTimeRemaining(new Date(weekly.ends_at)) : null;
 
   return (
     <section className="space-y-6">
@@ -47,20 +56,20 @@ export function OverviewScreen() {
 
       <div className="grid gap-4 md:grid-cols-2">
         <article className="rounded-md border border-border bg-card p-4">
-          <p className="text-xs font-black uppercase tracking-[0.18em] text-muted-foreground">
-            {t('nextActionTitle')}
+          <p className="text-xs font-black uppercase tracking-[0.18em] text-accent">
+            {t('weeklyTitle')}
           </p>
 
-          {cotd.status === 'loading' ? (
+          {weeklyState.status === 'loading' ? (
             <p className="mt-2 text-sm text-muted-foreground">{t('loading')}</p>
           ) : null}
 
-          {cotd.status === 'error' ? (
+          {weeklyState.status === 'error' ? (
             <div className="mt-2">
               <p className="text-sm text-muted-foreground">{t('error')}</p>
               <button
                 type="button"
-                onClick={refetchCotd}
+                onClick={refetchWeekly}
                 className="mt-3 inline-flex items-center justify-center rounded-md bg-muted px-3 py-2 text-xs font-black uppercase tracking-[0.18em] text-foreground hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 {t('retry')}
@@ -68,24 +77,37 @@ export function OverviewScreen() {
             </div>
           ) : null}
 
-          {cotd.status === 'ready' && cotd.challenge ? (
+          {weeklyState.status === 'ready' && weekly ? (
             <div className="mt-3 space-y-3">
               <div>
-                <p className="text-lg font-black uppercase tracking-tight">
-                  {cotd.challenge.title}
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
+                  {weeklyLabel}
                 </p>
-                <p className="mt-1 text-sm text-muted-foreground">{cotd.challenge.description}</p>
+                <p className="mt-2 text-lg font-black uppercase tracking-tight">
+                  {weekly.challenge.title}
+                </p>
+                <p className="mt-1 text-sm text-muted-foreground">{weekly.challenge.description}</p>
+                {weeklyRemaining ? (
+                  <p className="mt-2 text-xs font-black uppercase tracking-[0.14em] text-accent">
+                    {tWeekly('endsIn', {
+                      days: weeklyRemaining.days,
+                      hours: weeklyRemaining.hours,
+                    })}
+                  </p>
+                ) : (
+                  <p className="mt-2 text-xs text-muted-foreground">{tWeekly('ended')}</p>
+                )}
               </div>
               <PrimaryButtonLink
-                href={`/${locale}/app/arena/${cotd.challenge.id}`}
+                href={`/${locale}/app/arena/${weekly.challenge.id}`}
                 label={t('ctaGo')}
               />
             </div>
           ) : null}
 
-          {cotd.status === 'ready' && !cotd.challenge ? (
+          {weeklyState.status === 'ready' && !weekly ? (
             <div className="mt-3 space-y-3">
-              <p className="text-sm text-muted-foreground">{t('empty')}</p>
+              <p className="text-sm text-muted-foreground">{t('weeklyEmpty')}</p>
               <PrimaryButtonLink href={`/${locale}/app/arena`} label={t('ctaArena')} />
             </div>
           ) : null}

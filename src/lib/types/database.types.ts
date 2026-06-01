@@ -5,6 +5,18 @@ export type Sex = 'male' | 'female' | 'other';
 export type ScoreType = 'time' | 'reps';
 export type ChallengeStatus = 'pending' | 'approved' | 'rejected';
 export type ChallengeAiTier = 'green' | 'orange' | 'red';
+export type WeeklyChallengeStatus = 'scheduled' | 'active' | 'completed' | 'cancelled';
+
+export interface WeeklyChallenge {
+  id: string;
+  challenge_id: string;
+  starts_at: string;
+  ends_at: string;
+  status: WeeklyChallengeStatus;
+  week_label: string | null;
+  created_at: string;
+  updated_at: string;
+}
 
 /**
  * Mirrors the `profiles` table.

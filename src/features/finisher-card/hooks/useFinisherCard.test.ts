@@ -23,6 +23,14 @@ vi.mock('@/lib/rank', () => ({
     total > 0 ? { rank: better + 1, total, percentile: 1 - better / total } : null,
 }));
 
+vi.mock('@/lib/weekly', () => ({
+  getWeeklyChallengeForChallengeId: vi.fn().mockResolvedValue(null),
+}));
+
+vi.mock('@/features/overview/hooks/useWeeklyChallenge', () => ({
+  resolveWeeklyDisplayLabel: () => 'W22 · 2026',
+}));
+
 vi.mock('@/features/appshell', () => ({
   useRequireAppAccess: () => useRequireAppAccessMock(),
 }));
