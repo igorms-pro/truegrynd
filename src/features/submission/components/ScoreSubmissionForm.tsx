@@ -109,7 +109,7 @@ export function ScoreSubmissionForm({
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 pb-4">
       <ScoreSubmissionScoreFields scoreType={scoreType} register={register} errors={errors} />
       <ScoreSubmissionProofFields register={register} errors={errors} />
 
@@ -119,14 +119,16 @@ export function ScoreSubmissionForm({
         </div>
       ) : null}
 
-      <button
-        type="submit"
-        disabled={!canSubmit}
-        className="w-full rounded-md bg-primary px-4 py-3 text-sm font-black uppercase tracking-[0.18em] text-primary-foreground hover:opacity-90 disabled:opacity-50"
-        aria-label={submitting ? t('submitting') : t('submit')}
-      >
-        {submitting ? t('submitting') : t('submit')}
-      </button>
+      <div className="sticky bottom-[calc(4.5rem+env(safe-area-inset-bottom))] z-10 -mx-4 border-t border-border bg-background/95 px-4 py-3 backdrop-blur supports-[backdrop-filter]:bg-background/80 md:bottom-0">
+        <button
+          type="submit"
+          disabled={!canSubmit}
+          className="w-full min-h-12 rounded-md bg-primary px-4 py-3 text-sm font-black uppercase tracking-[0.18em] text-primary-foreground shadow-[0_0_24px_rgba(220,38,38,0.25)] hover:opacity-90 disabled:opacity-50"
+          aria-label={submitting ? t('submitting') : t('submit')}
+        >
+          {submitting ? t('submitting') : t('submit')}
+        </button>
+      </div>
     </form>
   );
 }

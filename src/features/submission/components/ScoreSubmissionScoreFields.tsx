@@ -45,7 +45,7 @@ export function ScoreSubmissionScoreFields({ scoreType, register, errors }: Prop
             type="number"
             placeholder={t('repsPlaceholder')}
             inputMode="numeric"
-            min={1}
+            min={0}
             className={inputClassName}
             aria-invalid={!!errors.reps}
           />
