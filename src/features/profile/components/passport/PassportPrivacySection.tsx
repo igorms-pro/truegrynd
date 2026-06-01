@@ -25,6 +25,7 @@ const PRIVACY_LABEL_KEYS: Record<PassportPrivacyKey, string> = {
   showBadgesOnPublic: 'badges',
   showWeekliesOnPublic: 'weeklies',
   showFinishersOnPublic: 'finishers',
+  showRivalWinsOnPublic: 'rivalWins',
 };
 
 export function PassportPrivacySection({ profile, onSaved }: Props) {

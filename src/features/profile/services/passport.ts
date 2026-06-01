@@ -26,6 +26,14 @@ export type WeeklyCompletion = {
   completedAt: string;
 };
 
+export type RivalWin = {
+  matchId: string;
+  completedAt: string | null;
+  division: Division;
+  opponentUsername: string | null;
+  challengeTitles: string[];
+};
+
 export type PassportTopScore = PassportScoreRow;
 
 type HistoryRow = {
@@ -154,4 +162,29 @@ export async function listWeeklyCompletions(
   }
 
   return hits;
+}
+
+type RivalWinRow = {
+  match_id: string;
+  completed_at: string | null;
+  division: Division;
+  opponent_username: string | null;
+  challenge_titles: string[] | null;
+};
+
+export async function listRivalWins(userId: string, limit = 12): Promise<RivalWin[]> {
+  const { data, error } = await supabase.rpc('list_rival_wins_for_passport', {
+    p_user_id: userId,
+    p_limit: limit,
+  });
+
+  if (error) throw new Error(error.message);
+
+  return ((data ?? []) as RivalWinRow[]).map((row) => ({
+    matchId: row.match_id,
+    completedAt: row.completed_at,
+    division: row.division,
+    opponentUsername: row.opponent_username,
+    challengeTitles: row.challenge_titles ?? [],
+  }));
 }

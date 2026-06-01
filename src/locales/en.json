@@ -670,7 +670,8 @@
     "list": {
       "divisionLine": "{division} division",
       "duration24": "24h",
-      "duration7d": "7d"
+      "duration7d": "7d",
+      "winnerLine": "W @{username}"
     },
     "detail": {
       "back": "RIVALS",
@@ -696,7 +697,13 @@
       "unknown": "rival",
       "roundWin": "WIN",
       "winner": "Winner: @{username}",
+      "youWon": "You won this duel.",
       "tie": "Tied — no winner yet.",
+      "tieFinal": "Final result: tie — no winner.",
+      "noWinnerFinal": "Final result: no winner — not all ranked scores were submitted.",
+      "expiredHint": "This invite expired before the duel started.",
+      "cancelledHint": "This duel was cancelled.",
+      "finalizedHint": "Final scores and winner are locked.",
       "pollingHint": "Scores refresh every 30s while the match is live."
     },
     "status": {
@@ -845,6 +852,16 @@
         "badge": "DONE",
         "weekFallback": "WEEKLY"
       },
+      "rivals": {
+        "title": "RIVAL WINS",
+        "body": "Async duels you won against rivals in your division.",
+        "loading": "Loading rival wins...",
+        "empty": "No rival wins yet. Start a duel from Rivals.",
+        "badge": "WIN",
+        "versus": "Beat {opponent}",
+        "unknown": "rival",
+        "challengesFallback": "Rival match"
+      },
       "badges": {
         "title": "BADGES & STREAK",
         "streak": "Activity streak",
@@ -873,7 +890,8 @@
           "topScores": "Top scores by performance axis",
           "badges": "Streak and creator badges",
           "weeklies": "Weekly challenge completions",
-          "finishers": "Finisher card gallery"
+          "finishers": "Finisher card gallery",
+          "rivalWins": "Rival match wins"
         }
       }
     },

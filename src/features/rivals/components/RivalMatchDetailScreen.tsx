@@ -4,6 +4,7 @@ import { useLocale, useTranslations } from 'next-intl';
 
 import { RivalMatchBackLink } from '@/features/rivals/components/RivalMatchBackLink';
 import { RivalMatchChallengeRow } from '@/features/rivals/components/RivalMatchChallengeRow';
+import { RivalMatchResultBanner } from '@/features/rivals/components/RivalMatchResultBanner';
 import { useNowTick } from '@/features/rivals/hooks/useNowTick';
 import { useRivalMatch } from '@/features/rivals/hooks/useRivalMatch';
 import { useProfile } from '@/features/profile/hooks/useProfile';
@@ -27,9 +28,12 @@ export function RivalMatchDetailScreen({ matchId }: Props) {
   const match = state.status === 'ready' ? state.match : null;
   const detail = state.status === 'ready' ? state.detail : null;
   const isActive = match?.status === 'active';
+  const isTerminal =
+    match?.status === 'completed' || match?.status === 'expired' || match?.status === 'cancelled';
   const endsAt = match?.endsAt ?? null;
   const startsAt = match?.startsAt ?? null;
-  const now = useNowTick(isActive);
+  const shouldTick = isActive || match?.status === 'pending';
+  const now = useNowTick(shouldTick);
 
   const timeRemaining = endsAt && isActive ? getWeeklyTimeRemaining(new Date(endsAt), now) : null;
 
@@ -88,9 +92,6 @@ export function RivalMatchDetailScreen({ matchId }: Props) {
   }
 
   const acceptedParticipants = match.participants.filter((p) => p.status === 'accepted');
-  const winnerUsername = match.winnerId
-    ? (match.participants.find((p) => p.userId === match.winnerId)?.username ?? t('unknown'))
-    : null;
 
   return (
     <section className="space-y-6">
@@ -120,33 +121,37 @@ export function RivalMatchDetailScreen({ matchId }: Props) {
         {match.status === 'pending' ? (
           <p className="text-sm text-muted-foreground">{t('pendingHint')}</p>
         ) : null}
+        {isTerminal ? <p className="text-sm text-muted-foreground">{t('finalizedHint')}</p> : null}
       </header>
+
+      <RivalMatchResultBanner
+        match={match}
+        currentUserId={currentUserId}
+        detailReason={detail?.winnerResult.reason ?? null}
+      />
 
       <section className="space-y-2">
         <h2 className="text-xs font-black uppercase tracking-[0.18em] text-primary">
           {t('participantsTitle')}
         </h2>
         <ul className="flex flex-wrap gap-2">
-          {acceptedParticipants.map((p) => (
-            <li
-              key={p.userId}
-              className="rounded-sm border border-border bg-muted px-3 py-2 text-xs font-semibold uppercase tracking-[0.12em]"
-            >
-              {p.userId === currentUserId ? t('you') : `@${p.username ?? t('unknown')}`}
-            </li>
-          ))}
+          {acceptedParticipants.map((p) => {
+            const isWinner = match.winnerId === p.userId;
+            return (
+              <li
+                key={p.userId}
+                className={`rounded-sm border px-3 py-2 text-xs font-semibold uppercase tracking-[0.12em] ${
+                  isWinner
+                    ? 'border-accent/50 bg-accent/10 text-accent'
+                    : 'border-border bg-muted text-foreground'
+                }`}
+              >
+                {p.userId === currentUserId ? t('you') : `@${p.username ?? t('unknown')}`}
+              </li>
+            );
+          })}
         </ul>
       </section>
-
-      {match.winnerId ? (
-        <p className="rounded-md border border-accent/40 bg-accent/10 px-4 py-3 text-sm font-black uppercase tracking-tight text-accent">
-          {t('winner', { username: winnerUsername ?? t('unknown') })}
-        </p>
-      ) : null}
-
-      {!match.winnerId && detail?.winnerResult.reason === 'tie' ? (
-        <p className="text-sm text-muted-foreground">{t('tie')}</p>
-      ) : null}
 
       <section className="space-y-3">
         <h2 className="text-xs font-black uppercase tracking-[0.18em] text-primary">
@@ -179,7 +184,7 @@ export function RivalMatchDetailScreen({ matchId }: Props) {
         )}
       </section>
 
-      {isActive ? (
+      {isActive || match.status === 'pending' ? (
         <p className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground" role="status">
           {t('pollingHint')}
         </p>
