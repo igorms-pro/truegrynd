@@ -13,7 +13,7 @@ Coche : `[ ]` à faire · `[x]` OK · `[!]` bug (noter en bas)
 
 ## 0. Prérequis ops
 
-- [ ] Migrations **`001`–`013`** appliquées sur le projet Supabase utilisé par l’app (`013` = `challenges.ends_at` + RPC `admin_close_challenge`)
+- [x] Migrations **`001`–`014`** appliquées sur le projet Supabase utilisé par l’app (`013` = `challenges.ends_at` + RPC `admin_close_challenge` ; `014` = `scores.is_hidden` + metadata update RLS)
 - [ ] Edge Function **`admin-challenge-ai-review`** déployée
 - [ ] Secrets Supabase : **`OPENAI_API_KEY`** (et optionnel `OPENAI_MODEL`)
 - [ ] Au moins 1 compte avec `profiles.is_admin = true` (voir `docs/RUNBOOK.md`)
