@@ -1,9 +1,10 @@
-import type { Faction, ScoreType } from '@/lib/types/database.types';
+import type { Division, Faction, ScoreType } from '@/lib/types/database.types';
 
 export type FinisherCardDrawOptions = {
   width: number;
   height: number;
   faction: Faction;
+  division: Division;
   username: string;
   challengeTitle: string;
   scoreType: ScoreType;
@@ -33,6 +34,7 @@ function rankLabels({ ranked, isValidated }: RankedLabels): {
 
 type FullParams = RankedLabels & {
   faction: Faction;
+  division: Division;
   username: string;
   challengeTitle: string;
   scoreType: ScoreType;
@@ -46,6 +48,7 @@ export function buildFinisherCardOptionsFull(params: FullParams): FinisherCardDr
     width: 1080,
     height: 1920,
     faction: params.faction,
+    division: params.division,
     username: params.username,
     challengeTitle: params.challengeTitle,
     scoreType: params.scoreType,
@@ -57,6 +60,7 @@ export function buildFinisherCardOptionsFull(params: FullParams): FinisherCardDr
 
 type ThumbParams = {
   faction: Faction;
+  division: Division;
   username: string;
   challengeTitle: string;
   scoreType: ScoreType;
@@ -72,6 +76,7 @@ export function buildFinisherCardOptionsThumb(params: ThumbParams): FinisherCard
     width: 360,
     height: 640,
     faction: params.faction,
+    division: params.division,
     username: params.username,
     challengeTitle: params.challengeTitle,
     scoreType: params.scoreType,

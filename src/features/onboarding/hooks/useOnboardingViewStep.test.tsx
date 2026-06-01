@@ -13,6 +13,7 @@ function makeProfile(partial?: Partial<Profile>): Profile {
     age: 30,
     weight_kg: 80,
     faction: null,
+    division: 'rookie',
     initiation_completed: false,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),

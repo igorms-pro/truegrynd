@@ -29,6 +29,7 @@ const profile: CompleteProfile = {
   age: 28,
   weight_kg: 80,
   faction: 'horde',
+  division: 'rookie',
   initiation_completed: true,
   creator_score: 0,
   streak_days: 0,

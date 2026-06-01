@@ -6,7 +6,7 @@ import { useRequireAppAccess } from '@/features/appshell';
 import { getChallengeById } from '@/lib/challenges';
 import { formatTopPercent, getRankCounts, percentileFromCounts } from '@/lib/rank';
 import { getScoreById } from '@/features/finisher-card/services/scores';
-import type { Challenge, Faction, Score } from '@/lib/types/database.types';
+import type { Challenge, Division, Faction, Score } from '@/lib/types/database.types';
 
 type Params = {
   challengeId: string | null;
@@ -26,6 +26,7 @@ export type FinisherCardState =
       topPercent: number | null;
       username: string;
       faction: Faction;
+      division: Division;
     };
 
 type InnerState = Exclude<FinisherCardState, { status: 'gated' } | { status: 'missing_params' }>;
@@ -96,13 +97,13 @@ export function useFinisherCard(params: Params): FinisherCardState & { retry: ()
         const topPercent = await loadTopPercent(params.ranked, score, challenge);
         if (cancelled) return;
 
-        const { username, faction } = access.profile;
+        const { username, faction, division } = access.profile;
         if (!username || !faction) {
           setState({ status: 'error', message: 'profile_incomplete' });
           return;
         }
 
-        setState({ status: 'ready', score, challenge, topPercent, username, faction });
+        setState({ status: 'ready', score, challenge, topPercent, username, faction, division });
       } catch (e: unknown) {
         const message = e instanceof Error ? e.message : 'unknown';
         if (!cancelled) setState({ status: 'error', message });

@@ -166,19 +166,20 @@ BEGIN
     age = v.age,
     weight_kg = v.weight_kg,
     faction = v.faction,
+    division = v.division,
     initiation_completed = true,
     updated_at = NOW()
   FROM (
     VALUES
-      (v_dummy_users[1], 'nomad_runner', 'male',   26, 78.0, 'nomads'),
-      (v_dummy_users[2], 'nomad_grit',   'female', 31, 62.0, 'nomads'),
-      (v_dummy_users[3], 'horde_alpha',  'male',   24, 85.0, 'horde'),
-      (v_dummy_users[4], 'horde_beast',  'male',   29, 92.0, 'horde'),
-      (v_dummy_users[5], 'horde_lynx',   'female', 22, 58.0, 'horde'),
-      (v_dummy_users[6], 'iron_ghost',   'male',   35, 88.0, 'iron_alliance'),
-      (v_dummy_users[7], 'iron_plate',   'female', 27, 70.0, 'iron_alliance'),
-      (v_dummy_users[8], 'iron_maul',    'other',  33, 95.0, 'iron_alliance')
-  ) AS v(id, username, sex, age, weight_kg, faction)
+      (v_dummy_users[1], 'nomad_runner', 'male',   26, 78.0, 'nomads',        'rookie'),
+      (v_dummy_users[2], 'nomad_grit',   'female', 31, 62.0, 'nomads',        'regular'),
+      (v_dummy_users[3], 'horde_alpha',  'male',   24, 85.0, 'horde',         'savage'),
+      (v_dummy_users[4], 'horde_beast',  'male',   29, 92.0, 'horde',         'elite'),
+      (v_dummy_users[5], 'horde_lynx',   'female', 22, 58.0, 'horde',         'rookie'),
+      (v_dummy_users[6], 'iron_ghost',   'male',   35, 88.0, 'iron_alliance', 'regular'),
+      (v_dummy_users[7], 'iron_plate',   'female', 27, 70.0, 'iron_alliance', 'savage'),
+      (v_dummy_users[8], 'iron_maul',    'other',  33, 95.0, 'iron_alliance', 'elite')
+  ) AS v(id, username, sex, age, weight_kg, faction, division)
   WHERE public.profiles.id = v.id;
 
   -- ── UGC challenges by igorms ───────────────────────────────────────────────

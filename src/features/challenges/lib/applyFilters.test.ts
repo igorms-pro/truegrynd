@@ -20,6 +20,7 @@ const entry = (
     sex: 'male',
     age: 25,
     faction: 'horde',
+    division: 'rookie',
     ...overrides,
   },
 });
@@ -45,6 +46,17 @@ describe('applyLeaderboardFilters', () => {
     ];
     expect(
       applyLeaderboardFilters(list, { ...EMPTY_FILTERS, faction: 'nomads' }).map((e) => e.id),
+    ).toEqual(['b']);
+  });
+
+  it('filters by division', () => {
+    const list = [
+      entry('a', { division: 'rookie' }),
+      entry('b', { division: 'savage' }),
+      entry('c', { division: 'elite' }),
+    ];
+    expect(
+      applyLeaderboardFilters(list, { ...EMPTY_FILTERS, division: 'savage' }).map((e) => e.id),
     ).toEqual(['b']);
   });
 

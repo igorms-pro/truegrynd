@@ -60,6 +60,7 @@ export default function ProfilePage() {
         userId={state.profile.id}
         username={state.profile.username}
         faction={state.profile.faction}
+        division={state.profile.division}
       />
     </section>
   );

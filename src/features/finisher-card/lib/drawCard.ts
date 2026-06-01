@@ -1,4 +1,5 @@
 import type { FinisherCardDrawOptions } from '@/lib/finisher/buildFinisherCardOptions';
+import { getDivisionColor } from '@/lib/divisions';
 import type { Faction } from '@/lib/types/database.types';
 
 type Options = FinisherCardDrawOptions;
@@ -125,7 +126,8 @@ export function drawFinisherCard(canvas: HTMLCanvasElement, options: Options): v
   const rankY = compact ? lineY(0.6) : lineY(0.58);
   const rankSubY = compact ? lineY(0.66) : lineY(0.68);
   const usernameY = compact ? lineY(0.76) : lineY(0.78);
-  const factionY = compact ? lineY(0.84) : lineY(0.85);
+  const divisionY = compact ? lineY(0.82) : lineY(0.83);
+  const factionY = compact ? lineY(0.88) : lineY(0.89);
 
   const labelSize = Math.floor(innerW * (compact ? 0.06 : 0.072));
   ctx.fillStyle = muted;
@@ -168,6 +170,12 @@ export function drawFinisherCard(canvas: HTMLCanvasElement, options: Options): v
   ctx.fillStyle = accent;
   ctx.font = `900 ${usernameSize}px system-ui, -apple-system, Segoe UI, sans-serif`;
   ctx.fillText(truncateToWidth(ctx, options.username.toUpperCase(), maxTextW), textX, usernameY);
+
+  const divisionLabel = options.division.toUpperCase();
+  const divisionSize = Math.floor(innerW * (compact ? 0.05 : 0.058));
+  ctx.fillStyle = getDivisionColor(options.division);
+  ctx.font = `900 ${divisionSize}px system-ui, -apple-system, Segoe UI, sans-serif`;
+  ctx.fillText(truncateToWidth(ctx, divisionLabel, maxTextW), textX, divisionY);
 
   const factionLabel = options.faction.replace('_', ' ').toUpperCase();
   const factionSize = Math.floor(innerW * (compact ? 0.05 : 0.058));

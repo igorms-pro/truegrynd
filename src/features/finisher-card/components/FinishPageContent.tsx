@@ -26,6 +26,7 @@ export function FinishPageContent() {
     const ready = state;
     return buildFinisherCardOptionsFull({
       faction: ready.faction,
+      division: ready.division,
       username: ready.username,
       challengeTitle: ready.challenge.title,
       scoreType: ready.challenge.score_type,

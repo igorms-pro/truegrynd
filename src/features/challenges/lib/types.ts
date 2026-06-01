@@ -1,4 +1,4 @@
-import type { Faction, Sex } from '@/lib/types/database.types';
+import type { Faction, Sex, Division } from '@/lib/types/database.types';
 
 export type LeaderboardProfileSlim = {
   id: string;
@@ -6,6 +6,7 @@ export type LeaderboardProfileSlim = {
   sex: Sex | null;
   age: number | null;
   faction: Faction | null;
+  division: Division;
 };
 
 export type LeaderboardEntry = {
@@ -23,10 +24,12 @@ export type LeaderboardFilters = {
   sex: Sex | null;
   ageBracket: import('@/features/challenges/lib/ageBracket').AgeBracket | null;
   faction: Faction | null;
+  division: Division | null;
 };
 
 export const EMPTY_FILTERS: LeaderboardFilters = {
   sex: null,
   ageBracket: null,
   faction: null,
+  division: null,
 };
