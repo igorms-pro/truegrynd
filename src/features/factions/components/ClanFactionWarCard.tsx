@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
 
 import { CLAN_ROW_LINK_CLASS } from '@/features/factions/lib/clanRowLinkClass';
+import { factionPath } from '@/features/factions/lib/factionSlug';
 import { formatClanPoints } from '@/features/factions/lib/formatClanPoints';
 import type { FactionRow } from '@/features/factions/services/clanHud';
 import { getFactionBadgeClasses } from '@/lib/factionStyles';
@@ -17,7 +18,6 @@ type Props = {
 export function ClanFactionWarCard({ rankings, userFaction }: Props) {
   const locale = useLocale();
   const t = useTranslations('clan');
-  const arenaHref = `/${locale}/app/arena`;
 
   return (
     <article className="rounded-md border border-border bg-card p-4">
@@ -69,17 +69,13 @@ export function ClanFactionWarCard({ rankings, userFaction }: Props) {
 
           return (
             <li key={row.faction}>
-              {isYours ? (
-                <Link
-                  href={arenaHref}
-                  aria-label={t('yourFactionArenaAria')}
-                  className={`${rowClass} ${CLAN_ROW_LINK_CLASS}`}
-                >
-                  {rowInner}
-                </Link>
-              ) : (
-                <div className={rowClass}>{rowInner}</div>
-              )}
+              <Link
+                href={factionPath(locale, row.faction)}
+                aria-label={t('factionPageLinkAria', { faction: t(`faction.${row.faction}`) })}
+                className={`${rowClass} ${CLAN_ROW_LINK_CLASS}`}
+              >
+                {rowInner}
+              </Link>
             </li>
           );
         })}

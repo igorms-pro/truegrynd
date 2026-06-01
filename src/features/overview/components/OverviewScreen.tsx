@@ -4,6 +4,7 @@ import { Flame } from 'lucide-react';
 import Link from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
 
+import { factionPath } from '@/features/factions/lib/factionSlug';
 import { useChallengeOfTheDay } from '@/features/overview/hooks/useChallengeOfTheDay';
 import { useProfile } from '@/features/profile/hooks/useProfile';
 import { getFactionBadgeClasses } from '@/lib/factionStyles';
@@ -33,6 +34,7 @@ export function OverviewScreen() {
   const userFaction = readyProfile?.faction ?? null;
   const factionBadge = userFaction ? getFactionBadgeClasses(userFaction) : null;
   const factionName = userFaction ? tFactions(userFaction) : null;
+  const factionHref = userFaction ? factionPath(locale, userFaction) : clanHref;
 
   return (
     <section className="space-y-6">
@@ -157,7 +159,10 @@ export function OverviewScreen() {
                   <p className="text-sm text-muted-foreground">{t('noFactionBody')}</p>
                 )}
                 <div className="mt-3">
-                  <PrimaryButtonLink href={clanHref} label={t('ctaClan')} />
+                  <PrimaryButtonLink
+                    href={factionHref}
+                    label={userFaction ? t('ctaFaction') : t('ctaClan')}
+                  />
                 </div>
               </div>
             </div>
