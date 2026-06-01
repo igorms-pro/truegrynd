@@ -2,11 +2,16 @@
 
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
+import { useMemo } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 
+import { ChallengeDetailCircuitPanel } from '@/features/challenges/components/ChallengeDetailCircuitPanel';
+import { ChallengeDetailHero } from '@/features/challenges/components/ChallengeDetailHero';
+import { ChallengeDetailLockedPanel } from '@/features/challenges/components/ChallengeDetailLockedPanel';
+import { ChallengeDetailSpecPanels } from '@/features/challenges/components/ChallengeDetailSpecPanels';
 import { Leaderboard } from '@/features/challenges/components/Leaderboard';
-import { formatTime } from '@/features/challenges/lib/scoreFormat';
 import { useChallenge } from '@/features/challenges/hooks/useChallenge';
+import { parseChallengeRules } from '@/features/challenges/lib/parseChallengeRules';
 
 type Props = {
   challengeId: string;
@@ -37,134 +42,45 @@ function NotFound() {
   );
 }
 
-export function ChallengeDetail({ challengeId }: Props) {
+function DetailSkeleton() {
   const t = useTranslations('challenge');
-  const tArena = useTranslations('arena');
-  const locale = useLocale();
-  const { data: challenge, loading, error } = useChallenge(challengeId);
-
-  if (loading) {
-    return (
+  return (
+    <section className="space-y-5" aria-busy="true">
+      <BackLink />
       <p role="status" aria-live="polite" className="text-sm text-muted-foreground">
         {t('loading')}
       </p>
-    );
-  }
+      <div className="h-48 animate-pulse rounded-md border border-border bg-muted/40" />
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="h-32 animate-pulse rounded-md border border-border bg-muted/30" />
+        <div className="h-32 animate-pulse rounded-md border border-border bg-muted/30" />
+      </div>
+    </section>
+  );
+}
 
+export function ChallengeDetail({ challengeId }: Props) {
+  const locale = useLocale();
+  const { data: challenge, loading, error } = useChallenge(challengeId);
+  const parsedRules = useMemo(
+    () => parseChallengeRules(challenge?.rules ?? ''),
+    [challenge?.rules],
+  );
+
+  if (loading) return <DetailSkeleton />;
   if (error || !challenge) return <NotFound />;
 
   const isApproved = challenge.status === 'approved';
 
   return (
-    <section className="space-y-6">
+    <section className="space-y-5">
       <BackLink />
-
-      <header className="space-y-2">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="inline-flex items-center rounded-sm border border-border bg-muted px-1.5 py-0.5 text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground">
-            {tArena(`scoreType.${challenge.score_type}`)}
-          </span>
-          {challenge.is_official ? (
-            <span className="inline-flex items-center rounded-sm bg-primary/15 px-1.5 py-0.5 text-[10px] font-black uppercase tracking-[0.18em] text-primary">
-              {tArena('officialBadge')}
-            </span>
-          ) : null}
-          {!challenge.is_official && isApproved ? (
-            <span className="inline-flex items-center rounded-sm border border-border px-1.5 py-0.5 text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground">
-              {tArena('badges.community')}
-            </span>
-          ) : null}
-          {challenge.status === 'pending' ? (
-            <span className="inline-flex items-center rounded-sm border border-accent/40 bg-accent/15 px-1.5 py-0.5 text-[10px] font-black uppercase tracking-[0.18em] text-accent">
-              {tArena('badges.pendingReview')}
-            </span>
-          ) : null}
-          {challenge.status === 'rejected' ? (
-            <span className="inline-flex items-center rounded-sm border border-primary/40 bg-primary/10 px-1.5 py-0.5 text-[10px] font-black uppercase tracking-[0.18em] text-primary">
-              {tArena('badges.rejected')}
-            </span>
-          ) : null}
-        </div>
-        <h1 className="text-2xl md:text-3xl font-black uppercase tracking-tight">
-          {challenge.title}
-        </h1>
-        <p className="text-sm text-foreground/80">{challenge.description}</p>
-        {isApproved &&
-        challenge.score_type === 'time' &&
-        challenge.max_duration_seconds != null &&
-        challenge.max_duration_seconds > 0 ? (
-          <p className="text-xs font-black uppercase tracking-[0.14em] text-accent">
-            {t('maxTimeCap', { cap: formatTime(challenge.max_duration_seconds) })}
-          </p>
-        ) : null}
-      </header>
-
-      <div className="grid gap-4 md:grid-cols-2">
-        <article className="space-y-2 rounded-md border border-border bg-card p-4">
-          <h2 className="text-xs font-black uppercase tracking-[0.18em] text-muted-foreground">
-            {t('rulesHeading')}
-          </h2>
-          <p className="whitespace-pre-line text-sm text-foreground/90">{challenge.rules}</p>
-        </article>
-
-        <article className="space-y-2 rounded-md border border-border bg-card p-4">
-          <h2 className="text-xs font-black uppercase tracking-[0.18em] text-muted-foreground">
-            {t('equipmentHeading')}
-          </h2>
-          {challenge.equipment_tags.length > 0 ? (
-            <ul className="flex flex-wrap gap-1.5">
-              {challenge.equipment_tags.map((tag) => (
-                <li
-                  key={tag}
-                  className="rounded-sm border border-border bg-background px-1.5 py-0.5 text-[10px] uppercase tracking-wider text-muted-foreground"
-                >
-                  #{tag}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-sm text-muted-foreground">{t('noEquipment')}</p>
-          )}
-        </article>
-      </div>
-
-      {isApproved ? (
-        <div className="rounded-md border border-border bg-card p-4">
-          <Link
-            href={`/${locale}/app/arena/${challenge.id}/submit`}
-            className="inline-flex w-full items-center justify-center rounded-md bg-primary px-4 py-3 text-sm font-black uppercase tracking-[0.18em] text-primary-foreground hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-          >
-            {t('ctaStart')}
-          </Link>
-        </div>
-      ) : (
-        <div
-          className={
-            challenge.status === 'rejected'
-              ? 'rounded-md border border-primary/30 bg-primary/10 p-4'
-              : 'rounded-md border border-accent/30 bg-accent/10 p-4'
-          }
-        >
-          <p
-            className={
-              challenge.status === 'rejected'
-                ? 'text-xs font-black uppercase tracking-[0.18em] text-primary'
-                : 'text-xs font-black uppercase tracking-[0.18em] text-accent'
-            }
-          >
-            {challenge.status === 'rejected' ? t('rejectedTitle') : t('pendingTitle')}
-          </p>
-          <p className="mt-2 text-sm text-muted-foreground">
-            {challenge.status === 'rejected' ? t('rejectedBody') : t('pendingBody')}
-          </p>
-          {challenge.status === 'rejected' && challenge.rejection_reason?.trim() ? (
-            <p className="mt-3 whitespace-pre-line rounded-sm border border-border bg-background/60 p-3 text-sm text-foreground/90">
-              {t('rejectionModeratorNote', { note: challenge.rejection_reason.trim() })}
-            </p>
-          ) : null}
-        </div>
-      )}
-
+      <ChallengeDetailHero challenge={challenge} locale={locale} isApproved={isApproved} />
+      {!isApproved ? <ChallengeDetailLockedPanel challenge={challenge} /> : null}
+      {parsedRules.circuitLines.length > 0 ? (
+        <ChallengeDetailCircuitPanel lines={parsedRules.circuitLines} />
+      ) : null}
+      <ChallengeDetailSpecPanels challenge={challenge} parsed={parsedRules} />
       {isApproved ? (
         <Leaderboard challengeId={challenge.id} scoreType={challenge.score_type} />
       ) : null}

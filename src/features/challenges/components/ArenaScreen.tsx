@@ -5,26 +5,34 @@ import { Plus } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 
+import { ArenaPendingSection } from '@/features/challenges/components/ArenaPendingSection';
 import { ChallengeList } from '@/features/challenges/components/ChallengeList';
 import { useChallenges } from '@/features/challenges/hooks/useChallenges';
+import { useMyPendingChallenges } from '@/features/challenges/hooks/useMyPendingChallenges';
 import { rankChallenges, type ArenaTab } from '@/features/challenges/lib/arenaRanking';
 
-function ArenaHeader() {
+function ArenaHeader({
+  showCreateCta,
+  createHref,
+}: {
+  showCreateCta: boolean;
+  createHref: string;
+}) {
   const t = useTranslations('arena');
-  const locale = useLocale();
-  const createHref = `/${locale}/app/arena/create`;
   return (
     <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
       <div className="space-y-1">
         <h1 className="text-2xl md:text-3xl font-black uppercase tracking-tight">{t('title')}</h1>
         <p className="text-sm text-muted-foreground">{t('subtitle')}</p>
       </div>
-      <Link
-        href={createHref}
-        className="hidden min-h-11 shrink-0 items-center justify-center rounded-sm border border-primary bg-primary/10 px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-primary hover:bg-primary/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:inline-flex"
-      >
-        {t('create.cta')}
-      </Link>
+      {showCreateCta ? (
+        <Link
+          href={createHref}
+          className="hidden min-h-11 shrink-0 items-center justify-center rounded-sm border border-primary bg-primary/10 px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-primary hover:bg-primary/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:inline-flex"
+        >
+          {t('create.cta')}
+        </Link>
+      ) : null}
     </header>
   );
 }
@@ -38,11 +46,20 @@ function ArenaLoading() {
   );
 }
 
-function ArenaEmpty() {
+function ArenaEmpty({ createHref }: { createHref: string }) {
   const t = useTranslations('arena');
   return (
-    <div className="rounded-md border border-border bg-card p-6 text-center">
-      <p className="text-sm text-muted-foreground">{t('empty')}</p>
+    <div className="rounded-md border border-border bg-card p-6 text-center space-y-4">
+      <div className="space-y-2">
+        <p className="text-sm text-muted-foreground">{t('empty')}</p>
+        <p className="text-xs text-muted-foreground/80">{t('emptyHint')}</p>
+      </div>
+      <Link
+        href={createHref}
+        className="inline-flex w-full max-w-xs items-center justify-center rounded-md bg-primary px-4 py-3 text-sm font-black uppercase tracking-[0.18em] text-primary-foreground hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:w-auto"
+      >
+        {t('create.cta')}
+      </Link>
     </div>
   );
 }
@@ -115,30 +132,51 @@ export function ArenaScreen() {
   const locale = useLocale();
   const createHref = `/${locale}/app/arena/create`;
   const { data, loading, error, refetch } = useChallenges();
+  const pending = useMyPendingChallenges();
   const [tab, setTab] = useState<ArenaTab>('trending');
 
   const ranked = useMemo(() => rankChallenges(data, tab), [data, tab]);
+  const feedReady = !loading && !error;
+  const feedEmpty = feedReady && data.length === 0;
+  const hasPending = !pending.loading && pending.data.length > 0;
+  const showHeaderCreate = feedReady && data.length > 0;
 
   return (
     <section className="relative space-y-5 pb-24 md:pb-5">
-      <ArenaHeader />
+      <ArenaHeader showCreateCta={showHeaderCreate} createHref={createHref} />
+      {!pending.loading && hasPending ? <ArenaPendingSection challenges={pending.data} /> : null}
+
       <ArenaTabs activeTab={tab} onChange={setTab} />
 
       {loading ? <ArenaLoading /> : null}
 
       {!loading && error ? <ArenaError onRetry={() => void refetch()} /> : null}
 
-      {!loading && !error && data.length === 0 ? <ArenaEmpty /> : null}
+      {feedEmpty && !hasPending ? <ArenaEmpty createHref={createHref} /> : null}
 
-      {!loading && !error && ranked.length > 0 ? <ChallengeList challenges={ranked} /> : null}
+      {feedEmpty && hasPending ? (
+        <div className="space-y-3">
+          <p className="text-sm text-muted-foreground">{t('emptyLiveFeed')}</p>
+          <Link
+            href={createHref}
+            className="inline-flex min-h-11 items-center justify-center rounded-sm border border-primary bg-primary/10 px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-primary hover:bg-primary/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            {t('create.cta')}
+          </Link>
+        </div>
+      ) : null}
 
-      <Link
-        href={createHref}
-        className="fixed bottom-[calc(5rem+env(safe-area-inset-bottom))] right-4 z-30 flex h-14 w-14 items-center justify-center rounded-sm border border-primary bg-primary text-primary-foreground shadow-[0_12px_28px_rgba(0,0,0,0.35)] hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:hidden"
-        aria-label={t('create.fab')}
-      >
-        <Plus className="h-7 w-7" strokeWidth={2.4} aria-hidden />
-      </Link>
+      {feedReady && ranked.length > 0 ? <ChallengeList challenges={ranked} /> : null}
+
+      {showHeaderCreate ? (
+        <Link
+          href={createHref}
+          className="fixed bottom-[calc(5rem+env(safe-area-inset-bottom))] right-4 z-30 flex h-14 w-14 items-center justify-center rounded-sm border border-primary bg-primary text-primary-foreground shadow-[0_12px_28px_rgba(0,0,0,0.35)] hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:hidden"
+          aria-label={t('create.fab')}
+        >
+          <Plus className="h-7 w-7" strokeWidth={2.4} aria-hidden />
+        </Link>
+      ) : null}
     </section>
   );
 }

@@ -167,6 +167,14 @@
     "errorBody": "Try again.",
     "retry": "Retry",
     "factionsTitle": "FACTION WAR",
+    "pointsUnit": "pts",
+    "yourFactionBadge": "YOUR FACTION",
+    "youBadge": "YOU",
+    "yourProfileLinkAria": "Your profile",
+    "memberProfileLinkAria": "View {username} profile",
+    "yourFactionArenaAria": "Go to Arena for your faction",
+    "ctaArena": "POST A SCORE",
+    "activeFighters": "{count, plural, =0 {0 active fighters} =1 {1 active fighter} other {# active fighters}}",
     "topMembersTitle": "YOUR TOP DOGS",
     "emptyMembers": "No ranked members yet. Be the first to post proof.",
     "members": "{count, plural, =0 {0 members} =1 {1 member} other {# members}}",
@@ -177,12 +185,13 @@
     },
     "recruit": {
       "title": "RECRUIT AN ALLY",
-      "body": "Send this link to bring someone directly into your faction.",
       "share": "SHARE",
       "copy": "COPY LINK",
       "copied": "COPIED!",
-      "shareTitle": "Truegrynd — Join my faction",
-      "shareText": "Join my faction on Truegrynd and compete together."
+      "shareAria": "Share recruit link for {faction}",
+      "copyAria": "Copy recruit link to clipboard",
+      "shareTitle": "Truegrynd — Join {faction}",
+      "shareText": "Join {faction} on Truegrynd. Async fitness battles, no fluff."
     }
   },
   "arena": {
@@ -193,14 +202,19 @@
       "new": "New"
     },
     "loading": "Loading challenges...",
-    "empty": "No challenges yet. Check back soon.",
+    "empty": "No challenges in the Arena yet.",
+    "emptyHint": "Propose one — community challenges go live after review.",
+    "emptyLiveFeed": "No live challenges in the public feed yet.",
+    "pendingSectionTitle": "YOUR SUBMISSIONS",
+    "pendingSectionHint": "Only you see these until they're approved for the Arena.",
+    "pendingBadge": "IN REVIEW",
     "errorTitle": "Something went wrong",
     "errorBody": "We could not load the challenges.",
     "retry": "Retry",
     "officialBadge": "OFFICIAL",
     "badges": {
       "community": "COMMUNITY",
-      "pendingReview": "PENDING REVIEW",
+      "pendingReview": "IN REVIEW",
       "rejected": "NOT APPROVED"
     },
     "scoreType": {
@@ -222,6 +236,7 @@
         "title": "Title",
         "description": "Short pitch",
         "rulesDetail": "Standards & scoring (detail)",
+        "rulesDetailPlaceholder": "Standards, range of motion, no-rep rules, tie-breaks…",
         "equipmentTags": "Equipment (optional)",
         "equipmentPlaceholder": "kettlebell, pull-up bar…"
       },
@@ -283,12 +298,22 @@
     "notFoundTitle": "Challenge not found",
     "notFoundBody": "It may have been removed or unapproved.",
     "back": "Back to Arena",
+    "heroKickerApproved": "ENTER THE GRIND",
+    "heroKickerPending": "LOCKED — STILL YOURS",
+    "heroKickerRejected": "PULLED FROM THE ARENA",
+    "ctaSubline": "Post your score. Claim your rank.",
+    "pendingStep1": "SUBMITTED",
+    "pendingStep2": "IN REVIEW",
+    "pendingStep3": "GOES LIVE",
+    "circuitHeading": "THE CIRCUIT",
+    "scoringHeading": "SCORING",
+    "standardsHeading": "STANDARDS",
     "rulesHeading": "Rules",
     "equipmentHeading": "Equipment",
     "noEquipment": "Bodyweight only",
     "ctaStart": "I'M IN",
-    "pendingTitle": "WAITING ON REVIEW",
-    "pendingBody": "This challenge is locked until it is approved. Share the link with mods if needed.",
+    "pendingTitle": "NOT IN THE ARENA YET",
+    "pendingBody": "Saved and in review. It will show up in the public feed once approved — then anyone can post a score.",
     "rejectedTitle": "NOT PUBLISHED",
     "rejectedBody": "This challenge did not pass review. Create a new version or contact support.",
     "rejectionModeratorNote": "Moderator note:\n{note}",
@@ -296,7 +321,7 @@
   },
   "admin": {
     "title": "UGC MOD QUEUE",
-    "subtitle": "Approve or reject community challenges. Nothing goes live without you.",
+    "subtitle": "Moderation vs Arena. In review → approve. Live = open in Arena. Done = closed. Rejected = blocked.",
     "nav": {
       "link": "MOD",
       "dock": "MOD",
@@ -304,7 +329,38 @@
     },
     "queue": {
       "loading": "Loading queue…",
-      "empty": "No pending challenges.",
+      "statusTabsLabel": "Challenge status",
+      "statusTabAria": "{label}, {count} community challenges",
+      "ugcTotal": "{count} community challenges total (all statuses)",
+      "statusTab": {
+        "pending": "IN REVIEW",
+        "arena_live": "LIVE",
+        "arena_done": "DONE",
+        "rejected": "REJECTED"
+      },
+      "empty": {
+        "pending": "Nothing in review right now.",
+        "arena_live": "No challenges currently open in the Arena.",
+        "arena_done": "No closed challenges yet.",
+        "rejected": "No rejected challenges yet."
+      },
+      "statusLabel": {
+        "pending": "IN REVIEW",
+        "arena_live": "LIVE",
+        "arena_done": "DONE",
+        "rejected": "REJECTED"
+      },
+      "closeArena": "CLOSE",
+      "colStatus": "Status",
+      "colReviewed": "Published",
+      "colClosed": "Closed",
+      "view": "VIEW",
+      "paginationSummary": {
+        "pending": "Page {page} of {totalPages} · {totalCount} in review",
+        "arena_live": "Page {page} of {totalPages} · {totalCount} live",
+        "arena_done": "Page {page} of {totalPages} · {totalCount} done",
+        "rejected": "Page {page} of {totalPages} · {totalCount} rejected"
+      },
       "selectAll": "Select all",
       "clearSelection": "Clear",
       "approveSelected": "Approve selected ({count})",
@@ -334,8 +390,7 @@
       "tierLongUnknown": "Not scanned yet.",
       "selectRow": "Select row: {title}",
       "paginationPrev": "Previous",
-      "paginationNext": "Next",
-      "paginationSummary": "Page {page} of {totalPages} · {totalCount} pending"
+      "paginationNext": "Next"
     },
     "approveConfirm": {
       "titleSingle": "Approve challenge?",
@@ -449,6 +504,16 @@
     "errorTitle": "Could not load profile",
     "errorBody": "Try again.",
     "retry": "Retry",
+    "public": {
+      "loading": "Loading fighter…",
+      "subtitle": "PUBLIC PROFILE",
+      "unknownUser": "Unknown",
+      "avatarAlt": "{username} avatar",
+      "errorTitle": "Fighter not found",
+      "errorBody": "This username does not exist or was removed.",
+      "retry": "Retry",
+      "backClan": "BACK TO CLAN"
+    },
     "signOut": {
       "label": "LOG OUT",
       "aria": "Log out of your account",

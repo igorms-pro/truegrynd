@@ -4,9 +4,12 @@ import { supabase } from '@/lib/supabase';
 import type { Challenge, ChallengeAiTier } from '@/lib/types/database.types';
 
 const PENDING_CHALLENGE_SELECT =
-  'id,title,description,rules,score_type,equipment_tags,is_official,status,creator_id,max_duration_seconds,rejection_reason,reviewed_at,reviewed_by,ai_tier,ai_summary,ai_model,ai_checked_at,created_at,creator:profiles!challenges_creator_id_fkey(username)';
+  'id,title,description,rules,score_type,equipment_tags,is_official,status,creator_id,max_duration_seconds,rejection_reason,reviewed_at,reviewed_by,ai_tier,ai_summary,ai_model,ai_checked_at,ends_at,created_at,creator:profiles!challenges_creator_id_fkey(username)';
 
 export type AiTierFilter = 'all' | ChallengeAiTier | 'none';
+
+/** Moderation + arena lifecycle tabs on the MOD queue page. */
+export type AdminQueueTabStatus = 'pending' | 'arena_live' | 'arena_done' | 'rejected';
 
 export type AdminPendingChallenge = Challenge & {
   creator: { username: string | null } | null;
@@ -17,9 +20,49 @@ export type AdminPendingListResult = {
   totalCount: number;
 };
 
-export async function listPendingChallengesForAdmin(options?: {
+export type AdminUgcQueueCounts = Record<AdminQueueTabStatus, number>;
+
+const UGC_MOD_QUEUE_TABS: AdminQueueTabStatus[] = [
+  'pending',
+  'arena_live',
+  'arena_done',
+  'rejected',
+];
+
+function arenaCountsQuery(status: AdminQueueTabStatus, nowIso: string) {
+  const base = supabase
+    .from('challenges')
+    .select('id', { count: 'exact', head: true })
+    .eq('is_official', false);
+
+  if (status === 'pending') {
+    return base.eq('status', 'pending');
+  }
+  if (status === 'rejected') {
+    return base.eq('status', 'rejected');
+  }
+  if (status === 'arena_live') {
+    return base.eq('status', 'approved').or(`ends_at.is.null,ends_at.gt.${nowIso}`);
+  }
+  return base.eq('status', 'approved').not('ends_at', 'is', null).lte('ends_at', nowIso);
+}
+
+export async function getAdminUgcQueueCounts(): Promise<AdminUgcQueueCounts> {
+  const nowIso = new Date().toISOString();
+  const pairs = await Promise.all(
+    UGC_MOD_QUEUE_TABS.map(async (status) => {
+      const { count, error } = await arenaCountsQuery(status, nowIso);
+      if (error) throw new Error(error.message);
+      return [status, count ?? 0] as const;
+    }),
+  );
+  return Object.fromEntries(pairs) as AdminUgcQueueCounts;
+}
+
+export async function listChallengesForAdmin(options?: {
   page?: number;
   pageSize?: number;
+  statusFilter?: AdminQueueTabStatus;
   tierFilter?: AiTierFilter;
   riskFirst?: boolean;
 }): Promise<AdminPendingListResult> {
@@ -27,25 +70,38 @@ export async function listPendingChallengesForAdmin(options?: {
   const page = Math.max(1, options?.page ?? 1);
   const from = (page - 1) * pageSize;
   const to = from + pageSize - 1;
+  const statusFilter = options?.statusFilter ?? 'pending';
   const tierFilter = options?.tierFilter ?? 'all';
   const riskFirst = options?.riskFirst ?? true;
+  const nowIso = new Date().toISOString();
 
   let query = supabase
     .from('challenges')
     .select(PENDING_CHALLENGE_SELECT, { count: 'exact' })
-    .eq('status', 'pending');
+    .eq('is_official', false);
 
-  if (tierFilter === 'green') query = query.eq('ai_tier', 'green');
-  else if (tierFilter === 'orange') query = query.eq('ai_tier', 'orange');
-  else if (tierFilter === 'red') query = query.eq('ai_tier', 'red');
-  else if (tierFilter === 'none') query = query.is('ai_tier', null);
+  if (statusFilter === 'pending') {
+    query = query.eq('status', 'pending');
+    if (tierFilter === 'green') query = query.eq('ai_tier', 'green');
+    else if (tierFilter === 'orange') query = query.eq('ai_tier', 'orange');
+    else if (tierFilter === 'red') query = query.eq('ai_tier', 'red');
+    else if (tierFilter === 'none') query = query.is('ai_tier', null);
+  } else if (statusFilter === 'rejected') {
+    query = query.eq('status', 'rejected');
+  } else if (statusFilter === 'arena_live') {
+    query = query.eq('status', 'approved').or(`ends_at.is.null,ends_at.gt.${nowIso}`);
+  } else {
+    query = query.eq('status', 'approved').not('ends_at', 'is', null).lte('ends_at', nowIso);
+  }
 
-  if (riskFirst) {
+  if (statusFilter === 'pending' && riskFirst) {
     query = query
       .order('ai_tier_rank', { ascending: true })
       .order('created_at', { ascending: true });
   } else {
-    query = query.order('created_at', { ascending: true });
+    query = query
+      .order('reviewed_at', { ascending: false, nullsFirst: false })
+      .order('created_at', { ascending: false });
   }
 
   const { data, error, count } = await query.range(from, to);
@@ -56,6 +112,13 @@ export async function listPendingChallengesForAdmin(options?: {
     creator: normalizePostgrestCreator((row as { creator?: unknown }).creator),
   }));
   return { rows, totalCount: count ?? 0 };
+}
+
+/** @deprecated Use listChallengesForAdmin */
+export async function listPendingChallengesForAdmin(
+  options?: Omit<Parameters<typeof listChallengesForAdmin>[0], 'statusFilter'>,
+): Promise<AdminPendingListResult> {
+  return listChallengesForAdmin({ ...options, statusFilter: 'pending' });
 }
 
 export async function adminApproveChallenge(challengeId: string): Promise<void> {
@@ -75,6 +138,13 @@ export async function adminRejectChallenge(input: {
     p_challenge_id: input.challengeId,
     p_status: 'rejected',
     p_rejection_reason: input.reason.trim(),
+  });
+  if (error) throw new Error(error.message);
+}
+
+export async function adminCloseChallenge(challengeId: string): Promise<void> {
+  const { error } = await supabase.rpc('admin_close_challenge', {
+    p_challenge_id: challengeId,
   });
   if (error) throw new Error(error.message);
 }

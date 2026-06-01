@@ -30,7 +30,18 @@ export function AdminChallengeQueueFetchError({ message, onRetry }: FetchErrorPr
   );
 }
 
-export function AdminChallengeQueueEmpty() {
+import type { AdminQueueTabStatus } from '@/features/admin/services/adminChallenges';
+
+type EmptyProps = {
+  statusFilter: AdminQueueTabStatus;
+};
+
+export function AdminChallengeQueueEmpty({ statusFilter }: EmptyProps) {
   const t = useTranslations('admin.queue');
-  return <p className="text-sm text-muted-foreground">{t('empty')}</p>;
+
+  return (
+    <div className="rounded-md border border-border bg-card p-6 text-center">
+      <p className="text-sm text-muted-foreground">{t(`empty.${statusFilter}`)}</p>
+    </div>
+  );
 }

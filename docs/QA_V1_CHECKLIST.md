@@ -1,6 +1,6 @@
 # Truegrynd — QA checklist V1 (strong)
 
-**Périmètre :** tout ce qui est sur `main` après PR #30 → #55 + migrations prod `006`–`012`.  
+**Périmètre :** tout ce qui est sur `main` après PR #30 → #55 + migrations prod `006`–`013`.  
 **Pas V2** (divisions, weekly, rating, etc.) — pas encore codé.
 
 **Environnement :** tester contre **prod Supabase** + déploiement Vercel (ou `pnpm dev` + `.env.local` prod).  
@@ -13,7 +13,7 @@ Coche : `[ ]` à faire · `[x]` OK · `[!]` bug (noter en bas)
 
 ## 0. Prérequis ops
 
-- [ ] Migrations **`001`–`012`** appliquées sur le projet Supabase utilisé par l’app
+- [ ] Migrations **`001`–`013`** appliquées sur le projet Supabase utilisé par l’app (`013` = `challenges.ends_at` + RPC `admin_close_challenge`)
 - [ ] Edge Function **`admin-challenge-ai-review`** déployée
 - [ ] Secrets Supabase : **`OPENAI_API_KEY`** (et optionnel `OPENAI_MODEL`)
 - [ ] Au moins 1 compte avec `profiles.is_admin = true` (voir `docs/RUNBOOK.md`)
@@ -46,12 +46,13 @@ Coche : `[ ]` à faire · `[x]` OK · `[!]` bug (noter en bas)
 
 ## 3. Arena & navigation
 
-| #   | Test                                        | Attendu                                         | EN  | FR  |
-| --- | ------------------------------------------- | ----------------------------------------------- | --- | --- |
-| 3.1 | `/en/app/arena`                             | Liste challenges (approved), pas écran blanc    | [ ] | [ ] |
-| 3.2 | Dock / nav desktop                          | Overview, Arena, Clan, Profile (+ MOD si admin) | [ ] | [ ] |
-| 3.3 | Filtres leaderboard (si présents sur liste) | Changement sans erreur                          | [ ] | [ ] |
-| 3.4 | Ouvrir un challenge **approved**            | Détail + leaderboard                            | [ ] | [ ] |
+| #    | Test                                        | Attendu                                                                | EN  | FR  |
+| ---- | ------------------------------------------- | ---------------------------------------------------------------------- | --- | --- |
+| 3.1  | `/en/app/arena`                             | Liste challenges **live** (approved, pas fermés), pas écran blanc      | [ ] | [ ] |
+| 3.1b | Défi **FERMER** en MOD (admin)              | Disparaît du feed `/arena` ; détail direct URL encore OK (leaderboard) | [ ] | [ ] |
+| 3.2  | Dock / nav desktop                          | Overview, Arena, Clan, Profile (+ MOD si admin)                        | [ ] | [ ] |
+| 3.3  | Filtres leaderboard (si présents sur liste) | Changement sans erreur                                                 | [ ] | [ ] |
+| 3.4  | Ouvrir un challenge **approved**            | Détail + leaderboard                                                   | [ ] | [ ] |
 
 ---
 
@@ -84,11 +85,11 @@ Coche : `[ ]` à faire · `[x]` OK · `[!]` bug (noter en bas)
 
 | #   | Test                                                              | Attendu                                                     | EN  | FR  |
 | --- | ----------------------------------------------------------------- | ----------------------------------------------------------- | --- | --- |
-| 6.1 | Affichage streak                                                  | `streak_days` cohérent après nouvelle soumission (jour UTC) | [ ] | [ ] |
-| 6.2 | **Creator score** + badge (bronze/silver/gold si seuils atteints) | Affichage + tooltip / copy                                  | [ ] | [ ] |
-| 6.3 | Historique scores                                                 | Liste avec états ranked / saved si applicable               | [ ] | [ ] |
-| 6.4 | Galerie finisher cards                                            | Chargement / empty / erreur + retry                         | [ ] | [ ] |
-| 6.5 | Changement avatar                                                 | Upload OK, erreur si fichier trop gros / mauvais type       | [ ] | [ ] |
+| 6.1 | Affichage streak                                                  | `streak_days` cohérent après nouvelle soumission (jour UTC) | [x] | [x] |
+| 6.2 | **Creator score** + badge (bronze/silver/gold si seuils atteints) | Affichage + tooltip / copy                                  | [x] | [x] |
+| 6.3 | Historique scores                                                 | Liste avec états ranked / saved si applicable               | [x] | [x] |
+| 6.4 | Galerie finisher cards                                            | Chargement / empty / erreur + retry                         | [!] | [!] |
+| 6.5 | Changement avatar                                                 | Upload OK, erreur si fichier trop gros / mauvais type       | [x] | [x] |
 
 **Streak (DB) :** après 1ère soumission du jour → streak ≥ 1 ; 2e soumission même jour → pas de double incrément (idempotent).
 
@@ -120,19 +121,24 @@ Coche : `[ ]` à faire · `[x]` OK · `[!]` bug (noter en bas)
 
 ## 9. Admin — Modération UGC
 
-**Compte admin requis.**
+**Compte admin requis.**  
+**Onglets MOD :** EN REVUE (`pending`) · EN COURS / LIVE (`arena_live`) · TERMINÉ / DONE (`arena_done`) · REFUSÉ (`rejected`).  
+Filtres IA / batch **uniquement** sur EN REVUE.
 
-| #   | Test                                        | Attendu                                                       | EN  | FR  |
-| --- | ------------------------------------------- | ------------------------------------------------------------- | --- | --- |
-| 9.1 | User non-admin → `/en/app/admin/challenges` | **404** ou redirect (pas d’accès)                             | [ ] | [ ] |
-| 9.2 | Admin : liste pending                       | Pagination, loading, empty, error+retry                       | [ ] | [ ] |
-| 9.3 | **Approve** (simple)                        | Confirmation modal → challenge approved, disparaît de la file | [ ] | [ ] |
-| 9.4 | **Reject**                                  | Motif &lt; 10 car. refusé ; ≥ 10 OK ; créateur voit motif     | [ ] | [ ] |
-| 9.5 | Batch approve + confirm                     | N challenges approuvés                                        | [ ] | [ ] |
-| 9.6 | Filtres IA : tier + tri risque              | Filtre cohérent                                               | [ ] | [ ] |
-| 9.7 | **AI scan** (1 ligne pending)               | Tier + résumé remplis ; pas d’auto-approve sans clic          | [ ] | [ ] |
-| 9.8 | AI scan sans `OPENAI_API_KEY`               | Message type “non configuré”, pas crash opaque                | [ ] | [ ] |
-| 9.9 | Batch approve **verts only** (si coché)     | Seuls `ai_tier=green` passent en approved                     | [ ] | [ ] |
+| #    | Test                                             | Attendu                                                   | EN  | FR  |
+| ---- | ------------------------------------------------ | --------------------------------------------------------- | --- | --- |
+| 9.1  | User non-admin → `/en/app/admin/challenges`      | **404** ou redirect (pas d’accès)                         | [ ] | [ ] |
+| 9.2  | Compteurs onglets + total communauté             | Chiffres cohérents sur les 4 onglets + ligne total UGC    | [ ] | [ ] |
+| 9.3  | EN REVUE : liste pending                         | Pagination, loading, empty, error+retry                   | [ ] | [ ] |
+| 9.4  | **Approve** (simple)                             | Confirmation modal → onglet **EN COURS**, compteur +1     | [ ] | [ ] |
+| 9.5  | **FERMER** (EN COURS)                            | Confirmation → onglet **TERMINÉ**, compteur EN COURS −1   | [ ] | [ ] |
+| 9.6  | **Reject**                                       | Motif &lt; 10 car. refusé ; ≥ 10 OK ; créateur voit motif | [ ] | [ ] |
+| 9.7  | Batch approve + confirm (EN REVUE)               | N challenges → EN COURS                                   | [ ] | [ ] |
+| 9.8  | Filtres IA : tier + tri risque (EN REVUE)        | Filtre cohérent                                           | [ ] | [ ] |
+| 9.9  | **AI scan** (1 ligne pending)                    | Tier + résumé remplis ; pas d’auto-approve sans clic      | [ ] | [ ] |
+| 9.10 | AI scan sans `OPENAI_API_KEY`                    | Message type “non configuré”, pas crash opaque            | [ ] | [ ] |
+| 9.11 | Batch approve **verts only** (si coché)          | Seuls `ai_tier=green` passent en approved                 | [ ] | [ ] |
+| 9.12 | Onglets historique (EN COURS / TERMINÉ / REFUSÉ) | **VOIR** ouvre le détail ; pas d’actions approve/reject   | [ ] | [ ] |
 
 ---
 
@@ -188,10 +194,11 @@ Sinon si UI trouvée :
 
 ## Bugs trouvés
 
-| ID  | Sévérité | Parcours | Description | Repro | Statut |
-| --- | -------- | -------- | ----------- | ----- | ------ |
-| B1  |          |          |             |       |        |
-| B2  |          |          |             |       |        |
+| ID  | Sévérité | Parcours               | Description                                                                                                                                              | Repro                                  | Statut |
+| --- | -------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- | ------ |
+| B1  | P1       | Profil → CARD / finish | `/app/finish` affiche toujours « Could not load… » (ranked **et** saved) — `FinishPage` client lit `searchParams` en prop au lieu de `useSearchParams()` | Profil → CARD ou galerie → `/finish?…` | ouvert |
+| B2  | P2       | Profil §6.4 galerie    | `FinisherGallery` en erreur : message seul, **pas de bouton Retry** (contrairement à `ScoreHistory`)                                                     | Simuler erreur fetch scores            | ouvert |
+| B3  | P3       | Profil galerie         | Miniature card SAVED : chevauchement texte faction / « NO VIDEO » sur le canvas                                                                          | Profil avec score non validé           | ouvert |
 
 **Sévérité :** P0 bloquant · P1 majeur · P2 mineur · P3 cosmétique
 
@@ -202,7 +209,7 @@ Sinon si UI trouvée :
 - [ ] **GO** — prêt pour travailler V2-01 en confiance
 - [ ] **NO-GO** — bugs P0/P1 à corriger d’abord
 
-**Signé :** ******\_\_\_****** **Date :** ******\_\_\_******
+**Signé :** **\*\***\_\_\_**\*\*** **Date :** **\*\***\_\_\_**\*\***
 
 ---
 

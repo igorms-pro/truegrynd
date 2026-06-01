@@ -6,10 +6,14 @@ import { ADMIN_QUEUE_PAGE_SIZE, adminQueueMaxPage } from '@/features/admin/lib/a
 import {
   adminApproveChallenge,
   adminBatchApproveChallenges,
+  adminCloseChallenge,
   adminRejectChallenge,
   adminRunChallengeAiReview,
-  listPendingChallengesForAdmin,
+  getAdminUgcQueueCounts,
+  listChallengesForAdmin,
   type AdminPendingChallenge,
+  type AdminQueueTabStatus,
+  type AdminUgcQueueCounts,
   type AiTierFilter,
 } from '@/features/admin/services/adminChallenges';
 
@@ -30,6 +34,8 @@ export function useAdminPendingChallenges(): {
   page: number;
   setPage: (page: number) => void;
   pageSize: number;
+  statusFilter: AdminQueueTabStatus;
+  setStatusFilter: (value: AdminQueueTabStatus) => void;
   tierFilter: AiTierFilter;
   setTierFilter: (value: AiTierFilter) => void;
   riskFirst: boolean;
@@ -38,15 +44,24 @@ export function useAdminPendingChallenges(): {
   approveOne: (id: string) => Promise<void>;
   batchApprove: (ids: string[], options?: { onlyGreen?: boolean }) => Promise<number>;
   rejectOne: (id: string, reason: string) => Promise<void>;
+  closeOne: (id: string) => Promise<void>;
   analyzeOne: (id: string) => Promise<void>;
   analyzeBusyId: string | null;
+  statusCounts: AdminUgcQueueCounts | null;
 } {
   const [state, setState] = useState<State>(initial);
   const [page, setPage] = useState(1);
   const [reloadKey, setReloadKey] = useState(0);
+  const [statusFilter, setStatusFilterState] = useState<AdminQueueTabStatus>('pending');
   const [tierFilter, setTierFilterState] = useState<AiTierFilter>('all');
   const [riskFirst, setRiskFirstState] = useState(true);
   const [analyzeBusyId, setAnalyzeBusyId] = useState<string | null>(null);
+  const [statusCounts, setStatusCounts] = useState<AdminUgcQueueCounts | null>(null);
+
+  const setStatusFilter = useCallback((value: AdminQueueTabStatus) => {
+    setStatusFilterState(value);
+    setPage(1);
+  }, []);
 
   const setTierFilter = useCallback((value: AiTierFilter) => {
     setTierFilterState(value);
@@ -62,9 +77,25 @@ export function useAdminPendingChallenges(): {
     let cancelled = false;
     void (async () => {
       try {
-        const { rows, totalCount } = await listPendingChallengesForAdmin({
+        const counts = await getAdminUgcQueueCounts();
+        if (!cancelled) setStatusCounts(counts);
+      } catch {
+        if (!cancelled) setStatusCounts(null);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [reloadKey]);
+
+  useEffect(() => {
+    let cancelled = false;
+    void (async () => {
+      try {
+        const { rows, totalCount } = await listChallengesForAdmin({
           page,
           pageSize: ADMIN_QUEUE_PAGE_SIZE,
+          statusFilter,
           tierFilter,
           riskFirst,
         });
@@ -85,7 +116,7 @@ export function useAdminPendingChallenges(): {
     return () => {
       cancelled = true;
     };
-  }, [page, reloadKey, tierFilter, riskFirst]);
+  }, [page, reloadKey, statusFilter, tierFilter, riskFirst]);
 
   const refetch = useCallback(() => {
     setState({ status: 'loading', rows: [], error: null });
@@ -95,6 +126,18 @@ export function useAdminPendingChallenges(): {
   const approveOne = useCallback(
     async (id: string) => {
       await adminApproveChallenge(id);
+      setStatusFilterState('arena_live');
+      setPage(1);
+      refetch();
+    },
+    [refetch],
+  );
+
+  const closeOne = useCallback(
+    async (id: string) => {
+      await adminCloseChallenge(id);
+      setStatusFilterState('arena_done');
+      setPage(1);
       refetch();
     },
     [refetch],
@@ -112,6 +155,8 @@ export function useAdminPendingChallenges(): {
   const rejectOne = useCallback(
     async (id: string, reason: string) => {
       await adminRejectChallenge({ challengeId: id, reason });
+      setStatusFilterState('rejected');
+      setPage(1);
       refetch();
     },
     [refetch],
@@ -135,6 +180,8 @@ export function useAdminPendingChallenges(): {
     page,
     setPage,
     pageSize: ADMIN_QUEUE_PAGE_SIZE,
+    statusFilter,
+    setStatusFilter,
     tierFilter,
     setTierFilter,
     riskFirst,
@@ -143,7 +190,9 @@ export function useAdminPendingChallenges(): {
     approveOne,
     batchApprove,
     rejectOne,
+    closeOne,
     analyzeOne,
     analyzeBusyId,
+    statusCounts,
   };
 }
