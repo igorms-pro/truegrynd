@@ -11,6 +11,7 @@ import {
   useProfile,
 } from '@/features/profile';
 import { useProfileRating } from '@/features/profile/hooks/useProfileRating';
+import { RivalHubLink } from '@/features/rivals';
 
 export default function ProfilePage() {
   const tabs = useTranslations('app.tabs');
@@ -65,6 +66,8 @@ export default function ProfilePage() {
       <ProfileHeader profile={state.profile} onAvatarUpdated={refetch} />
 
       <PassportLink />
+
+      <RivalHubLink />
 
       <ProfileRatingCard
         rating={ratingState.state.status === 'ready' ? ratingState.state.rating : null}
