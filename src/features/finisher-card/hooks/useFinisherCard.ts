@@ -3,9 +3,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useRequireAppAccess } from '@/features/appshell';
-import { getChallengeById } from '@/features/challenges/services/challenges';
-import { formatTopPercent, percentileFromCounts } from '@/features/finisher-card/lib/percentile';
-import { getRankCounts } from '@/features/finisher-card/services/rank';
+import { getChallengeById } from '@/lib/challenges';
+import { formatTopPercent, getRankCounts, percentileFromCounts } from '@/lib/rank';
 import { getScoreById } from '@/features/finisher-card/services/scores';
 import type { Challenge, Faction, Score } from '@/lib/types/database.types';
 

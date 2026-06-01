@@ -2,7 +2,7 @@
 
 import { useParams } from 'next/navigation';
 
-import { PublicProfileScreen } from '@/features/profile/components/PublicProfileScreen';
+import { PublicProfileScreen } from '@/features/profile';
 
 export default function PublicProfilePage() {
   const params = useParams();

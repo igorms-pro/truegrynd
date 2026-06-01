@@ -12,12 +12,15 @@ vi.mock('@/features/finisher-card/services/scores', () => ({
   getScoreById: (...args: unknown[]) => getScoreByIdMock(...args),
 }));
 
-vi.mock('@/features/challenges/services/challenges', () => ({
+vi.mock('@/lib/challenges', () => ({
   getChallengeById: (...args: unknown[]) => getChallengeByIdMock(...args),
 }));
 
-vi.mock('@/features/finisher-card/services/rank', () => ({
+vi.mock('@/lib/rank', () => ({
   getRankCounts: (...args: unknown[]) => getRankCountsMock(...args),
+  formatTopPercent: (p: number) => Math.max(1, Math.ceil((1 - p) * 100)),
+  percentileFromCounts: (total: number, better: number) =>
+    total > 0 ? { rank: better + 1, total, percentile: 1 - better / total } : null,
 }));
 
 vi.mock('@/features/appshell', () => ({

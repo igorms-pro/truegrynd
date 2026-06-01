@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 
-import { useProfile } from '@/features/profile/hooks/useProfile';
+import { useOptionalAppProfile } from '@/features/appshell/context/AppProfileContext';
 import {
   getClanHudData,
   type FactionRow,
@@ -18,14 +18,13 @@ type State =
 const initial: State = { status: 'loading', rankings: null, members: null, error: null };
 
 export function useClanHud(): { state: State; refetch: () => void } {
-  const { state: profile } = useProfile();
+  const appProfile = useOptionalAppProfile();
   const [state, setState] = useState<State>(initial);
   const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
-    if (profile.status !== 'ready') return;
-    const faction = profile.profile.faction;
-    if (!faction) return;
+    if (!appProfile?.faction) return;
+    const faction = appProfile.faction;
 
     let cancelled = false;
     void (async () => {
@@ -49,7 +48,7 @@ export function useClanHud(): { state: State; refetch: () => void } {
     return () => {
       cancelled = true;
     };
-  }, [profile, reloadKey]);
+  }, [appProfile, reloadKey]);
 
   const refetch = useCallback(() => {
     setState(initial);

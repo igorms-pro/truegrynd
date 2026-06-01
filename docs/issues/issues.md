@@ -476,28 +476,29 @@ Branche : `chore/issue-69-production-hardening`
 
 ### Lot 1 — Shared libs (P0)
 
-- [ ] Créer `src/lib/scoring/` : `formatScore`, `formatTime`, `isAllowedVideoUrl` (ré-export ou move depuis features)
-- [ ] Créer `src/lib/rank/` : `getRankCounts`, `percentileFromCounts`, `formatTopPercent` (consommé par finisher + profile)
-- [ ] Créer `src/lib/finisher/buildFinisherCardOptions.ts` — unique source options canvas (full + thumb)
-- [ ] Mettre à jour imports : profile, submission, challenges, finisher-card → **lib only**
-- [ ] Tests unitaires déplacés/dupliqués minimal ; `pnpm test:run` vert
+- [x] Créer `src/lib/scoring/` : `formatScore`, `formatTime`, `isAllowedVideoUrl` (ré-export ou move depuis features)
+- [x] Créer `src/lib/rank/` : `getRankCounts`, `percentileFromCounts`, `formatTopPercent` (consommé par finisher + profile)
+- [x] Créer `src/lib/finisher/buildFinisherCardOptions.ts` — unique source options canvas (full + thumb)
+- [x] Mettre à jour imports : profile, submission, challenges, finisher-card → **lib only**
+- [x] Tests unitaires déplacés/dupliqués minimal ; `pnpm test:run` vert
 
 ### Lot 2 — Feature boundaries (P0)
 
-- [ ] Ajouter `src/features/profile/index.ts`, `finisher-card/index.ts`, `auth/index.ts`
-- [ ] Pages `app/` importent uniquement via barrels feature ou `@/lib`
-- [ ] Vérifier : `grep` cross-feature = 0 (hors appshell)
+- [x] Ajouter `src/features/profile/index.ts`, `finisher-card/index.ts`, `auth/index.ts`
+- [x] Pages `app/` importent uniquement via barrels feature ou `@/lib` (profile, finish, auth, history, public profile)
+- [x] Vérifier : `grep` cross-feature = 0 entre profile / challenges / submission / finisher-card
 
 ### Lot 3 — Thin pages & file size (P1)
 
-- [ ] Extraire `AuthScreen` depuis `src/app/[locale]/auth/page.tsx` (229 → page <30 LOC)
-- [ ] Extraire logique canvas de `finish/page.tsx` vers feature finisher-card
+- [x] Extraire `AuthScreen` depuis `src/app/[locale]/auth/page.tsx` (229 → page <30 LOC)
+- [x] Extraire logique canvas de `finish/page.tsx` vers feature finisher-card (`FinishPageContent`)
 - [ ] Split si >200 LOC : `AdminChallengeQueue`, `AdminPendingChallengeRow`, `OnboardingIdentityStep`, `CreateChallengeCircuitSection`
 
 ### Lot 4 — Data layer foundation (P1)
 
-- [ ] `src/lib/async-state.ts` — type `AsyncState<T>` + helpers (ou introduire React Query sur 2–3 hooks pilotes : `useMyScores`, `useChallenge`)
-- [ ] Documenter pattern canon dans commentaire ou `.cursor/rules` si besoin
+- [x] `src/lib/async-state.ts` — type `AsyncState<T>` + helpers
+- [x] Hooks partagés : `src/hooks/useChallenge.ts`, `src/hooks/useMyScores.ts` (+ `src/lib/scores/`, `src/lib/challenges/`, `src/lib/commitments/`)
+- [ ] React Query pilote (optionnel post-merge) ou migration progressive des hooks existants
 
 ### Lot 5 — Cohérence profil public (P2)
 
@@ -532,17 +533,17 @@ Branche : `chore/issue-69-production-hardening`
 
 **P0 — Architecture (bloquant V2)**
 
-- [ ] **`src/lib/scoring/`** — format score/time, validation vidéo (sources of truth)
-- [ ] **`src/lib/rank/`** — percentile + rank counts (finisher + profile history)
-- [ ] **`src/lib/finisher/buildFinisherCardOptions.ts`** — DRY canvas full/thumb
-- [ ] **Supprimer imports cross-feature** documentés dans l’audit
-- [ ] **Barrels** `profile`, `finisher-card`, `auth` + pages thin
+- [x] **`src/lib/scoring/`** — format score/time, validation vidéo (sources of truth)
+- [x] **`src/lib/rank/`** — percentile + rank counts (finisher + profile history)
+- [x] **`src/lib/finisher/buildFinisherCardOptions.ts`** — DRY canvas full/thumb
+- [x] **Supprimer imports cross-feature** profile ↔ challenges ↔ submission ↔ finisher-card
+- [x] **Barrels** `profile`, `finisher-card`, `auth` + pages thin (auth, finish)
 
 **P1 — Maintenabilité**
 
-- [ ] **`AuthScreen`** extrait de `auth/page.tsx`
-- [ ] **Split 5 fichiers >200 LOC** (admin, onboarding, create challenge)
-- [ ] **`AsyncState<T>`** ou React Query pilote sur hooks les plus utilisés
+- [x] **`AuthScreen`** extrait de `auth/page.tsx`
+- [ ] **Split 4 fichiers >200 LOC** (admin queue/row, onboarding identity, create challenge circuit)
+- [x] **`AsyncState<T>`** + hooks partagés `useChallenge` / `useMyScores`
 
 **P2 — Polish production**
 

@@ -9,7 +9,7 @@ export { useChallenges } from '@/features/challenges/hooks/useChallenges';
 export { useChallenge } from '@/features/challenges/hooks/useChallenge';
 export { useChallengeLeaderboard } from '@/features/challenges/hooks/useChallengeLeaderboard';
 
-export { formatScore, formatTime, formatReps } from '@/features/challenges/lib/scoreFormat';
+export { formatScore, formatTime, formatReps } from '@/lib/scoring';
 export { sortScoresByType } from '@/features/challenges/lib/leaderboardSort';
 export {
   AGE_BRACKETS,

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { formatReps, formatScore, formatTime } from '@/features/challenges/lib/scoreFormat';
+import { formatReps, formatScore, formatTime } from '@/lib/scoring/formatScore';
 
 describe('formatTime', () => {
   it('pads minutes and seconds to two digits', () => {

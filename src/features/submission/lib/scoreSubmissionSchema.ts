@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 import { parseTimeInput } from '@/features/submission/lib/parseTime';
-import { isAllowedVideoUrl } from '@/features/submission/lib/videoUrl';
+import { isAllowedVideoUrl } from '@/lib/scoring';
 import type { ScoreType } from '@/lib/types/database.types';
 
 export type ScoreSubmissionFormValues = {

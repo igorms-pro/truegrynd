@@ -6,7 +6,7 @@ import { useLocale, useTranslations } from 'next-intl';
 
 import { factionPath } from '@/features/factions/lib/factionSlug';
 import { useChallengeOfTheDay } from '@/features/overview/hooks/useChallengeOfTheDay';
-import { useProfile } from '@/features/profile/hooks/useProfile';
+import { useOptionalAppProfile } from '@/features/appshell/context/AppProfileContext';
 import { getFactionBadgeClasses } from '@/lib/factionStyles';
 
 function PrimaryButtonLink({ href, label }: { href: string; label: string }) {
@@ -27,10 +27,10 @@ export function OverviewScreen() {
   const tFactions = useTranslations('factions');
 
   const { state: cotd, refetch: refetchCotd } = useChallengeOfTheDay();
-  const { state: profile, refetch: refetchProfile } = useProfile();
+  const appProfile = useOptionalAppProfile();
 
   const clanHref = `/${locale}/app/clan`;
-  const readyProfile = profile.status === 'ready' ? profile.profile : null;
+  const readyProfile = appProfile;
   const userFaction = readyProfile?.faction ?? null;
   const factionBadge = userFaction ? getFactionBadgeClasses(userFaction) : null;
   const factionName = userFaction ? tFactions(userFaction) : null;
@@ -96,21 +96,8 @@ export function OverviewScreen() {
             {t('statusTitle')}
           </p>
 
-          {profile.status === 'loading' ? (
+          {!readyProfile ? (
             <p className="mt-2 text-sm text-muted-foreground">{t('loading')}</p>
-          ) : null}
-
-          {profile.status === 'error' ? (
-            <div className="mt-2">
-              <p className="text-sm text-muted-foreground">{t('error')}</p>
-              <button
-                type="button"
-                onClick={refetchProfile}
-                className="mt-3 inline-flex items-center justify-center rounded-md bg-muted px-3 py-2 text-xs font-black uppercase tracking-[0.18em] text-foreground hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              >
-                {t('retry')}
-              </button>
-            </div>
           ) : null}
 
           {readyProfile ? (

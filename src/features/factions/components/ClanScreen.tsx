@@ -6,16 +6,16 @@ import { ClanArenaCta } from '@/features/factions/components/ClanArenaCta';
 import { ClanFactionWarCard } from '@/features/factions/components/ClanFactionWarCard';
 import { ClanTopMembersCard } from '@/features/factions/components/ClanTopMembersCard';
 import { RecruitCta } from '@/features/factions/components/RecruitCta';
+import { useOptionalAppProfile } from '@/features/appshell/context/AppProfileContext';
 import { useClanHud } from '@/features/factions/hooks/useClanHud';
-import { useProfile } from '@/features/profile/hooks/useProfile';
 
 export function ClanScreen() {
   const tabs = useTranslations('app.tabs');
   const t = useTranslations('clan');
 
   const { state, refetch } = useClanHud();
-  const { state: profileState } = useProfile();
-  const currentUserId = profileState.status === 'ready' ? profileState.profile.id : null;
+  const appProfile = useOptionalAppProfile();
+  const currentUserId = appProfile?.id ?? null;
 
   return (
     <section className="space-y-6">

@@ -6,11 +6,8 @@ import { useLocale, useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import { useChallenge } from '@/features/challenges/hooks/useChallenge';
-import {
-  clearChallengeCommitment,
-  recordChallengeCommitment,
-} from '@/features/profile/lib/challengeCommitments';
+import { useChallenge } from '@/hooks/useChallenge';
+import { clearChallengeCommitment, recordChallengeCommitment } from '@/lib/commitments';
 import { ScoreSubmissionForm } from '@/features/submission/components/ScoreSubmissionForm';
 
 type Props = {

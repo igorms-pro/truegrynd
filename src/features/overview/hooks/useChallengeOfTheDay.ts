@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-import { listApprovedChallenges } from '@/features/challenges/services/challenges';
+import { listApprovedChallenges } from '@/lib/challenges';
 import type { Challenge } from '@/lib/types/database.types';
 
 type State =

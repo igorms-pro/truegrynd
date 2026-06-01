@@ -1,5 +1,5 @@
-import { listMyScores } from '@/features/profile/services/scores';
-import { getProfileById } from '@/features/profile/services/profile';
+import { getProfileById } from '@/lib/profile/getProfile';
+import { listMyScores } from '@/lib/scores';
 
 export async function exportUserData(userId: string): Promise<Blob> {
   const [profile, scores] = await Promise.all([getProfileById(userId), listMyScores(userId, 500)]);

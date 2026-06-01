@@ -6,7 +6,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { CLAN_ROW_LINK_CLASS } from '@/features/factions/lib/clanRowLinkClass';
 import { formatClanPoints } from '@/features/factions/lib/formatClanPoints';
 import type { MemberRow } from '@/features/factions/services/clanHud';
-import { publicProfilePath } from '@/features/profile/lib/publicProfilePath';
+import { publicProfilePath } from '@/lib/profile/publicProfilePath';
 import { getFactionBadgeClasses } from '@/lib/factionStyles';
 import type { Faction } from '@/lib/types/database.types';
 

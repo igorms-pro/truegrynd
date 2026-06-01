@@ -1,17 +1,7 @@
-import type { Faction, ScoreType } from '@/lib/types/database.types';
+import type { FinisherCardDrawOptions } from '@/lib/finisher/buildFinisherCardOptions';
+import type { Faction } from '@/lib/types/database.types';
 
-type Options = {
-  width: number;
-  height: number;
-  faction: Faction;
-  username: string;
-  challengeTitle: string;
-  scoreType: ScoreType;
-  scoreValue: number;
-  topPercent: number | null;
-  rankTextOverride?: string;
-  rankSubOverride?: string;
-};
+type Options = FinisherCardDrawOptions;
 
 function factionColor(faction: Faction): string {
   if (faction === 'nomads') return '#4a9e6f';
