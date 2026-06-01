@@ -599,6 +599,95 @@
     "endsIn": "Ends in {days}d {hours}h",
     "ended": "This week is over"
   },
+  "rivals": {
+    "hubLink": {
+      "kicker": "RIVALS",
+      "cta": "DUELS & INVITES",
+      "openAria": "Open rival matches"
+    },
+    "hub": {
+      "title": "RIVAL MATCHES",
+      "subtitle": "Async 1v1 duels on 1–3 challenges. Same division only.",
+      "loading": "Loading rival matches...",
+      "errorTitle": "Could not load rivals",
+      "errorBody": "Try again.",
+      "retry": "Retry",
+      "newCta": "START DUEL",
+      "invitesTitle": "PENDING INVITES",
+      "invitesEmpty": "No invites waiting. Start a duel or wait for a rival.",
+      "matchesTitle": "YOUR MATCHES",
+      "matchesEmpty": "No matches yet."
+    },
+    "create": {
+      "back": "RIVALS",
+      "title": "START A DUEL",
+      "subtitle": "Pick up to 3 Arena challenges and invite a rival by username.",
+      "divisionHint": "Matching locked to your division: {division}",
+      "picker": {
+        "title": "CHALLENGES",
+        "hint": "Select 1 to 3 approved challenges.",
+        "selected": "{count} / 3 selected",
+        "loading": "Loading Arena challenges...",
+        "error": "Could not load challenges.",
+        "retry": "Retry",
+        "empty": "No open Arena challenges right now."
+      },
+      "duration": {
+        "title": "DURATION",
+        "h24": "24 HOURS",
+        "d7": "7 DAYS"
+      },
+      "invitee": {
+        "label": "RIVAL USERNAME",
+        "placeholder": "their_username",
+        "hint": "They must be in your division to accept."
+      },
+      "submit": "SEND INVITE",
+      "submitting": "SENDING...",
+      "validation": {
+        "challengesMin": "Pick at least one challenge.",
+        "challengesMax": "Pick at most three challenges.",
+        "usernameMin": "Username is too short.",
+        "usernameMax": "Username is too long."
+      }
+    },
+    "invite": {
+      "kicker": "DUEL INVITE",
+      "from": "From @{username}",
+      "unknown": "rival",
+      "meta": "{division} · {duration}",
+      "duration24": "24h window",
+      "duration7d": "7d window",
+      "accept": "ACCEPT",
+      "accepting": "ACCEPTING...",
+      "decline": "DECLINE"
+    },
+    "list": {
+      "divisionLine": "{division} division",
+      "duration24": "24h",
+      "duration7d": "7d"
+    },
+    "status": {
+      "pending": "Pending",
+      "active": "Active",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "expired": "Expired"
+    },
+    "errors": {
+      "generic": "Could not complete this rival action. Try again.",
+      "too_many_pending_invites_sent": "You have too many pending invites. Wait for responses.",
+      "invitee_too_many_pending": "This rival has too many pending invites.",
+      "division_mismatch": "That user is not in your division.",
+      "invitee_not_found": "Username not found.",
+      "cannot_invite_self": "You cannot duel yourself.",
+      "invalid_challenge_count": "Pick 1 to 3 challenges.",
+      "invalid_duration": "Invalid duration.",
+      "not_invited": "You are not invited to this match.",
+      "match_not_pending": "This invite is no longer pending.",
+      "cannot_cancel": "Could not cancel this match."
+    }
+  },
   "finisher": {
     "title": "FINISHER CARD",
     "loading": "Loading...",

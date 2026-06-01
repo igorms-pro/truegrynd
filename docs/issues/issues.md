@@ -80,7 +80,7 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 - [x] **V2-04** — Leaderboards par division, faction, ville, pays — 🟢 [#79](https://github.com/igorms-pro/truegrynd/issues/79) PR [#80](https://github.com/igorms-pro/truegrynd/pull/80) · migration **`018`** prod
 - [x] **V2-05** — Truegrynd Rating (Engine / Power / Strength / Grit / Consistency) — 🟢 [#81](https://github.com/igorms-pro/truegrynd/issues/81) PR [#82](https://github.com/igorms-pro/truegrynd/pull/82) · migration **`019`** prod
 - [x] **V2-06** — Challenge Passport / palmarès amateur — 🟢 [#83](https://github.com/igorms-pro/truegrynd/issues/83) PR [#84](https://github.com/igorms-pro/truegrynd/pull/84) · migration **`020`** prod
-- [ ] **V2-07** — Rival Matches (1v1 / petits groupes) — 🟡 [#85](https://github.com/igorms-pro/truegrynd/issues/85) · branche `feature/issue-85-v2-07-rival-matches`
+- [ ] **V2-07** — Rival Matches (1v1 / petits groupes) — 🟡 [#85](https://github.com/igorms-pro/truegrynd/issues/85) · PR1 [#86](https://github.com/igorms-pro/truegrynd/pull/86) · branche `feature/issue-85-v2-07-rival-invite`
 - [ ] **V2-08** — Team Wars / Faction Wars par division
 - [ ] **V2-09** — Micro-events async (24h / 7j / 30j)
 - [ ] **V2-10** — Proof Levels (Honor / Video / Community / Judge / Event)
@@ -669,13 +669,13 @@ Branche : `chore/issue-69-production-hardening`
 
 ### V2-07. Rival Matches
 
-**GitHub :** [#85](https://github.com/igorms-pro/truegrynd/issues/85) · **Branche :** `feature/issue-85-v2-07-rival-matches` · **Statut :** 🟡
+**GitHub :** [#85](https://github.com/igorms-pro/truegrynd/issues/85) · **Branche :** `feature/issue-85-v2-07-rival-invite` · **Statut :** 🟡 · PR1 [#86](https://github.com/igorms-pro/truegrynd/pull/86) mergé
 
 - [ ] **Produit** : 1v1 ou petit groupe sur 1 à 3 challenges, durée 24h/7j.
-- [ ] **DB** : `rival_matches`, participants, challenge set, status, winner.
-- [ ] **UX** : créer, accepter, soumettre, résultat.
+- [x] **DB** : `rival_matches`, participants, challenge set, status, winner — PR [#86](https://github.com/igorms-pro/truegrynd/pull/86) · migration **`021`** prod
+- [ ] **UX** : créer, accepter, soumettre, résultat — 🟡 PR2 create/invite en cours
 - [ ] **Notifications** : minimal V2 (email/toast/polling), pas besoin d'un réseau social complet.
-- [ ] **Anti-abus** : refuser spam d'invitations.
+- [x] **Anti-abus** : max 5 pending invites (RPC + migration **`021`**)
 
 ### V2-08. Team Wars / Faction Wars Par Division
 
@@ -756,10 +756,10 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 | **Fix flow submit (POST SCORE → formulaire)** | 🟢 [#63](https://github.com/igorms-pro/truegrynd/issues/63) PR [#64](https://github.com/igorms-pro/truegrynd/pull/64)                                                                                                                               |
 | **Post-QA polish (#67)**                      | 🟢 [#67](https://github.com/igorms-pro/truegrynd/issues/67) mergé — PR [#68](https://github.com/igorms-pro/truegrynd/pull/68) ; migration **`014`** prod                                                                                            |
 | **Production hardening (#69)**                | 🟢 [#69](https://github.com/igorms-pro/truegrynd/issues/69) PR [#70](https://github.com/igorms-pro/truegrynd/pull/70) — section **L**                                                                                                               |
-| **V2 — Accessible competition**               | 🟢 V2-00–06 · **🟡 V2-07** [#85](https://github.com/igorms-pro/truegrynd/issues/85) `feature/issue-85-v2-07-rival-matches`                                                                                                                          |
+| **V2 — Accessible competition**               | 🟢 V2-00–06 · **🟡 V2-07** [#85](https://github.com/igorms-pro/truegrynd/issues/85) PR1 [#86](https://github.com/igorms-pro/truegrynd/pull/86) · `feature/issue-85-v2-07-rival-invite`                                                              |
 | **QA V1**                                     | 🟢 GO (juin 2026) — périmètre critique testé                                                                                                                                                                                                        |
 
-**Suite produit :** **V2-07** 🟡 en cours ([#85](https://github.com/igorms-pro/truegrynd/issues/85) · `feature/issue-85-v2-07-rival-matches`). QA V2 globale en fin de lot V2, pas issue par issue.
+**Suite produit :** **V2-07** 🟡 ([#85](https://github.com/igorms-pro/truegrynd/issues/85) · PR1 [#86](https://github.com/igorms-pro/truegrynd/pull/86) mergé · PR2 create/invite). QA V2 globale en fin de lot V2, pas issue par issue.
 
 ---
 

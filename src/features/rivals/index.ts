@@ -1,3 +1,8 @@
+export { CreateRivalMatchScreen } from '@/features/rivals/components/CreateRivalMatchScreen';
+export { RivalHubLink } from '@/features/rivals/components/RivalHubLink';
+export { RivalMatchesScreen } from '@/features/rivals/components/RivalMatchesScreen';
+export { useCreateRivalMatch } from '@/features/rivals/hooks/useCreateRivalMatch';
+export { useMyRivalMatches } from '@/features/rivals/hooks/useMyRivalMatches';
 export { useRivalMatch } from '@/features/rivals/hooks/useRivalMatch';
 export {
   MAX_PENDING_RIVAL_INVITES,
