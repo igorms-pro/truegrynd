@@ -63,7 +63,7 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 **Macro pré-V2 (polish post-QA V1, avant V2-01)**
 
 - [x] **FIX UI** — Flow soumission score (POST SCORE → formulaire → SUBMIT) — section **J** — 🟢 [#63](https://github.com/igorms-pro/truegrynd/issues/63) PR [#64](https://github.com/igorms-pro/truegrynd/pull/64)
-- [ ] **FIX** — Bugs QA B1–B3 (finish page, gallery retry, thumb layout) — 🟡 [#65](https://github.com/igorms-pro/truegrynd/issues/65) branche `fix/issue-65-qa-finisher-bugs`
+- [x] **FIX** — Bugs QA B1–B3 (finish page, gallery retry, thumb layout) — 🟢 [#65](https://github.com/igorms-pro/truegrynd/issues/65) PR [#66](https://github.com/igorms-pro/truegrynd/pull/66)
 
 **Macro V2 proposée (à transformer en GitHub issues avant dev)**
 
