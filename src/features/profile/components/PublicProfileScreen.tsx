@@ -4,7 +4,9 @@ import Link from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
 
 import { PublicProfileHeader } from '@/features/profile/components/PublicProfileHeader';
+import { ProfileRatingCard } from '@/features/profile/components/ProfileRatingCard';
 import { ScoreHistory } from '@/features/profile/components/ScoreHistory';
+import { useProfileRating } from '@/features/profile/hooks/useProfileRating';
 import { usePublicProfile } from '@/features/profile/hooks/usePublicProfile';
 
 type Props = {
@@ -15,6 +17,7 @@ export function PublicProfileScreen({ username }: Props) {
   const locale = useLocale();
   const t = useTranslations('profile.public');
   const { state, refetch } = usePublicProfile(username);
+  const ratingState = useProfileRating(state.status === 'ready' ? state.profile.id : null);
 
   if (state.status === 'loading') {
     return (
@@ -64,6 +67,12 @@ export function PublicProfileScreen({ username }: Props) {
       </header>
 
       <PublicProfileHeader profile={state.profile} />
+      <ProfileRatingCard
+        rating={ratingState.state.status === 'ready' ? ratingState.state.rating : null}
+        loading={ratingState.state.status === 'loading'}
+        error={ratingState.state.status === 'error' ? ratingState.state.error : null}
+        onRetry={ratingState.refetch}
+      />
       <ScoreHistory userId={state.profile.id} />
 
       <Link

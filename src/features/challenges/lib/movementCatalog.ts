@@ -154,5 +154,10 @@ export function isKnownMovementSlug(slug: string): boolean {
   return slugSet.has(slug);
 }
 
+export function getMovementCategory(slug: string): MovementCategory | null {
+  const match = MOVEMENT_CATALOG.find((movement) => movement.slug === slug);
+  return match?.category ?? null;
+}
+
 /** Sentinel value for the "Other (specify)" option. */
 export const OTHER_MOVEMENT_SLUG = '__other__';

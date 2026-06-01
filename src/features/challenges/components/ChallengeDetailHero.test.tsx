@@ -21,6 +21,7 @@ const approvedChallenge: Challenge = {
   rules: 'Full extension each rep.',
   score_type: 'reps',
   equipment_tags: [],
+  rating_axis: 'engine',
   is_official: true,
   status: 'approved',
   creator_id: null,
