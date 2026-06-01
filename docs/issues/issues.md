@@ -57,7 +57,7 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 **Macro V1.5 (avant premier lot V2 compétitif)**
 
 - [x] **V1.5** — Pages `/app/faction/[slug]` + symétrie Clan / Overview — section **I** — 🟢 [#57](https://github.com/igorms-pro/truegrynd/issues/57) PR [#58](https://github.com/igorms-pro/truegrynd/pull/58) (QA checklist §7 reste manuel)
-- [ ] **V1.5** — Profil épuré + page Historique dédiée (`Show More` → `/app/profile/history`) — section **K** — 🟡 [#59](https://github.com/igorms-pro/truegrynd/issues/59) branche `feature/issue-59-profile-history`
+- [x] **V1.5** — Profil épuré + page Historique dédiée (`Show More` → `/app/profile/history`) — section **K** — 🟢 [#59](https://github.com/igorms-pro/truegrynd/issues/59) PR [#60](https://github.com/igorms-pro/truegrynd/pull/60)
 
 **Macro pré-V2 (polish post-QA V1, avant V2-01)**
 
@@ -339,7 +339,7 @@ Le bouton **« I'M IN »** ne doit **pas** soumettre le score directement en bas
 
 **Contexte produit :** le carrousel horizontal **CARDS** (`FinisherGallery`) convient pour parcourir les **3–4 dernières** performances — au-delà, swiper 50 fois est invivable. La section **HISTORY** (`ScoreHistory`) en bas du profil **duplique** l’info et surcharge l’écran principal. On sépare : **vitrine épurée** sur `/app/profile` vs **registre de guerre filtrable** sur `/app/profile/history`.
 
-**État actuel (juin 2026) :** `ProfilePage` compose `ProfileHeader` + `SignOutButton` + `FinisherGallery` (toutes les cartes validées) + `ScoreHistory` (liste complète). Pas de route history dédiée ; pas de filtres par statut.
+**État actuel (juin 2026) :** livré PR [#60](https://github.com/igorms-pro/truegrynd/pull/60) — profil épuré + `/app/profile/history` avec filtres. **En cours** : localStorage (`challengeCommitments`) en attendant table `challenge_commitments`.
 
 ### Vision UX
 
@@ -374,25 +374,25 @@ PAGE HISTORIQUE (/app/profile/history)
 
 ### 1. Écran profil principal (`/app/profile`)
 
-- [ ] **Supprimer** `ScoreHistory` du bas de la page — **définitif**, pas de doublon.
-- [ ] **Carrousel CARDS** : limiter `FinisherGallery` aux **3 ou 4 cartes les plus récentes** (tri `created_at` desc).
-- [ ] **Bouton « Show More »** (`SHOW MORE ➔`) : en haut à droite de la section CARDS (à côté du titre) → lien `/app/profile/history`.
-- [ ] **Settings ⚙️** : icône en haut à droite à côté du titre **PROFILE** ; y déplacer **Log out** (retirer `SignOutButton` visible du corps de page).
-- [ ] **i18n EN/FR** : `profile.cards.showMore`, `profile.settings.*`, titres section.
+- [x] **Supprimer** `ScoreHistory` du bas de la page — **définitif**, pas de doublon.
+- [x] **Carrousel CARDS** : limiter `FinisherGallery` aux **3 ou 4 cartes les plus récentes** (tri `created_at` desc).
+- [x] **Bouton « Show More »** (`SHOW MORE ➔`) : en haut à droite de la section CARDS (à côté du titre) → lien `/app/profile/history`.
+- [x] **Settings ⚙️** : icône en haut à droite à côté du titre **PROFILE** ; y déplacer **Log out** (retirer `SignOutButton` visible du corps de page).
+- [x] **i18n EN/FR** : `profile.cards.showMore`, `profile.settings.*`, titres section.
 
 ### 2. Nouvelle route `/app/profile/history`
 
-- [ ] **Route** : `src/app/[locale]/app/profile/history/page.tsx` — page fine, compose un `ProfileHistoryScreen`.
-- [ ] **Header** : retour + titre « Mon historique » / « My history ».
-- [ ] **Barre de filtres (tabs rapides)** :
+- [x] **Route** : `src/app/[locale]/app/profile/history/page.tsx` — page fine, compose un `ProfileHistoryScreen`.
+- [x] **Header** : retour + titre « Mon historique » / « My history ».
+- [x] **Barre de filtres (tabs rapides)** :
   - **Tout** — historique global (scores + engagements en cours).
   - **En cours** — défis où l’utilisateur a cliqué **I'M IN** mais **pas encore** de score soumis (to-do entraînements).
   - **Validés** — scores `is_validated: true` / badge **RANKED** (preuve vidéo, classés).
   - **Sauvegardés** — scores honor level sans vidéo / badge **SAVED**.
   - **Gagnés** _(option V1.5+)_ — coups d’éclat : top 10 % validés et/ou défis officiels avec badge (règle exacte à figer en implémentation).
-- [ ] **Ligne d’historique** : titre défi, score formaté, date, badge statut (`RANKED` \| `SAVED` \| `IN PROGRESS`), action **CARD** (re-voir / re-télécharger la Finisher Card si applicable).
-- [ ] **États complets** : loading / empty / error / default par filtre ; empty copy contextualisé (« Aucun défi en cours », etc.).
-- [ ] **Hook / service** : étendre ou factoriser `useMyScores` + source « en cours » (table/commitment I'M IN — à préciser : score absent vs flag engagement si modèle ajouté plus tard ; en V1.5 heuristique = pas de row `scores` pour ce `challenge_id`).
+- [x] **Ligne d’historique** : titre défi, score formaté, date, badge statut (`RANKED` \| `SAVED` \| `IN PROGRESS`), action **CARD** (re-voir / re-télécharger la Finisher Card si applicable).
+- [x] **États complets** : loading / empty / error / default par filtre ; empty copy contextualisé (« Aucun défi en cours », etc.).
+- [x] **Hook / service** : étendre ou factoriser `useMyScores` + source « en cours » (table/commitment I'M IN — à préciser : score absent vs flag engagement si modèle ajouté plus tard ; en V1.5 heuristique = pas de row `scores` pour ce `challenge_id`).
 
 ### 3. Données & statuts
 
@@ -404,14 +404,14 @@ PAGE HISTORIQUE (/app/profile/history)
 | **Sauvegardés** | `scores.is_validated = false` (score existant)                                      |
 | **Gagnés**      | Sous-ensemble Validés : top 10 % (`rankPercent ≤ 10`) ou tag official (à confirmer) |
 
-> **Note :** sans persistance explicite de « I'M IN » en V1, le filtre **En cours** peut démarrer en **placeholder** (liste vide + copy) ou s’appuyer sur une future table `challenge_commitments` — documenter le choix dans la PR.
+> **Note :** persistance **En cours** via **localStorage** (`challengeCommitments`) à l’ouverture du formulaire submit — remplacer par table `challenge_commitments` en V2 si besoin.
 
 ### 4. Qualité & DoD
 
-- [ ] **Tests** : filtrage pur (helper `filterHistoryByTab`) + au moins un test composant ou RTL sur tabs.
-- [ ] **QA** : ajouter parcours profil → Show More → filtres dans [docs/QA_V1_CHECKLIST.md](../QA_V1_CHECKLIST.md).
-- [ ] **Accessibilité** : tabs avec rôles ARIA, `aria-label` sur Show More et Settings.
-- [ ] **Pas de régression** : profil public `/app/u/[username]` hors scope (pas de page history publique en V1.5).
+- [x] **Tests** : filtrage pur (helper `filterHistoryByTab`) + au moins un test composant ou RTL sur tabs.
+- [x] **QA** : ajouter parcours profil → Show More → filtres dans [docs/QA_V1_CHECKLIST.md](../QA_V1_CHECKLIST.md).
+- [x] **Accessibilité** : tabs avec rôles ARIA, `aria-label` sur Show More et Settings.
+- [x] **Pas de régression** : profil public `/app/u/[username]` hors scope (pas de page history publique en V1.5).
 
 **Fichiers probables :** `src/app/[locale]/app/profile/page.tsx`, `FinisherGallery.tsx`, `ScoreHistory.tsx` (réutiliser lignes sur history page), nouveau `ProfileHistoryScreen.tsx`, `useProfileHistory.ts`, `src/locales/en.json` / `fr.json`.
 
@@ -589,12 +589,12 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 | Confiance / plateforme                    | 🟢 [#54](https://github.com/igorms-pro/truegrynd/issues/54) mergé — PR [#55](https://github.com/igorms-pro/truegrynd/pull/55)                                                           |
 | Mouvements / prescription (mix)           | 🟢 [#44](https://github.com/igorms-pro/truegrynd/issues/44) mergé — PR [#45](https://github.com/igorms-pro/truegrynd/pull/45)                                                           |
 | **V1.5 — Pages Faction**                  | 🟢 [#57](https://github.com/igorms-pro/truegrynd/issues/57) — PR [#56](https://github.com/igorms-pro/truegrynd/pull/56) + [#58](https://github.com/igorms-pro/truegrynd/pull/58) mergés |
-| **V1.5 — Profil & Historique**            | 🟡 [#59](https://github.com/igorms-pro/truegrynd/issues/59) — carrousel 3–4 cartes + `/app/profile/history` + filtres (Show More) — branche `feature/issue-59-profile-history`          |
+| **V1.5 — Profil & Historique**            | 🟢 [#59](https://github.com/igorms-pro/truegrynd/issues/59) — PR [#60](https://github.com/igorms-pro/truegrynd/pull/60) mergé                                                           |
 | **Fix flow submit (I'M IN → formulaire)** | 🔴 section **J** — polish pré-V2 (QA V1 §4, copy CTA)                                                                                                                                   |
 | **V2 — Accessible competition**           | 🔴 [docs/V2_STRATEGY.md](../V2_STRATEGY.md) — **V2-00** (exclusions) puis **V2-01 → V2-12** section **H**                                                                               |
 | **QA V1 (manuel)**                        | 🟡 [docs/QA_V1_CHECKLIST.md](../QA_V1_CHECKLIST.md) — à cocher ; ajouter parcours faction après V1.5                                                                                    |
 
-**Suite produit :** V1 macro **terminée**. **Section I (V1.5 faction)** livrée. Prochaine priorité = **section K** (profil épuré + `/app/profile/history`) puis **section J** (fix submit flow) + fin **QA V1**, puis **V2-00**.
+**Suite produit :** V1 macro **terminée**. **V1.5 sections I + K** livrées. Prochaine priorité = **section J** (fix submit flow) + fin **QA V1**, puis **V2-00**.
 
 ---
 
