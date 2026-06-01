@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 
+import { ClanFactionWarMeta } from '@/features/factions/components/ClanFactionWarMeta';
 import { FactionHallOfFame } from '@/features/factions/components/FactionHallOfFame';
 import { RecruitCta } from '@/features/factions/components/RecruitCta';
 import { useFactionPage } from '@/features/factions/hooks/useFactionPage';
@@ -77,7 +78,7 @@ export function FactionPageScreen({ slug }: Props) {
     );
   }
 
-  const { faction, rankings, members } = state;
+  const { faction, rankings, members, war, myContribution } = state;
   const styles = getFactionBadgeClasses(faction);
   const rankIndex = rankings.findIndex((r) => r.faction === faction);
   const rank = rankIndex >= 0 ? rankIndex + 1 : null;
@@ -118,6 +119,7 @@ export function FactionPageScreen({ slug }: Props) {
         <p className="text-xs font-black uppercase tracking-[0.18em] text-muted-foreground">
           {t('warStatsTitle')}
         </p>
+        <ClanFactionWarMeta war={war} myContribution={myContribution} />
         <dl className="mt-3 grid grid-cols-3 gap-3">
           <div>
             <dt className="text-[10px] font-black uppercase tracking-[0.12em] text-muted-foreground">

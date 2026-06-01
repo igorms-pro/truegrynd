@@ -1,5 +1,12 @@
+import {
+  getActiveFactionWarContext,
+  getFactionWarStandings,
+  getFactionWarTopContributors,
+  getFactionWarUserContribution,
+  type FactionWarContext,
+} from '@/features/factions/services/factionWar';
 import { supabase } from '@/lib/supabase';
-import type { Faction, Profile } from '@/lib/types/database.types';
+import type { Division, Faction, Profile } from '@/lib/types/database.types';
 
 export type FactionRow = {
   faction: Faction;
@@ -11,6 +18,13 @@ export type MemberRow = {
   userId: string;
   username: string;
   points: number;
+};
+
+export type ClanHudData = {
+  rankings: FactionRow[];
+  members: MemberRow[];
+  war: FactionWarContext | null;
+  myContribution: number;
 };
 
 type RawScoreRow = {
@@ -31,8 +45,6 @@ function initFactionMap(): Map<Faction, { points: number; members: Set<string> }
 function addWarPoints(base: number, value: number): number {
   const safe = Number.isFinite(value) ? value : 0;
   if (safe <= 0) return base;
-  // Simple cross-challenge heuristic: treats `scores.value` as contribution.
-  // This is intentionally a temporary "Clan HUD" metric until server-side faction totals exist.
   return base + Math.min(safe, 10_000);
 }
 
@@ -93,15 +105,42 @@ function computeTopMembersByFaction(
   return [...byUser.values()].sort((a, b) => b.points - a.points).slice(0, limit);
 }
 
-export async function getClanHudData(input: {
+async function getLegacyClanHudData(input: {
   faction: Faction;
-  limit?: number;
-  sampleLimit?: number;
-}): Promise<{ rankings: FactionRow[]; members: MemberRow[] }> {
-  const { faction, limit = 10, sampleLimit = 1000 } = input;
-  const rows = await listRecentValidatedScores(sampleLimit);
+  limit: number;
+  sampleLimit: number;
+}): Promise<Pick<ClanHudData, 'rankings' | 'members'>> {
+  const rows = await listRecentValidatedScores(input.sampleLimit);
   return {
     rankings: computeFactionRankings(rows),
-    members: computeTopMembersByFaction(rows, faction, limit),
+    members: computeTopMembersByFaction(rows, input.faction, input.limit),
   };
+}
+
+export async function getClanHudData(input: {
+  faction: Faction;
+  division: Division;
+  userId?: string | null;
+  limit?: number;
+  sampleLimit?: number;
+}): Promise<ClanHudData> {
+  const { faction, division, userId = null, limit = 10, sampleLimit = 1000 } = input;
+
+  const war = await getActiveFactionWarContext(division);
+  if (war) {
+    const [rankings, members, myContribution] = await Promise.all([
+      getFactionWarStandings(war.weeklyId, division),
+      getFactionWarTopContributors({
+        weeklyId: war.weeklyId,
+        faction,
+        division,
+        limit,
+      }),
+      userId ? getFactionWarUserContribution(war.weeklyId, userId) : Promise.resolve(0),
+    ]);
+    return { rankings, members, war, myContribution };
+  }
+
+  const legacy = await getLegacyClanHudData({ faction, limit, sampleLimit });
+  return { ...legacy, war: null, myContribution: 0 };
 }
