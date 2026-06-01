@@ -1,106 +1,85 @@
--- V2-09: async micro-events (24h / 7d / 30d) with multi-challenge sets and division leaderboards.
+-- Backfill: prod had partial 024 apply (tables/policies) before CLI repair skipped functions.
 
-CREATE TABLE IF NOT EXISTS public.events (
-  id           UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
-  slug         TEXT        NOT NULL UNIQUE,
-  title        TEXT        NOT NULL,
-  description  TEXT        NOT NULL DEFAULT '',
-  event_type   TEXT        NOT NULL DEFAULT 'custom'
-    CHECK (event_type IN (
-      'rookie_week', 'no_equipment_cup', 'faction_war_weekend',
-      'city_clash', 'grit_open', 'comeback_week', 'custom'
-    )),
-  starts_at    TIMESTAMPTZ NOT NULL,
-  ends_at      TIMESTAMPTZ NOT NULL,
-  status       TEXT        NOT NULL DEFAULT 'scheduled'
-    CHECK (status IN ('scheduled', 'active', 'completed', 'cancelled')),
-  created_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  updated_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  CONSTRAINT events_window_check CHECK (ends_at > starts_at)
-);
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies
+    WHERE schemaname = 'public' AND tablename = 'events'
+      AND policyname = 'Authenticated users can read events'
+  ) THEN
+    CREATE POLICY "Authenticated users can read events"
+      ON public.events FOR SELECT
+      TO authenticated
+      USING (status <> 'cancelled');
+  END IF;
 
-COMMENT ON TABLE public.events IS
-  'V2-09: time-boxed micro-events (Rookie Week, No Equipment Cup, etc.). Admin-managed.';
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies
+    WHERE schemaname = 'public' AND tablename = 'event_challenges'
+      AND policyname = 'Authenticated users can read event challenges'
+  ) THEN
+    CREATE POLICY "Authenticated users can read event challenges"
+      ON public.event_challenges FOR SELECT
+      TO authenticated
+      USING (true);
+  END IF;
 
-CREATE INDEX IF NOT EXISTS idx_events_window
-  ON public.events (starts_at DESC, ends_at DESC)
-  WHERE status <> 'cancelled';
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies
+    WHERE schemaname = 'public' AND tablename = 'event_scores'
+      AND policyname = 'Authenticated users can read event scores'
+  ) THEN
+    CREATE POLICY "Authenticated users can read event scores"
+      ON public.event_scores FOR SELECT
+      TO authenticated
+      USING (true);
+  END IF;
 
-CREATE INDEX IF NOT EXISTS idx_events_slug
-  ON public.events (slug);
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies
+    WHERE schemaname = 'public' AND tablename = 'events'
+      AND policyname = 'Admins can insert events'
+  ) THEN
+    CREATE POLICY "Admins can insert events"
+      ON public.events FOR INSERT
+      TO authenticated
+      WITH CHECK (public.is_app_admin());
+  END IF;
 
-CREATE TABLE IF NOT EXISTS public.event_challenges (
-  event_id     UUID NOT NULL REFERENCES public.events(id) ON DELETE CASCADE,
-  challenge_id UUID NOT NULL REFERENCES public.challenges(id) ON DELETE RESTRICT,
-  sort_order   INT  NOT NULL CHECK (sort_order BETWEEN 1 AND 5),
-  PRIMARY KEY (event_id, challenge_id),
-  UNIQUE (event_id, sort_order)
-);
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies
+    WHERE schemaname = 'public' AND tablename = 'events'
+      AND policyname = 'Admins can update events'
+  ) THEN
+    CREATE POLICY "Admins can update events"
+      ON public.events FOR UPDATE
+      TO authenticated
+      USING (public.is_app_admin())
+      WITH CHECK (public.is_app_admin());
+  END IF;
 
-COMMENT ON TABLE public.event_challenges IS
-  'V2-09: ordered challenge set for a micro-event (1–5 challenges).';
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies
+    WHERE schemaname = 'public' AND tablename = 'event_challenges'
+      AND policyname = 'Admins can insert event challenges'
+  ) THEN
+    CREATE POLICY "Admins can insert event challenges"
+      ON public.event_challenges FOR INSERT
+      TO authenticated
+      WITH CHECK (public.is_app_admin());
+  END IF;
 
-CREATE TABLE IF NOT EXISTS public.event_scores (
-  id           UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
-  event_id     UUID        NOT NULL REFERENCES public.events(id) ON DELETE CASCADE,
-  user_id      UUID        NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
-  challenge_id UUID        NOT NULL REFERENCES public.challenges(id) ON DELETE RESTRICT,
-  division     TEXT        NOT NULL CHECK (division IN ('rookie', 'regular', 'savage', 'elite')),
-  score_id     UUID        NULL REFERENCES public.scores(id) ON DELETE SET NULL,
-  points       NUMERIC     NOT NULL CHECK (points >= 0),
-  created_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  updated_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  CONSTRAINT event_scores_event_user_challenge_unique UNIQUE (event_id, user_id, challenge_id)
-);
-
-COMMENT ON TABLE public.event_scores IS
-  'V2-09: best validated score per user per challenge within an event window.';
-
-CREATE INDEX IF NOT EXISTS idx_event_scores_event_division
-  ON public.event_scores (event_id, division, points DESC);
-
-CREATE INDEX IF NOT EXISTS idx_event_scores_event_challenge
-  ON public.event_scores (event_id, challenge_id, division, points DESC);
-
-ALTER TABLE public.events ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.event_challenges ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.event_scores ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY "Authenticated users can read events"
-  ON public.events FOR SELECT
-  TO authenticated
-  USING (status <> 'cancelled');
-
-CREATE POLICY "Authenticated users can read event challenges"
-  ON public.event_challenges FOR SELECT
-  TO authenticated
-  USING (true);
-
-CREATE POLICY "Authenticated users can read event scores"
-  ON public.event_scores FOR SELECT
-  TO authenticated
-  USING (true);
-
-CREATE POLICY "Admins can insert events"
-  ON public.events FOR INSERT
-  TO authenticated
-  WITH CHECK (public.is_app_admin());
-
-CREATE POLICY "Admins can update events"
-  ON public.events FOR UPDATE
-  TO authenticated
-  USING (public.is_app_admin())
-  WITH CHECK (public.is_app_admin());
-
-CREATE POLICY "Admins can insert event challenges"
-  ON public.event_challenges FOR INSERT
-  TO authenticated
-  WITH CHECK (public.is_app_admin());
-
-CREATE POLICY "Admins can delete event challenges"
-  ON public.event_challenges FOR DELETE
-  TO authenticated
-  USING (public.is_app_admin());
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies
+    WHERE schemaname = 'public' AND tablename = 'event_challenges'
+      AND policyname = 'Admins can delete event challenges'
+  ) THEN
+    CREATE POLICY "Admins can delete event challenges"
+      ON public.event_challenges FOR DELETE
+      TO authenticated
+      USING (public.is_app_admin());
+  END IF;
+END $$;
 
 CREATE OR REPLACE FUNCTION public.upsert_event_score_on_score()
 RETURNS TRIGGER
@@ -286,9 +265,6 @@ BEGIN
   RETURN v_id;
 END;
 $$;
-
-COMMENT ON FUNCTION public.admin_upsert_event IS
-  'Admin only: create or update a micro-event and its challenge set (1–5 approved challenges).';
 
 CREATE OR REPLACE FUNCTION public.get_event_standings(
   p_event_id UUID,
