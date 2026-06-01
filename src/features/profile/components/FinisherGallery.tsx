@@ -61,7 +61,10 @@ function ThumbCanvas({
 export function FinisherGallery({ userId, username, faction }: Props) {
   const t = useTranslations('profile.gallery');
   const locale = useLocale();
-  const { state, refetch } = useMyScores(userId, { limit: PROFILE_CARD_PREVIEW_LIMIT });
+  const { state, refetch } = useMyScores(userId, {
+    limit: PROFILE_CARD_PREVIEW_LIMIT,
+    excludeHidden: true,
+  });
   const historyHref = `/${locale}/app/profile/history`;
 
   if (!username || !faction) {

@@ -116,6 +116,17 @@ function FinishPageContent() {
 
       <FinisherCardActions canvasRef={canvasRef} disabled={!cardOptions} />
 
+      {state.score.video_url ? (
+        <a
+          href={state.score.video_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-border bg-muted px-4 py-3 text-sm font-black uppercase tracking-[0.18em] text-foreground hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          {t('viewProof')}
+        </a>
+      ) : null}
+
       <Link
         href={`/${locale}/app/arena/${state.challenge.id}`}
         className="inline-flex items-center justify-center rounded-md border border-border bg-background px-4 py-3 text-sm font-black uppercase tracking-[0.18em] text-foreground hover:bg-muted"

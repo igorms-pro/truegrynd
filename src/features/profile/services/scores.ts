@@ -5,24 +5,40 @@ import type { ScoreType } from '@/lib/types/database.types';
 export type { ProfileScoreItem };
 
 const SCORE_SELECT =
-  'id,challenge_id,value,is_validated,submitted_at,challenge:challenges!scores_challenge_id_fkey(id,title,score_type,is_official)';
+  'id,challenge_id,value,video_url,is_validated,is_hidden,submitted_at,challenge:challenges!scores_challenge_id_fkey(id,title,score_type,is_official)';
+
+type ListOptions = {
+  excludeHidden?: boolean;
+};
 
 type Row = {
   id: string;
   challenge_id: string;
   value: number;
+  video_url: string | null;
   is_validated: boolean;
+  is_hidden: boolean;
   submitted_at: string;
   challenge: { id: string; title: string; score_type: ScoreType; is_official: boolean } | null;
 };
 
-export async function listMyScores(userId: string, limit = 25): Promise<ProfileScoreItem[]> {
-  const { data, error } = await supabase
+export async function listMyScores(
+  userId: string,
+  limit = 25,
+  options?: ListOptions,
+): Promise<ProfileScoreItem[]> {
+  let query = supabase
     .from('scores')
     .select(SCORE_SELECT)
     .eq('user_id', userId)
     .order('submitted_at', { ascending: false })
     .limit(limit);
+
+  if (options?.excludeHidden) {
+    query = query.eq('is_hidden', false);
+  }
+
+  const { data, error } = await query;
 
   if (error) throw new Error(error.message);
 
@@ -35,7 +51,9 @@ export async function listMyScores(userId: string, limit = 25): Promise<ProfileS
       challengeTitle: r.challenge!.title,
       scoreType: r.challenge!.score_type,
       value: Number(r.value),
+      videoUrl: r.video_url,
       isValidated: r.is_validated,
+      isHidden: r.is_hidden,
       isOfficial: r.challenge!.is_official,
       topPercent: null,
       submittedAt: r.submitted_at,

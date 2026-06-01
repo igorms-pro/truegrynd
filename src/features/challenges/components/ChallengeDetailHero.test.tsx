@@ -30,7 +30,7 @@ const approvedChallenge: Challenge = {
 function renderHero(challenge: Challenge = approvedChallenge) {
   return render(
     <NextIntlClientProvider locale="en" messages={en}>
-      <ChallengeDetailHero challenge={challenge} locale="en" isApproved />
+      <ChallengeDetailHero challenge={challenge} locale="en" isApproved participation={null} />
     </NextIntlClientProvider>,
   );
 }
@@ -47,5 +47,27 @@ describe('ChallengeDetailHero', () => {
     await user.click(cta);
 
     expect(submitScoreMock).not.toHaveBeenCalled();
+  });
+
+  it('shows retry CTA and history link when user already submitted', () => {
+    render(
+      <NextIntlClientProvider locale="en" messages={en}>
+        <ChallengeDetailHero
+          challenge={approvedChallenge}
+          locale="en"
+          isApproved
+          participation={{ attemptCount: 2, bestValue: 42, bestIsValidated: true }}
+        />
+      </NextIntlClientProvider>,
+    );
+
+    expect(screen.getByRole('link', { name: /re-try/i })).toHaveAttribute(
+      'href',
+      '/en/app/arena/challenge-1/submit',
+    );
+    expect(screen.getByRole('link', { name: /view my attempts/i })).toHaveAttribute(
+      'href',
+      '/en/app/profile/history?challenge=challenge-1',
+    );
   });
 });

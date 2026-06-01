@@ -5,13 +5,16 @@ import Link from 'next/link';
 import { Swords, Timer, Trophy } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
+import { formatParticipationScore } from '@/features/challenges/lib/summarizeParticipation';
 import { formatTime } from '@/features/challenges/lib/scoreFormat';
+import type { ChallengeParticipationSummary } from '@/features/challenges/services/myChallengeParticipation';
 import type { Challenge } from '@/lib/types/database.types';
 
 type Props = {
   challenge: Challenge;
   locale: string;
   isApproved: boolean;
+  participation: ChallengeParticipationSummary | null;
 };
 
 function DetailBadge({
@@ -39,9 +42,12 @@ function DetailBadge({
   );
 }
 
-export function ChallengeDetailHero({ challenge, locale, isApproved }: Props) {
+export function ChallengeDetailHero({ challenge, locale, isApproved, participation }: Props) {
   const t = useTranslations('challenge');
   const tArena = useTranslations('arena');
+
+  const hasAttempts = participation !== null && participation.attemptCount > 0;
+  const historyHref = `/${locale}/app/profile/history?challenge=${challenge.id}`;
 
   const kickerKey =
     challenge.status === 'rejected'
@@ -117,11 +123,27 @@ export function ChallengeDetailHero({ challenge, locale, isApproved }: Props) {
               className="inline-flex w-full min-h-12 items-center justify-center gap-2 rounded-md bg-primary px-5 py-4 text-sm font-black uppercase tracking-[0.2em] text-primary-foreground shadow-[0_0_32px_rgba(220,38,38,0.35)] transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:w-auto md:min-w-[16rem]"
             >
               <Swords className="h-4 w-4" aria-hidden />
-              {t('ctaStart')}
+              {hasAttempts ? t('ctaRetry') : t('ctaStart')}
             </Link>
-            <p className="text-xs font-black uppercase tracking-[0.16em] text-muted-foreground">
-              {t('ctaSubline')}
-            </p>
+            {hasAttempts && participation ? (
+              <p className="text-xs font-black uppercase tracking-[0.14em] text-muted-foreground">
+                {t('participationSummary', {
+                  count: participation.attemptCount,
+                  score: formatParticipationScore(participation.bestValue, challenge.score_type),
+                  status: participation.bestIsValidated ? t('statusRanked') : t('statusSaved'),
+                })}{' '}
+                <Link
+                  href={historyHref}
+                  className="text-primary hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  {t('viewAttempts')}
+                </Link>
+              </p>
+            ) : (
+              <p className="text-xs font-black uppercase tracking-[0.16em] text-muted-foreground">
+                {t('ctaSubline')}
+              </p>
+            )}
           </div>
         ) : null}
       </div>

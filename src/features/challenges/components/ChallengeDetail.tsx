@@ -11,6 +11,7 @@ import { ChallengeDetailLockedPanel } from '@/features/challenges/components/Cha
 import { ChallengeDetailSpecPanels } from '@/features/challenges/components/ChallengeDetailSpecPanels';
 import { Leaderboard } from '@/features/challenges/components/Leaderboard';
 import { useChallenge } from '@/features/challenges/hooks/useChallenge';
+import { useMyChallengeParticipation } from '@/features/challenges/hooks/useMyChallengeParticipation';
 import { parseChallengeRules } from '@/features/challenges/lib/parseChallengeRules';
 
 type Props = {
@@ -62,6 +63,12 @@ function DetailSkeleton() {
 export function ChallengeDetail({ challengeId }: Props) {
   const locale = useLocale();
   const { data: challenge, loading, error } = useChallenge(challengeId);
+  const participationState = useMyChallengeParticipation(
+    challengeId,
+    challenge?.score_type ?? 'reps',
+  );
+  const participation =
+    participationState.state.status === 'ready' ? participationState.state.data : null;
   const parsedRules = useMemo(
     () => parseChallengeRules(challenge?.rules ?? ''),
     [challenge?.rules],
@@ -75,7 +82,12 @@ export function ChallengeDetail({ challengeId }: Props) {
   return (
     <section className="space-y-5">
       <BackLink />
-      <ChallengeDetailHero challenge={challenge} locale={locale} isApproved={isApproved} />
+      <ChallengeDetailHero
+        challenge={challenge}
+        locale={locale}
+        isApproved={isApproved}
+        participation={participation}
+      />
       {!isApproved ? <ChallengeDetailLockedPanel challenge={challenge} /> : null}
       {parsedRules.circuitLines.length > 0 ? (
         <ChallengeDetailCircuitPanel lines={parsedRules.circuitLines} />

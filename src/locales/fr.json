@@ -337,6 +337,11 @@
     "equipmentHeading": "Équipement",
     "noEquipment": "Poids du corps uniquement",
     "ctaStart": "POSTER MON SCORE",
+    "ctaRetry": "RE-TENTER / AMÉLIORER TON SCORE",
+    "participationSummary": "Défis soumis : {count} fois. Ton meilleur score : {score} ({status}).",
+    "viewAttempts": "Voir mes tentatives →",
+    "statusRanked": "CLASSÉ",
+    "statusSaved": "SAUVEGARDÉ",
     "pendingTitle": "PAS ENCORE DANS L'ARÈNE",
     "pendingBody": "Enregistré, en cours de validation. Il apparaîtra dans le feed public une fois approuvé — ensuite tout le monde pourra poster un score.",
     "rejectedTitle": "NON PUBLIÉ",
@@ -523,7 +528,8 @@
     "savedBody": "Sauvegardé. Non classé (pas de vidéo).",
     "download": "TÉLÉCHARGER",
     "share": "PARTAGER",
-    "backToArena": "RETOUR À L'ARÈNE"
+    "backToArena": "RETOUR À L'ARÈNE",
+    "viewProof": "VOIR LA VIDÉO PREUVE"
   },
   "profile": {
     "loading": "Chargement du profil...",
@@ -635,9 +641,19 @@
         "saved": "SAUVEGARDÉ",
         "inProgress": "EN COURS"
       },
+      "challengeFilterBanner": "Tentatives pour ce défi uniquement.",
       "actions": {
         "card": "CARD",
-        "submit": "SOUMETTRE"
+        "submit": "SOUMETTRE",
+        "proof": "PREUVE",
+        "menuAria": "Actions sur le score",
+        "updateVideo": "Mettre à jour le lien vidéo",
+        "hideFromCards": "Masquer des Cards",
+        "videoLabel": "URL vidéo",
+        "save": "ENREGISTRER",
+        "cancel": "ANNULER",
+        "videoInvalid": "Lien YouTube ou TikTok requis.",
+        "updateFailed": "Mise à jour impossible."
       },
       "empty": {
         "all": "Aucun historique pour l'instant. Va à l'Arène.",
