@@ -7,6 +7,8 @@ export type ScoreType = 'time' | 'reps';
 export type ChallengeStatus = 'pending' | 'approved' | 'rejected';
 export type ChallengeAiTier = 'green' | 'orange' | 'red';
 export type WeeklyChallengeStatus = 'scheduled' | 'active' | 'completed' | 'cancelled';
+export type RivalMatchStatus = 'pending' | 'active' | 'completed' | 'cancelled' | 'expired';
+export type RivalParticipantStatus = 'invited' | 'accepted' | 'declined' | 'left';
 
 export interface WeeklyChallenge {
   id: string;
@@ -17,6 +19,34 @@ export interface WeeklyChallenge {
   week_label: string | null;
   created_at: string;
   updated_at: string;
+}
+
+export interface RivalMatch {
+  id: string;
+  creator_id: string;
+  status: RivalMatchStatus;
+  duration_hours: 24 | 168;
+  division: Division;
+  max_participants: number;
+  created_at: string;
+  starts_at: string | null;
+  ends_at: string | null;
+  winner_id: string | null;
+  cancelled_at: string | null;
+}
+
+export interface RivalMatchChallenge {
+  match_id: string;
+  challenge_id: string;
+  sort_order: number;
+}
+
+export interface RivalMatchParticipant {
+  match_id: string;
+  user_id: string;
+  status: RivalParticipantStatus;
+  invited_at: string;
+  responded_at: string | null;
 }
 
 /**
