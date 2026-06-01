@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useRequireAppAccess } from '@/features/appshell';
-import { getApprovedChallengeById } from '@/features/challenges/services/challenges';
+import { getChallengeById } from '@/features/challenges/services/challenges';
 import { formatTopPercent, percentileFromCounts } from '@/features/finisher-card/lib/percentile';
 import { getRankCounts } from '@/features/finisher-card/services/rank';
 import { getScoreById } from '@/features/finisher-card/services/scores';
@@ -31,39 +31,71 @@ export type FinisherCardState =
 
 type InnerState = Exclude<FinisherCardState, { status: 'gated' } | { status: 'missing_params' }>;
 
-export function useFinisherCard(params: Params): FinisherCardState {
+async function loadTopPercent(
+  ranked: boolean,
+  score: Score,
+  challenge: Challenge,
+): Promise<number | null> {
+  if (!ranked || !score.is_validated) return null;
+  try {
+    const counts = await getRankCounts({
+      challengeId: score.challenge_id,
+      scoreType: challenge.score_type,
+      value: score.value,
+    });
+    const pct = percentileFromCounts(counts.total, counts.better);
+    return pct ? formatTopPercent(pct.percentile) : null;
+  } catch {
+    return null;
+  }
+}
+
+export function useFinisherCard(params: Params): FinisherCardState & { retry: () => void } {
   const access = useRequireAppAccess();
   const [state, setState] = useState<InnerState>({ status: 'loading' });
+  const [reloadKey, setReloadKey] = useState(0);
 
   const hasParams = !!params.challengeId && !!params.scoreId;
+  const userId = access.status === 'ready' ? access.profile.id : null;
+
+  const retry = useCallback(() => {
+    setState({ status: 'loading' });
+    setReloadKey((k) => k + 1);
+  }, []);
 
   useEffect(() => {
     if (access.status !== 'ready') return undefined;
-    if (!hasParams) return undefined;
+    if (!hasParams || !userId) return undefined;
 
     let cancelled = false;
+
     void (async () => {
+      setState({ status: 'loading' });
+
       try {
-        const [score, challenge] = await Promise.all([
-          getScoreById(params.scoreId!),
-          getApprovedChallengeById(params.challengeId!),
-        ]);
+        const score = await getScoreById(params.scoreId!);
         if (cancelled) return;
-        if (!score || !challenge) {
+
+        if (!score || score.user_id !== userId) {
           setState({ status: 'error', message: 'not_found' });
           return;
         }
 
-        let topPercent: number | null = null;
-        if (params.ranked && score.is_validated) {
-          const counts = await getRankCounts({
-            challengeId: score.challenge_id,
-            scoreType: challenge.score_type,
-            value: score.value,
-          });
-          const pct = percentileFromCounts(counts.total, counts.better);
-          topPercent = pct ? formatTopPercent(pct.percentile) : null;
+        if (score.challenge_id !== params.challengeId) {
+          setState({ status: 'error', message: 'not_found' });
+          return;
         }
+
+        const challenge = await getChallengeById(params.challengeId!);
+        if (cancelled) return;
+
+        if (!challenge) {
+          setState({ status: 'error', message: 'not_found' });
+          return;
+        }
+
+        const topPercent = await loadTopPercent(params.ranked, score, challenge);
+        if (cancelled) return;
 
         const { username, faction } = access.profile;
         if (!username || !faction) {
@@ -81,11 +113,22 @@ export function useFinisherCard(params: Params): FinisherCardState {
     return () => {
       cancelled = true;
     };
-  }, [access.status, access.profile, hasParams, params.challengeId, params.ranked, params.scoreId]);
+  }, [
+    access.status,
+    access.profile,
+    hasParams,
+    params.challengeId,
+    params.ranked,
+    params.scoreId,
+    reloadKey,
+    userId,
+  ]);
 
-  return useMemo(() => {
+  const cardState = useMemo((): FinisherCardState => {
     if (access.status !== 'ready') return { status: 'gated' };
     if (!hasParams) return { status: 'missing_params' };
     return state;
   }, [access.status, hasParams, state]);
+
+  return useMemo(() => ({ ...cardState, retry }), [cardState, retry]);
 }

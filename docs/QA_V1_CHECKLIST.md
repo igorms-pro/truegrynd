@@ -197,11 +197,11 @@ Sinon si UI trouvée :
 
 ## Bugs trouvés
 
-| ID  | Sévérité | Parcours               | Description                                                                                                                                              | Repro                                  | Statut |
-| --- | -------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- | ------ |
-| B1  | P1       | Profil → CARD / finish | `/app/finish` affiche toujours « Could not load… » (ranked **et** saved) — `FinishPage` client lit `searchParams` en prop au lieu de `useSearchParams()` | Profil → CARD ou galerie → `/finish?…` | ouvert |
-| B2  | P2       | Profil §6.4 galerie    | `FinisherGallery` en erreur : message seul, **pas de bouton Retry** (contrairement à `ScoreHistory`)                                                     | Simuler erreur fetch scores            | ouvert |
-| B3  | P3       | Profil galerie         | Miniature card SAVED : chevauchement texte faction / « NO VIDEO » sur le canvas                                                                          | Profil avec score non validé           | ouvert |
+| ID  | Sévérité | Parcours               | Description                                                                            | Repro                                  | Statut             |
+| --- | -------- | ---------------------- | -------------------------------------------------------------------------------------- | -------------------------------------- | ------------------ |
+| B1  | P1       | Profil → CARD / finish | `/app/finish` affiche « Could not load… » — rank fetch bloquait la card ; pas de Retry | Profil → CARD ou galerie → `/finish?…` | **corrigé PR #66** |
+| B2  | P2       | Profil §6.4 galerie    | `FinisherGallery` en erreur : bouton Retry + test RTL                                  | Simuler erreur fetch scores            | **corrigé PR #66** |
+| B3  | P3       | Profil galerie         | Miniature card SAVED : chevauchement score / faction / « NO VIDEO » sur thumb canvas   | Profil avec score non validé           | **corrigé PR #66** |
 
 **Sévérité :** P0 bloquant · P1 majeur · P2 mineur · P3 cosmétique
 

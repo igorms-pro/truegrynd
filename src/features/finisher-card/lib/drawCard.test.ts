@@ -43,4 +43,22 @@ describe('drawFinisherCard', () => {
     expect(canvas.width).toBe(360);
     expect(canvas.height).toBe(640);
   });
+
+  it('renders saved thumb layout without throwing for large rep counts', () => {
+    const canvas = createCanvas();
+    expect(() =>
+      drawFinisherCard(canvas, {
+        width: 360,
+        height: 640,
+        faction: 'horde',
+        username: 'longusernamehere',
+        challengeTitle: 'QA Official — Burpees For Time',
+        scoreType: 'reps',
+        scoreValue: 999,
+        topPercent: null,
+        rankTextOverride: 'SAVED',
+        rankSubOverride: 'NO VIDEO',
+      }),
+    ).not.toThrow();
+  });
 });
