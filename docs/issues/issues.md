@@ -58,6 +58,7 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 
 - [x] **V1.5** — Pages `/app/faction/[slug]` + symétrie Clan / Overview — section **I** — 🟢 [#57](https://github.com/igorms-pro/truegrynd/issues/57) PR [#58](https://github.com/igorms-pro/truegrynd/pull/58) (QA checklist §7 reste manuel)
 - [x] **V1.5** — Profil épuré + page Historique dédiée (`Show More` → `/app/profile/history`) — section **K** — 🟢 [#59](https://github.com/igorms-pro/truegrynd/issues/59) PR [#60](https://github.com/igorms-pro/truegrynd/pull/60)
+- [x] **V1.5** — Page Settings `/app/settings` (passeport, prefs, logout) — 🟢 [#61](https://github.com/igorms-pro/truegrynd/issues/61) PR [#62](https://github.com/igorms-pro/truegrynd/pull/62)
 
 **Macro pré-V2 (polish post-QA V1, avant V2-01)**
 
@@ -377,7 +378,7 @@ PAGE HISTORIQUE (/app/profile/history)
 - [x] **Supprimer** `ScoreHistory` du bas de la page — **définitif**, pas de doublon.
 - [x] **Carrousel CARDS** : limiter `FinisherGallery` aux **3 ou 4 cartes les plus récentes** (tri `created_at` desc).
 - [x] **Bouton « Show More »** (`SHOW MORE ➔`) : en haut à droite de la section CARDS (à côté du titre) → lien `/app/profile/history`.
-- [x] **Settings ⚙️** : icône en haut à droite à côté du titre **PROFILE** ; y déplacer **Log out** (retirer `SignOutButton` visible du corps de page).
+- [x] **Settings ⚙️** : icône en haut à droite → lien **`/app/settings`** (page dédiée passeport / prefs / logout) — PR [#62](https://github.com/igorms-pro/truegrynd/pull/62) [#61](https://github.com/igorms-pro/truegrynd/issues/61)
 - [x] **i18n EN/FR** : `profile.cards.showMore`, `profile.settings.*`, titres section.
 
 ### 2. Nouvelle route `/app/profile/history`
@@ -594,7 +595,7 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 | **V2 — Accessible competition**           | 🔴 [docs/V2_STRATEGY.md](../V2_STRATEGY.md) — **V2-00** (exclusions) puis **V2-01 → V2-12** section **H**                                                                               |
 | **QA V1 (manuel)**                        | 🟡 [docs/QA_V1_CHECKLIST.md](../QA_V1_CHECKLIST.md) — à cocher ; ajouter parcours faction après V1.5                                                                                    |
 
-**Suite produit :** V1 macro **terminée**. **V1.5 sections I + K** livrées. Prochaine priorité = **section J** (fix submit flow) + fin **QA V1**, puis **V2-00**.
+**Suite produit :** V1 macro **terminée**. **V1.5 (I + K + Settings)** livrée. Prochaine priorité = **section J** (fix submit flow) + fin **QA V1**, puis **V2-00**.
 
 ---
 
