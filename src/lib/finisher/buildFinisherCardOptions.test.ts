@@ -25,7 +25,7 @@ describe('buildFinisherCardOptions', () => {
     expect(opts.width).toBe(1080);
     expect(opts.height).toBe(1920);
     expect(opts.topPercent).toBe(5);
-    expect(opts.rankTextOverride).toBe('RANKED');
+    expect(opts.rankTextOverride).toBe('TOP 5%');
   });
 
   it('builds thumb preview options without top percent', () => {

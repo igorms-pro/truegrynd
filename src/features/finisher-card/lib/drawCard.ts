@@ -87,7 +87,26 @@ export function drawFinisherCard(canvas: HTMLCanvasElement, options: Options): v
   ctx.font = `900 ${brandSize}px system-ui, -apple-system, Segoe UI, sans-serif`;
   ctx.fillText('TRUEGRYND', textX, lineY(0.04));
 
-  const titleStartPct = options.weeklyBadge ? 0.1 : 0.13;
+  let badgeOffset = 0;
+  if (options.tagline) {
+    const taglineSize = fitFontSize(
+      ctx,
+      options.tagline,
+      maxTextW,
+      900,
+      'system-ui, -apple-system, Segoe UI, sans-serif',
+      Math.floor(innerW * 0.045),
+      10,
+    );
+    ctx.fillStyle = accent;
+    ctx.font = `900 ${taglineSize}px system-ui, -apple-system, Segoe UI, sans-serif`;
+    ctx.fillText(truncateToWidth(ctx, options.tagline, maxTextW), textX, lineY(0.085));
+    badgeOffset = 0.035;
+  }
+
+  const titleStartPct =
+    options.weeklyBadge || options.eventBadge ? 0.1 + badgeOffset : 0.13 + badgeOffset;
+  let badgeY = 0.085 + badgeOffset;
   if (options.weeklyBadge) {
     const weeklySize = fitFontSize(
       ctx,
@@ -103,8 +122,24 @@ export function drawFinisherCard(canvas: HTMLCanvasElement, options: Options): v
     ctx.fillText(
       truncateToWidth(ctx, options.weeklyBadge.toUpperCase(), maxTextW),
       textX,
-      lineY(0.085),
+      lineY(badgeY),
     );
+    badgeY += 0.035;
+  }
+
+  if (options.eventBadge) {
+    const eventSize = fitFontSize(
+      ctx,
+      options.eventBadge,
+      maxTextW,
+      900,
+      'system-ui, -apple-system, Segoe UI, sans-serif',
+      Math.floor(innerW * 0.05),
+      10,
+    );
+    ctx.fillStyle = '#ffb800';
+    ctx.font = `900 ${eventSize}px system-ui, -apple-system, Segoe UI, sans-serif`;
+    ctx.fillText(truncateToWidth(ctx, options.eventBadge, maxTextW), textX, lineY(badgeY));
   }
 
   const titleSize = fitFontSize(
@@ -145,9 +180,10 @@ export function drawFinisherCard(canvas: HTMLCanvasElement, options: Options): v
   const labelY = compact ? lineY(0.54) : lineY(0.52);
   const rankY = compact ? lineY(0.6) : lineY(0.58);
   const rankSubY = compact ? lineY(0.66) : lineY(0.68);
-  const usernameY = compact ? lineY(0.76) : lineY(0.78);
-  const divisionY = compact ? lineY(0.82) : lineY(0.83);
-  const factionY = compact ? lineY(0.88) : lineY(0.89);
+  const hasGrowth = Boolean(options.ratingDeltaText || options.warPointsText);
+  const usernameY = compact ? lineY(hasGrowth ? 0.78 : 0.76) : lineY(hasGrowth ? 0.8 : 0.78);
+  const divisionY = compact ? lineY(hasGrowth ? 0.84 : 0.82) : lineY(hasGrowth ? 0.85 : 0.83);
+  const factionY = compact ? lineY(hasGrowth ? 0.9 : 0.88) : lineY(hasGrowth ? 0.91 : 0.89);
 
   const labelSize = Math.floor(innerW * (compact ? 0.06 : 0.072));
   ctx.fillStyle = muted;
@@ -185,6 +221,15 @@ export function drawFinisherCard(canvas: HTMLCanvasElement, options: Options): v
   ctx.font = `900 ${rankSubSize}px system-ui, -apple-system, Segoe UI, sans-serif`;
   const rankSubLine = truncateToWidth(ctx, rankSub, maxTextW);
   ctx.fillText(rankSubLine, textX, rankSubY);
+
+  const growthY = compact ? lineY(0.72) : lineY(0.74);
+  if (hasGrowth) {
+    const growthText = [options.ratingDeltaText, options.warPointsText].filter(Boolean).join(' · ');
+    const growthSize = Math.floor(innerW * (compact ? 0.045 : 0.05));
+    ctx.fillStyle = '#ffb800';
+    ctx.font = `900 ${growthSize}px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace`;
+    ctx.fillText(truncateToWidth(ctx, growthText, maxTextW), textX, growthY);
+  }
 
   const usernameSize = Math.floor(innerW * (compact ? 0.06 : 0.072));
   ctx.fillStyle = accent;

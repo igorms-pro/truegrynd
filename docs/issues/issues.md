@@ -83,8 +83,8 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 - [x] **V2-07** — Rival Matches (1v1 / petits groupes) — 🟢 [#85](https://github.com/igorms-pro/truegrynd/issues/85) · PR1–3 [#86](https://github.com/igorms-pro/truegrynd/pull/86) [#87](https://github.com/igorms-pro/truegrynd/pull/87) [#88](https://github.com/igorms-pro/truegrynd/pull/88) · PR4 [#89](https://github.com/igorms-pro/truegrynd/pull/89) · migrations **`021`** **`022`** prod
 - [x] **V2-08** — Team Wars / Faction Wars par division — 🟢 [#90](https://github.com/igorms-pro/truegrynd/issues/90) PR [#91](https://github.com/igorms-pro/truegrynd/pull/91) · migration **`023`** prod
 - [x] **V2-09** — Micro-events async (24h / 7j / 30j) — 🟢 [#92](https://github.com/igorms-pro/truegrynd/issues/92) PR [#93](https://github.com/igorms-pro/truegrynd/pull/93) · migration **`024`** prod
-- [ ] **V2-10** — Proof Levels — 🟡 [#95](https://github.com/igorms-pro/truegrynd/issues/95) PR [#96](https://github.com/igorms-pro/truegrynd/pull/96) · migration **`027`** prod
-- [ ] **V2-11** — Growth loops (cards, invitations, comeback weeks) — [#94](https://github.com/igorms-pro/truegrynd/issues/94)
+- [x] **V2-10** — Proof Levels — 🟢 [#95](https://github.com/igorms-pro/truegrynd/issues/95) PR [#96](https://github.com/igorms-pro/truegrynd/pull/96) · migration **`027`** prod
+- [ ] **V2-11** — Growth loops (cards, invitations, comeback weeks) — 🟡 [#94](https://github.com/igorms-pro/truegrynd/issues/94)
 - [ ] **V2-12** — Monétisation exploratoire (après signal d'usage)
 
 ---
@@ -709,15 +709,15 @@ Branche : `chore/issue-69-production-hardening`
 - [x] **Règles** : filtres LB `video_ranked+` / `community_verified+` / `judge_verified`.
 - [x] **Admin/judge** : `/app/admin/proof` + RPC `admin_set_score_proof_level`.
 - [x] **Trust** : signalement score sur leaderboard (table `reports` existante).
-- [ ] **Ops** : merge PR + QA prod.
+- [x] **Ops** : merge PR [#96](https://github.com/igorms-pro/truegrynd/pull/96) + migration **`027`** prod.
 
 ### V2-11. Growth Loops
 
-- [ ] **Finisher cards V2** : division, rating delta, faction contribution, weekly badge.
-- [ ] **Invitations** : inviter quelqu'un sur un rival match ou weekly challenge.
-- [ ] **Comeback weeks** : relancer ceux qui ont raté 1-2 semaines sans culpabilisation.
-- [ ] **Referral V2** : faction + division context (“Join Horde Rookie Week”).
-- [ ] **Analytics** : mesurer share → signup → first score.
+- [x] **Finisher cards V2** : division, rating delta, faction contribution, weekly/event badge, tagline faction+division.
+- [x] **Invitations** : share link rival match + weekly challenge (Overview, rival detail).
+- [x] **Comeback weeks** : banner Overview si 1–2 semaines d'inactivité (+ event comeback_week).
+- [x] **Referral V2** : `?faction=&division=&weekly=` + capture auth/onboarding.
+- [x] **Analytics** : events share/signup/first score (PostHog HTTP optionnel).
 
 ### V2-12. Monétisation Exploratoire
 
@@ -765,10 +765,11 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 | **Post-QA polish (#67)**                      | 🟢 [#67](https://github.com/igorms-pro/truegrynd/issues/67) mergé — PR [#68](https://github.com/igorms-pro/truegrynd/pull/68) ; migration **`014`** prod                                                                                            |
 | **Production hardening (#69)**                | 🟢 [#69](https://github.com/igorms-pro/truegrynd/issues/69) PR [#70](https://github.com/igorms-pro/truegrynd/pull/70) — section **L**                                                                                                               |
 | **V2 — Accessible competition**               | 🟢 V2-00–09 [#92](https://github.com/igorms-pro/truegrynd/issues/92) PR [#93](https://github.com/igorms-pro/truegrynd/pull/93) · prod migrations **`015`–`026`** (Jun 2026 — drift repair + **`026`** micro-events backfill)                        |
-| **V2-10 — Proof levels**                      | 🟡 [#95](https://github.com/igorms-pro/truegrynd/issues/95) PR [#96](https://github.com/igorms-pro/truegrynd/pull/96) · migration **`027`** prod                                                                                                    |
+| **V2-10 — Proof levels**                      | 🟢 [#95](https://github.com/igorms-pro/truegrynd/issues/95) PR [#96](https://github.com/igorms-pro/truegrynd/pull/96) · migration **`027`** prod                                                                                                    |
+| **V2-11 — Growth loops**                      | 🟡 [#94](https://github.com/igorms-pro/truegrynd/issues/94) · branche `feature/issue-94-growth-loops`                                                                                                                                               |
 | **QA V1**                                     | 🟢 GO (juin 2026) — périmètre critique testé                                                                                                                                                                                                        |
 
-**Suite produit :** merge **V2-10** ([#95](https://github.com/igorms-pro/truegrynd/issues/95)) → QA proof badges / filtres LB / admin proof → **V2-11** growth ([#94](https://github.com/igorms-pro/truegrynd/issues/94)).
+**Suite produit :** **V2-11** growth ([#94](https://github.com/igorms-pro/truegrynd/issues/94)) — finisher V2, invitations rival/weekly, comeback weeks, referral contextuel.
 
 ---
 

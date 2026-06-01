@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { RivalMatchBackLink } from '@/features/rivals/components/RivalMatchBackLink';
 import { RivalMatchChallengeRow } from '@/features/rivals/components/RivalMatchChallengeRow';
 import { RivalMatchResultBanner } from '@/features/rivals/components/RivalMatchResultBanner';
+import { RivalMatchShareInvite } from '@/features/growth/components/RivalMatchShareInvite';
 import { useNowTick } from '@/features/rivals/hooks/useNowTick';
 import { useRivalMatch } from '@/features/rivals/hooks/useRivalMatch';
 import { useProfile } from '@/features/profile/hooks/useProfile';
@@ -22,8 +23,9 @@ export function RivalMatchDetailScreen({ matchId }: Props) {
   const profileState = useProfile();
   const { state, refetch } = useRivalMatch(matchId);
 
-  const currentUserId =
-    profileState.state.status === 'ready' ? profileState.state.profile.id : null;
+  const profile = profileState.state.status === 'ready' ? profileState.state.profile : null;
+
+  const currentUserId = profile?.id ?? null;
 
   const match = state.status === 'ready' ? state.match : null;
   const detail = state.status === 'ready' ? state.detail : null;
@@ -123,6 +125,14 @@ export function RivalMatchDetailScreen({ matchId }: Props) {
         ) : null}
         {isTerminal ? <p className="text-sm text-muted-foreground">{t('finalizedHint')}</p> : null}
       </header>
+
+      {match.status === 'pending' || match.status === 'active' ? (
+        <RivalMatchShareInvite
+          matchId={match.id}
+          faction={profile?.faction ?? null}
+          division={profile?.division ?? null}
+        />
+      ) : null}
 
       <RivalMatchResultBanner
         match={match}

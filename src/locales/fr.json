@@ -203,7 +203,9 @@
       "shareAria": "Partager le lien de recrutement {faction}",
       "copyAria": "Copier le lien de recrutement",
       "shareTitle": "Truegrynd — Rejoins {faction}",
-      "shareText": "Rejoins {faction} sur Truegrynd. Compétition fitness async, sans blabla."
+      "shareText": "Rejoins {faction} sur Truegrynd. Compétition fitness async, sans blabla.",
+      "shareTitleContextual": "Truegrynd — Rejoins {faction} {division}",
+      "shareTextContextual": "Rejoins {faction} {division} sur Truegrynd. {weekly} est en cours — poste un score classé."
     }
   },
   "factionPage": {
@@ -861,6 +863,36 @@
       "not_invited": "Tu n'es pas invité sur ce match.",
       "match_not_pending": "Cette invitation n'est plus en attente.",
       "cannot_cancel": "Impossible d'annuler ce match."
+    }
+  },
+  "growth": {
+    "share": {
+      "share": "PARTAGER",
+      "copy": "COPIER LE LIEN",
+      "copied": "COPIÉ !"
+    },
+    "comeback": {
+      "kicker": "CONTENT DE TE REVOIR",
+      "eventKicker": "SEMAINE COMEBACK",
+      "body": "Tu as pris {weeks} semaine(s) de pause. Pas de culpabilité — reprends avec un score classé.",
+      "hint": "La guerre de faction compte toujours. Une vidéo preuve suffit pour revenir dans la course.",
+      "cta": "POSTER UN SCORE"
+    },
+    "rivalInvite": {
+      "title": "INVITER UN RIVAL",
+      "body": "Partage ce lien pour qu'un ami accepte ton duel.",
+      "shareTitle": "Truegrynd — Invitation duel rival",
+      "shareText": "Je te défie sur Truegrynd. Accepte le duel.",
+      "shareAria": "Partager le lien d'invitation rival",
+      "copyAria": "Copier le lien d'invitation rival"
+    },
+    "weeklyInvite": {
+      "title": "INVITER AU WEEKLY",
+      "body": "Recrute des alliés pour le défi de la semaine.",
+      "shareTitle": "Truegrynd — Rejoins {faction} {division} · {weekly}",
+      "shareText": "Rejoins {faction} {division} sur Truegrynd. Le défi de la semaine est live.",
+      "shareAria": "Partager le lien d'invitation weekly",
+      "copyAria": "Copier le lien d'invitation weekly"
     }
   },
   "finisher": {

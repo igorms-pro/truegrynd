@@ -8,6 +8,8 @@ import {
   downloadBlob,
   sharePngBlob,
 } from '@/features/finisher-card/lib/canvasPng';
+import { ANALYTICS_EVENTS } from '@/lib/analytics/events';
+import { trackEvent } from '@/lib/analytics/trackEvent';
 
 type Props = {
   canvasRef: React.RefObject<HTMLCanvasElement | null>;
@@ -45,6 +47,7 @@ export function FinisherCardActions({ canvasRef, disabled }: Props) {
       const blob = await getBlob();
       if (!blob) return;
       await sharePngBlob(blob, 'truegrynd-finisher.png');
+      trackEvent(ANALYTICS_EVENTS.shareFinisher, { surface: 'finish_page' });
     } finally {
       setWorking(false);
     }

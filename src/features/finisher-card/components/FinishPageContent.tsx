@@ -33,6 +33,10 @@ export function FinishPageContent() {
       scoreValue: ready.score.value,
       topPercent: ready.topPercent,
       weeklyBadge: ready.weeklyBadge ?? undefined,
+      eventBadge: ready.eventBadge ?? undefined,
+      tagline: ready.tagline,
+      ratingDeltaText: ready.ratingDeltaText ?? undefined,
+      warPointsText: ready.warPointsText ?? undefined,
       ranked,
       isValidated: ready.score.is_validated,
     });

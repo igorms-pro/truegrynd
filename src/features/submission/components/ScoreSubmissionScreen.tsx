@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 
 import { useChallenge } from '@/hooks/useChallenge';
 import { clearChallengeCommitment, recordChallengeCommitment } from '@/lib/commitments';
+import { trackFirstScoreIfNeeded } from '@/lib/analytics/firstScore';
 import { ScoreSubmissionForm } from '@/features/submission/components/ScoreSubmissionForm';
 
 type Props = {
@@ -116,6 +117,9 @@ export function ScoreSubmissionScreen({ challengeId }: Props) {
         onSubmitted={(r) => {
           clearChallengeCommitment(challenge.id);
           setResult(r);
+          if (r.ranked) {
+            trackFirstScoreIfNeeded(r.ranked);
+          }
           router.push(
             `/${locale}/app/finish?challengeId=${challenge.id}&ranked=${String(r.ranked)}&scoreId=${encodeURIComponent(
               r.insertedId,
