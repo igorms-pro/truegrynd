@@ -10,6 +10,7 @@ const c = (id: string, opts: Partial<Challenge> = {}): Challenge => ({
   rules: 'r',
   score_type: 'time',
   equipment_tags: [],
+  rating_axis: 'engine',
   is_official: false,
   status: 'approved',
   creator_id: null,

@@ -3,12 +3,19 @@
 import { useTranslations } from 'next-intl';
 
 import { FinisherGallery } from '@/features/finisher-card';
-import { ProfileHeader, ProfileSettingsLink, useProfile } from '@/features/profile';
+import {
+  ProfileHeader,
+  ProfileRatingCard,
+  ProfileSettingsLink,
+  useProfile,
+} from '@/features/profile';
+import { useProfileRating } from '@/features/profile/hooks/useProfileRating';
 
 export default function ProfilePage() {
   const tabs = useTranslations('app.tabs');
   const t = useTranslations('profile');
   const { state, refetch } = useProfile();
+  const ratingState = useProfileRating(state.status === 'ready' ? state.profile.id : null);
 
   if (state.status === 'loading') {
     return (
@@ -55,6 +62,13 @@ export default function ProfilePage() {
       </div>
 
       <ProfileHeader profile={state.profile} onAvatarUpdated={refetch} />
+
+      <ProfileRatingCard
+        rating={ratingState.state.status === 'ready' ? ratingState.state.rating : null}
+        loading={ratingState.state.status === 'loading'}
+        error={ratingState.state.status === 'error' ? ratingState.state.error : null}
+        onRetry={ratingState.refetch}
+      />
 
       <FinisherGallery
         userId={state.profile.id}

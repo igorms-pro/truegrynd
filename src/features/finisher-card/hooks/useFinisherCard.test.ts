@@ -70,6 +70,7 @@ const challenge = {
   rules: '',
   score_type: 'reps' as const,
   equipment_tags: [],
+  rating_axis: 'engine',
   is_official: true,
   status: 'approved' as const,
   creator_id: null,

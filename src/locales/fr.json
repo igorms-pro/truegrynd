@@ -671,6 +671,23 @@
         "gold": "OR"
       }
     },
+    "rating": {
+      "title": "TRUEGRYND RATING",
+      "loading": "Chargement du rating...",
+      "error": "Impossible de charger le rating.",
+      "retry": "Réessayer",
+      "noData": "—",
+      "explainer": "Ton score global mélange les percentiles sur tes scores validés, ta série et ton activité récente. Un rating plus haut débloque la promotion de division.",
+      "validatedCount": "{count} défis classés",
+      "axisAria": "Rating {axis} : {value} sur 100",
+      "axes": {
+        "engine": "Engine",
+        "power": "Power",
+        "strength": "Strength",
+        "grit": "Grit",
+        "consistency": "Consistency"
+      }
+    },
     "header": {
       "unknownUser": "INCONNU",
       "avatarAlt": "Avatar du profil",

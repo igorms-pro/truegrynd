@@ -10,7 +10,9 @@ import {
   parseEquipmentTags,
   type CreateChallengeFormValues,
 } from '@/features/challenges/lib/createChallengeSchema';
+import { getMovementCategory } from '@/features/challenges/lib/movementCatalog';
 import { createPendingChallenge } from '@/features/challenges/services/challenges';
+import { inferRatingAxis } from '@/lib/rating';
 import { supabase } from '@/lib/supabase';
 import type { Challenge } from '@/lib/types/database.types';
 
@@ -50,6 +52,15 @@ export function useCreateChallenge(): {
         const secs = capDurationSeconds(values.forTimeCap ?? '');
         if (secs !== null && secs > 0) maxDurationSeconds = secs;
       }
+      const primarySlug = values.circuitBlocks[0]?.movementSlug ?? '';
+      const primaryMovementCategory =
+        primarySlug.length > 0 ? getMovementCategory(primarySlug) : null;
+      const ratingAxis = inferRatingAxis({
+        scoreType,
+        equipmentTags: tags,
+        maxDurationSeconds,
+        primaryMovementCategory,
+      });
       return await createPendingChallenge({
         creatorId: data.user.id,
         title: values.title,
@@ -59,6 +70,7 @@ export function useCreateChallenge(): {
         equipmentTags: tags,
         variants: values.variants,
         maxDurationSeconds,
+        ratingAxis,
       });
     } catch (e: unknown) {
       const message = e instanceof Error ? e.message : 'unknown';

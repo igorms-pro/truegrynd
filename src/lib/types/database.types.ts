@@ -1,6 +1,7 @@
 export type Faction = 'nomads' | 'horde' | 'iron_alliance';
 export type Division = 'rookie' | 'regular' | 'savage' | 'elite';
 export type ChallengeVariant = 'no_equipment' | 'bodyweight' | 'dumbbell' | 'standard' | 'savage';
+export type ChallengeRatingAxis = 'engine' | 'power' | 'strength' | 'grit';
 export type Sex = 'male' | 'female' | 'other';
 export type ScoreType = 'time' | 'reps';
 export type ChallengeStatus = 'pending' | 'approved' | 'rejected';
@@ -71,6 +72,8 @@ export interface Challenge {
   rules: string;
   score_type: ScoreType;
   equipment_tags: string[];
+  /** Primary axis for Truegrynd Rating percentiles (V2-05). */
+  rating_axis: ChallengeRatingAxis;
   is_official: boolean;
   status: ChallengeStatus;
   creator_id: string | null;

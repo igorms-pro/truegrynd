@@ -1,7 +1,7 @@
 import { CHALLENGE_SELECT } from '@/lib/challenges/constants';
 import { getChallengeById as getChallengeByIdFromLib } from '@/lib/challenges/getChallengeById';
 import { supabase } from '@/lib/supabase';
-import type { Challenge, ScoreType } from '@/lib/types/database.types';
+import type { Challenge, ChallengeRatingAxis, ScoreType } from '@/lib/types/database.types';
 
 export { getChallengeByIdFromLib as getChallengeById };
 
@@ -41,6 +41,7 @@ export async function createPendingChallenge(input: {
   equipmentTags: string[];
   variants: import('@/lib/types/database.types').ChallengeVariant[];
   maxDurationSeconds: number | null;
+  ratingAxis: ChallengeRatingAxis;
 }): Promise<Challenge> {
   const { data, error } = await supabase
     .from('challenges')
@@ -50,6 +51,7 @@ export async function createPendingChallenge(input: {
       rules: input.rules.trim(),
       score_type: input.scoreType,
       equipment_tags: input.equipmentTags,
+      rating_axis: input.ratingAxis,
       is_official: false,
       creator_id: input.creatorId,
       max_duration_seconds: input.maxDurationSeconds,

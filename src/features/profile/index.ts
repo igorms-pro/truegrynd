@@ -1,5 +1,6 @@
 export { HistoryItemRow } from '@/features/profile/components/HistoryItemRow';
 export { ProfileHeader } from '@/features/profile/components/ProfileHeader';
+export { ProfileRatingCard } from '@/features/profile/components/ProfileRatingCard';
 export { ProfileHistoryScreen } from '@/features/profile/components/ProfileHistoryScreen';
 export { ProfileSettingsLink } from '@/features/profile/components/ProfileSettingsLink';
 export { PublicProfileScreen } from '@/features/profile/components/PublicProfileScreen';
