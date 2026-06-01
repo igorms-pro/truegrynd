@@ -624,7 +624,8 @@
       "errorTitle": "Combattant introuvable",
       "errorBody": "Ce pseudo n’existe pas ou a été supprimé.",
       "retry": "Réessayer",
-      "backClan": "RETOUR AU CLAN"
+      "backClan": "RETOUR AU CLAN",
+      "passportHidden": "Ce combattant a masqué son passeport compétitif. Seul l'en-tête reste visible."
     },
     "signOut": {
       "label": "DÉCONNEXION",
@@ -686,6 +687,73 @@
         "strength": "Strength",
         "grit": "Grit",
         "consistency": "Consistency"
+      }
+    },
+    "passport": {
+      "kicker": "PASSEPORT",
+      "cta": "VOIR LE CV COMPÉTITIF",
+      "openAria": "Ouvrir le passeport compétitif",
+      "title": "PASSEPORT COMPÉTITIF",
+      "subtitle": "Ton palmarès amateur — divisions, rating, temps forts et cards.",
+      "back": "PROFIL",
+      "loading": "Chargement du passeport...",
+      "errorTitle": "Impossible de charger le passeport",
+      "errorBody": "Réessaie depuis ton profil.",
+      "division": {
+        "title": "DIVISION",
+        "loading": "Chargement des divisions...",
+        "current": "Palier actuel",
+        "reached": "Paliers atteints",
+        "history": "Historique rating",
+        "historyEmpty": "Pas encore d'historique. Envoie des scores validés pour construire ta trajectoire."
+      },
+      "topScores": {
+        "title": "MEILLEURS SCORES PAR AXE",
+        "body": "Meilleur résultat validé par axe de performance.",
+        "loading": "Chargement des temps forts...",
+        "error": "Impossible de charger les scores.",
+        "retry": "Réessayer",
+        "empty": "Aucun score classé. Publie une preuve sur un défi pour apparaître ici.",
+        "topPercent": "TOP {percent}%"
+      },
+      "weekly": {
+        "title": "BADGES HEBDO",
+        "body": "Défis hebdo globaux complétés avec un score classé.",
+        "loading": "Chargement des badges hebdo...",
+        "empty": "Aucun hebdo complété. Lance le weekly depuis l'Overview.",
+        "badge": "FAIT",
+        "weekFallback": "HEBDO"
+      },
+      "badges": {
+        "title": "BADGES & SÉRIE",
+        "streak": "Série d'activité",
+        "streakDays": "{days}j",
+        "creator": "Creator score",
+        "creatorHint": "Palier UGC : {tier}"
+      },
+      "share": {
+        "title": "PARTAGER",
+        "body": "Copie le lien de ton profil public. Coche les sections ci-dessous pour contrôler ce que les visiteurs voient.",
+        "copy": "COPIER LE LIEN PUBLIC",
+        "copied": "LIEN COPIÉ",
+        "noUsername": "Définis un pseudo dans Réglages pour partager ton passeport public."
+      },
+      "privacy": {
+        "title": "VISIBILITÉ PUBLIQUE",
+        "body": "Choisis ce qui apparaît sur ton lien public. Ton passeport privé affiche toujours tout.",
+        "save": "ENREGISTRER",
+        "saving": "ENREGISTREMENT...",
+        "saved": "Confidentialité mise à jour.",
+        "saveError": "Impossible d'enregistrer ({message}).",
+        "sections": {
+          "division": "Division et historique rating",
+          "rating": "Truegrynd Rating et axes",
+          "scoreHistory": "Historique des scores validés",
+          "topScores": "Meilleurs scores par axe",
+          "badges": "Streak et badges créateur",
+          "weeklies": "Weekly challenges complétés",
+          "finishers": "Galerie finisher cards"
+        }
       }
     },
     "header": {

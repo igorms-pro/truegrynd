@@ -35,6 +35,13 @@ export interface Profile {
   city: string | null;
   country_code: string | null;
   show_location_on_leaderboard: boolean;
+  show_division_on_public: boolean;
+  show_rating_on_public: boolean;
+  show_score_history_on_public: boolean;
+  show_top_scores_on_public: boolean;
+  show_badges_on_public: boolean;
+  show_weeklies_on_public: boolean;
+  show_finishers_on_public: boolean;
   initiation_completed: boolean;
   creator_score: number;
   streak_days: number;

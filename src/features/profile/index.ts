@@ -1,4 +1,6 @@
 export { HistoryItemRow } from '@/features/profile/components/HistoryItemRow';
+export { PassportLink } from '@/features/profile/components/PassportLink';
+export { PassportScreen } from '@/features/profile/components/PassportScreen';
 export { ProfileHeader } from '@/features/profile/components/ProfileHeader';
 export { ProfileRatingCard } from '@/features/profile/components/ProfileRatingCard';
 export { ProfileHistoryScreen } from '@/features/profile/components/ProfileHistoryScreen';

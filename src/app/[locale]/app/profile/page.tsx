@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 
 import { FinisherGallery } from '@/features/finisher-card';
 import {
+  PassportLink,
   ProfileHeader,
   ProfileRatingCard,
   ProfileSettingsLink,
@@ -62,6 +63,8 @@ export default function ProfilePage() {
       </div>
 
       <ProfileHeader profile={state.profile} onAvatarUpdated={refetch} />
+
+      <PassportLink />
 
       <ProfileRatingCard
         rating={ratingState.state.status === 'ready' ? ratingState.state.rating : null}
