@@ -38,6 +38,7 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 | **V1.5 — Pages Faction & symétrie UI**    | Section **I** — arbitrages dock / Clan / Overview           |
 | **V1.5 — Profil épuré & page Historique** | Section **K** — carrousel CARDS + `/app/profile/history`    |
 | **Fix & polish pré-V2 (QA V1)**           | Section **J** — flow soumission score / copy CTA            |
+| **Production hardening (10k users)**      | Section **L** — clean archi, DRY, limites feature           |
 | **V2 — Accessible competition**           | Section **H** — backlog issue-par-issue (**V2-00** en tête) |
 
 **Macro-checklist**
@@ -65,6 +66,10 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 - [x] **FIX UI** — Flow soumission score (POST SCORE → formulaire → SUBMIT) — section **J** — 🟢 [#63](https://github.com/igorms-pro/truegrynd/issues/63) PR [#64](https://github.com/igorms-pro/truegrynd/pull/64)
 - [x] **FIX** — Bugs QA B1–B3 (finish page, gallery retry, thumb layout) — 🟢 [#65](https://github.com/igorms-pro/truegrynd/issues/65) PR [#66](https://github.com/igorms-pro/truegrynd/pull/66)
 - [x] **FEAT** — Statut défi + historique actions + LB dedupe + migration **`014`** — 🟢 [#67](https://github.com/igorms-pro/truegrynd/issues/67) PR [#68](https://github.com/igorms-pro/truegrynd/pull/68)
+
+**Macro production (codebase prête ~10k users — avant V2 compétitif)**
+
+- [ ] **CHORE** — Clean architecture & code health — section **L** — 🟡 [#69](https://github.com/igorms-pro/truegrynd/issues/69) branche `chore/issue-69-production-hardening`
 
 **Macro V2 proposée (à transformer en GitHub issues avant dev)**
 
@@ -424,6 +429,138 @@ PAGE HISTORIQUE (/app/profile/history)
 
 ---
 
+## L. Production hardening — clean architecture & code health (~10k users)
+
+**Statut :** 🟡 **EN COURS** — GitHub [#69](https://github.com/igorms-pro/truegrynd/issues/69) · branche `chore/issue-69-production-hardening`
+
+**Objectif :** codebase **production-grade** pour un produit **lancé et fini** (pas prototype) — cible **~10 000 utilisateurs actifs** sans dette structurelle bloquante. Prérequis **obligatoire** avant **V2-01** (divisions = complexité transverse : leaderboards, profil, rating).
+
+**Contexte audit (juin 2026, `main` post-#68)**
+
+| Signal                      | État actuel                                                   | Cible production                                             |
+| --------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------ |
+| LOC `src/`                  | ~14 200 · 240 fichiers                                        | Stable ; pas de god-files                                    |
+| Coverage                    | 80 % stmts · 83 % lines                                       | ≥ 80 % maintenu                                              |
+| Cross-feature imports       | ~12 violations (profile↔challenges↔finisher↔submission)       | **0** (sauf `appshell` / infra auth)                         |
+| Fichiers > 200 LOC          | 5 (auth page, admin queue, onboarding identity, circuit form) | **0** en prod                                                |
+| Feature `index.ts`          | 8/11 features                                                 | **11/11** + pages importent via barrel                       |
+| Duplication canvas finisher | `finish/page` + `FinisherGallery`                             | 1 builder `buildFinisherCardOptions()`                       |
+| Duplication rank/percentile | `useFinisherCard` + `enrichScoresWithTopPercent`              | 1 service/hook partagé                                       |
+| Async state hooks           | ~15 patterns `{ loading \| ready \| error }` ad hoc           | Type union partagé ou React Query (phase 1 = types + helper) |
+
+**Ce n’est pas :** rewrite, migration framework, ni features V2.
+
+---
+
+### Briefing PR (copier en tête de nouvelle conversation)
+
+```markdown
+## Contexte
+
+Repo **truegrynd**, branche `main` à jour (PR #68 mergée, migration 014 prod).
+Produit **lancé** — arène async, Smart Proof, factions, UGC modéré, finisher cards.
+Objectif : **codebase saine pour ~10k users** avant d’attaquer V2 (divisions).
+
+## Tâche
+
+Issue **#69** / section **L** — Production hardening : clean architecture & DRY.
+Branche : `chore/issue-69-production-hardening`
+
+## Ne pas toucher
+
+- Workspace Voyagely
+- Features V2 (divisions, weekly, rating…) — section H
+- Migrations DB sauf si strictement requis pour `challenge_commitments` (reporté lot 2)
+
+## Périmètre PR (lots suggérés — max ~400 lignes/PR)
+
+### Lot 1 — Shared libs (P0)
+
+- [ ] Créer `src/lib/scoring/` : `formatScore`, `formatTime`, `isAllowedVideoUrl` (ré-export ou move depuis features)
+- [ ] Créer `src/lib/rank/` : `getRankCounts`, `percentileFromCounts`, `formatTopPercent` (consommé par finisher + profile)
+- [ ] Créer `src/lib/finisher/buildFinisherCardOptions.ts` — unique source options canvas (full + thumb)
+- [ ] Mettre à jour imports : profile, submission, challenges, finisher-card → **lib only**
+- [ ] Tests unitaires déplacés/dupliqués minimal ; `pnpm test:run` vert
+
+### Lot 2 — Feature boundaries (P0)
+
+- [ ] Ajouter `src/features/profile/index.ts`, `finisher-card/index.ts`, `auth/index.ts`
+- [ ] Pages `app/` importent uniquement via barrels feature ou `@/lib`
+- [ ] Vérifier : `grep` cross-feature = 0 (hors appshell)
+
+### Lot 3 — Thin pages & file size (P1)
+
+- [ ] Extraire `AuthScreen` depuis `src/app/[locale]/auth/page.tsx` (229 → page <30 LOC)
+- [ ] Extraire logique canvas de `finish/page.tsx` vers feature finisher-card
+- [ ] Split si >200 LOC : `AdminChallengeQueue`, `AdminPendingChallengeRow`, `OnboardingIdentityStep`, `CreateChallengeCircuitSection`
+
+### Lot 4 — Data layer foundation (P1)
+
+- [ ] `src/lib/async-state.ts` — type `AsyncState<T>` + helpers (ou introduire React Query sur 2–3 hooks pilotes : `useMyScores`, `useChallenge`)
+- [ ] Documenter pattern canon dans commentaire ou `.cursor/rules` si besoin
+
+### Lot 5 — Cohérence profil public (P2)
+
+- [ ] `PublicProfileScreen` : aligner ou deprecate `ScoreHistory` vs modèle history V1.5
+- [ ] Tests RTL sur chemins touchés
+
+## Acceptance criteria
+
+- [ ] Zero import `@/features/X` depuis `@/features/Y` (X≠Y), sauf appshell/auth infra
+- [ ] Aucun fichier composant/hook >200 LOC (règle projet)
+- [ ] `pnpm check` vert (lint + typecheck + test:run)
+- [ ] Coverage lines ≥ 80 %
+- [ ] Aucune régression E2E smoke
+- [ ] PR référence `Fixes #69` ou `Refs #69` si multi-PR
+
+## Risques
+
+- Régressions affichage finisher card (thumb + full) → tests `drawCard` + smoke manuel finish/galerie
+- Casse imports circulaires lors des moves → move lib d’abord, features ensuite
+- PR trop grosse → decouper lots 1–2 puis 3–5
+
+## Plan required BEFORE coding
+
+1. Fichiers create/modify list
+2. Ordre des moves (lib → features → pages)
+3. Attendre validation si changement de scope
+```
+
+---
+
+### Checklist détaillée section L
+
+**P0 — Architecture (bloquant V2)**
+
+- [ ] **`src/lib/scoring/`** — format score/time, validation vidéo (sources of truth)
+- [ ] **`src/lib/rank/`** — percentile + rank counts (finisher + profile history)
+- [ ] **`src/lib/finisher/buildFinisherCardOptions.ts`** — DRY canvas full/thumb
+- [ ] **Supprimer imports cross-feature** documentés dans l’audit
+- [ ] **Barrels** `profile`, `finisher-card`, `auth` + pages thin
+
+**P1 — Maintenabilité**
+
+- [ ] **`AuthScreen`** extrait de `auth/page.tsx`
+- [ ] **Split 5 fichiers >200 LOC** (admin, onboarding, create challenge)
+- [ ] **`AsyncState<T>`** ou React Query pilote sur hooks les plus utilisés
+
+**P2 — Polish production**
+
+- [ ] **Profil public** : une seule façon d’afficher l’historique scores
+- [ ] **Tests** : composants touchés (HistoryScoreActions, AuthScreen si extrait)
+- [ ] **(localStorage `challengeCommitments`)** — issue séparée / migration V2 ; ne pas bloquer #69
+
+**DoD**
+
+- [ ] `docs/issues/issues.md` section L → 🟢 + lien PR
+- [ ] Issue #69 fermée
+- [ ] Ensuite seulement : **V2-00** puis **V2-01**
+
+**Branche :** `chore/issue-69-production-hardening`  
+**Références :** `.cursor/rules/architecture-structure.mdc` · `.cursor/rules/coding-guidelines.mdc` · audit code health juin 2026 (conversation Cursor)
+
+---
+
 ## H. V2 — Accessible Competitive Fitness
 
 **Décision produit :** ne pas copier les gros events fitness. Truegrynd attaque leur angle mort : **l'énergie compétition sans ticket à 110 €, sans déplacement, sans élitisme**. Les gens jouent **dans leur division**, avec **leur team**, contre des gens de niveau comparable. Le leaderboard global reste une vitrine, pas l'expérience principale.
@@ -454,7 +591,7 @@ Référence stratégie : [docs/V2_STRATEGY.md](../V2_STRATEGY.md).
 - [ ] **V2-09** : micro-events (Faction War Weekend, etc.).
 - [ ] **V2-07** : Rival Matches — duel 1v1 / petit groupe sur défis, **pas** remplacement des 3 factions.
 
-**Prérequis avant de démarrer V2-01 :** section **I (V1.5)** livrée + QA Clan/faction OK.
+**Prérequis avant de démarrer V2-01 :** section **I (V1.5)** livrée + **section L (#69)** production hardening + QA Clan/faction OK.
 
 ### V2-01. Divisions De Niveau
 
@@ -595,10 +732,11 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 | **V1.5 — Profil & Historique**                | 🟢 [#59](https://github.com/igorms-pro/truegrynd/issues/59) PR [#60](https://github.com/igorms-pro/truegrynd/pull/60) + Settings [#61](https://github.com/igorms-pro/truegrynd/issues/61) PR [#62](https://github.com/igorms-pro/truegrynd/pull/62) |
 | **Fix flow submit (POST SCORE → formulaire)** | 🟢 [#63](https://github.com/igorms-pro/truegrynd/issues/63) PR [#64](https://github.com/igorms-pro/truegrynd/pull/64)                                                                                                                               |
 | **Post-QA polish (#67)**                      | 🟢 [#67](https://github.com/igorms-pro/truegrynd/issues/67) mergé — PR [#68](https://github.com/igorms-pro/truegrynd/pull/68) ; migration **`014`** prod                                                                                            |
-| **V2 — Accessible competition**               | 🔴 [docs/V2_STRATEGY.md](../V2_STRATEGY.md) — **prochaine** : **V2-00** puis **V2-01 → V2-12** section **H**                                                                                                                                        |
-| **QA V1**                                     | 🟢 GO (juin 2026) — périmètre critique testé ; parcours §5/§7–§14 optionnels manuels                                                                                                                                                                |
+| **Production hardening (#69)**                | 🟡 [#69](https://github.com/igorms-pro/truegrynd/issues/69) — section **L** — clean archi ~10k users                                                                                                                                                |
+| **V2 — Accessible competition**               | 🔴 [docs/V2_STRATEGY.md](../V2_STRATEGY.md) — **après #69** : **V2-00** puis **V2-01 → V2-12** section **H**                                                                                                                                        |
+| **QA V1**                                     | 🟢 GO (juin 2026) — périmètre critique testé                                                                                                                                                                                                        |
 
-**Suite produit :** **V1 + V1.5 + polish post-QA** livrés sur `main`. **QA V1 GO**. **Prochaine action = V2-00** (cadre factions & exclusions) → issue GitHub + branche, puis **V2-01** (divisions).
+**Suite produit :** Produit **lancé** sur `main`. **Prochaine action = #69** (production hardening, section **L**) → puis **V2-00** → **V2-01**.
 
 ---
 
