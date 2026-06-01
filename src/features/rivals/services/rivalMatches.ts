@@ -2,6 +2,7 @@ import { pickBestScorePerUser } from '@/features/challenges/lib/pickBestScorePer
 import {
   resolveRivalWinner,
   type RivalChallengeInput,
+  type RivalWinnerResult,
 } from '@/features/rivals/lib/resolveRivalWinner';
 import { supabase } from '@/lib/supabase';
 import type {
@@ -42,6 +43,26 @@ export type RivalMatchView = {
   winnerId: string | null;
   challenges: RivalMatchChallengeView[];
   participants: RivalMatchParticipantView[];
+};
+
+export type RivalParticipantScoreView = {
+  userId: string;
+  username: string | null;
+  value: number | null;
+};
+
+export type RivalChallengeScoresView = {
+  challengeId: string;
+  sortOrder: number;
+  title: string;
+  scoreType: ScoreType;
+  participantScores: RivalParticipantScoreView[];
+  roundWinnerId: string | null;
+};
+
+export type RivalMatchDetailData = {
+  challengeScores: RivalChallengeScoresView[];
+  winnerResult: RivalWinnerResult;
 };
 
 const MATCH_COLUMNS =
@@ -179,18 +200,27 @@ export async function listMyRivalMatches(userId: string): Promise<RivalMatchView
   return results.filter((m): m is RivalMatchView => m !== null);
 }
 
-export async function computeRivalWinnerFromScores(
+function acceptedParticipantIds(match: RivalMatchView): string[] {
+  return match.participants.filter((p) => p.status === 'accepted').map((p) => p.userId);
+}
+
+function usernameFor(match: RivalMatchView, userId: string): string | null {
+  return match.participants.find((p) => p.userId === userId)?.username ?? null;
+}
+
+export async function fetchRivalMatchDetailData(
   match: RivalMatchView,
-): Promise<ReturnType<typeof resolveRivalWinner>> {
-  if (!match.startsAt || !match.endsAt || match.status !== 'active') {
-    return { winnerId: null, challengeWinners: new Map(), reason: 'incomplete' };
-  }
+): Promise<RivalMatchDetailData> {
+  const empty: RivalMatchDetailData = {
+    challengeScores: [],
+    winnerResult: { winnerId: null, challengeWinners: new Map(), reason: 'incomplete' },
+  };
 
-  const acceptedIds = match.participants
-    .filter((p) => p.status === 'accepted')
-    .map((p) => p.userId);
+  if (!match.startsAt || !match.endsAt) return empty;
 
+  const acceptedIds = acceptedParticipantIds(match);
   const challengeInputs: RivalChallengeInput[] = [];
+  const challengeScores: RivalChallengeScoresView[] = [];
 
   for (const challenge of match.challenges) {
     const { data, error } = await supabase
@@ -213,12 +243,46 @@ export async function computeRivalWinnerFromScores(
       challenge.scoreType,
     );
 
+    const bestByUser = new Map(best.map((row) => [row.user_id, row.value]));
+
     challengeInputs.push({
       challengeId: challenge.challengeId,
       scoreType: challenge.scoreType,
       scores: best.map((row) => ({ userId: row.user_id, value: row.value })),
     });
+
+    challengeScores.push({
+      challengeId: challenge.challengeId,
+      sortOrder: challenge.sortOrder,
+      title: challenge.title,
+      scoreType: challenge.scoreType,
+      participantScores: acceptedIds.map((userId) => ({
+        userId,
+        username: usernameFor(match, userId),
+        value: bestByUser.get(userId) ?? null,
+      })),
+      roundWinnerId: null,
+    });
   }
 
-  return resolveRivalWinner(challengeInputs, acceptedIds);
+  const winnerResult = resolveRivalWinner(challengeInputs, acceptedIds);
+
+  return {
+    challengeScores: challengeScores.map((row) => ({
+      ...row,
+      roundWinnerId: winnerResult.challengeWinners.get(row.challengeId) ?? null,
+    })),
+    winnerResult,
+  };
+}
+
+export async function computeRivalWinnerFromScores(
+  match: RivalMatchView,
+): Promise<RivalWinnerResult> {
+  if (!match.startsAt || !match.endsAt || match.status !== 'active') {
+    return { winnerId: null, challengeWinners: new Map(), reason: 'incomplete' };
+  }
+
+  const { winnerResult } = await fetchRivalMatchDetailData(match);
+  return winnerResult;
 }
