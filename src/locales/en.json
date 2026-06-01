@@ -624,7 +624,8 @@
       "errorTitle": "Fighter not found",
       "errorBody": "This username does not exist or was removed.",
       "retry": "Retry",
-      "backClan": "BACK TO CLAN"
+      "backClan": "BACK TO CLAN",
+      "passportHidden": "This fighter hid their competitive passport. Only their header is visible."
     },
     "signOut": {
       "label": "LOG OUT",
@@ -686,6 +687,73 @@
         "strength": "Strength",
         "grit": "Grit",
         "consistency": "Consistency"
+      }
+    },
+    "passport": {
+      "kicker": "PASSPORT",
+      "cta": "VIEW COMPETITIVE CV",
+      "openAria": "Open challenge passport",
+      "title": "CHALLENGE PASSPORT",
+      "subtitle": "Your amateur competitive résumé — divisions, rating, highlights, and cards.",
+      "back": "PROFILE",
+      "loading": "Loading passport...",
+      "errorTitle": "Could not load passport",
+      "errorBody": "Try again from your profile.",
+      "division": {
+        "title": "DIVISION",
+        "loading": "Loading division data...",
+        "current": "Current tier",
+        "reached": "Tiers reached",
+        "history": "Rating snapshots",
+        "historyEmpty": "No rating history yet. Submit validated scores to build your track record."
+      },
+      "topScores": {
+        "title": "TOP SCORES BY AXIS",
+        "body": "Best validated result per performance axis.",
+        "loading": "Loading highlights...",
+        "error": "Could not load top scores.",
+        "retry": "Retry",
+        "empty": "No ranked scores yet. Post proof on a challenge to appear here.",
+        "topPercent": "TOP {percent}%"
+      },
+      "weekly": {
+        "title": "WEEKLY BADGES",
+        "body": "Global weekly challenges you completed with a ranked score.",
+        "loading": "Loading weekly badges...",
+        "empty": "No weekly completions yet. Hit the current weekly from Overview.",
+        "badge": "DONE",
+        "weekFallback": "WEEKLY"
+      },
+      "badges": {
+        "title": "BADGES & STREAK",
+        "streak": "Activity streak",
+        "streakDays": "{days}d",
+        "creator": "Creator score",
+        "creatorHint": "UGC tier: {tier}"
+      },
+      "share": {
+        "title": "SHARE PASSPORT",
+        "body": "Copy your public profile link. Toggle sections below to control what visitors see.",
+        "copy": "COPY PUBLIC LINK",
+        "copied": "LINK COPIED",
+        "noUsername": "Set a username in Settings to share your public passport."
+      },
+      "privacy": {
+        "title": "PUBLIC VISIBILITY",
+        "body": "Choose what appears on your public profile link. Your private passport always shows everything.",
+        "save": "SAVE PRIVACY",
+        "saving": "SAVING...",
+        "saved": "Privacy updated.",
+        "saveError": "Could not save privacy ({message}).",
+        "sections": {
+          "division": "Division tier and rating history",
+          "rating": "Truegrynd Rating and axes",
+          "scoreHistory": "Validated score history",
+          "topScores": "Top scores by performance axis",
+          "badges": "Streak and creator badges",
+          "weeklies": "Weekly challenge completions",
+          "finishers": "Finisher card gallery"
+        }
       }
     },
     "header": {
