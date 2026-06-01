@@ -3,7 +3,7 @@
 > **MVP core livré.** **V1 sérieuse (sections A–G)** : **livré sur `main`** (PR [#30](https://github.com/igorms-pro/truegrynd/pull/30) → [#55](https://github.com/igorms-pro/truegrynd/pull/55)).  
 > **V2** : stratégie dans [docs/V2_STRATEGY.md](../V2_STRATEGY.md). Angle : compétition fitness accessible, divisions de niveau, weekly challenges, équipes/factions, progression amateur.
 
-**Dernière mise à jour :** 1 juin 2026
+**Dernière mise à jour :** 1 juin 2026 (post-PR #70 / #69)
 
 ---
 
@@ -69,7 +69,7 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 
 **Macro production (codebase prête ~10k users — avant V2 compétitif)**
 
-- [ ] **CHORE** — Clean architecture & code health — section **L** — 🟡 [#69](https://github.com/igorms-pro/truegrynd/issues/69) branche `chore/issue-69-production-hardening`
+- [x] **CHORE** — Clean architecture & code health — section **L** — 🟢 [#69](https://github.com/igorms-pro/truegrynd/issues/69) PR [#70](https://github.com/igorms-pro/truegrynd/pull/70)
 
 **Macro V2 proposée (à transformer en GitHub issues avant dev)**
 
@@ -431,7 +431,7 @@ PAGE HISTORIQUE (/app/profile/history)
 
 ## L. Production hardening — clean architecture & code health (~10k users)
 
-**Statut :** 🟡 **EN COURS** — GitHub [#69](https://github.com/igorms-pro/truegrynd/issues/69) · branche `chore/issue-69-production-hardening`
+**Statut :** 🟢 **LIVRÉ** — [#69](https://github.com/igorms-pro/truegrynd/issues/69) fermée · PR [#70](https://github.com/igorms-pro/truegrynd/pull/70) mergée `main`
 
 **Objectif :** codebase **production-grade** pour un produit **lancé et fini** (pas prototype) — cible **~10 000 utilisateurs actifs** sans dette structurelle bloquante. Prérequis **obligatoire** avant **V2-01** (divisions = complexité transverse : leaderboards, profil, rating).
 
@@ -553,11 +553,13 @@ Branche : `chore/issue-69-production-hardening`
 
 **DoD**
 
-- [ ] `docs/issues/issues.md` section L → 🟢 + lien PR
-- [ ] Issue #69 fermée
-- [ ] Ensuite seulement : **V2-00** puis **V2-01**
+- [x] `docs/issues/issues.md` section L → 🟢 + lien PR [#70](https://github.com/igorms-pro/truegrynd/pull/70)
+- [x] Issue #69 fermée
+- [x] P0 livré ; report V1.1 : split 4 fichiers >200 LOC, lot 5 profil public, React Query pilote, E2E smoke dédié
 
-**Branche :** `chore/issue-69-production-hardening`  
+**Reporté V1.1 (non bloquant V2-00)** : `AdminChallengeQueue`, `OnboardingIdentityStep`, `CreateChallengeCircuitSection`, alignement `ScoreHistory` public.
+
+**Branche :** `main` (merged)  
 **Références :** `.cursor/rules/architecture-structure.mdc` · `.cursor/rules/coding-guidelines.mdc` · audit code health juin 2026 (conversation Cursor)
 
 ---
@@ -566,7 +568,14 @@ Branche : `chore/issue-69-production-hardening`
 
 **Décision produit :** ne pas copier les gros events fitness. Truegrynd attaque leur angle mort : **l'énergie compétition sans ticket à 110 €, sans déplacement, sans élitisme**. Les gens jouent **dans leur division**, avec **leur team**, contre des gens de niveau comparable. Le leaderboard global reste une vitrine, pas l'expérience principale.
 
-Référence stratégie : [docs/V2_STRATEGY.md](../V2_STRATEGY.md).
+**Où lire quoi**
+
+| Document                                 | Rôle                                                                               |
+| ---------------------------------------- | ---------------------------------------------------------------------------------- |
+| [docs/V2_STRATEGY.md](../V2_STRATEGY.md) | Vision, piliers produit, positionnement (pas de checklist dev)                     |
+| **Section H ci-dessous**                 | **Backlog exécutable** V2-00 → V2-12 (cases `[ ]` = tâches à cocher au fil des PR) |
+
+**Workflow V2 :** avant chaque lot, créer une **Issue GitHub** (`V2-0N — titre`), branche `feature/issue-N-…`, PR → cocher la section H + lien PR dans **Suivi synthétique**.
 
 ### V2-00. Cadre Factions & Exclusions Sociales (lire avant V2-07 / V2-08)
 
@@ -733,11 +742,11 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 | **V1.5 — Profil & Historique**                | 🟢 [#59](https://github.com/igorms-pro/truegrynd/issues/59) PR [#60](https://github.com/igorms-pro/truegrynd/pull/60) + Settings [#61](https://github.com/igorms-pro/truegrynd/issues/61) PR [#62](https://github.com/igorms-pro/truegrynd/pull/62) |
 | **Fix flow submit (POST SCORE → formulaire)** | 🟢 [#63](https://github.com/igorms-pro/truegrynd/issues/63) PR [#64](https://github.com/igorms-pro/truegrynd/pull/64)                                                                                                                               |
 | **Post-QA polish (#67)**                      | 🟢 [#67](https://github.com/igorms-pro/truegrynd/issues/67) mergé — PR [#68](https://github.com/igorms-pro/truegrynd/pull/68) ; migration **`014`** prod                                                                                            |
-| **Production hardening (#69)**                | 🟡 [#69](https://github.com/igorms-pro/truegrynd/issues/69) — section **L** — clean archi ~10k users                                                                                                                                                |
-| **V2 — Accessible competition**               | 🔴 [docs/V2_STRATEGY.md](../V2_STRATEGY.md) — **après #69** : **V2-00** puis **V2-01 → V2-12** section **H**                                                                                                                                        |
+| **Production hardening (#69)**                | 🟢 [#69](https://github.com/igorms-pro/truegrynd/issues/69) PR [#70](https://github.com/igorms-pro/truegrynd/pull/70) — section **L**                                                                                                               |
+| **V2 — Accessible competition**               | 🔴 section **H** + [V2_STRATEGY.md](../V2_STRATEGY.md) — **prochaine : V2-00** (cadre factions) puis **V2-01**                                                                                                                                      |
 | **QA V1**                                     | 🟢 GO (juin 2026) — périmètre critique testé                                                                                                                                                                                                        |
 
-**Suite produit :** Produit **lancé** sur `main`. **Prochaine action = #69** (production hardening, section **L**) → puis **V2-00** → **V2-01**.
+**Suite produit :** Produit **lancé** sur `main`, **#69** mergée (PR #70). **Prochaine action = V2-00** (section **H**, doc stratégie **V2_STRATEGY.md**) → créer Issue GitHub + branche avant code → **V2-01** (divisions).
 
 ---
 
