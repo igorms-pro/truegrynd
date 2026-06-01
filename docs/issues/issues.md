@@ -84,7 +84,7 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 - [x] **V2-08** — Team Wars / Faction Wars par division — 🟢 [#90](https://github.com/igorms-pro/truegrynd/issues/90) PR [#91](https://github.com/igorms-pro/truegrynd/pull/91) · migration **`023`** prod
 - [x] **V2-09** — Micro-events async (24h / 7j / 30j) — 🟢 [#92](https://github.com/igorms-pro/truegrynd/issues/92) PR [#93](https://github.com/igorms-pro/truegrynd/pull/93) · migration **`024`** prod
 - [x] **V2-10** — Proof Levels — 🟢 [#95](https://github.com/igorms-pro/truegrynd/issues/95) PR [#96](https://github.com/igorms-pro/truegrynd/pull/96) · migration **`027`** prod
-- [ ] **V2-11** — Growth loops (cards, invitations, comeback weeks) — 🟡 [#94](https://github.com/igorms-pro/truegrynd/issues/94)
+- [x] **V2-11** — Growth loops (cards, invitations, comeback weeks) — 🟢 [#94](https://github.com/igorms-pro/truegrynd/issues/94) PR [#97](https://github.com/igorms-pro/truegrynd/pull/97)
 - [ ] **V2-12** — Monétisation exploratoire (après signal d'usage)
 
 ---
@@ -766,10 +766,10 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 | **Production hardening (#69)**                | 🟢 [#69](https://github.com/igorms-pro/truegrynd/issues/69) PR [#70](https://github.com/igorms-pro/truegrynd/pull/70) — section **L**                                                                                                               |
 | **V2 — Accessible competition**               | 🟢 V2-00–09 [#92](https://github.com/igorms-pro/truegrynd/issues/92) PR [#93](https://github.com/igorms-pro/truegrynd/pull/93) · prod migrations **`015`–`026`** (Jun 2026 — drift repair + **`026`** micro-events backfill)                        |
 | **V2-10 — Proof levels**                      | 🟢 [#95](https://github.com/igorms-pro/truegrynd/issues/95) PR [#96](https://github.com/igorms-pro/truegrynd/pull/96) · migration **`027`** prod                                                                                                    |
-| **V2-11 — Growth loops**                      | 🟡 [#94](https://github.com/igorms-pro/truegrynd/issues/94) · branche `feature/issue-94-growth-loops`                                                                                                                                               |
+| **V2-11 — Growth loops**                      | 🟢 [#94](https://github.com/igorms-pro/truegrynd/issues/94) PR [#97](https://github.com/igorms-pro/truegrynd/pull/97)                                                                                                                               |
 | **QA V1**                                     | 🟢 GO (juin 2026) — périmètre critique testé                                                                                                                                                                                                        |
 
-**Suite produit :** **V2-11** growth ([#94](https://github.com/igorms-pro/truegrynd/issues/94)) — finisher V2, invitations rival/weekly, comeback weeks, referral contextuel.
+**Suite produit :** **V2-12** monétisation exploratoire (après signal d'usage analytics) · V3 gym · notifs rivals (hors scope sauf demande).
 
 ---
 
