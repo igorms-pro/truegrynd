@@ -161,7 +161,10 @@
     "factionYourTeam": "YOUR TEAM",
     "factionNudgeBody": "{faction} needs points today. Post a ranked score.",
     "noFactionBody": "No faction on file. Complete onboarding.",
-    "noFactionCta": "GO TO ONBOARDING"
+    "noFactionCta": "GO TO ONBOARDING",
+    "eventsTitle": "MICRO-EVENTS",
+    "eventsEmpty": "No active events right now. Check back soon.",
+    "eventsCta": "VIEW ALL EVENTS"
   },
   "clan": {
     "subtitle": "Your faction is a weapon. Use it.",
@@ -373,6 +376,7 @@
     "title": "UGC MOD QUEUE",
     "subtitle": "Moderation vs Arena. In review → approve. Live = open in Arena. Done = closed. Rejected = blocked.",
     "weeklyLink": "SCHEDULE WEEKLY CHALLENGE →",
+    "eventsLink": "SCHEDULE MICRO-EVENT →",
     "nav": {
       "link": "MOD",
       "dock": "MOD",
@@ -476,6 +480,47 @@
       "listTitle": "Recent windows",
       "empty": "No weekly windows yet.",
       "edit": "Edit",
+      "statuses": {
+        "scheduled": "Scheduled",
+        "active": "Active",
+        "completed": "Completed",
+        "cancelled": "Cancelled"
+      }
+    },
+    "events": {
+      "title": "MICRO-EVENTS",
+      "subtitle": "Time-boxed async events (24h–30d) with 1–5 challenges. No deploy needed.",
+      "loading": "Loading events…",
+      "error": "Could not load events.",
+      "retry": "Retry",
+      "formCreateTitle": "Create event",
+      "formEditTitle": "Edit event",
+      "nameLabel": "Title",
+      "slug": "URL slug",
+      "slugPlaceholder": "rookie-week-june (auto from title if empty)",
+      "description": "Description",
+      "eventType": "Event type",
+      "startsAt": "Starts",
+      "endsAt": "Ends",
+      "status": "Status",
+      "challenges": "Challenges",
+      "challengeShort": "ch.",
+      "create": "Create",
+      "update": "Save",
+      "saving": "Saving…",
+      "cancelEdit": "Cancel edit",
+      "listTitle": "Recent events",
+      "empty": "No events yet.",
+      "edit": "Edit",
+      "types": {
+        "rookie_week": "Rookie Week",
+        "no_equipment_cup": "No Equipment Cup",
+        "faction_war_weekend": "Faction War Weekend",
+        "city_clash": "City Clash",
+        "grit_open": "Grit Open",
+        "comeback_week": "Comeback Week",
+        "custom": "Custom"
+      },
       "statuses": {
         "scheduled": "Scheduled",
         "active": "Active",
@@ -603,6 +648,48 @@
     "bannerAria": "Weekly challenge {label}",
     "endsIn": "Ends in {days}d {hours}h",
     "ended": "This week is over"
+  },
+  "events": {
+    "listTitle": "MICRO-EVENTS",
+    "listSubtitle": "Async time-boxed competitions — 24h to 30 days.",
+    "backOverview": "OVERVIEW",
+    "backEvents": "ALL EVENTS",
+    "loading": "Loading events…",
+    "error": "Could not load events.",
+    "retry": "Retry",
+    "empty": "No events scheduled yet.",
+    "notFound": "Event not found.",
+    "viewEvent": "ENTER EVENT",
+    "challengeCount": "{count, plural, one {# challenge} other {# challenges}}",
+    "endsIn": "Ends in {days}d {hours}h",
+    "challengesTitle": "EVENT CHALLENGES",
+    "submitScore": "SCORE →",
+    "types": {
+      "rookie_week": "Rookie Week",
+      "no_equipment_cup": "No Equipment Cup",
+      "faction_war_weekend": "Faction War Weekend",
+      "city_clash": "City Clash",
+      "grit_open": "Grit Open",
+      "comeback_week": "Comeback Week",
+      "custom": "Custom"
+    },
+    "status": {
+      "scheduled": "Scheduled",
+      "active": "Live",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "leaderboard": {
+      "title": "EVENT LEADERBOARD",
+      "divisionFilter": "Filter by division",
+      "loading": "Loading standings…",
+      "empty": "No ranked scores in this division yet.",
+      "challengesScored": "{count, plural, one {# ch.} other {# ch.}}"
+    },
+    "recap": {
+      "title": "FINAL STANDINGS",
+      "subtitle": "Top performers per division when the event closed."
+    }
   },
   "rivals": {
     "hubLink": {

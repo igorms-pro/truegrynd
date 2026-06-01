@@ -9,6 +9,8 @@ import {
   resolveWeeklyDisplayLabel,
   useWeeklyChallenge,
 } from '@/features/overview/hooks/useWeeklyChallenge';
+import { EventCard } from '@/features/events/components/EventCard';
+import { useActiveEvents } from '@/features/events/hooks/useActiveEvents';
 import { useOptionalAppProfile } from '@/features/appshell/context/AppProfileContext';
 import { getFactionBadgeClasses } from '@/lib/factionStyles';
 import { getWeeklyTimeRemaining } from '@/lib/weekly';
@@ -32,6 +34,7 @@ export function OverviewScreen() {
   const tFactions = useTranslations('factions');
 
   const { state: weeklyState, refetch: refetchWeekly } = useWeeklyChallenge();
+  const { state: eventsState } = useActiveEvents();
   const appProfile = useOptionalAppProfile();
 
   const clanHref = `/${locale}/app/clan`;
@@ -178,6 +181,28 @@ export function OverviewScreen() {
           ) : null}
         </article>
       </div>
+
+      <article className="rounded-md border border-border bg-card p-4">
+        <p className="text-xs font-black uppercase tracking-[0.18em] text-accent">
+          {t('eventsTitle')}
+        </p>
+        {eventsState.status === 'loading' ? (
+          <p className="mt-2 text-sm text-muted-foreground">{t('loading')}</p>
+        ) : null}
+        {eventsState.status === 'ready' && eventsState.events.length === 0 ? (
+          <p className="mt-2 text-sm text-muted-foreground">{t('eventsEmpty')}</p>
+        ) : null}
+        {eventsState.status === 'ready' && eventsState.events.length > 0 ? (
+          <div className="mt-3 grid gap-4 md:grid-cols-2">
+            {eventsState.events.slice(0, 2).map((event) => (
+              <EventCard key={event.id} event={event} />
+            ))}
+          </div>
+        ) : null}
+        <div className="mt-4">
+          <PrimaryButtonLink href={`/${locale}/app/events`} label={t('eventsCta')} />
+        </div>
+      </article>
     </section>
   );
 }
