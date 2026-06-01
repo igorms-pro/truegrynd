@@ -3,7 +3,7 @@
 > **MVP core livré.** **V1 sérieuse (sections A–G)** : **livré sur `main`** (PR [#30](https://github.com/igorms-pro/truegrynd/pull/30) → [#55](https://github.com/igorms-pro/truegrynd/pull/55)).  
 > **V2** : stratégie dans [docs/V2_STRATEGY.md](../V2_STRATEGY.md). Angle : compétition fitness accessible, divisions de niveau, weekly challenges, équipes/factions, progression amateur.
 
-**Dernière mise à jour :** 1 juin 2026 (post-PR #82 / V2-05)
+**Dernière mise à jour :** 1 juin 2026 (post-PR #84 / V2-06)
 
 ---
 
@@ -39,7 +39,7 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 | **V1.5 — Profil épuré & page Historique** | Section **K** — carrousel CARDS + `/app/profile/history`                                                        |
 | **Fix & polish pré-V2 (QA V1)**           | Section **J** — flow soumission score / copy CTA                                                                |
 | **Production hardening (10k users)**      | Section **L** — clean archi, DRY, limites feature                                                               |
-| **V2 — Accessible competition**           | Section **H** — V2-00 🟢 · … · V2-05 🟢 · **V2-06 🟡** [#83](https://github.com/igorms-pro/truegrynd/issues/83) |
+| **V2 — Accessible competition**           | Section **H** — V2-00 🟢 · … · V2-06 🟢 · **V2-07 🟡** [#85](https://github.com/igorms-pro/truegrynd/issues/85) |
 
 **Macro-checklist**
 
@@ -79,8 +79,8 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 - [x] **V2-03** — Weekly Global Challenge — 🟢 [#77](https://github.com/igorms-pro/truegrynd/issues/77) PR [#78](https://github.com/igorms-pro/truegrynd/pull/78)
 - [x] **V2-04** — Leaderboards par division, faction, ville, pays — 🟢 [#79](https://github.com/igorms-pro/truegrynd/issues/79) PR [#80](https://github.com/igorms-pro/truegrynd/pull/80) · migration **`018`** prod
 - [x] **V2-05** — Truegrynd Rating (Engine / Power / Strength / Grit / Consistency) — 🟢 [#81](https://github.com/igorms-pro/truegrynd/issues/81) PR [#82](https://github.com/igorms-pro/truegrynd/pull/82) · migration **`019`** prod
-- [ ] **V2-06** — Challenge Passport / palmarès amateur — 🟡 [#83](https://github.com/igorms-pro/truegrynd/issues/83) · branche `feature/issue-83-v2-06-passport`
-- [ ] **V2-07** — Rival Matches (1v1 / petits groupes)
+- [x] **V2-06** — Challenge Passport / palmarès amateur — 🟢 [#83](https://github.com/igorms-pro/truegrynd/issues/83) PR [#84](https://github.com/igorms-pro/truegrynd/pull/84) · migration **`020`** prod
+- [ ] **V2-07** — Rival Matches (1v1 / petits groupes) — 🟡 [#85](https://github.com/igorms-pro/truegrynd/issues/85) · branche `feature/issue-85-v2-07-rival-matches`
 - [ ] **V2-08** — Team Wars / Faction Wars par division
 - [ ] **V2-09** — Micro-events async (24h / 7j / 30j)
 - [ ] **V2-10** — Proof Levels (Honor / Video / Community / Judge / Event)
@@ -659,7 +659,7 @@ Branche : `chore/issue-69-production-hardening`
 
 ### V2-06. Challenge Passport / Palmarès Amateur
 
-**GitHub :** [#83](https://github.com/igorms-pro/truegrynd/issues/83) · **Branche :** `feature/issue-83-v2-06-passport` · **Statut :** 🟡
+**GitHub :** [#83](https://github.com/igorms-pro/truegrynd/issues/83) · **PR :** [#84](https://github.com/igorms-pro/truegrynd/pull/84) · **Statut :** 🟢
 
 - [x] **Produit** : transformer le profil en CV compétitif amateur.
 - [x] **Contenu** : divisions atteintes, meilleurs scores, badges, weekly complétés, finisher cards (rival matches → V2-07).
@@ -669,8 +669,9 @@ Branche : `chore/issue-69-production-hardening`
 
 ### V2-07. Rival Matches
 
+**GitHub :** [#85](https://github.com/igorms-pro/truegrynd/issues/85) · **Branche :** `feature/issue-85-v2-07-rival-matches` · **Statut :** 🟡
+
 - [ ] **Produit** : 1v1 ou petit groupe sur 1 à 3 challenges, durée 24h/7j.
-- [ ] **Matching** : même division par défaut ; option faction adverse / ami / ville.
 - [ ] **DB** : `rival_matches`, participants, challenge set, status, winner.
 - [ ] **UX** : créer, accepter, soumettre, résultat.
 - [ ] **Notifications** : minimal V2 (email/toast/polling), pas besoin d'un réseau social complet.
@@ -755,10 +756,10 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 | **Fix flow submit (POST SCORE → formulaire)** | 🟢 [#63](https://github.com/igorms-pro/truegrynd/issues/63) PR [#64](https://github.com/igorms-pro/truegrynd/pull/64)                                                                                                                               |
 | **Post-QA polish (#67)**                      | 🟢 [#67](https://github.com/igorms-pro/truegrynd/issues/67) mergé — PR [#68](https://github.com/igorms-pro/truegrynd/pull/68) ; migration **`014`** prod                                                                                            |
 | **Production hardening (#69)**                | 🟢 [#69](https://github.com/igorms-pro/truegrynd/issues/69) PR [#70](https://github.com/igorms-pro/truegrynd/pull/70) — section **L**                                                                                                               |
-| **V2 — Accessible competition**               | 🟢 V2-00–05 · **🟡 V2-06** [#83](https://github.com/igorms-pro/truegrynd/issues/83) `feature/issue-83-v2-06-passport`                                                                                                                               |
+| **V2 — Accessible competition**               | 🟢 V2-00–06 · **🟡 V2-07** [#85](https://github.com/igorms-pro/truegrynd/issues/85) `feature/issue-85-v2-07-rival-matches`                                                                                                                          |
 | **QA V1**                                     | 🟢 GO (juin 2026) — périmètre critique testé                                                                                                                                                                                                        |
 
-**Suite produit :** **V2-06** 🟡 en cours ([#83](https://github.com/igorms-pro/truegrynd/issues/83) · `feature/issue-83-v2-06-passport`). QA V2 globale en fin de lot V2, pas issue par issue.
+**Suite produit :** **V2-07** 🟡 en cours ([#85](https://github.com/igorms-pro/truegrynd/issues/85) · `feature/issue-85-v2-07-rival-matches`). QA V2 globale en fin de lot V2, pas issue par issue.
 
 ---
 
