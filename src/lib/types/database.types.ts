@@ -67,6 +67,8 @@ export interface Challenge {
   ai_summary?: string | null;
   ai_model?: string | null;
   ai_checked_at?: string | null;
+  /** When set and in the past, approved challenge is closed in Arena (done). */
+  ends_at?: string | null;
   created_at: string;
 }
 

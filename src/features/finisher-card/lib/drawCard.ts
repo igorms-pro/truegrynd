@@ -19,6 +19,33 @@ function factionColor(faction: Faction): string {
   return '#7f8c8d';
 }
 
+function fitFontSize(
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  maxWidth: number,
+  weight: number,
+  family: string,
+  startSize: number,
+  minSize = 18,
+): number {
+  let size = startSize;
+  while (size >= minSize) {
+    ctx.font = `${weight} ${size}px ${family}`;
+    if (ctx.measureText(text).width <= maxWidth) return size;
+    size -= 2;
+  }
+  return minSize;
+}
+
+function truncateToWidth(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string {
+  if (ctx.measureText(text).width <= maxWidth) return text;
+  let trimmed = text;
+  while (trimmed.length > 0 && ctx.measureText(`${trimmed}…`).width > maxWidth) {
+    trimmed = trimmed.slice(0, -1);
+  }
+  return trimmed.length > 0 ? `${trimmed}…` : '…';
+}
+
 export function drawFinisherCard(canvas: HTMLCanvasElement, options: Options): void {
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
@@ -41,64 +68,109 @@ export function drawFinisherCard(canvas: HTMLCanvasElement, options: Options): v
   const innerY = pad;
   const innerW = canvas.width - pad * 2;
   const innerH = canvas.height - pad * 2;
+  const textX = innerX + Math.floor(innerW * 0.08);
+  const maxTextW = innerW * 0.84;
+  const lineY = (pct: number) => innerY + Math.floor(innerH * pct);
 
-  // main panel
   ctx.fillStyle = card;
   ctx.fillRect(innerX, innerY, innerW, innerH);
 
-  // border
   ctx.strokeStyle = border;
-  ctx.lineWidth = 4;
+  ctx.lineWidth = Math.max(2, Math.floor(canvas.width * 0.011));
   ctx.strokeRect(innerX, innerY, innerW, innerH);
 
-  // faction slash
   ctx.fillStyle = accent;
-  ctx.fillRect(innerX, innerY, Math.floor(innerW * 0.02), innerH);
+  ctx.fillRect(innerX, innerY, Math.max(4, Math.floor(innerW * 0.02)), innerH);
 
-  // header branding
-  ctx.fillStyle = fg;
-  ctx.font = '900 54px system-ui, -apple-system, Segoe UI, sans-serif';
   ctx.textBaseline = 'top';
-  ctx.fillText('TRUEGRYND', innerX + 30, innerY + 28);
 
-  ctx.fillStyle = muted;
-  ctx.font = '900 22px system-ui, -apple-system, Segoe UI, sans-serif';
-  ctx.fillText(options.challengeTitle.toUpperCase(), innerX + 30, innerY + 96);
-
-  // main score
+  const brandSize = fitFontSize(
+    ctx,
+    'TRUEGRYND',
+    maxTextW,
+    900,
+    'system-ui, -apple-system, Segoe UI, sans-serif',
+    Math.floor(innerW * 0.15),
+  );
   ctx.fillStyle = fg;
-  ctx.font = '900 160px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace';
+  ctx.font = `900 ${brandSize}px system-ui, -apple-system, Segoe UI, sans-serif`;
+  ctx.fillText('TRUEGRYND', textX, lineY(0.04));
+
+  const titleSize = fitFontSize(
+    ctx,
+    options.challengeTitle.toUpperCase(),
+    maxTextW,
+    900,
+    'system-ui, -apple-system, Segoe UI, sans-serif',
+    Math.floor(innerW * 0.062),
+    14,
+  );
+  ctx.fillStyle = muted;
+  ctx.font = `900 ${titleSize}px system-ui, -apple-system, Segoe UI, sans-serif`;
+  const title = truncateToWidth(ctx, options.challengeTitle.toUpperCase(), maxTextW);
+  ctx.fillText(title, textX, lineY(0.13));
+
   const scoreText =
     options.scoreType === 'time' ? formatSeconds(options.scoreValue) : String(options.scoreValue);
-  ctx.fillText(scoreText, innerX + 30, innerY + 190);
-
-  ctx.fillStyle = muted;
-  ctx.font = '900 26px system-ui, -apple-system, Segoe UI, sans-serif';
-  const label = options.scoreType === 'time' ? 'TIME (MM:SS)' : 'REPS';
-  ctx.fillText(label, innerX + 30, innerY + 370);
-
-  // rank
+  const scoreSize = fitFontSize(
+    ctx,
+    scoreText,
+    maxTextW,
+    900,
+    'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+    Math.floor(innerW * 0.44),
+  );
   ctx.fillStyle = fg;
-  ctx.font = '900 72px system-ui, -apple-system, Segoe UI, sans-serif';
+  ctx.font = `900 ${scoreSize}px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace`;
+  ctx.fillText(scoreText, textX, lineY(0.26));
+
+  const labelSize = Math.floor(innerW * 0.072);
+  ctx.fillStyle = muted;
+  ctx.font = `900 ${labelSize}px system-ui, -apple-system, Segoe UI, sans-serif`;
+  const label = options.scoreType === 'time' ? 'TIME (MM:SS)' : 'REPS';
+  ctx.fillText(label, textX, lineY(0.52));
+
   const rankText =
     options.rankTextOverride ?? (options.topPercent ? `TOP ${options.topPercent}%` : 'SAVED');
-  ctx.fillText(rankText, innerX + 30, innerY + 470);
+  const rankSize = fitFontSize(
+    ctx,
+    rankText,
+    maxTextW,
+    900,
+    'system-ui, -apple-system, Segoe UI, sans-serif',
+    Math.floor(innerW * 0.2),
+  );
+  ctx.fillStyle = fg;
+  ctx.font = `900 ${rankSize}px system-ui, -apple-system, Segoe UI, sans-serif`;
+  ctx.fillText(rankText, textX, lineY(0.58));
 
-  ctx.fillStyle = muted;
-  ctx.font = '900 22px system-ui, -apple-system, Segoe UI, sans-serif';
   const rankSub =
     options.rankSubOverride ??
     (options.topPercent ? 'WORLDWIDE (VALIDATED)' : 'NOT RANKED (NO VIDEO)');
-  ctx.fillText(rankSub, innerX + 30, innerY + 560);
-
-  // footer identity
-  ctx.fillStyle = accent;
-  ctx.font = '900 26px system-ui, -apple-system, Segoe UI, sans-serif';
-  ctx.fillText(options.username.toUpperCase(), innerX + 30, innerY + innerH - 70);
-
+  const rankSubSize = fitFontSize(
+    ctx,
+    rankSub,
+    maxTextW,
+    900,
+    'system-ui, -apple-system, Segoe UI, sans-serif',
+    Math.floor(innerW * 0.058),
+    12,
+  );
   ctx.fillStyle = muted;
-  ctx.font = '900 22px system-ui, -apple-system, Segoe UI, sans-serif';
-  ctx.fillText(options.faction.replace('_', ' ').toUpperCase(), innerX + 30, innerY + innerH - 40);
+  ctx.font = `900 ${rankSubSize}px system-ui, -apple-system, Segoe UI, sans-serif`;
+  const rankSubLine = truncateToWidth(ctx, rankSub, maxTextW);
+  ctx.fillText(rankSubLine, textX, lineY(0.68));
+
+  const usernameSize = Math.floor(innerW * 0.072);
+  ctx.fillStyle = accent;
+  ctx.font = `900 ${usernameSize}px system-ui, -apple-system, Segoe UI, sans-serif`;
+  ctx.fillText(truncateToWidth(ctx, options.username.toUpperCase(), maxTextW), textX, lineY(0.78));
+
+  const factionLabel = options.faction.replace('_', ' ').toUpperCase();
+  const factionSize = Math.floor(innerW * 0.058);
+  ctx.fillStyle = muted;
+  ctx.font = `900 ${factionSize}px system-ui, -apple-system, Segoe UI, sans-serif`;
+  ctx.fillText(truncateToWidth(ctx, factionLabel, maxTextW), textX, lineY(0.85));
 }
 
 function formatSeconds(totalSeconds: number): string {

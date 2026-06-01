@@ -2,26 +2,22 @@
 
 import Link from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
-import { useEffect, useMemo, useRef } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { Suspense, useEffect, useMemo, useRef } from 'react';
 
 import { FinisherCardActions } from '@/features/finisher-card/components/FinisherCardActions';
 import { drawFinisherCard } from '@/features/finisher-card/lib/drawCard';
 import { useFinisherCard } from '@/features/finisher-card/hooks/useFinisherCard';
 
-type SearchParams = {
-  challengeId?: string;
-  ranked?: string;
-  scoreId?: string;
-};
-
-export default function FinishPage({ searchParams }: { searchParams: SearchParams }) {
+function FinishPageContent() {
   const t = useTranslations('finisher');
   const locale = useLocale();
+  const searchParams = useSearchParams();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
-  const ranked = searchParams.ranked === 'true';
-  const scoreId = searchParams.scoreId ?? null;
-  const challengeId = searchParams.challengeId ?? null;
+  const ranked = searchParams.get('ranked') === 'true';
+  const scoreId = searchParams.get('scoreId');
+  const challengeId = searchParams.get('challengeId');
   const state = useFinisherCard({ ranked, scoreId, challengeId });
 
   const cardOptions = useMemo(() => {
@@ -35,6 +31,8 @@ export default function FinishPage({ searchParams }: { searchParams: SearchParam
       scoreType: state.challenge.score_type,
       scoreValue: state.score.value,
       topPercent: state.topPercent,
+      rankTextOverride: state.score.is_validated ? 'RANKED' : 'SAVED',
+      rankSubOverride: state.score.is_validated ? 'VALIDATED' : 'NO VIDEO',
     };
   }, [state]);
 
@@ -116,5 +114,21 @@ export default function FinishPage({ searchParams }: { searchParams: SearchParam
         {t('backToArena')}
       </Link>
     </section>
+  );
+}
+
+export default function FinishPage() {
+  const t = useTranslations('finisher');
+
+  return (
+    <Suspense
+      fallback={
+        <p role="status" aria-live="polite" className="text-sm text-muted-foreground">
+          {t('loading')}
+        </p>
+      }
+    >
+      <FinishPageContent />
+    </Suspense>
   );
 }

@@ -103,7 +103,7 @@ export function FinisherGallery({ userId, username, faction }: Props) {
       <p className="text-xs font-black uppercase tracking-[0.18em] text-muted-foreground">
         {t('title')}
       </p>
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid max-w-sm grid-cols-2 gap-3">
         {state.data.map((s) => {
           const href = `/${locale}/app/finish?challengeId=${s.challengeId}&ranked=${String(
             s.isValidated,

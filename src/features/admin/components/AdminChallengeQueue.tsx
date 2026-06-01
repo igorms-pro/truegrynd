@@ -14,9 +14,10 @@ import { AdminPendingChallengesTable } from '@/features/admin/components/AdminPe
 import { AdminQueueBatchToolbar } from '@/features/admin/components/AdminQueueBatchToolbar';
 import { AdminQueueFilters } from '@/features/admin/components/AdminQueueFilters';
 import { AdminQueuePagination } from '@/features/admin/components/AdminQueuePagination';
+import { AdminQueueStatusTabs } from '@/features/admin/components/AdminQueueStatusTabs';
 import { useAdminChallengeQueueUi } from '@/features/admin/hooks/useAdminChallengeQueueUi';
 import { useAdminPendingChallenges } from '@/features/admin/hooks/useAdminPendingChallenges';
-import { useAdminQueueSubmittedLabels } from '@/features/admin/hooks/useAdminQueueSubmittedLabels';
+import { useAdminQueueRowLabels } from '@/features/admin/hooks/useAdminQueueRowLabels';
 import { adminQueueMaxPage } from '@/features/admin/lib/adminQueueConstants';
 import { formatAdminAnalyzeError } from '@/features/admin/lib/formatAdminAnalyzeError';
 import type { AdminPendingChallenge as PendingRow } from '@/features/admin/services/adminChallenges';
@@ -33,6 +34,8 @@ export function AdminChallengeQueue() {
     page,
     setPage,
     pageSize,
+    statusFilter,
+    setStatusFilter,
     tierFilter,
     setTierFilter,
     riskFirst,
@@ -41,22 +44,24 @@ export function AdminChallengeQueue() {
     approveOne,
     batchApprove,
     rejectOne,
+    closeOne,
     analyzeOne,
     analyzeBusyId,
+    statusCounts,
   } = useAdminPendingChallenges();
 
   const [batchGreenOnly, setBatchGreenOnly] = useState(false);
   const [analyzeError, setAnalyzeError] = useState<string | null>(null);
 
+  const isPendingTab = statusFilter === 'pending';
   const rows = useMemo((): PendingRow[] => {
     return state.status === 'ready' ? state.rows : [];
   }, [state]);
 
   const totalCount = state.status === 'ready' ? state.totalCount : 0;
   const totalPages = adminQueueMaxPage(totalCount, pageSize);
-
   const allIds = useMemo(() => rows.map((r) => r.id), [rows]);
-  const rowsWithLabels = useAdminQueueSubmittedLabels(rows, locale);
+  const rowsWithLabels = useAdminQueueRowLabels(rows, locale, statusFilter);
 
   const formatActionError = useCallback(
     (message: string) => `${tErr('actionFailed')} (${message})`,
@@ -89,6 +94,19 @@ export function AdminChallengeQueue() {
     formatActionError,
     batchGreenOnly,
   });
+
+  const handleCloseRow = useCallback(
+    async (id: string) => {
+      setAnalyzeError(null);
+      try {
+        await closeOne(id);
+      } catch (e: unknown) {
+        const message = e instanceof Error ? e.message : 'unknown';
+        setAnalyzeError(formatActionError(message));
+      }
+    },
+    [closeOne, formatActionError],
+  );
 
   const handleAnalyzeRow = useCallback(
     async (id: string) => {
@@ -125,57 +143,83 @@ export function AdminChallengeQueue() {
     setApproveTarget(null);
   }, [setApproveTarget]);
 
-  if (state.status === 'loading') {
-    return <AdminChallengeQueueLoading />;
-  }
-
-  if (state.status === 'error') {
-    return <AdminChallengeQueueFetchError message={state.error} onRetry={refetch} />;
-  }
-
-  if (state.status === 'ready' && state.totalCount === 0) {
-    return <AdminChallengeQueueEmpty />;
-  }
+  const showTable = state.status === 'ready' && totalCount > 0;
+  const showEmpty = state.status === 'ready' && totalCount === 0;
 
   return (
     <div className="space-y-4">
-      <AdminChallengeQueueBanner message={actionError ?? analyzeError} />
-      <AdminQueueFilters
-        tierFilter={tierFilter}
-        onTierFilterChange={setTierFilter}
-        riskFirst={riskFirst}
-        onRiskFirstChange={setRiskFirst}
-        batchGreenOnly={batchGreenOnly}
-        onBatchGreenOnlyChange={setBatchGreenOnly}
-        disabled={interactionLocked}
+      <AdminQueueStatusTabs
+        active={statusFilter}
+        counts={statusCounts}
+        onChange={setStatusFilter}
+        disabled={interactionLocked || state.status === 'loading'}
       />
-      <AdminQueueBatchToolbar
-        batchBusy={batchBusy}
-        rowBusy={interactionLocked}
-        selectedCount={selected.size}
-        onSelectAll={handleSelectAll}
-        onClearSelection={clearSelection}
-        onRequestBatchApprove={handleBatchClick}
-      />
-      <AdminPendingChallengesTable
-        rowsWithLabels={rowsWithLabels}
-        selected={selected}
-        busyId={busyId}
-        analyzeBusyId={analyzeBusyId}
-        analyzeDisabled={!accessToken}
-        onToggle={toggle}
-        onApproveRow={requestApproveRow}
-        onRejectRow={openReject}
-        onAnalyzeRow={handleAnalyzeRow}
-      />
-      <AdminQueuePagination
-        page={page}
-        totalPages={totalPages}
-        totalCount={totalCount}
-        disabled={interactionLocked}
-        onPrev={goPrevPage}
-        onNext={goNextPage}
-      />
+
+      {state.status === 'loading' ? <AdminChallengeQueueLoading /> : null}
+
+      {state.status === 'error' ? (
+        <AdminChallengeQueueFetchError message={state.error} onRetry={refetch} />
+      ) : null}
+
+      {state.status === 'ready' ? (
+        <>
+          <AdminChallengeQueueBanner message={actionError ?? analyzeError} />
+
+          {isPendingTab ? (
+            <>
+              <AdminQueueFilters
+                tierFilter={tierFilter}
+                onTierFilterChange={setTierFilter}
+                riskFirst={riskFirst}
+                onRiskFirstChange={setRiskFirst}
+                batchGreenOnly={batchGreenOnly}
+                onBatchGreenOnlyChange={setBatchGreenOnly}
+                disabled={interactionLocked}
+              />
+              <AdminQueueBatchToolbar
+                batchBusy={batchBusy}
+                rowBusy={interactionLocked}
+                selectedCount={selected.size}
+                onSelectAll={handleSelectAll}
+                onClearSelection={clearSelection}
+                onRequestBatchApprove={handleBatchClick}
+              />
+            </>
+          ) : null}
+
+          {showEmpty ? <AdminChallengeQueueEmpty statusFilter={statusFilter} /> : null}
+
+          {showTable ? (
+            <AdminPendingChallengesTable
+              locale={locale}
+              statusFilter={statusFilter}
+              rowsWithLabels={rowsWithLabels}
+              selected={selected}
+              busyId={busyId}
+              analyzeBusyId={analyzeBusyId}
+              analyzeDisabled={!accessToken}
+              onToggle={toggle}
+              onApproveRow={requestApproveRow}
+              onRejectRow={openReject}
+              onCloseRow={handleCloseRow}
+              onAnalyzeRow={handleAnalyzeRow}
+            />
+          ) : null}
+
+          {showTable ? (
+            <AdminQueuePagination
+              page={page}
+              totalPages={totalPages}
+              totalCount={totalCount}
+              statusFilter={statusFilter}
+              disabled={interactionLocked}
+              onPrev={goPrevPage}
+              onNext={goNextPage}
+            />
+          ) : null}
+        </>
+      ) : null}
+
       <AdminChallengeQueueDialogs
         approveModalOpen={approveTarget !== null}
         approveVariant={approveTarget?.kind === 'batch' ? 'batch' : 'single'}

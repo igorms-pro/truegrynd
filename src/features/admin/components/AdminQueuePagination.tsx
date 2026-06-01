@@ -2,10 +2,13 @@
 
 import { useTranslations } from 'next-intl';
 
+import type { AdminQueueTabStatus } from '@/features/admin/services/adminChallenges';
+
 type Props = {
   page: number;
   totalPages: number;
   totalCount: number;
+  statusFilter: AdminQueueTabStatus;
   disabled: boolean;
   onPrev: () => void;
   onNext: () => void;
@@ -15,6 +18,7 @@ export function AdminQueuePagination({
   page,
   totalPages,
   totalCount,
+  statusFilter,
   disabled,
   onPrev,
   onNext,
@@ -24,7 +28,7 @@ export function AdminQueuePagination({
   return (
     <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
       <p className="text-[11px] font-black uppercase tracking-[0.14em] text-muted-foreground">
-        {t('paginationSummary', { page, totalPages, totalCount })}
+        {t(`paginationSummary.${statusFilter}`, { page, totalPages, totalCount })}
       </p>
       <div className="flex gap-2">
         <button

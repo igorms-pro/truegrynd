@@ -153,10 +153,10 @@
     "ctaArena": "OUVRIR L’ARÈNE",
     "ctaClan": "OUVRIR CLAN",
     "empty": "Aucun défi disponible pour l’instant.",
-    "streakLabel": "SÉRIE",
+    "streakLine": "Série : {days}j",
     "streakValue": "{days}j",
-    "factionNudgeTitle": "FACTION",
-    "factionNudgeBody": "Ta faction a besoin de points aujourd’hui. Poste un score classé.",
+    "factionYourTeam": "TON ÉQUIPE",
+    "factionNudgeBody": "{faction} a besoin de points aujourd’hui. Poste un score classé.",
     "noFactionBody": "Aucune faction enregistrée. Termine l’onboarding.",
     "noFactionCta": "ALLER À L’ONBOARDING"
   },
@@ -167,6 +167,14 @@
     "errorBody": "Réessaie.",
     "retry": "Réessayer",
     "factionsTitle": "GUERRE DES FACTIONS",
+    "pointsUnit": "pts",
+    "yourFactionBadge": "TA FACTION",
+    "youBadge": "TOI",
+    "yourProfileLinkAria": "Ton profil",
+    "memberProfileLinkAria": "Voir le profil de {username}",
+    "yourFactionArenaAria": "Aller à l’Arène pour ta faction",
+    "ctaArena": "POSTER UN SCORE",
+    "activeFighters": "{count, plural, =0 {0 combattants actifs} =1 {1 combattant actif} other {# combattants actifs}}",
     "topMembersTitle": "TES TOP SOLDATS",
     "emptyMembers": "Aucun membre classé pour l’instant. Sois le premier à poster une preuve.",
     "members": "{count, plural, =0 {0 membres} =1 {1 membre} other {# membres}}",
@@ -177,12 +185,13 @@
     },
     "recruit": {
       "title": "RECRUTER UN ALLIÉ",
-      "body": "Envoie ce lien pour amener quelqu'un directement dans ta faction.",
       "share": "PARTAGER",
       "copy": "COPIER LE LIEN",
       "copied": "COPIÉ !",
-      "shareTitle": "Truegrynd — Rejoins ma faction",
-      "shareText": "Rejoins ma faction sur Truegrynd et compétis ensemble."
+      "shareAria": "Partager le lien de recrutement {faction}",
+      "copyAria": "Copier le lien de recrutement",
+      "shareTitle": "Truegrynd — Rejoins {faction}",
+      "shareText": "Rejoins {faction} sur Truegrynd. Compétition fitness async, sans blabla."
     }
   },
   "arena": {
@@ -193,14 +202,19 @@
       "new": "Nouveaux"
     },
     "loading": "Chargement des défis...",
-    "empty": "Aucun défi pour l'instant. Reviens bientôt.",
+    "empty": "Aucun défi dans l'Arène pour l'instant.",
+    "emptyHint": "Propose-en un — les défis communauté passent en revue avant publication.",
+    "emptyLiveFeed": "Aucun défi live dans le feed public pour l'instant.",
+    "pendingSectionTitle": "TES ENVOIS",
+    "pendingSectionHint": "Visible seulement par toi jusqu'à validation dans l'Arène.",
+    "pendingBadge": "EN REVUE",
     "errorTitle": "Une erreur est survenue",
     "errorBody": "Impossible de charger les défis.",
     "retry": "Réessayer",
     "officialBadge": "OFFICIEL",
     "badges": {
       "community": "COMMUNAUTÉ",
-      "pendingReview": "EN ATTENTE",
+      "pendingReview": "EN REVUE",
       "rejected": "NON VALIDÉ"
     },
     "scoreType": {
@@ -222,6 +236,7 @@
         "title": "Titre",
         "description": "Accroche courte",
         "rulesDetail": "Standards & scoring (détail)",
+        "rulesDetailPlaceholder": "Standards, amplitude, no-rep, départage…",
         "equipmentTags": "Équipement (optionnel)",
         "equipmentPlaceholder": "kettlebell, barre de traction…"
       },
@@ -283,12 +298,22 @@
     "notFoundTitle": "Défi introuvable",
     "notFoundBody": "Il a peut-être été supprimé ou n'est pas approuvé.",
     "back": "Retour à l'Arène",
+    "heroKickerApproved": "ENTRE DANS LE GRIND",
+    "heroKickerPending": "VERROUILLÉ — C'EST LE TIEN",
+    "heroKickerRejected": "RETIRÉ DE L'ARÈNE",
+    "ctaSubline": "Poste ton score. Prends ta place.",
+    "pendingStep1": "ENVOYÉ",
+    "pendingStep2": "EN REVUE",
+    "pendingStep3": "PUBLICATION",
+    "circuitHeading": "LE CIRCUIT",
+    "scoringHeading": "SCORING",
+    "standardsHeading": "STANDARDS",
     "rulesHeading": "Règles",
     "equipmentHeading": "Équipement",
     "noEquipment": "Poids du corps uniquement",
     "ctaStart": "JE M'INSCRIS",
-    "pendingTitle": "EN ATTENTE DE VALIDATION",
-    "pendingBody": "Ce défi est verrouillé jusqu'à validation. Partage le lien avec un admin si besoin.",
+    "pendingTitle": "PAS ENCORE DANS L'ARÈNE",
+    "pendingBody": "Enregistré, en cours de validation. Il apparaîtra dans le feed public une fois approuvé — ensuite tout le monde pourra poster un score.",
     "rejectedTitle": "NON PUBLIÉ",
     "rejectedBody": "Ce défi n'a pas été validé. Crée une nouvelle version ou contacte le support.",
     "rejectionModeratorNote": "Note modération :\n{note}",
@@ -296,7 +321,7 @@
   },
   "admin": {
     "title": "FILE MODÉRATION UGC",
-    "subtitle": "Approuve ou refuse les défis communautaires. Rien ne passe en ligne sans toi.",
+    "subtitle": "Modération vs Arène. En revue → approuver. Live = ouvert dans l’Arène. Terminé = fermé. Refusé = bloqué.",
     "nav": {
       "link": "MOD",
       "dock": "MOD",
@@ -304,7 +329,38 @@
     },
     "queue": {
       "loading": "Chargement de la file…",
-      "empty": "Aucun défi en attente.",
+      "statusTabsLabel": "Statut des défis",
+      "statusTabAria": "{label}, {count} défis communauté",
+      "ugcTotal": "{count} défis communauté au total (tous statuts)",
+      "statusTab": {
+        "pending": "EN REVUE",
+        "arena_live": "EN COURS",
+        "arena_done": "TERMINÉ",
+        "rejected": "REFUSÉ"
+      },
+      "empty": {
+        "pending": "Rien en revue pour l'instant.",
+        "arena_live": "Aucun défi ouvert dans l’Arène pour l’instant.",
+        "arena_done": "Aucun défi fermé pour l’instant.",
+        "rejected": "Aucun défi refusé pour l'instant."
+      },
+      "statusLabel": {
+        "pending": "EN REVUE",
+        "arena_live": "EN COURS",
+        "arena_done": "TERMINÉ",
+        "rejected": "REFUSÉ"
+      },
+      "closeArena": "FERMER",
+      "colStatus": "Statut",
+      "colReviewed": "Publié",
+      "colClosed": "Fermé",
+      "view": "VOIR",
+      "paginationSummary": {
+        "pending": "Page {page} sur {totalPages} · {totalCount} en revue",
+        "arena_live": "Page {page} sur {totalPages} · {totalCount} en cours",
+        "arena_done": "Page {page} sur {totalPages} · {totalCount} terminés",
+        "rejected": "Page {page} sur {totalPages} · {totalCount} refusés"
+      },
       "selectAll": "Tout sélectionner",
       "clearSelection": "Effacer",
       "approveSelected": "Approuver la sélection ({count})",
@@ -334,8 +390,7 @@
       "tierLongUnknown": "Pas encore scanné.",
       "selectRow": "Sélectionner la ligne : {title}",
       "paginationPrev": "Précédent",
-      "paginationNext": "Suivant",
-      "paginationSummary": "Page {page} sur {totalPages} · {totalCount} en attente"
+      "paginationNext": "Suivant"
     },
     "approveConfirm": {
       "titleSingle": "Approuver ce défi ?",
@@ -449,6 +504,16 @@
     "errorTitle": "Impossible de charger le profil",
     "errorBody": "Réessaie.",
     "retry": "Réessayer",
+    "public": {
+      "loading": "Chargement du combattant…",
+      "subtitle": "PROFIL PUBLIC",
+      "unknownUser": "Inconnu",
+      "avatarAlt": "Avatar de {username}",
+      "errorTitle": "Combattant introuvable",
+      "errorBody": "Ce pseudo n’existe pas ou a été supprimé.",
+      "retry": "Réessayer",
+      "backClan": "RETOUR AU CLAN"
+    },
     "signOut": {
       "label": "DÉCONNEXION",
       "aria": "Se déconnecter du compte",

@@ -1,9 +1,9 @@
-# Truegrynd – Backlog V1 (strong)
+# Truegrynd – Backlog V1 / V2
 
 > **MVP core livré.** **V1 sérieuse (sections A–G)** : **livré sur `main`** (PR [#30](https://github.com/igorms-pro/truegrynd/pull/30) → [#55](https://github.com/igorms-pro/truegrynd/pull/55)).  
-> Ce fichier reste la référence ; les cases `[ ]` restantes sont **optionnelles** ou **V1.1** (voir fin de section A et blocs B–G).
+> **V2** : stratégie dans [docs/V2_STRATEGY.md](../V2_STRATEGY.md). Angle : compétition fitness accessible, divisions de niveau, weekly challenges, équipes/factions, progression amateur.
 
-**Dernière mise à jour :** 17 mai 2026
+**Dernière mise à jour :** 1 juin 2026
 
 ---
 
@@ -26,15 +26,19 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 
 ## Sommaire backlog
 
-| Bloc                          | Détail dans ce fichier                                  |
-| ----------------------------- | ------------------------------------------------------- |
-| **`/app/admin` (UGC)**        | Section **A** — tâches détaillées (+ **A9–A10** IA tri) |
-| **Mouvements & prescription** | Section **G** — catalogue mix + règles création         |
-| **Creator Score**             | Section **B**                                           |
-| **Streaks**                   | Section **C**                                           |
-| **Respect (leaderboard)**     | Section **D**                                           |
-| **Referral**                  | Section **E**                                           |
-| **Confiance & plateforme**    | Section **F**                                           |
+| Bloc                                      | Détail dans ce fichier                                      |
+| ----------------------------------------- | ----------------------------------------------------------- |
+| **`/app/admin` (UGC)**                    | Section **A** — tâches détaillées (+ **A9–A10** IA tri)     |
+| **Mouvements & prescription**             | Section **G** — catalogue mix + règles création             |
+| **Creator Score**                         | Section **B**                                               |
+| **Streaks**                               | Section **C**                                               |
+| **Respect (leaderboard)**                 | Section **D**                                               |
+| **Referral**                              | Section **E**                                               |
+| **Confiance & plateforme**                | Section **F**                                               |
+| **V1.5 — Pages Faction & symétrie UI**    | Section **I** — arbitrages dock / Clan / Overview           |
+| **V1.5 — Profil épuré & page Historique** | Section **K** — carrousel CARDS + `/app/profile/history`    |
+| **Fix & polish pré-V2 (QA V1)**           | Section **J** — flow soumission score / copy CTA            |
+| **V2 — Accessible competition**           | Section **H** — backlog issue-par-issue (**V2-00** en tête) |
 
 **Macro-checklist**
 
@@ -49,6 +53,31 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 - [x] **FEAT / CHORE** — Confiance & plateforme — section **F** — PR [#55](https://github.com/igorms-pro/truegrynd/pull/55)
 
 **Clôture V1 (macro)** : toutes les lignes ci-dessus sont **livrées en code**. Cases `[ ]` encore présentes dans les sections détaillées = **hors périmètre V1 obligatoire** (tests admin SQL, skeleton, rate limit IA, Sentry, `movement_aliases`, etc.) → traiter en **V1.1** ou issue dédiée.
+
+**Macro V1.5 (avant premier lot V2 compétitif)**
+
+- [ ] **V1.5** — Pages `/app/faction/[slug]` + symétrie Clan / Overview — section **I** (arbitrages ci-dessous)
+- [ ] **V1.5** — Profil épuré + page Historique dédiée (`Show More` → `/app/profile/history`) — section **K**
+
+**Macro pré-V2 (polish post-QA V1, avant V2-01)**
+
+- [ ] **FIX UI** — Flow soumission score (I'M IN → formulaire → SUBMIT) — section **J** (copy + garde-fous ; QA §4)
+
+**Macro V2 proposée (à transformer en GitHub issues avant dev)**
+
+- [ ] **V2-00** — Cadre factions & **exclusions sociales** (pas teams perso / pas DM) + prérequis V1.5 — section **H**
+- [ ] **V2-01** — Divisions de niveau (Rookie / Regular / Savage / Elite)
+- [ ] **V2-02** — Variantes officielles / scaling par challenge
+- [ ] **V2-03** — Weekly Global Challenge
+- [ ] **V2-04** — Leaderboards par division, faction, ville, pays
+- [ ] **V2-05** — Truegrynd Rating (Engine / Power / Strength / Grit / Consistency)
+- [ ] **V2-06** — Challenge Passport / palmarès amateur
+- [ ] **V2-07** — Rival Matches (1v1 / petits groupes)
+- [ ] **V2-08** — Team Wars / Faction Wars par division
+- [ ] **V2-09** — Micro-events async (24h / 7j / 30j)
+- [ ] **V2-10** — Proof Levels (Honor / Video / Community / Judge / Event)
+- [ ] **V2-11** — Growth loops (cards, invitations, comeback weeks)
+- [ ] **V2-12** — Monétisation exploratoire (après signal d'usage)
 
 ---
 
@@ -199,7 +228,7 @@ L’IA n’a pas besoin d’être “hors du repo” au sens code : le **code** 
 - [x] **SEO i18n** : `generateMetadata` dans `[locale]/layout.tsx` — title/description par locale via `next-intl`.
 - [ ] **Observabilité** : Sentry — reporté V1.1 (config externe, hors repo).
 - [x] **Rate limiting** : documenté dans `docs/RUNBOOK.md` — V1 via UNIQUE constraints + admin gates ; V1.1 Edge Function.
-- [x] **Runbook** : `docs/RUNBOOK.md` — promouvoir admin, rollback migration, revue RLS, rate limiting, env vars.
+- [x] **Runbook** : `docs/RUNBOOK.md` — pronamouvoir admin, rollback migration, revue RLS, rate limiting, env vars.
 
 ---
 
@@ -212,6 +241,320 @@ L’IA n’a pas besoin d’être “hors du repo” au sens code : le **code** 
 - [x] **Au moins une prescription mesurable** : **≥ 1 bloc** circuit valide (label + montant reps `>0` ou hold `MM:SS`) — **Zod + message i18n** (`circuitMinBlock`).
 - [ ] **Synonymes** : table `movement_aliases` optionnelle (mapping “pompes” → `push_up`) pour recherche / stats plus tard.
 - [x] **Évolution** : pour ajouter un mouvement → append dans `MOVEMENT_CATALOG` + i18n key par locale (`movements.<slug>`).
+
+---
+
+## I. V1.5 — Pages Faction & symétrie Clan / Overview
+
+**Contexte produit (MVP V1.5)** : Truegrynd reste une arène async **B2B2C** — passeport athlète (âge, sexe, poids), **3 factions mondiales** (Iron Alliance, Horde, Nomads), affiliation salle physique **optionnelle** (B2B gym → V3). Dock standard : **Overview · Arena · Clan · Profil** (+ MOD admin).
+
+### Vision dock (rappel)
+
+| Onglet       | Rôle                                                                                                             |
+| ------------ | ---------------------------------------------------------------------------------------------------------------- |
+| **Overview** | Dashboard perso, état de **ta** faction, défi du jour, streaks                                                   |
+| **Arena**    | Catalogue défis official + UGC, filtres matériel, création UGC                                                   |
+| **Clan**     | Leaderboard live Faction War + tableau des mercenaires (top faction)                                             |
+| **Profil**   | Vitrine athlète, carrousel Finisher Cards (3–4 récentes), historique filtrable via **Show More** → section **K** |
+
+### Routage factions — `/app/faction/[slug]`
+
+Vues dynamiques par slug (`nomads` \| `horde` \| `iron_alliance`). Charte = couleurs CSS faction (`--faction-*`).
+
+**Règles de clic UI**
+
+| Origine                | Comportement                                                                                                                          |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| **Overview**           | Widget **uniquement ta** faction → clic → `/app/faction/[my_faction_slug]`                                                            |
+| **Clan — Faction War** | Les **3** lignes (ta faction + rivales) **cliquables de façon symétrique** → `/app/faction/[slug]` (rival = espionnage / rivalité OK) |
+| **Clan — Top Dogs**    | Lignes → profil public `/app/u/[username]` (déjà amorcé) ; **ne pas** envoyer la ligne « ta faction » vers Arena seule                |
+
+**Contenu page `/app/faction/[slug]`**
+
+1. **Header** : blason / identité clan + nom en grand (couleur faction).
+2. **Stats guerre** : rang Faction War, points équipe (agrégat V1 = heuristique client tant que pas V2 serveur), combattants actifs (période à préciser en implémentation ; cible produit = « cette semaine »).
+3. **Hall of Fame** : top 5–10 athlètes **de cette faction** (ego + repérer rivaux).
+4. **Si slug = faction utilisateur** : bouton secondaire **Recruter des alliés** (lien referral `?faction=[slug]` — réutiliser `RecruitCta` / `buildReferralUrl`).
+5. **CTA principal (sticky bas)** : **POST A SCORE** / **CONTRIBUER À LA GUERRE** → `/app/arena` (même catalogue pour tous ; **pas** de défis réservés à une faction en V1.5).
+
+### Tâches implémentation V1.5
+
+**Livré sur `chore/qa-v1-prep` (PR à merger)** — socle QA + parcours public ; **pages faction** et symétrie Faction War **restent ouvertes**.
+
+- [x] **Profil public** : `src/app/[locale]/app/u/[username]/page.tsx` — `PublicProfileScreen`, `usePublicProfile`, `getProfileByUsername`.
+- [x] **Clan — Top Dogs** : `ClanTopMembersCard` — lignes → `/app/u/[username]` (soi → `/app/profile`).
+- [x] **Refactor Clan (partiel)** : `ClanFactionWarCard`, `ClanTopMembersCard`, `ClanArenaCta`, `formatClanPoints`, `clanRowLinkClass`.
+- [x] **Challenge detail** : split `ChallengeDetailHero`, panels spec/circuit/locked, `parseChallengeRules`.
+- [x] **Arena pending** : `ArenaPendingSection`, `useMyPendingChallenges` + migration **`013`** `arena_ends_at`.
+- [x] **Admin file** : onglets statut queue + `arenaLifecycle` (helpers + tests).
+- [ ] **Route** : `src/app/[locale]/app/faction/[slug]/page.tsx` + garde slug invalide (404 ou redirect Clan).
+- [ ] **Service / hook** : données faction (rang, pts, membres actifs, top N) — réutiliser / factoriser `getClanHudData` ou équivalent par `faction`.
+- [ ] **UI** : `FactionPageScreen` (header, stats, hall of fame, CTA, recruit si « ma » faction).
+- [ ] **Overview** : widget ta faction → lien vers `/app/faction/[slug]` (pas Clan/Arena direct).
+- [ ] **Clan** : `ClanFactionWarCard` — **3 lignes** → `/app/faction/[slug]` (retirer lien Arena direct sur « ta » ligne).
+- [ ] **i18n EN/FR** : copy page faction + aria labels ; pas de mur de texte type tutoriel Share/Copy.
+- [ ] **QA** : cocher §7 Clan + nouveau parcours faction dans [docs/QA_V1_CHECKLIST.md](../QA_V1_CHECKLIST.md).
+
+**Branche suite :** `feature/v1-5-faction-pages` (issue GitHub dédiée).
+
+---
+
+## J. Fix & polish pré-V2 — flow soumission score (QA V1 §4)
+
+**Contexte QA (juin 2026) :** sur la page détail, le CTA **« I'M IN »** / **« JE M'INSCRIS »** prête à confusion — on croit parfois que le score part tout de suite. En réalité, le code actuel (`ChallengeDetailHero` → `Link` vers `/app/arena/[id]/submit`) **ne fait qu’une navigation** ; l’insert SQL n’a lieu que sur **`ScoreSubmissionScreen`**. Le fix = **clarifier l’UI + verrouiller la logique** avant V2.
+
+**Objectif :** séparer nettement **engagement** (écran A) vs **soumission** (écran B).
+
+### FIX LOGIQUE UI — flow de soumission des défis
+
+Le bouton **« I'M IN »** ne doit **pas** soumettre le score directement en base. Règles :
+
+1. **Écran A — détail défi** : **« I'M IN »** = **navigation uniquement** → ouvre l’écran B **sans rien enregistrer**.
+2. **Écran B — formulaire** (`/app/arena/[id]/submit`) :
+   - score par défaut à **0** (`YOUR REPS` / équivalent time) ;
+   - champ **PROOF URL** optionnel (copy Smart Proof déjà présente) ;
+   - bouton **persistant en bas** : **« SUBMIT YOUR SCORE »** / **« SOUMETTRE MON SCORE »**.
+3. **Seul** le clic sur **« SUBMIT YOUR SCORE »** :
+   - valide les inputs (Zod) ;
+   - applique la règle **Smart Proof / top 10%** (vidéo obligatoire si elite) ;
+   - exécute l’**insert** score en base.
+
+### Tâches
+
+- [ ] **Copy EN/FR** : renommer ou clarifier le CTA détail (ex. garder kicker « ENTER THE GRIND » mais CTA explicite **POST SCORE** / **SOUMETTRE**, ou renforcer la subline sous I'M IN).
+- [ ] **Audit code** : confirmer qu’aucun handler sur I'M IN n’appelle `submitScore` / insert Supabase (aujourd’hui : OK via `Link` seul — documenter en test).
+- [ ] **Écran B** : bouton submit sticky bas viewport ; états loading / disabled / error inchangés.
+- [ ] **Tests** : RTL ou e2e — clic I'M IN → **0 insert** ; submit valide → 1 insert ; §4 checklist [docs/QA_V1_CHECKLIST.md](../QA_V1_CHECKLIST.md).
+- [ ] **GitHub Issue** + branche `fix/issue-N-submit-flow-cta` avant merge.
+
+**Fichiers probables :** `ChallengeDetailHero.tsx`, `ScoreSubmissionScreen` (+ hooks/services submit), `src/locales/en.json` / `fr.json` (`challenge.ctaStart`, `ctaSubline`, submit.\*).
+
+**Priorité :** **avant V2-01** (avec ou juste après V1.5 + fin QA §4) — pas bloquant divisions, mais **bloquant clarté produit** sur le cœur Arena.
+
+**Branche suggérée :** `fix/submit-flow-cta` ou issue dédiée post-`chore/qa-v1-prep`.
+
+---
+
+## K. V1.5 — Profil épuré & page Historique (Show More)
+
+**Contexte produit :** le carrousel horizontal **CARDS** (`FinisherGallery`) convient pour parcourir les **3–4 dernières** performances — au-delà, swiper 50 fois est invivable. La section **HISTORY** (`ScoreHistory`) en bas du profil **duplique** l’info et surcharge l’écran principal. On sépare : **vitrine épurée** sur `/app/profile` vs **registre de guerre filtrable** sur `/app/profile/history`.
+
+**État actuel (juin 2026) :** `ProfilePage` compose `ProfileHeader` + `SignOutButton` + `FinisherGallery` (toutes les cartes validées) + `ScoreHistory` (liste complète). Pas de route history dédiée ; pas de filtres par statut.
+
+### Vision UX
+
+```
+ÉCRAN PROFIL PRINCIPAL (/app/profile)
++-------------------------------------------------------+
+|  PROFILE                                         ⚙️   |
+|  [ Photo ]  IGORMS (IRON ALLIANCE)                    |
++-------------------------------------------------------+
+|  CARDS                             [ SHOW MORE ➔ ]   |
+|  (Scroll X — 3 ou 4 dernières cartes max)             |
+|  +------------+  +------------+  +------------+       |
+|  | TRUEGRYND  |  | TRUEGRYND  |  | TRUEGRYND  |       |
+|  +------------+  +------------+  +------------+       |
++-------------------------------------------------------+
+  (plus de section HISTORY ici)
+
+      ⬇️ Show More → /app/profile/history
+
+PAGE HISTORIQUE (/app/profile/history)
++-------------------------------------------------------+
+|  ➔  MON HISTORIQUE                                    |
+|  [ Tout ] [ En cours ⏳ ] [ Validés 🔥 ] [ Sauvegardés ] [ Gagnés 🏆 ] |
+|  +-------------------------------------------------+  |
+|  | QA OFFICIAL — BURPEES                [ RANKED ] |  |
+|  | 07:10 · 6/1/2026                       [ CARD ] |  |
+|  +-------------------------------------------------+  |
+|  | SANDBAG CHALLENGE               [ IN PROGRESS ] |  |
+|  +-------------------------------------------------+  |
++-------------------------------------------------------+
+```
+
+### 1. Écran profil principal (`/app/profile`)
+
+- [ ] **Supprimer** `ScoreHistory` du bas de la page — **définitif**, pas de doublon.
+- [ ] **Carrousel CARDS** : limiter `FinisherGallery` aux **3 ou 4 cartes les plus récentes** (tri `created_at` desc).
+- [ ] **Bouton « Show More »** (`SHOW MORE ➔`) : en haut à droite de la section CARDS (à côté du titre) → lien `/app/profile/history`.
+- [ ] **Settings ⚙️** : icône en haut à droite à côté du titre **PROFILE** ; y déplacer **Log out** (retirer `SignOutButton` visible du corps de page).
+- [ ] **i18n EN/FR** : `profile.cards.showMore`, `profile.settings.*`, titres section.
+
+### 2. Nouvelle route `/app/profile/history`
+
+- [ ] **Route** : `src/app/[locale]/app/profile/history/page.tsx` — page fine, compose un `ProfileHistoryScreen`.
+- [ ] **Header** : retour + titre « Mon historique » / « My history ».
+- [ ] **Barre de filtres (tabs rapides)** :
+  - **Tout** — historique global (scores + engagements en cours).
+  - **En cours** — défis où l’utilisateur a cliqué **I'M IN** mais **pas encore** de score soumis (to-do entraînements).
+  - **Validés** — scores `is_validated: true` / badge **RANKED** (preuve vidéo, classés).
+  - **Sauvegardés** — scores honor level sans vidéo / badge **SAVED**.
+  - **Gagnés** _(option V1.5+)_ — coups d’éclat : top 10 % validés et/ou défis officiels avec badge (règle exacte à figer en implémentation).
+- [ ] **Ligne d’historique** : titre défi, score formaté, date, badge statut (`RANKED` \| `SAVED` \| `IN PROGRESS`), action **CARD** (re-voir / re-télécharger la Finisher Card si applicable).
+- [ ] **États complets** : loading / empty / error / default par filtre ; empty copy contextualisé (« Aucun défi en cours », etc.).
+- [ ] **Hook / service** : étendre ou factoriser `useMyScores` + source « en cours » (table/commitment I'M IN — à préciser : score absent vs flag engagement si modèle ajouté plus tard ; en V1.5 heuristique = pas de row `scores` pour ce `challenge_id`).
+
+### 3. Données & statuts
+
+| Filtre UI       | Règle V1.5 (MVP)                                                                    |
+| --------------- | ----------------------------------------------------------------------------------- |
+| **Tout**        | Union scores soumis + engagements en cours sans score                               |
+| **En cours**    | Challenge visité via I'M IN, **aucun** score user pour ce `challenge_id`            |
+| **Validés**     | `scores.is_validated = true`                                                        |
+| **Sauvegardés** | `scores.is_validated = false` (score existant)                                      |
+| **Gagnés**      | Sous-ensemble Validés : top 10 % (`rankPercent ≤ 10`) ou tag official (à confirmer) |
+
+> **Note :** sans persistance explicite de « I'M IN » en V1, le filtre **En cours** peut démarrer en **placeholder** (liste vide + copy) ou s’appuyer sur une future table `challenge_commitments` — documenter le choix dans la PR.
+
+### 4. Qualité & DoD
+
+- [ ] **Tests** : filtrage pur (helper `filterHistoryByTab`) + au moins un test composant ou RTL sur tabs.
+- [ ] **QA** : ajouter parcours profil → Show More → filtres dans [docs/QA_V1_CHECKLIST.md](../QA_V1_CHECKLIST.md).
+- [ ] **Accessibilité** : tabs avec rôles ARIA, `aria-label` sur Show More et Settings.
+- [ ] **Pas de régression** : profil public `/app/u/[username]` hors scope (pas de page history publique en V1.5).
+
+**Fichiers probables :** `src/app/[locale]/app/profile/page.tsx`, `FinisherGallery.tsx`, `ScoreHistory.tsx` (réutiliser lignes sur history page), nouveau `ProfileHistoryScreen.tsx`, `useProfileHistory.ts`, `src/locales/en.json` / `fr.json`.
+
+**Priorité :** **V1.5**, avec ou juste après section **I** (faction pages) — **avant V2-06** (Passport) qui capitalisera sur cette base historique.
+
+**Branche suggérée :** `feature/v1-5-profile-history` (GitHub Issue dédiée avant dev).
+
+---
+
+## H. V2 — Accessible Competitive Fitness
+
+**Décision produit :** ne pas copier les gros events fitness. Truegrynd attaque leur angle mort : **l'énergie compétition sans ticket à 110 €, sans déplacement, sans élitisme**. Les gens jouent **dans leur division**, avec **leur team**, contre des gens de niveau comparable. Le leaderboard global reste une vitrine, pas l'expérience principale.
+
+Référence stratégie : [docs/V2_STRATEGY.md](../V2_STRATEGY.md).
+
+### V2-00. Cadre Factions & Exclusions Sociales (lire avant V2-07 / V2-08)
+
+**Objectif :** figer ce que Truegrynd **n’est pas** en V2 early, et ce qui est **déjà couvert en V1.5** avant d’attaquer divisions, weekly et Team Wars.
+
+**Exclusions explicites (ne pas coder)**
+
+- [ ] **Pas** de sous-équipes / « team perso avec des potos » privée hors des 3 factions mondiales.
+- [ ] **Pas** de messagerie privée (DM), **pas** de graphe Follow/Unfollow.
+- [ ] **Pas** de catalogue de défis « Horde only » / « Iron only » — la faction est un **camp de guerre**, pas un mode de jeu séparé.
+- [ ] **Interaction sociale MVP** : uniquement **👊 Respect** (`+1`) sur lignes de leaderboard ; le reste = referral faction + vitrines publiques.
+
+**Effet de groupe autorisé en V1 / V1.5**
+
+- Parrainage **faction globale** (`?faction=` + Recruit).
+- Affiliation **salle physique** (piste B2B → [docs/V3_STRATEGY.md](../V3_STRATEGY.md)).
+- Pages **`/app/faction/[slug]`** symétriques (section **I**) : overview rivale, hall of fame, CTA Arena.
+
+**Ce que V2 ajoute par-dessus (issues suivantes, pas en V1.5)**
+
+- [ ] **V2-01–03** : divisions, scaling, weekly → compétition **par niveau**, pas par team custom.
+- [ ] **V2-08** : Team Wars / Faction Wars **par division** — score équipe **serveur**, events, contribution perso (remplace l’heuristique Clan HUD).
+- [ ] **V2-09** : micro-events (Faction War Weekend, etc.).
+- [ ] **V2-07** : Rival Matches — duel 1v1 / petit groupe sur défis, **pas** remplacement des 3 factions.
+
+**Prérequis avant de démarrer V2-01 :** section **I (V1.5)** livrée + QA Clan/faction OK.
+
+### V2-01. Divisions De Niveau
+
+- [ ] **Produit** : définir les divisions canoniques V2 : `rookie`, `regular`, `savage`, `elite` (noms finaux à confirmer).
+- [ ] **Règle d'entrée** : chaque utilisateur a une division par défaut (`rookie`) puis peut monter selon performance / rating.
+- [ ] **DB** : ajouter une représentation stable des divisions (enum/check ou table `divisions`) + champ dérivé côté profil ou rating.
+- [ ] **UI** : badge division visible sur profil, leaderboard, finisher card.
+- [ ] **Leaderboard** : filtre division par défaut, global disponible mais secondaire.
+- [ ] **i18n EN/FR** + tests de mapping division.
+
+### V2-02. Variantes Officielles / Scaling Par Challenge
+
+- [ ] **Produit** : chaque challenge important peut avoir des variantes officielles : no equipment, bodyweight, dumbbell, standard, savage.
+- [ ] **DB** : modèle `challenge_variants` ou champ structuré validé (éviter texte libre non exploitable).
+- [ ] **Création défi** : auteur choisit au moins une variante ; admin voit le niveau de friction / matériel.
+- [ ] **Soumission** : score attaché à une variante précise.
+- [ ] **Leaderboard** : classement par variante + division.
+- [ ] **UX** : copy claire : scaling officiel ≠ mode honteux.
+
+### V2-03. Weekly Global Challenge
+
+- [ ] **Produit** : un défi global par semaine, simple, partageable, jouable partout.
+- [ ] **DB** : table ou champs pour `weekly_challenges` (challenge_id, starts_at, ends_at, status).
+- [ ] **App** : bloc homepage/overview “Weekly Challenge” avec CTA score.
+- [ ] **Leaderboards** : division + faction + ville/pays.
+- [ ] **Finisher Card** : variante weekly avec badge semaine.
+- [ ] **Admin** : choisir / programmer le weekly sans migration.
+
+### V2-04. Leaderboards Par Division, Faction, Ville, Pays
+
+- [ ] **Produit** : permettre “Top Rookie Paris”, “Horde Regular France”, “Savage Global”.
+- [ ] **Profil** : ajouter ville/pays optionnels ou inférés prudemment (pas de géoloc invasive V2.1).
+- [ ] **DB / query** : index et filtres performants pour division + faction + location.
+- [ ] **UI leaderboard** : presets simples plutôt qu'un panneau de filtres monstrueux.
+- [ ] **Privacy** : ne pas afficher une localisation trop précise par défaut.
+
+### V2-05. Truegrynd Rating
+
+- [ ] **Produit** : rating global + axes `engine`, `power`, `strength`, `grit`, `consistency`.
+- [ ] **Algorithme V1** : commencer simple (percentiles validés + catégories de challenge), pas d'Elo opaque au début.
+- [ ] **DB** : table `profile_ratings` ou colonnes dédiées + historique minimal.
+- [ ] **Jobs/triggers** : recalcul à la soumission validée ou job périodique.
+- [ ] **UI** : carte rating sur profil + explication lisible.
+- [ ] **Tests** : fonctions pures de calcul rating + cas de bord (peu de scores, anciens scores, changement division).
+
+### V2-06. Challenge Passport / Palmarès Amateur
+
+- [ ] **Produit** : transformer le profil en CV compétitif amateur.
+- [ ] **Contenu** : divisions atteintes, meilleurs scores, badges, weekly complétés, rival matches gagnés, finisher cards.
+- [ ] **UI** : page/onglet “Passport” mobile-first.
+- [ ] **Share** : lien public optionnel ou image partageable.
+- [ ] **Privacy** : permettre de masquer certains détails.
+
+### V2-07. Rival Matches
+
+- [ ] **Produit** : 1v1 ou petit groupe sur 1 à 3 challenges, durée 24h/7j.
+- [ ] **Matching** : même division par défaut ; option faction adverse / ami / ville.
+- [ ] **DB** : `rival_matches`, participants, challenge set, status, winner.
+- [ ] **UX** : créer, accepter, soumettre, résultat.
+- [ ] **Notifications** : minimal V2 (email/toast/polling), pas besoin d'un réseau social complet.
+- [ ] **Anti-abus** : refuser spam d'invitations.
+
+### V2-08. Team Wars / Faction Wars Par Division
+
+- [ ] **Produit** : guerre collective hebdo : faction x division x challenge.
+- [ ] **Score équipe** : agrégat robuste (ex. top N scores + participation) pour éviter qu'une grosse faction écrase tout.
+- [ ] **UI** : scoreboard faction, contribution personnelle, reward/badge.
+- [ ] **Fairness** : divisions séparées, pas Rookie contre Elite.
+- [ ] **Finisher Card** : “I scored for Horde Rookie”.
+
+### V2-09. Micro-Events Async
+
+- [ ] **Produit** : events 24h / 7j / 30j sans lieu physique : Rookie Week, No Equipment Cup, Faction War Weekend.
+- [ ] **DB** : `events`, `event_challenges`, `event_scores`, status.
+- [ ] **Admin** : créer/programmer un event depuis l'admin.
+- [ ] **Classements** : event leaderboard + divisions.
+- [ ] **Fin** : recap, badges, cards, classement final.
+- [ ] **Ops** : pas de paiement au départ ; prouver l'engagement avant monétisation.
+
+### V2-10. Proof Levels
+
+- [ ] **Produit** : niveaux de preuve : Honor, Video Ranked, Community Verified, Judge Verified, Event Verified.
+- [ ] **DB** : champ `proof_level` côté score + audit de validation.
+- [ ] **UI** : badge preuve sur leaderboard et profil.
+- [ ] **Règles** : certains classements peuvent filtrer `video_ranked+` ou `judge_verified+`.
+- [ ] **Admin/judge** : validation manuelle sans service_role client.
+- [ ] **Trust** : reporting abus lié au score.
+
+### V2-11. Growth Loops
+
+- [ ] **Finisher cards V2** : division, rating delta, faction contribution, weekly badge.
+- [ ] **Invitations** : inviter quelqu'un sur un rival match ou weekly challenge.
+- [ ] **Comeback weeks** : relancer ceux qui ont raté 1-2 semaines sans culpabilisation.
+- [ ] **Referral V2** : faction + division context (“Join Horde Rookie Week”).
+- [ ] **Analytics** : mesurer share → signup → first score.
+
+### V2-12. Monétisation Exploratoire
+
+- [ ] **Principe** : ne pas bloquer le core compétitif trop tôt.
+- [ ] **Hypothèses** : premium passport, cosmetics cards, micro-event packs, sponsor challenges, gym/team dashboards.
+- [ ] **Validation** : attendre signal d'usage (weekly retention, rival completion, share rate).
+- [ ] **Stripe** : seulement après choix clair d'une offre.
+- [ ] **No pay-to-win** : payer ne doit jamais améliorer un rang sportif.
 
 ---
 
@@ -233,20 +576,25 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 
 ## Suivi synthétique
 
-| Bloc                                     | Avancement                                                                                                                    |
-| ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| UGC création + cap                       | 🟢 PR #30                                                                                                                     |
-| Doc backlog V1 (ce fichier)              | 🟢 [#31](https://github.com/igorms-pro/truegrynd/issues/31) mergé — PR [#32](https://github.com/igorms-pro/truegrynd/pull/32) |
-| Doc tri IA + mouvements mix (ce fichier) | 🟢 [#35](https://github.com/igorms-pro/truegrynd/issues/35) mergé — PR [#36](https://github.com/igorms-pro/truegrynd/pull/36) |
-| **`/app/admin`**                         | 🟢 PR #41 mergé (admin + AI triage)                                                                                           |
-| Creator Score                            | 🟢 [#46](https://github.com/igorms-pro/truegrynd/issues/46) mergé — PR [#47](https://github.com/igorms-pro/truegrynd/pull/47) |
-| Streaks                                  | 🟢 [#48](https://github.com/igorms-pro/truegrynd/issues/48) mergé — PR [#49](https://github.com/igorms-pro/truegrynd/pull/49) |
-| Respect                                  | 🟢 [#50](https://github.com/igorms-pro/truegrynd/issues/50) mergé — PR [#51](https://github.com/igorms-pro/truegrynd/pull/51) |
-| Referral                                 | 🟢 [#52](https://github.com/igorms-pro/truegrynd/issues/52) mergé — PR [#53](https://github.com/igorms-pro/truegrynd/pull/53) |
-| Confiance / plateforme                   | 🟢 [#54](https://github.com/igorms-pro/truegrynd/issues/54) mergé — PR [#55](https://github.com/igorms-pro/truegrynd/pull/55) |
-| Mouvements / prescription (mix)          | 🟢 [#44](https://github.com/igorms-pro/truegrynd/issues/44) mergé — PR [#45](https://github.com/igorms-pro/truegrynd/pull/45) |
+| Bloc                                      | Avancement                                                                                                                    |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| UGC création + cap                        | 🟢 PR #30                                                                                                                     |
+| Doc backlog V1 (ce fichier)               | 🟢 [#31](https://github.com/igorms-pro/truegrynd/issues/31) mergé — PR [#32](https://github.com/igorms-pro/truegrynd/pull/32) |
+| Doc tri IA + mouvements mix (ce fichier)  | 🟢 [#35](https://github.com/igorms-pro/truegrynd/issues/35) mergé — PR [#36](https://github.com/igorms-pro/truegrynd/pull/36) |
+| **`/app/admin`**                          | 🟢 PR #41 mergé (admin + AI triage)                                                                                           |
+| Creator Score                             | 🟢 [#46](https://github.com/igorms-pro/truegrynd/issues/46) mergé — PR [#47](https://github.com/igorms-pro/truegrynd/pull/47) |
+| Streaks                                   | 🟢 [#48](https://github.com/igorms-pro/truegrynd/issues/48) mergé — PR [#49](https://github.com/igorms-pro/truegrynd/pull/49) |
+| Respect                                   | 🟢 [#50](https://github.com/igorms-pro/truegrynd/issues/50) mergé — PR [#51](https://github.com/igorms-pro/truegrynd/pull/51) |
+| Referral                                  | 🟢 [#52](https://github.com/igorms-pro/truegrynd/issues/52) mergé — PR [#53](https://github.com/igorms-pro/truegrynd/pull/53) |
+| Confiance / plateforme                    | 🟢 [#54](https://github.com/igorms-pro/truegrynd/issues/54) mergé — PR [#55](https://github.com/igorms-pro/truegrynd/pull/55) |
+| Mouvements / prescription (mix)           | 🟢 [#44](https://github.com/igorms-pro/truegrynd/issues/44) mergé — PR [#45](https://github.com/igorms-pro/truegrynd/pull/45) |
+| **V1.5 — Pages Faction**                  | 🟡 section **I** — profil public + Clan refactor **mergés** ; reste `/app/faction/[slug]` + liens Overview/Clan               |
+| **V1.5 — Profil & Historique**            | 🔴 spec section **K** — carrousel 3–4 cartes + `/app/profile/history` + filtres (Show More)                                   |
+| **Fix flow submit (I'M IN → formulaire)** | 🔴 section **J** — polish pré-V2 (QA V1 §4, copy CTA)                                                                         |
+| **V2 — Accessible competition**           | 🔴 [docs/V2_STRATEGY.md](../V2_STRATEGY.md) — **V2-00** (exclusions) puis **V2-01 → V2-12** section **H**                     |
+| **QA V1 (manuel)**                        | 🟡 [docs/QA_V1_CHECKLIST.md](../QA_V1_CHECKLIST.md) — à cocher ; ajouter parcours faction après V1.5                          |
 
-**Suite produit :** V1 macro **terminée**. Prochaine priorité = **QA smoke** (manuel) puis backlog **V1.1** (Sentry, file admin reports, rate limit IA, polish admin UX, etc.) — à définir dans une nouvelle section ou issues GitHub dédiées.
+**Suite produit :** V1 macro **terminée**. Prochaine priorité = finir **V1.5 (sections I + K)** + **QA V1** (+ **section J** si ambiguïté submit confirmée en §4), puis **V2-00** (cadrage) + lot **V2-01 → V2-03** (divisions, scaling, weekly). **Ne pas** sauter V1.5 pour coder des « teams perso ».
 
 ---
 
