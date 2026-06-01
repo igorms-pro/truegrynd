@@ -3,14 +3,15 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
-import { upsertIdentity } from '@/features/onboarding/services/onboarding';
+import { upsertPassportSettings } from '@/features/settings/services/passportSettings';
 import {
   createPassportSchema,
   SEX_OPTIONS,
   type PassportFormValues,
 } from '@/features/settings/lib/passportSchema';
+import { COUNTRY_CODES, getCountryLabel } from '@/lib/location';
 import type { Profile } from '@/lib/types/database.types';
 
 type Props = {
@@ -21,6 +22,7 @@ type Props = {
 export function PassportSettingsSection({ profile, onSaved }: Props) {
   const t = useTranslations('settings.passport');
   const tOnboarding = useTranslations('onboarding');
+  const locale = useLocale();
   const [saving, setSaving] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
@@ -38,6 +40,9 @@ export function PassportSettingsSection({ profile, onSaved }: Props) {
       sex: profile.sex ?? 'other',
       age: profile.age ?? 0,
       weightKg: profile.weight_kg ?? 0,
+      city: profile.city ?? '',
+      countryCode: (profile.country_code ?? '') as PassportFormValues['countryCode'],
+      showLocationOnLeaderboard: profile.show_location_on_leaderboard ?? false,
     },
     mode: 'onChange',
   });
@@ -47,12 +52,15 @@ export function PassportSettingsSection({ profile, onSaved }: Props) {
     setSubmitError(null);
     setSaved(false);
     try {
-      await upsertIdentity({
+      await upsertPassportSettings({
         userId: profile.id,
         username: values.username.trim(),
         sex: values.sex,
         age: values.age,
         weightKg: values.weightKg,
+        city: values.city.trim() || null,
+        countryCode: values.countryCode || null,
+        showLocationOnLeaderboard: values.showLocationOnLeaderboard,
       });
       setSaved(true);
       onSaved();
@@ -156,6 +164,60 @@ export function PassportSettingsSection({ profile, onSaved }: Props) {
               <p className="mt-1 text-xs font-semibold text-primary">{errors.weightKg.message}</p>
             ) : null}
           </div>
+        </div>
+
+        <div className="space-y-3 rounded-md border border-border bg-muted/30 p-3">
+          <p className="text-xs font-black uppercase tracking-[0.14em] text-muted-foreground">
+            {t('locationTitle')}
+          </p>
+          <p className="text-xs text-muted-foreground">{t('locationBody')}</p>
+
+          <div>
+            <label
+              htmlFor="settings-city"
+              className="text-xs font-black uppercase tracking-[0.14em] text-muted-foreground"
+            >
+              {t('cityLabel')}
+            </label>
+            <input
+              id="settings-city"
+              {...register('city')}
+              placeholder={t('cityPlaceholder')}
+              className="mt-2 w-full rounded-md border border-border bg-background px-3 py-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              aria-invalid={!!errors.city}
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="settings-country"
+              className="text-xs font-black uppercase tracking-[0.14em] text-muted-foreground"
+            >
+              {t('countryLabel')}
+            </label>
+            <select
+              id="settings-country"
+              {...register('countryCode')}
+              className="mt-2 w-full rounded-md border border-border bg-background px-3 py-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              aria-invalid={!!errors.countryCode}
+            >
+              <option value="">{t('countryNone')}</option>
+              {COUNTRY_CODES.map((code) => (
+                <option key={code} value={code}>
+                  {getCountryLabel(code, locale)}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <label className="flex items-start gap-3">
+            <input
+              type="checkbox"
+              {...register('showLocationOnLeaderboard')}
+              className="mt-1 h-4 w-4 rounded border-border bg-background accent-primary"
+            />
+            <span className="text-xs text-muted-foreground">{t('showLocationLabel')}</span>
+          </label>
         </div>
 
         {submitError ? (

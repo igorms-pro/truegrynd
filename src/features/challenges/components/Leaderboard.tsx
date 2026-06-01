@@ -4,10 +4,17 @@ import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 import { LeaderboardFiltersBar } from '@/features/challenges/components/LeaderboardFilters';
+import { LeaderboardPresetsBar } from '@/features/challenges/components/LeaderboardPresets';
 import { RespectButton } from '@/features/challenges/components/RespectButton';
 import { useChallengeLeaderboard } from '@/features/challenges/hooks/useChallengeLeaderboard';
 import { useScoreRespects } from '@/features/challenges/hooks/useScoreRespects';
 import { applyLeaderboardFilters } from '@/features/challenges/lib/applyFilters';
+import {
+  buildLeaderboardPresets,
+  findMatchingPresetId,
+  type LeaderboardPreset,
+  type LeaderboardPresetId,
+} from '@/features/challenges/lib/leaderboardPresets';
 import { resolveLeaderboardFilters } from '@/features/challenges/lib/resolveLeaderboardFilters';
 import { sortScoresByType } from '@/features/challenges/lib/leaderboardSort';
 import { formatScore } from '@/features/challenges/lib/scoreFormat';
@@ -73,6 +80,17 @@ function LeaderboardRow({
   );
 }
 
+function pickDefaultPreset(
+  presets: ReturnType<typeof buildLeaderboardPresets>,
+): LeaderboardPreset | null {
+  return (
+    presets.find((preset) => preset.id === 'local_top' && !preset.disabled) ??
+    presets.find((preset) => preset.id === 'faction_national' && !preset.disabled) ??
+    presets.find((preset) => !preset.disabled) ??
+    null
+  );
+}
+
 export function Leaderboard({ challengeId, scoreType, availableVariants }: Props) {
   const t = useTranslations('leaderboard');
   const profile = useOptionalAppProfile();
@@ -80,26 +98,56 @@ export function Leaderboard({ challengeId, scoreType, availableVariants }: Props
     challengeId,
     scoreType,
   });
-  const [filters, setFilters] = useState<LeaderboardFilters>(EMPTY_FILTERS);
+  const [filtersOverride, setFiltersOverride] = useState<LeaderboardFilters | null>(null);
+  const [activePresetIdOverride, setActivePresetIdOverride] = useState<LeaderboardPresetId | null>(
+    null,
+  );
   const [divisionFilterTouched, setDivisionFilterTouched] = useState(false);
   const [variantFilterTouched, setVariantFilterTouched] = useState(false);
 
+  const presets = useMemo(
+    () =>
+      buildLeaderboardPresets({
+        division: profile?.division,
+        faction: profile?.faction ?? undefined,
+        city: profile?.city,
+        countryCode: profile?.country_code,
+      }),
+    [profile?.division, profile?.faction, profile?.city, profile?.country_code],
+  );
+
+  const defaultPreset = useMemo(() => pickDefaultPreset(presets), [presets]);
+  const usingDefaultPreset = filtersOverride === null && defaultPreset !== null;
+  const baseFilters = filtersOverride ?? defaultPreset?.filters ?? EMPTY_FILTERS;
+  const activePresetId =
+    activePresetIdOverride ??
+    (usingDefaultPreset ? (defaultPreset?.id ?? null) : findMatchingPresetId(presets, baseFilters));
+
   const effectiveFilters = resolveLeaderboardFilters({
-    filters,
+    filters: baseFilters,
     profileDivision: profile?.division,
-    divisionFilterTouched,
+    divisionFilterTouched: divisionFilterTouched || usingDefaultPreset,
     availableVariants,
     variantFilterTouched,
   });
 
+  const handlePresetSelect = (preset: LeaderboardPreset): void => {
+    if (preset.disabled) return;
+    setFiltersOverride(preset.filters);
+    setActivePresetIdOverride(preset.id);
+    setDivisionFilterTouched(true);
+    setVariantFilterTouched(false);
+  };
+
   const handleFiltersChange = (next: LeaderboardFilters): void => {
-    if (next.division !== filters.division) {
+    if (next.division !== baseFilters.division) {
       setDivisionFilterTouched(true);
     }
-    if (next.variant !== filters.variant) {
+    if (next.variant !== baseFilters.variant) {
       setVariantFilterTouched(true);
     }
-    setFilters(next);
+    setFiltersOverride(next);
+    setActivePresetIdOverride(findMatchingPresetId(presets, next));
   };
 
   const sorted = useMemo(
@@ -122,6 +170,15 @@ export function Leaderboard({ challengeId, scoreType, availableVariants }: Props
       <header className="flex items-center justify-between">
         <h2 className="text-lg font-black uppercase tracking-tight">{t('title')}</h2>
       </header>
+
+      <LeaderboardPresetsBar
+        activePresetId={activePresetId}
+        division={profile?.division}
+        faction={profile?.faction ?? undefined}
+        city={profile?.city}
+        countryCode={profile?.country_code}
+        onPresetSelect={handlePresetSelect}
+      />
 
       <LeaderboardFiltersBar
         filters={effectiveFilters}

@@ -533,6 +533,15 @@
         "40-49": "40–49",
         "50+": "50+"
       }
+    },
+    "presets": {
+      "legend": "Préréglages classement",
+      "localTop": "Top {division} {city}",
+      "factionNational": "{faction} {division} {country}",
+      "divisionGlobal": "{division} Global",
+      "local_top": "Top local",
+      "faction_national": "Faction nationale",
+      "division_global": "Division globale"
     }
   },
   "factions": {
@@ -751,6 +760,13 @@
       "sexLabel": "SEXE",
       "ageLabel": "ÂGE",
       "weightLabel": "POIDS (KG)",
+      "locationTitle": "LOCALISATION (OPTIONNEL)",
+      "locationBody": "Pour les préréglages locaux et nationaux. Pas de GPS — tu choisis ce que tu partages.",
+      "cityLabel": "VILLE",
+      "cityPlaceholder": "Paris",
+      "countryLabel": "PAYS",
+      "countryNone": "Non renseigné",
+      "showLocationLabel": "Afficher ma ville sur le classement (désactivé par défaut)",
       "save": "ENREGISTRER",
       "saving": "ENREGISTREMENT...",
       "saved": "Modifications enregistrées.",

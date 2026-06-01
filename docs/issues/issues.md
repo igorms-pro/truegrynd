@@ -26,20 +26,20 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 
 ## Sommaire backlog
 
-| Bloc                                      | Détail dans ce fichier                                                          |
-| ----------------------------------------- | ------------------------------------------------------------------------------- |
-| **`/app/admin` (UGC)**                    | Section **A** — tâches détaillées (+ **A9–A10** IA tri)                         |
-| **Mouvements & prescription**             | Section **G** — catalogue mix + règles création                                 |
-| **Creator Score**                         | Section **B**                                                                   |
-| **Streaks**                               | Section **C**                                                                   |
-| **Respect (leaderboard)**                 | Section **D**                                                                   |
-| **Referral**                              | Section **E**                                                                   |
-| **Confiance & plateforme**                | Section **F**                                                                   |
-| **V1.5 — Pages Faction & symétrie UI**    | Section **I** — arbitrages dock / Clan / Overview                               |
-| **V1.5 — Profil épuré & page Historique** | Section **K** — carrousel CARDS + `/app/profile/history`                        |
-| **Fix & polish pré-V2 (QA V1)**           | Section **J** — flow soumission score / copy CTA                                |
-| **Production hardening (10k users)**      | Section **L** — clean archi, DRY, limites feature                               |
-| **V2 — Accessible competition**           | Section **H** — V2-00 🟢 · V2-01 🟢 · V2-02 🟢 · V2-03 🟢 · **prochaine V2-04** |
+| Bloc                                      | Détail dans ce fichier                                                                                                                                                            |
+| ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`/app/admin` (UGC)**                    | Section **A** — tâches détaillées (+ **A9–A10** IA tri)                                                                                                                           |
+| **Mouvements & prescription**             | Section **G** — catalogue mix + règles création                                                                                                                                   |
+| **Creator Score**                         | Section **B**                                                                                                                                                                     |
+| **Streaks**                               | Section **C**                                                                                                                                                                     |
+| **Respect (leaderboard)**                 | Section **D**                                                                                                                                                                     |
+| **Referral**                              | Section **E**                                                                                                                                                                     |
+| **Confiance & plateforme**                | Section **F**                                                                                                                                                                     |
+| **V1.5 — Pages Faction & symétrie UI**    | Section **I** — arbitrages dock / Clan / Overview                                                                                                                                 |
+| **V1.5 — Profil épuré & page Historique** | Section **K** — carrousel CARDS + `/app/profile/history`                                                                                                                          |
+| **Fix & polish pré-V2 (QA V1)**           | Section **J** — flow soumission score / copy CTA                                                                                                                                  |
+| **Production hardening (10k users)**      | Section **L** — clean archi, DRY, limites feature                                                                                                                                 |
+| **V2 — Accessible competition**           | Section **H** — V2-00 🟢 · V2-01 🟢 · V2-02 🟢 · V2-03 🟢 · **V2-04 🟡** [#79](https://github.com/igorms-pro/truegrynd/issues/79) · `feature/issue-79-v2-04-leaderboard-location` |
 
 **Macro-checklist**
 
@@ -77,7 +77,7 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 - [x] **V2-01** — Divisions de niveau (Rookie / Regular / Savage / Elite) — 🟢 [#73](https://github.com/igorms-pro/truegrynd/issues/73) PR [#74](https://github.com/igorms-pro/truegrynd/pull/74)
 - [x] **V2-02** — Variantes officielles / scaling par challenge — 🟢 [#75](https://github.com/igorms-pro/truegrynd/issues/75) PR [#76](https://github.com/igorms-pro/truegrynd/pull/76)
 - [x] **V2-03** — Weekly Global Challenge — 🟢 [#77](https://github.com/igorms-pro/truegrynd/issues/77) PR [#78](https://github.com/igorms-pro/truegrynd/pull/78)
-- [ ] **V2-04** — Leaderboards par division, faction, ville, pays
+- [ ] **V2-04** — Leaderboards par division, faction, ville, pays — 🟡 [#79](https://github.com/igorms-pro/truegrynd/issues/79) · branche `feature/issue-79-v2-04-leaderboard-location`
 - [ ] **V2-05** — Truegrynd Rating (Engine / Power / Strength / Grit / Consistency)
 - [ ] **V2-06** — Challenge Passport / palmarès amateur
 - [ ] **V2-07** — Rival Matches (1v1 / petits groupes)
@@ -640,7 +640,7 @@ Branche : `chore/issue-69-production-hardening`
 
 ### V2-04. Leaderboards Par Division, Faction, Ville, Pays
 
-- [ ] **Produit** : permettre “Top Rookie Paris”, “Horde Regular France”, “Savage Global”.
+- [ ] **Produit** : permettre “Top Rookie Paris”, “Horde Regular France”, “Savage Global”. — 🟡 [#79](https://github.com/igorms-pro/truegrynd/issues/79)
 - [ ] **Profil** : ajouter ville/pays optionnels ou inférés prudemment (pas de géoloc invasive V2.1).
 - [ ] **DB / query** : index et filtres performants pour division + faction + location.
 - [ ] **UI leaderboard** : presets simples plutôt qu'un panneau de filtres monstrueux.

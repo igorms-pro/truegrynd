@@ -31,6 +31,9 @@ export interface Profile {
   weight_kg: number | null;
   faction: Faction | null;
   division: Division;
+  city: string | null;
+  country_code: string | null;
+  show_location_on_leaderboard: boolean;
   initiation_completed: boolean;
   creator_score: number;
   streak_days: number;
