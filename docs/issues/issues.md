@@ -3,7 +3,7 @@
 > **MVP core livré.** **V1 sérieuse (sections A–G)** : **livré sur `main`** (PR [#30](https://github.com/igorms-pro/truegrynd/pull/30) → [#55](https://github.com/igorms-pro/truegrynd/pull/55)).  
 > **V2** : stratégie dans [docs/V2_STRATEGY.md](../V2_STRATEGY.md). Angle : compétition fitness accessible, divisions de niveau, weekly challenges, équipes/factions, progression amateur.
 
-**Dernière mise à jour :** 1 juin 2026 (post-PR #84 / V2-06)
+**Dernière mise à jour :** 1 juin 2026 (post-PR #93 / V2-09 — lot V2-00–09 complet)
 
 ---
 
@@ -26,20 +26,20 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 
 ## Sommaire backlog
 
-| Bloc                                      | Détail dans ce fichier                                                                                                                                                                                                                                                                                                     |
-| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`/app/admin` (UGC)**                    | Section **A** — tâches détaillées (+ **A9–A10** IA tri)                                                                                                                                                                                                                                                                    |
-| **Mouvements & prescription**             | Section **G** — catalogue mix + règles création                                                                                                                                                                                                                                                                            |
-| **Creator Score**                         | Section **B**                                                                                                                                                                                                                                                                                                              |
-| **Streaks**                               | Section **C**                                                                                                                                                                                                                                                                                                              |
-| **Respect (leaderboard)**                 | Section **D**                                                                                                                                                                                                                                                                                                              |
-| **Referral**                              | Section **E**                                                                                                                                                                                                                                                                                                              |
-| **Confiance & plateforme**                | Section **F**                                                                                                                                                                                                                                                                                                              |
-| **V1.5 — Pages Faction & symétrie UI**    | Section **I** — arbitrages dock / Clan / Overview                                                                                                                                                                                                                                                                          |
-| **V1.5 — Profil épuré & page Historique** | Section **K** — carrousel CARDS + `/app/profile/history`                                                                                                                                                                                                                                                                   |
-| **Fix & polish pré-V2 (QA V1)**           | Section **J** — flow soumission score / copy CTA                                                                                                                                                                                                                                                                           |
-| **Production hardening (10k users)**      | Section **L** — clean archi, DRY, limites feature                                                                                                                                                                                                                                                                          |
-| **V2 — Accessible competition**           | Section **H** — V2-00 🟢 · … · V2-06 🟢 · **V2-07 🟢** [#85](https://github.com/igorms-pro/truegrynd/issues/85) PR4 [#89](https://github.com/igorms-pro/truegrynd/pull/89) · **V2-08 🟢** [#90](https://github.com/igorms-pro/truegrynd/issues/90) · **V2-09 🟡** [#92](https://github.com/igorms-pro/truegrynd/issues/92) |
+| Bloc                                      | Détail dans ce fichier                                                                      |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------- |
+| **`/app/admin` (UGC)**                    | Section **A** — tâches détaillées (+ **A9–A10** IA tri)                                     |
+| **Mouvements & prescription**             | Section **G** — catalogue mix + règles création                                             |
+| **Creator Score**                         | Section **B**                                                                               |
+| **Streaks**                               | Section **C**                                                                               |
+| **Respect (leaderboard)**                 | Section **D**                                                                               |
+| **Referral**                              | Section **E**                                                                               |
+| **Confiance & plateforme**                | Section **F**                                                                               |
+| **V1.5 — Pages Faction & symétrie UI**    | Section **I** — arbitrages dock / Clan / Overview                                           |
+| **V1.5 — Profil épuré & page Historique** | Section **K** — carrousel CARDS + `/app/profile/history`                                    |
+| **Fix & polish pré-V2 (QA V1)**           | Section **J** — flow soumission score / copy CTA                                            |
+| **Production hardening (10k users)**      | Section **L** — clean archi, DRY, limites feature                                           |
+| **V2 — Accessible competition**           | Section **H** — V2-00–09 🟢 · migrations **`022`** **`023`** **`024`** prod · QA V2 globale |
 
 **Macro-checklist**
 
@@ -82,7 +82,7 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 - [x] **V2-06** — Challenge Passport / palmarès amateur — 🟢 [#83](https://github.com/igorms-pro/truegrynd/issues/83) PR [#84](https://github.com/igorms-pro/truegrynd/pull/84) · migration **`020`** prod
 - [x] **V2-07** — Rival Matches (1v1 / petits groupes) — 🟢 [#85](https://github.com/igorms-pro/truegrynd/issues/85) · PR1–3 [#86](https://github.com/igorms-pro/truegrynd/pull/86) [#87](https://github.com/igorms-pro/truegrynd/pull/87) [#88](https://github.com/igorms-pro/truegrynd/pull/88) · PR4 [#89](https://github.com/igorms-pro/truegrynd/pull/89) · migrations **`021`** **`022`** prod
 - [x] **V2-08** — Team Wars / Faction Wars par division — 🟢 [#90](https://github.com/igorms-pro/truegrynd/issues/90) PR [#91](https://github.com/igorms-pro/truegrynd/pull/91) · migration **`023`** prod
-- [ ] **V2-09** — Micro-events async (24h / 7j / 30j) — 🟡 [#92](https://github.com/igorms-pro/truegrynd/issues/92) · branche `feature/issue-92-micro-events` · migration **`024`**
+- [x] **V2-09** — Micro-events async (24h / 7j / 30j) — 🟢 [#92](https://github.com/igorms-pro/truegrynd/issues/92) PR [#93](https://github.com/igorms-pro/truegrynd/pull/93) · migration **`024`** prod
 - [ ] **V2-10** — Proof Levels (Honor / Video / Community / Judge / Event)
 - [ ] **V2-11** — Growth loops (cards, invitations, comeback weeks)
 - [ ] **V2-12** — Monétisation exploratoire (après signal d'usage)
@@ -604,7 +604,7 @@ Branche : `chore/issue-69-production-hardening`
 
 - [ ] **V2-01–03** : divisions, scaling, weekly → compétition **par niveau**, pas par team custom.
 - [x] **V2-08** : Team Wars / Faction Wars **par division** — 🟢 [#90](https://github.com/igorms-pro/truegrynd/issues/90) PR [#91](https://github.com/igorms-pro/truegrynd/pull/91)
-- [ ] **V2-09** : micro-events (Faction War Weekend, etc.).
+- [x] **V2-09** : micro-events (Faction War Weekend, etc.) — 🟢 [#92](https://github.com/igorms-pro/truegrynd/issues/92) PR [#93](https://github.com/igorms-pro/truegrynd/pull/93)
 - [ ] **V2-07** : Rival Matches — duel 1v1 / petit groupe sur défis, **pas** remplacement des 3 factions.
 
 **Prérequis avant de démarrer V2-01 :** section **I (V1.5)** livrée + **section L (#69)** production hardening + QA Clan/faction OK.
@@ -691,7 +691,7 @@ Branche : `chore/issue-69-production-hardening`
 
 ### V2-09. Micro-Events Async
 
-**GitHub :** [#92](https://github.com/igorms-pro/truegrynd/issues/92) · **Branche :** `feature/issue-92-micro-events` · **Statut :** 🟡
+**GitHub :** [#92](https://github.com/igorms-pro/truegrynd/issues/92) · **Statut :** 🟢 **LIVRÉ** · PR [#93](https://github.com/igorms-pro/truegrynd/pull/93) mergée · migration **`024`** (à appliquer prod)
 
 - [x] **Produit** : events 24h / 7j / 30j sans lieu physique : Rookie Week, No Equipment Cup, Faction War Weekend.
 - [x] **DB** : `events`, `event_challenges`, `event_scores`, status — migration **`024`**
@@ -763,10 +763,10 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 | **Fix flow submit (POST SCORE → formulaire)** | 🟢 [#63](https://github.com/igorms-pro/truegrynd/issues/63) PR [#64](https://github.com/igorms-pro/truegrynd/pull/64)                                                                                                                               |
 | **Post-QA polish (#67)**                      | 🟢 [#67](https://github.com/igorms-pro/truegrynd/issues/67) mergé — PR [#68](https://github.com/igorms-pro/truegrynd/pull/68) ; migration **`014`** prod                                                                                            |
 | **Production hardening (#69)**                | 🟢 [#69](https://github.com/igorms-pro/truegrynd/issues/69) PR [#70](https://github.com/igorms-pro/truegrynd/pull/70) — section **L**                                                                                                               |
-| **V2 — Accessible competition**               | 🟢 V2-00–08 · **🟡 V2-09** [#92](https://github.com/igorms-pro/truegrynd/issues/92) branche `feature/issue-92-micro-events` · migrations **`022`** **`023`** **`024`** prod                                                                         |
+| **V2 — Accessible competition**               | 🟢 V2-00–09 [#92](https://github.com/igorms-pro/truegrynd/issues/92) PR [#93](https://github.com/igorms-pro/truegrynd/pull/93) · migrations **`022`** **`023`** **`024`** prod                                                                      |
 | **QA V1**                                     | 🟢 GO (juin 2026) — périmètre critique testé                                                                                                                                                                                                        |
 
-**Suite produit :** ouvrir PR **V2-09** [#92](https://github.com/igorms-pro/truegrynd/issues/92) → appliquer migrations **`022`** **`023`** **`024`** prod · QA V2 globale en fin de lot V2.
+**Suite produit :** appliquer migrations **`022`** **`023`** **`024`** prod → **QA V2 globale** (V2-00–09) → choisir prochain lot (**V2-11** growth / polish ou **V2-10** proof si priorisé).
 
 ---
 
