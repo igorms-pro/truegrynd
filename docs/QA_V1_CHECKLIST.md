@@ -23,13 +23,14 @@ Coche : `[ ]` à faire · `[x]` OK · `[!]` bug (noter en bas)
 
 ## 1. Auth & entrée
 
-| #   | Test                                | Attendu                                                  | EN  | FR  |
-| --- | ----------------------------------- | -------------------------------------------------------- | --- | --- |
-| 1.1 | `/` ou `/en` non connecté           | Redirige vers `/en/auth` (ou locale)                     | [ ] | [ ] |
-| 1.2 | Page auth : magic link              | Formulaire visible, pas de crash                         | [ ] | [ ] |
-| 1.3 | OAuth Google / Apple (si configuré) | Login OK ou erreur claire                                | [ ] | [ ] |
-| 1.4 | Routes protégées sans session       | `/en/app/arena`, `/profile`, `/onboarding` → auth        | [ ] | [ ] |
-| 1.5 | **LOG OUT** (profil → ⚙️ settings)  | Retour auth, session invalidée, routes app inaccessibles | [ ] | [ ] |
+| #    | Test                                        | Attendu                                                      | EN  | FR  |
+| ---- | ------------------------------------------- | ------------------------------------------------------------ | --- | --- |
+| 1.1  | `/` ou `/en` non connecté                   | Redirige vers `/en/auth` (ou locale)                         | [ ] | [ ] |
+| 1.2  | Page auth : magic link                      | Formulaire visible, pas de crash                             | [ ] | [ ] |
+| 1.3  | OAuth Google / Apple (si configuré)         | Login OK ou erreur claire                                    | [ ] | [ ] |
+| 1.4  | Routes protégées sans session               | `/en/app/arena`, `/profile`, `/onboarding` → auth            | [ ] | [ ] |
+| 1.5  | **LOG OUT** (profil → ⚙️ → `/app/settings`) | Retour auth, session invalidée, routes app inaccessibles     | [ ] | [ ] |
+| 1.5b | **Settings** `/app/settings`                | Passeport éditable, unités, export JSON, logout rouge en bas | [ ] | [ ] |
 
 ---
 
