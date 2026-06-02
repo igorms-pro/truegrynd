@@ -139,7 +139,7 @@ Lire [V3_STRATEGY.md](./V3_STRATEGY.md) pour le modèle $100/mo Pro (TV Broadcas
 1. Déployer le teaser passport + monitorer PostHog 14 j
 2. Si seuils OK → issue dédiée Stripe + table `user_cosmetics` + sélecteur frame sur finish page
 3. Si seuils KO → réévaluer premium passport (sections privées) ou amorcer discovery V3 avec 2–3 boxes pilotes
-4. Documenter décision finale dans `issues.md` § V2-12
+4. Documenter décision finale dans `issues.md` (Suivi synthétique) ou issue GitHub dédiée
 
 ---
 
