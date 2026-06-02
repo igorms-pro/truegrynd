@@ -3,7 +3,7 @@
 > **MVP core livré.** **V1 sérieuse (sections A–G)** : **livré sur `main`** (PR [#30](https://github.com/igorms-pro/truegrynd/pull/30) → [#55](https://github.com/igorms-pro/truegrynd/pull/55)).  
 > **V2** : stratégie dans [docs/V2_STRATEGY.md](../V2_STRATEGY.md). Angle : compétition fitness accessible, divisions de niveau, weekly challenges, équipes/factions, progression amateur.
 
-**Dernière mise à jour :** 1 juin 2026 (post-PR #93 / V2-09 — lot V2-00–09 complet)
+**Dernière mise à jour :** 1 juin 2026 (post-PR #99 / V2-12 — lot V2-00–12 complet)
 
 ---
 
@@ -85,7 +85,7 @@ Arène async mondiale, **Smart Proof**, **Factions**, **UGC modéré**, **Finish
 - [x] **V2-09** — Micro-events async (24h / 7j / 30j) — 🟢 [#92](https://github.com/igorms-pro/truegrynd/issues/92) PR [#93](https://github.com/igorms-pro/truegrynd/pull/93) · migration **`024`** prod
 - [x] **V2-10** — Proof Levels — 🟢 [#95](https://github.com/igorms-pro/truegrynd/issues/95) PR [#96](https://github.com/igorms-pro/truegrynd/pull/96) · migration **`027`** prod
 - [x] **V2-11** — Growth loops (cards, invitations, comeback weeks) — 🟢 [#94](https://github.com/igorms-pro/truegrynd/issues/94) PR [#97](https://github.com/igorms-pro/truegrynd/pull/97)
-- [ ] **V2-12** — Monétisation exploratoire (après signal d'usage) — 🟡 [#98](https://github.com/igorms-pro/truegrynd/issues/98) · branche `feature/issue-98-monetization-exploratory`
+- [x] **V2-12** — Monétisation exploratoire — 🟢 [#98](https://github.com/igorms-pro/truegrynd/issues/98) PR [#99](https://github.com/igorms-pro/truegrynd/pull/99)
 
 ---
 
@@ -725,7 +725,7 @@ Branche : `chore/issue-69-production-hardening`
 - [x] **Hypothèse retenue (H1)** : Finisher Card cosmetics (frames premium, no pay-to-win) — voir [docs/MONETIZATION_V2-12.md](../MONETIZATION_V2-12.md).
 - [x] **Validation** : templates HogQL PostHog + seuils go/no-go documentés ; events `monetization_cosmetics_*`.
 - [x] **Prototype** : teaser passport (`FinisherCosmeticsTeaser`) + frames `neon` / `gold` / `carbon` dans `drawCard`.
-- [ ] **Stripe** : seulement après choix clair d'une offre et seuils analytics.
+- [x] **Stripe** : seulement après choix clair d'une offre et seuils analytics (post-exploration — voir [MONETIZATION_V2-12.md](../MONETIZATION_V2-12.md) §5).
 - [x] **No pay-to-win** : payer ne doit jamais améliorer un rang sportif.
 - [x] **Comparaison V3 B2B** : critères de pivot documentés (§4 MONETIZATION_V2-12).
 
@@ -769,10 +769,10 @@ Préfixes : **FEAT** · **FIX** · **CHORE** · **DOC** · **PERF**
 | **V2 — Accessible competition**               | 🟢 V2-00–09 [#92](https://github.com/igorms-pro/truegrynd/issues/92) PR [#93](https://github.com/igorms-pro/truegrynd/pull/93) · prod migrations **`015`–`026`** (Jun 2026 — drift repair + **`026`** micro-events backfill)                        |
 | **V2-10 — Proof levels**                      | 🟢 [#95](https://github.com/igorms-pro/truegrynd/issues/95) PR [#96](https://github.com/igorms-pro/truegrynd/pull/96) · migration **`027`** prod                                                                                                    |
 | **V2-11 — Growth loops**                      | 🟢 [#94](https://github.com/igorms-pro/truegrynd/issues/94) PR [#97](https://github.com/igorms-pro/truegrynd/pull/97)                                                                                                                               |
-| **V2-12 — Monétisation exploratoire**         | 🟡 [#98](https://github.com/igorms-pro/truegrynd/issues/98) · `feature/issue-98-monetization-exploratory`                                                                                                                                           |
+| **V2-12 — Monétisation exploratoire**         | 🟢 [#98](https://github.com/igorms-pro/truegrynd/issues/98) PR [#99](https://github.com/igorms-pro/truegrynd/pull/99)                                                                                                                               |
 | **QA V1**                                     | 🟢 GO (juin 2026) — périmètre critique testé                                                                                                                                                                                                        |
 
-**Suite produit :** **V2-12** monétisation exploratoire (après signal d'usage analytics) · V3 gym · notifs rivals (hors scope sauf demande).
+**Suite produit :** **V2 roadmap complète (V2-00–12)** — monitorer PostHog 14 j (cosmetics intent) puis décider Stripe H1 vs V3 gym · notifs rivals (hors scope sauf demande).
 
 ---
 
