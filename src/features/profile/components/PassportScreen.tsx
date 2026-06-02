@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from 'next-intl';
 
 import { FinisherGallery } from '@/features/finisher-card';
 import { ProfileRatingCard } from '@/features/profile/components/ProfileRatingCard';
+import { FinisherCosmeticsTeaser } from '@/features/profile/components/passport/FinisherCosmeticsTeaser';
 import { PassportBadgesSection } from '@/features/profile/components/passport/PassportBadgesSection';
 import { PassportDivisionSection } from '@/features/profile/components/passport/PassportDivisionSection';
 import { PassportPrivacySection } from '@/features/profile/components/passport/PassportPrivacySection';
@@ -97,6 +98,14 @@ export function PassportScreen() {
       <PassportWeeklySection weeklies={passportData?.weeklies ?? []} loading={dataLoading} />
 
       <PassportRivalsSection wins={passportData?.rivalWins ?? []} loading={dataLoading} />
+
+      {profile.username && profile.faction ? (
+        <FinisherCosmeticsTeaser
+          username={profile.username}
+          faction={profile.faction}
+          division={profile.division}
+        />
+      ) : null}
 
       <FinisherGallery
         userId={profile.id}

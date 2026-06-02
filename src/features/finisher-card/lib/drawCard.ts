@@ -1,5 +1,6 @@
 import type { FinisherCardDrawOptions } from '@/lib/finisher/buildFinisherCardOptions';
 import { getDivisionColor } from '@/lib/divisions';
+import type { FinisherFrameStyle } from '@/lib/finisher/frameStyles';
 import type { Faction } from '@/lib/types/database.types';
 
 type Options = FinisherCardDrawOptions;
@@ -247,6 +248,74 @@ export function drawFinisherCard(canvas: HTMLCanvasElement, options: Options): v
   ctx.fillStyle = muted;
   ctx.font = `900 ${factionSize}px system-ui, -apple-system, Segoe UI, sans-serif`;
   ctx.fillText(truncateToWidth(ctx, factionLabel, maxTextW), textX, factionY);
+
+  drawFinisherFrame(ctx, {
+    innerX,
+    innerY,
+    innerW,
+    innerH,
+    accent,
+    frameStyle: options.frameStyle ?? 'standard',
+    lineWidth: Math.max(2, Math.floor(canvas.width * 0.011)),
+  });
+}
+
+function drawFinisherFrame(
+  ctx: CanvasRenderingContext2D,
+  params: {
+    innerX: number;
+    innerY: number;
+    innerW: number;
+    innerH: number;
+    accent: string;
+    frameStyle: FinisherFrameStyle;
+    lineWidth: number;
+  },
+): void {
+  const { innerX, innerY, innerW, innerH, accent, frameStyle, lineWidth } = params;
+  if (frameStyle === 'standard') return;
+
+  const inset = Math.max(4, Math.floor(innerW * 0.02));
+
+  if (frameStyle === 'neon') {
+    ctx.strokeStyle = accent;
+    ctx.lineWidth = lineWidth * 2;
+    ctx.strokeRect(innerX + inset, innerY + inset, innerW - inset * 2, innerH - inset * 2);
+    ctx.strokeStyle = '#f9fafb';
+    ctx.lineWidth = lineWidth;
+    ctx.strokeRect(innerX + inset * 2, innerY + inset * 2, innerW - inset * 4, innerH - inset * 4);
+    return;
+  }
+
+  if (frameStyle === 'gold') {
+    ctx.strokeStyle = '#ffb800';
+    ctx.lineWidth = lineWidth * 3;
+    ctx.strokeRect(innerX + inset, innerY + inset, innerW - inset * 2, innerH - inset * 2);
+    ctx.fillStyle = 'rgba(255, 184, 0, 0.08)';
+    ctx.fillRect(innerX + inset, innerY + inset, innerW - inset * 2, innerH - inset * 2);
+    return;
+  }
+
+  if (frameStyle === 'carbon') {
+    ctx.strokeStyle = '#3a3a4a';
+    ctx.lineWidth = lineWidth * 2;
+    ctx.strokeRect(innerX + inset, innerY + inset, innerW - inset * 2, innerH - inset * 2);
+    const step = Math.max(8, Math.floor(innerW * 0.04));
+    ctx.strokeStyle = 'rgba(42, 42, 58, 0.6)';
+    ctx.lineWidth = 1;
+    for (let x = innerX + inset; x < innerX + innerW - inset; x += step) {
+      ctx.beginPath();
+      ctx.moveTo(x, innerY + inset);
+      ctx.lineTo(x, innerY + innerH - inset);
+      ctx.stroke();
+    }
+    for (let y = innerY + inset; y < innerY + innerH - inset; y += step) {
+      ctx.beginPath();
+      ctx.moveTo(innerX + inset, y);
+      ctx.lineTo(innerX + innerW - inset, y);
+      ctx.stroke();
+    }
+  }
 }
 
 function formatSeconds(totalSeconds: number): string {

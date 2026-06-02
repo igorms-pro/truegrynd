@@ -1,3 +1,4 @@
+import type { FinisherFrameStyle } from '@/lib/finisher/frameStyles';
 import type { Division, Faction, ScoreType } from '@/lib/types/database.types';
 
 export type FinisherCardDrawOptions = {
@@ -22,6 +23,8 @@ export type FinisherCardDrawOptions = {
   ratingDeltaText?: string;
   /** V2-11: e.g. "+892 WAR PTS". */
   warPointsText?: string;
+  /** V2-12: cosmetic frame (standard free; premium frames exploratory). */
+  frameStyle?: FinisherFrameStyle;
 };
 
 type RankedLabels = {
@@ -89,6 +92,7 @@ type ThumbParams = {
   scoreType: ScoreType;
   scoreValue: number;
   ranked: boolean;
+  frameStyle?: FinisherFrameStyle;
 };
 
 export function buildFinisherCardOptionsThumb(params: ThumbParams): FinisherCardDrawOptions {
@@ -105,6 +109,7 @@ export function buildFinisherCardOptionsThumb(params: ThumbParams): FinisherCard
     scoreType: params.scoreType,
     scoreValue: params.scoreValue,
     topPercent: null,
+    frameStyle: params.frameStyle ?? 'standard',
     ...labels,
   };
 }

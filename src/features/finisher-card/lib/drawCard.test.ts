@@ -13,6 +13,10 @@ function createCanvas(): HTMLCanvasElement {
       fillRect: () => undefined,
       strokeRect: () => undefined,
       fillText: () => undefined,
+      beginPath: () => undefined,
+      moveTo: () => undefined,
+      lineTo: () => undefined,
+      stroke: () => undefined,
       font: '',
       fillStyle: '',
       strokeStyle: '',
@@ -80,5 +84,25 @@ describe('drawFinisherCard', () => {
         weeklyBadge: 'W22 · 2026',
       }),
     ).not.toThrow();
+  });
+
+  it('renders premium frame styles without throwing', () => {
+    const canvas = createCanvas();
+    for (const frameStyle of ['neon', 'gold', 'carbon'] as const) {
+      expect(() =>
+        drawFinisherCard(canvas, {
+          width: 360,
+          height: 640,
+          faction: 'horde',
+          division: 'regular',
+          username: 'grinder',
+          challengeTitle: 'Weekly Grit',
+          scoreType: 'reps',
+          scoreValue: 88,
+          topPercent: 15,
+          frameStyle,
+        }),
+      ).not.toThrow();
+    }
   });
 });

@@ -1,15 +1,3 @@
-Désolé pour le contretemps, l'affichage précédent a dû être corrompu par l'interpréteur de texte.
-
-Voici le lien direct pour télécharger ton fichier proprement au format Markdown, prêt à être poussé sur ton dépôt :
-
-[Télécharger v3_strategy.md](https://www.google.com/search?q=sandbox:/v3_strategy.md)
-
-### Pour le créer directement en ligne de commande dans ton repo :
-
-Si tu es sur ton terminal dans le dossier de ton projet, tu peux aussi simplement exécuter cette commande pour générer le fichier instantanément :
-
-````bash
-cat << 'EOF' > v3_strategy.md
 # Truegrynd V3 Strategy — The Hybrid B2B2C Ecosystem
 
 ## 1. Executive Summary & Thesis
@@ -17,13 +5,13 @@ cat << 'EOF' > v3_strategy.md
 Truegrynd V2 focused on building the ultimate accessible competitive fitness app for individual athletes. V3 introduces the structural pivot to a **B2B2C model**, turning the B2C engagement engine into a Trojan Horse to capture the European Hybrid & Functional Fitness facility market.
 
 **The Market Gap (Europe vs. US):**
-US giants (*Wodify, SugarWOD, BTWB*) were built in 2012–2015 for pure CrossFit (barbells & gymnastics). They are heavy, expensive ($150–$250/mo), act as rigid accounting/booking tools, and completely ignore the explosion of **Hybrid Training & Hyrox-style endurance** (VMA, running pacing, ergs) in Europe. Furthermore, gym management platforms in Europe (*Resawod, Deciplus, Xplor*) are administrative, corporate, and completely devoid of community "vibe".
+US giants (_Wodify, SugarWOD, BTWB_) were built in 2012–2015 for pure CrossFit (barbells & gymnastics). They are heavy, expensive ($150–$250/mo), act as rigid accounting/booking tools, and completely ignore the explosion of **Hybrid Training & Hyrox-style endurance** (VMA, running pacing, ergs) in Europe. Furthermore, gym management platforms in Europe (_Resawod, Deciplus, Xplor_) are administrative, corporate, and completely devoid of community "vibe".
 
 **The Truegrynd V3 Thesis:**
 Gym owners don't want another invoicing tool; they want **community retention and automated session animation**. Truegrynd V3 owns the competitive layer, the community engagement, and the hybrid athletic identity, operating alongside existing booking systems.
 
-* **B2C Objective:** Create user acquisition, athletic identity (*Passport*), and organic growth loops.
-* **B2B Objective:** Monetize affiliates (Gyms, Boxes, Clubs) at **$100/month** by offering automated retention, league competition, and interactive facility animation.
+- **B2C Objective:** Create user acquisition, athletic identity (_Passport_), and organic growth loops.
+- **B2B Objective:** Monetize affiliates (Gyms, Boxes, Clubs) at **$100/month** by offering automated retention, league competition, and interactive facility animation.
 
 ---
 
@@ -32,77 +20,90 @@ Gym owners don't want another invoicing tool; they want **community retention an
 To maintain extreme efficiency as a solopreneur, the platform uses a single unified codebase with **Role-Based Access Control (RBAC)** to route users dynamically:
 
 - **Role: ATHLETE (/app interface)**
-  * Free / Freemium
-  * Passport & Rating
-  * Weekly Challenges
-  * Rival Matches
-  * Generates organic traction
+  - Free / Freemium
+  - Passport & Rating
+  - Weekly Challenges
+  - Rival Matches
+  - Generates organic traction
 
 - **Role: PRO (/pro interface)**
-  * $100/mo subscription
-  * TV Broadcaster Mode
-  * Inter-Gym Leagues
-  * Pacing Automation
-  * Monetizes the structures
+  - $100/mo subscription
+  - TV Broadcaster Mode
+  - Inter-Gym Leagues
+  - Pacing Automation
+  - Monetizes the structures
 
 - **Role: ADMIN (/admin interface)**
-  * Platform control (Your backend)
-  * Global Workout Engine
-  * Audit & Verification
-  * Systems Config
+  - Platform control (Your backend)
+  - Global Workout Engine
+  - Audit & Verification
+  - Systems Config
 
 ---
 
 ## 3. Product Specifications
 
 ### ─── OPTION B2C: L'Arène (The Athlete Interface) ───
-*Focus: Frictionless score submission, status progression, and social loops.*
+
+_Focus: Frictionless score submission, status progression, and social loops._
 
 #### 1. The Hybrid Passport & Multi-Axis Rating
-* **Truegrynd Rating:** Evaluates performance across 5 native axes (*Engine, Power, Strength, Grit, Consistency*).
-* **Cardio-Ready Engine:** The *Engine* metric captures running performance benchmarks (e.g., VMA, 5K/10K times) to contextualize the athlete's aerobic engine without requiring real-time GPS tracking.
-* **The Passport:** Digital athletic résumé showcasing reached divisions, historical metrics, earned badges, and verified match history.
+
+- **Truegrynd Rating:** Evaluates performance across 5 native axes (_Engine, Power, Strength, Grit, Consistency_).
+- **Cardio-Ready Engine:** The _Engine_ metric captures running performance benchmarks (e.g., VMA, 5K/10K times) to contextualize the athlete's aerobic engine without requiring real-time GPS tracking.
+- **The Passport:** Digital athletic résumé showcasing reached divisions, historical metrics, earned badges, and verified match history.
 
 #### 2. Lean Score Submission & Anti-Cheat Proof Levels
+
 To scale without human moderation, tracking is decentralized via layered proof:
-* **Honor Level:** Simple manual text entry. Fits casual users who want to compare against peers without leaderboard pressure.
-* **Community Verified:** User pastes a public workout link (Strava, Garmin, Nike Run) or uploads a picture of the machine console/smartwatch screen.
-* **Judge Verified:** One-click validation by an affiliated coach or gym owner through their Pro Dashboard. Automatically upgrades the score to premium global ranking status.
+
+- **Honor Level:** Simple manual text entry. Fits casual users who want to compare against peers without leaderboard pressure.
+- **Community Verified:** User pastes a public workout link (Strava, Garmin, Nike Run) or uploads a picture of the machine console/smartwatch screen.
+- **Judge Verified:** One-click validation by an affiliated coach or gym owner through their Pro Dashboard. Automatically upgrades the score to premium global ranking status.
 
 #### 3. Equipment-Agnostic Scaling Engine
+
 Challenges are designed to be inclusive, offering 3 standardized official scaling options based on available infrastructure:
-* *No Equipment:* Bodyweight, outdoor running, park-ready.
-* *Light Equipment:* Home-gym setups, dumbbells, kettlebells.
-* *Full Gym:* Access to functional fitness boxes, ergs (Row/Ski/Bike), and barbell stations.
+
+- _No Equipment:_ Bodyweight, outdoor running, park-ready.
+- _Light Equipment:_ Home-gym setups, dumbbells, kettlebells.
+- _Full Gym:_ Access to functional fitness boxes, ergs (Row/Ski/Bike), and barbell stations.
 
 #### 4. Growth Loops
-* **Rival Matches:** Automated 1v1 matchmaker pairings against users in the same division with similar Truegrynd Ratings.
-* **Finisher Cards:** High-quality, automated Instagram Story-ready image generation at the completion of weekly events (*"Top 12% Regular — Grit Engine Challenge"*).
+
+- **Rival Matches:** Automated 1v1 matchmaker pairings against users in the same division with similar Truegrynd Ratings.
+- **Finisher Cards:** High-quality, automated Instagram Story-ready image generation at the completion of weekly events (_"Top 12% Regular — Grit Engine Challenge"_).
 
 ### ─── OPTION B2B: L'Espace Pro (Truegrynd Business) ───
-*Focus: Value-driven features justifying the $100/mo fee by saving coaches' time and entertaining members.*
+
+_Focus: Value-driven features justifying the $100/mo fee by saving coaches' time and entertaining members._
 
 #### 1. TV Broadcaster Mode
-* An optimized, read-only web interface meant to be cast on facilities' large television screens.
-* **Live Arena Effect:** When an athlete submits their score on their personal app in the locker room or gym floor, the TV screen instantly animates, updates the daily local leaderboard, and triggers visual cues representing their faction/team. It replaces the old-school whiteboard with a premium, live sports-broadcast aesthetic.
+
+- An optimized, read-only web interface meant to be cast on facilities' large television screens.
+- **Live Arena Effect:** When an athlete submits their score on their personal app in the locker room or gym floor, the TV screen instantly animates, updates the daily local leaderboard, and triggers visual cues representing their faction/team. It replaces the old-school whiteboard with a premium, live sports-broadcast aesthetic.
 
 #### 2. Inter-Box & Inter-Gym Leagues
-* Affiliated gyms can opt-into local, national, or regional digital leagues directly from the dashboard.
-* Truegrynd automates friendly club-vs-club matches (e.g., *Box Antibes vs. Box Marseille*). Gym performance scores are calculated using member averages across scaling groups. This converts isolated, solo workouts into high-retention club pride.
+
+- Affiliated gyms can opt-into local, national, or regional digital leagues directly from the dashboard.
+- Truegrynd automates friendly club-vs-club matches (e.g., _Box Antibes vs. Box Marseille_). Gym performance scores are calculated using member averages across scaling groups. This converts isolated, solo workouts into high-retention club pride.
 
 #### 3. The Judge Console (One-Click Verification)
-* A specialized feed aggregating all scores submitted by members assigned to that specific gym.
-* Coaches can quickly review and click "Verify" on performances they witnessed on the floor. This immediately pushes the athlete's score to the highest rank on global boards, valuing both the coach's local authority and the athlete's effort.
+
+- A specialized feed aggregating all scores submitted by members assigned to that specific gym.
+- Coaches can quickly review and click "Verify" on performances they witnessed on the floor. This immediately pushes the athlete's score to the highest rank on global boards, valuing both the coach's local authority and the athlete's effort.
 
 #### 4. Automated Hybrid Pacing Assistant
-* Programming hybrid workouts is notoriously difficult for coaches because running/rowing capacities vary heavily per member.
-* **The Feature:** The coach inputs a workout layout (e.g., *3x 1000m Run + 50 Wall Balls*). Truegrynd Pro pulls individual athlete data from their *Passports* and automatically displays targeted, customized splits and pacing strategies directly inside the athletes' apps (e.g., *"Your target split for interval 1: 4m15s"*). The coach delivers advanced individual programming in 2 clicks.
+
+- Programming hybrid workouts is notoriously difficult for coaches because running/rowing capacities vary heavily per member.
+- **The Feature:** The coach inputs a workout layout (e.g., _3x 1000m Run + 50 Wall Balls_). Truegrynd Pro pulls individual athlete data from their _Passports_ and automatically displays targeted, customized splits and pacing strategies directly inside the athletes' apps (e.g., _"Your target split for interval 1: 4m15s"_). The coach delivers advanced individual programming in 2 clicks.
 
 ---
 
 ## 4. Engineering & Database Blueprint
 
 ### Relational Schema Foundations
+
 To implement this cleanly, the schema uses explicit relations tying athletes to their physical facilities:
 
 ```sql
@@ -128,8 +129,7 @@ CREATE TABLE public.gyms (
 ALTER TABLE public.scores ADD COLUMN proof_status proof_level DEFAULT 'honor';
 ALTER TABLE public.scores ADD COLUMN verified_by_coach_id UUID REFERENCES public.profiles(id);
 ALTER TABLE public.scores ADD COLUMN proof_url TEXT; -- image or external strava link
-
-````
+```
 
 ### Security & Multi-Tenancy (Row-Level Security)
 
@@ -151,7 +151,6 @@ USING (
         AND profiles.affiliated_gym_id = scores.gym_id
     )
 );
-
 ```
 
 ---
@@ -174,8 +173,3 @@ By combining highly defensible B2B enterprise revenue (SaaS cash-flow with <2% m
 - Major functional fitness/Hyrox events organizers needing a 52-week top-of-funnel platform.
 - Multi-facility fitness franchises wanting proprietary gamification technology to increase membership retention.
 - Emerging apparel or fitness equipment manufacturers looking to acquire a captive, highly qualified athletic data marketplace in Europe.
-  EOF
-
-```
-
-```
