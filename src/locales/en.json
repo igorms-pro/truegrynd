@@ -1061,6 +1061,20 @@
           "finishers": "Finisher card gallery",
           "rivalWins": "Rival match wins"
         }
+      },
+      "cosmetics": {
+        "kicker": "COMING SOON",
+        "title": "FINISHER STYLES",
+        "body": "Premium card frames for your shares — same score, louder look. Help us pick what ships first.",
+        "noPayToWin": "Rank and leaderboard access stay free. Cosmetics change visuals only.",
+        "interestCta": "NOTIFY ME",
+        "interestDone": "ON THE LIST",
+        "frames": {
+          "standard": "STANDARD",
+          "neon": "NEON",
+          "gold": "GOLD",
+          "carbon": "CARBON"
+        }
       }
     },
     "header": {

@@ -1061,6 +1061,20 @@
           "finishers": "Galerie finisher cards",
           "rivalWins": "Victoires en rival match"
         }
+      },
+      "cosmetics": {
+        "kicker": "BIENTÔT",
+        "title": "STYLES FINISHER",
+        "body": "Cadres premium pour tes partages — même score, look plus fort. Aide-nous à prioriser.",
+        "noPayToWin": "Rang et leaderboard restent gratuits. Les cosmetics ne changent que le visuel.",
+        "interestCta": "ME TENIR AU COURANT",
+        "interestDone": "INSCRIT",
+        "frames": {
+          "standard": "STANDARD",
+          "neon": "NÉON",
+          "gold": "OR",
+          "carbon": "CARBONE"
+        }
       }
     },
     "header": {
