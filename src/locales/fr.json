@@ -905,7 +905,16 @@
     "download": "TÉLÉCHARGER",
     "share": "PARTAGER",
     "backToArena": "RETOUR À L'ARÈNE",
-    "viewProof": "VOIR LA VIDÉO PREUVE"
+    "viewProof": "VOIR LA VIDÉO PREUVE",
+    "cardMetricTime": "TEMPS (MM:SS)",
+    "cardMetricReps": "REPS",
+    "cardSaved": "ENREGISTRÉ",
+    "cardRanked": "CLASSÉ",
+    "cardTop": "TOP",
+    "cardSubNoVideo": "NON CLASSÉ · SANS VIDÉO",
+    "cardSubValidated": "VALIDÉ",
+    "cardSubWorldwide": "MONDIAL · VALIDÉ",
+    "cardTagline": "J'AI MARQUÉ POUR {target}"
   },
   "profile": {
     "loading": "Chargement du profil...",

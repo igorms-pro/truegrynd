@@ -905,7 +905,16 @@
     "download": "DOWNLOAD",
     "share": "SHARE",
     "backToArena": "BACK TO ARENA",
-    "viewProof": "VIEW PROOF VIDEO"
+    "viewProof": "VIEW PROOF VIDEO",
+    "cardMetricTime": "TIME (MM:SS)",
+    "cardMetricReps": "REPS",
+    "cardSaved": "SAVED",
+    "cardRanked": "RANKED",
+    "cardTop": "TOP",
+    "cardSubNoVideo": "NOT RANKED (NO VIDEO)",
+    "cardSubValidated": "VALIDATED",
+    "cardSubWorldwide": "WORLDWIDE (VALIDATED)",
+    "cardTagline": "I SCORED FOR {target}"
   },
   "profile": {
     "loading": "Loading profile...",

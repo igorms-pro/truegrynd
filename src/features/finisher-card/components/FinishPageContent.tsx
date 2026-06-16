@@ -8,6 +8,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import { FinisherCardActions } from '@/features/finisher-card/components/FinisherCardActions';
 import { drawFinisherCard } from '@/features/finisher-card/lib/drawCard';
 import { useFinisherCard } from '@/features/finisher-card/hooks/useFinisherCard';
+import { useFinisherCardLabels } from '@/features/finisher-card/hooks/useFinisherCardLabels';
 import { buildFinisherCardOptionsFull } from '@/lib/finisher';
 
 export function FinishPageContent() {
@@ -15,6 +16,7 @@ export function FinishPageContent() {
   const locale = useLocale();
   const searchParams = useSearchParams();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const cardLabels = useFinisherCardLabels();
 
   const ranked = searchParams.get('ranked') === 'true';
   const scoreId = searchParams.get('scoreId');
@@ -39,8 +41,9 @@ export function FinishPageContent() {
       warPointsText: ready.warPointsText ?? undefined,
       ranked,
       isValidated: ready.score.is_validated,
+      labels: cardLabels,
     });
-  }, [ranked, state]);
+  }, [cardLabels, ranked, state]);
 
   useEffect(() => {
     const canvas = canvasRef.current;

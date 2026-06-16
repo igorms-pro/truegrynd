@@ -4,5 +4,16 @@
     "tagline": "競え。証明しろ。支配しろ。",
     "loading": "読み込み中...",
     "languageSwitcherLabel": "言語を変更"
+  },
+  "finisher": {
+    "cardMetricTime": "タイム (MM:SS)",
+    "cardMetricReps": "回数",
+    "cardSaved": "保存済み",
+    "cardRanked": "ランク入り",
+    "cardTop": "トップ",
+    "cardSubNoVideo": "ランク外 · 動画なし",
+    "cardSubValidated": "検証済み",
+    "cardSubWorldwide": "世界 · 検証済み",
+    "cardTagline": "{target} のために記録"
   }
 }

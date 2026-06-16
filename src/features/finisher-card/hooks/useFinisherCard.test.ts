@@ -41,6 +41,14 @@ vi.mock('@/features/appshell', () => ({
   useRequireAppAccess: () => useRequireAppAccessMock(),
 }));
 
+vi.mock('next-intl', () => {
+  // Stable `t` reference across renders (real next-intl memoizes it). An
+  // unstable one would re-fire the hook's effect every render and hang the test.
+  const t = (key: string, vars?: Record<string, unknown>) =>
+    vars?.target ? `${key} ${String(vars.target)}` : key;
+  return { useTranslations: () => t };
+});
+
 const profile = {
   id: 'user-1',
   username: 'grinder',

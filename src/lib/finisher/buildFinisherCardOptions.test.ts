@@ -3,9 +3,21 @@ import { describe, expect, it } from 'vitest';
 import {
   buildFinisherCardOptionsFull,
   buildFinisherCardOptionsThumb,
+  type FinisherCardLabels,
 } from '@/lib/finisher/buildFinisherCardOptions';
 
 describe('buildFinisherCardOptions', () => {
+  const labels: FinisherCardLabels = {
+    metricTime: 'TIME (MM:SS)',
+    metricReps: 'REPS',
+    saved: 'SAVED',
+    ranked: 'RANKED',
+    top: 'TOP',
+    subNoVideo: 'NOT RANKED (NO VIDEO)',
+    subValidated: 'VALIDATED',
+    subWorldwide: 'WORLDWIDE (VALIDATED)',
+  };
+
   const base = {
     faction: 'nomads' as const,
     division: 'rookie' as const,
@@ -13,6 +25,7 @@ describe('buildFinisherCardOptions', () => {
     challengeTitle: 'Burpee test',
     scoreType: 'reps' as const,
     scoreValue: 50,
+    labels,
   };
 
   it('builds full-size canvas options', () => {
@@ -26,6 +39,7 @@ describe('buildFinisherCardOptions', () => {
     expect(opts.height).toBe(1920);
     expect(opts.topPercent).toBe(5);
     expect(opts.rankTextOverride).toBe('TOP 5%');
+    expect(opts.metricLabel).toBe('REPS');
   });
 
   it('builds thumb preview options without top percent', () => {

@@ -4,5 +4,16 @@
     "tagline": "Compete. Prova. Domina.",
     "loading": "A carregar...",
     "languageSwitcherLabel": "Mudar idioma"
+  },
+  "finisher": {
+    "cardMetricTime": "TEMPO (MM:SS)",
+    "cardMetricReps": "REPS",
+    "cardSaved": "GUARDADO",
+    "cardRanked": "CLASSIFICADO",
+    "cardTop": "TOP",
+    "cardSubNoVideo": "NÃO CLASSIFICADO · SEM VÍDEO",
+    "cardSubValidated": "VALIDADO",
+    "cardSubWorldwide": "MUNDIAL · VALIDADO",
+    "cardTagline": "PONTUEI PARA {target}"
   }
 }

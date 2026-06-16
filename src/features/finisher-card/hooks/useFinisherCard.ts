@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useRequireAppAccess } from '@/features/appshell';
@@ -10,11 +11,7 @@ import {
 } from '@/features/finisher-card/services/growthExtras';
 import { getScoreById } from '@/features/finisher-card/services/scores';
 import { resolveWeeklyDisplayLabel } from '@/features/overview/hooks/useWeeklyChallenge';
-import {
-  buildFinisherTagline,
-  formatRatingDelta,
-  formatWarPoints,
-} from '@/lib/growth/finisherTagline';
+import { formatRatingDelta, formatWarPoints } from '@/lib/growth/finisherTagline';
 import { getChallengeById } from '@/lib/challenges';
 import { formatTopPercent, getRankCounts, percentileFromCounts } from '@/lib/rank';
 import { getWeeklyChallengeForChallengeId } from '@/lib/weekly';
@@ -69,6 +66,7 @@ async function loadTopPercent(
 
 export function useFinisherCard(params: Params): FinisherCardState & { retry: () => void } {
   const access = useRequireAppAccess();
+  const t = useTranslations('finisher');
   const [state, setState] = useState<InnerState>({ status: 'loading' });
   const [reloadKey, setReloadKey] = useState(0);
 
@@ -149,7 +147,9 @@ export function useFinisherCard(params: Params): FinisherCardState & { retry: ()
           division,
           weeklyBadge,
           eventBadge,
-          tagline: buildFinisherTagline(faction, division),
+          tagline: t('cardTagline', {
+            target: `${faction.replace('_', ' ').toUpperCase()} ${division.toUpperCase()}`,
+          }),
           ratingDeltaText: ratingDelta !== null ? formatRatingDelta(ratingDelta) : null,
           warPointsText: warPoints !== null ? formatWarPoints(warPoints) : null,
         });
@@ -170,6 +170,7 @@ export function useFinisherCard(params: Params): FinisherCardState & { retry: ()
     params.ranked,
     params.scoreId,
     reloadKey,
+    t,
     userId,
   ]);
 
