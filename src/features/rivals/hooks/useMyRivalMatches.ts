@@ -1,19 +1,18 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import {
   listMyRivalMatches,
   respondRivalMatchInvite,
   type RivalMatchView,
 } from '@/features/rivals/services/rivalMatches';
+import { useAsyncResource } from '@/hooks/useAsyncResource';
 
 type State =
   | { status: 'loading'; matches: null; error: null }
   | { status: 'error'; matches: null; error: string }
   | { status: 'ready'; matches: RivalMatchView[]; error: null };
-
-const initial: State = { status: 'loading', matches: null, error: null };
 
 export function useMyRivalMatches(userId: string | null): {
   state: State;
@@ -22,33 +21,21 @@ export function useMyRivalMatches(userId: string | null): {
   respond: (matchId: string, accept: boolean) => Promise<void>;
   respondingId: string | null;
 } {
-  const [state, setState] = useState<State>(initial);
-  const [reloadKey, setReloadKey] = useState(0);
   const [respondingId, setRespondingId] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!userId) return undefined;
+  const { state: resource, refetch } = useAsyncResource<RivalMatchView[]>(
+    () => listMyRivalMatches(userId as string),
+    [userId],
+    { enabled: userId !== null },
+  );
 
-    let cancelled = false;
-    void (async () => {
-      try {
-        const matches = await listMyRivalMatches(userId);
-        if (!cancelled) setState({ status: 'ready', matches, error: null });
-      } catch (e: unknown) {
-        const message = e instanceof Error ? e.message : 'unknown';
-        if (!cancelled) setState({ status: 'error', matches: null, error: message });
-      }
-    })();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [reloadKey, userId]);
-
-  const refetch = useCallback(() => {
-    setState(initial);
-    setReloadKey((key) => key + 1);
-  }, []);
+  const state = useMemo<State>(() => {
+    if (resource.status === 'ready')
+      return { status: 'ready', matches: resource.data, error: null };
+    if (resource.status === 'error')
+      return { status: 'error', matches: null, error: resource.message };
+    return { status: 'loading', matches: null, error: null };
+  }, [resource]);
 
   const respond = useCallback(
     async (matchId: string, accept: boolean) => {

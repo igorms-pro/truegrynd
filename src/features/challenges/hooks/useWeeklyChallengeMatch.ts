@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 
+import { useAsyncResource } from '@/hooks/useAsyncResource';
 import { getWeeklyChallengeForChallengeId, type ActiveWeeklyChallenge } from '@/lib/weekly';
 
 type State =
@@ -9,24 +10,15 @@ type State =
   | { status: 'ready'; weekly: ActiveWeeklyChallenge | null };
 
 export function useWeeklyChallengeMatch(challengeId: string): State {
-  const [state, setState] = useState<State>({ status: 'loading', weekly: null });
+  const { state: resource } = useAsyncResource<ActiveWeeklyChallenge | null>(
+    () => getWeeklyChallengeForChallengeId(challengeId),
+    [challengeId],
+  );
 
-  useEffect(() => {
-    let cancelled = false;
-
-    void (async () => {
-      try {
-        const weekly = await getWeeklyChallengeForChallengeId(challengeId);
-        if (!cancelled) setState({ status: 'ready', weekly });
-      } catch {
-        if (!cancelled) setState({ status: 'ready', weekly: null });
-      }
-    })();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [challengeId]);
-
-  return state;
+  return useMemo<State>(() => {
+    if (resource.status === 'ready') return { status: 'ready', weekly: resource.data };
+    // A failed lookup is non-fatal: behave as "no weekly match" (was a swallowed catch).
+    if (resource.status === 'error') return { status: 'ready', weekly: null };
+    return { status: 'loading', weekly: null };
+  }, [resource]);
 }

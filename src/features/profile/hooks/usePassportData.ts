@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useMemo } from 'react';
 
 import {
   divisionsReached,
@@ -13,6 +13,7 @@ import {
   type RivalWin,
   type WeeklyCompletion,
 } from '@/features/profile/services/passport';
+import { useAsyncResource } from '@/hooks/useAsyncResource';
 import type { Division } from '@/lib/types/database.types';
 
 type PassportData = {
@@ -28,54 +29,36 @@ type State =
   | { status: 'ready'; data: PassportData; error: null }
   | { status: 'error'; data: null; error: string };
 
-const initial: State = { status: 'loading', data: null, error: null };
-
 export function usePassportData(
   userId: string | null,
   currentDivision: Division | null,
 ): { state: State; refetch: () => void } {
-  const [state, setState] = useState<State>(initial);
-  const [reloadKey, setReloadKey] = useState(0);
+  const { state: resource, refetch } = useAsyncResource<PassportData>(
+    async () => {
+      const [history, topScores, weeklies, rivalWins] = await Promise.all([
+        fetchProfileRatingHistory(userId as string),
+        fetchPassportTopScores(userId as string),
+        listWeeklyCompletions(userId as string),
+        listRivalWins(userId as string),
+      ]);
+      return {
+        history,
+        topScores,
+        weeklies,
+        rivalWins,
+        divisions: divisionsReached(currentDivision as Division, history),
+      };
+    },
+    [userId, currentDivision],
+    { enabled: userId !== null && currentDivision !== null },
+  );
 
-  useEffect(() => {
-    if (!userId || !currentDivision) return undefined;
-
-    let cancelled = false;
-    void (async () => {
-      try {
-        const [history, topScores, weeklies, rivalWins] = await Promise.all([
-          fetchProfileRatingHistory(userId),
-          fetchPassportTopScores(userId),
-          listWeeklyCompletions(userId),
-          listRivalWins(userId),
-        ]);
-        if (cancelled) return;
-        setState({
-          status: 'ready',
-          data: {
-            history,
-            topScores,
-            weeklies,
-            rivalWins,
-            divisions: divisionsReached(currentDivision, history),
-          },
-          error: null,
-        });
-      } catch (e: unknown) {
-        const message = e instanceof Error ? e.message : 'unknown';
-        if (!cancelled) setState({ status: 'error', data: null, error: message });
-      }
-    })();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [currentDivision, reloadKey, userId]);
-
-  const refetch = useCallback(() => {
-    setState(initial);
-    setReloadKey((k) => k + 1);
-  }, []);
+  const state = useMemo<State>(() => {
+    if (resource.status === 'ready') return { status: 'ready', data: resource.data, error: null };
+    if (resource.status === 'error')
+      return { status: 'error', data: null, error: resource.message };
+    return { status: 'loading', data: null, error: null };
+  }, [resource]);
 
   return { state, refetch };
 }

@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 
+import { useAsyncResource } from '@/hooks/useAsyncResource';
 import { getActiveEvents, type ActiveEventSummary } from '@/lib/events/getActiveEvents';
 
 type State =
@@ -10,32 +11,17 @@ type State =
   | { status: 'error'; events: ActiveEventSummary[]; error: string };
 
 export function useActiveEvents(): { state: State; refetch: () => void } {
-  const [state, setState] = useState<State>({ status: 'loading', events: [], error: null });
-  const [reloadKey, setReloadKey] = useState(0);
+  const { state: resource, refetch } = useAsyncResource<ActiveEventSummary[]>(
+    () => getActiveEvents(),
+    [],
+  );
 
-  useEffect(() => {
-    let cancelled = false;
+  const state = useMemo<State>(() => {
+    if (resource.status === 'ready') return { status: 'ready', events: resource.data, error: null };
+    if (resource.status === 'error')
+      return { status: 'error', events: [], error: resource.message };
+    return { status: 'loading', events: [], error: null };
+  }, [resource]);
 
-    void (async () => {
-      try {
-        const events = await getActiveEvents();
-        if (!cancelled) setState({ status: 'ready', events, error: null });
-      } catch (e: unknown) {
-        const message = e instanceof Error ? e.message : 'unknown';
-        if (!cancelled) setState({ status: 'error', events: [], error: message });
-      }
-    })();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [reloadKey]);
-
-  return {
-    state,
-    refetch: () => {
-      setState({ status: 'loading', events: [], error: null });
-      setReloadKey((k) => k + 1);
-    },
-  };
+  return { state, refetch };
 }

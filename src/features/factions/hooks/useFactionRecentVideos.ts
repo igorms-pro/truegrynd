@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 
 import {
   listRecentFactionVideos,
   type FactionProofRow,
 } from '@/features/factions/services/clanHud';
+import { useAsyncResource } from '@/hooks/useAsyncResource';
 import type { Faction } from '@/lib/types/database.types';
 
 type State =
@@ -14,23 +15,15 @@ type State =
   | { status: 'error'; rows: [] };
 
 export function useFactionRecentVideos(faction: Faction | null): State {
-  const [state, setState] = useState<State>({ status: 'loading', rows: [] });
+  const { state: resource } = useAsyncResource<FactionProofRow[]>(
+    () => listRecentFactionVideos(faction as Faction),
+    [faction],
+    { enabled: faction !== null },
+  );
 
-  useEffect(() => {
-    if (!faction) return undefined;
-    let cancelled = false;
-    void (async () => {
-      try {
-        const rows = await listRecentFactionVideos(faction);
-        if (!cancelled) setState({ status: 'ready', rows });
-      } catch {
-        if (!cancelled) setState({ status: 'error', rows: [] });
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [faction]);
-
-  return state;
+  return useMemo<State>(() => {
+    if (resource.status === 'ready') return { status: 'ready', rows: resource.data };
+    if (resource.status === 'error') return { status: 'error', rows: [] };
+    return { status: 'loading', rows: [] };
+  }, [resource]);
 }

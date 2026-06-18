@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useMemo } from 'react';
 
 import { useOptionalAppProfile } from '@/features/appshell/context/AppProfileContext';
 import { parseFactionSlug } from '@/features/factions/lib/factionSlug';
@@ -10,6 +10,7 @@ import {
   type FactionRow,
   type MemberRow,
 } from '@/features/factions/services/clanHud';
+import { useAsyncResource } from '@/hooks/useAsyncResource';
 import type { Faction } from '@/lib/types/database.types';
 
 type ReadyState = ClanHudData & {
@@ -24,69 +25,37 @@ type State =
   | { status: 'invalid'; faction: null; rankings: null; members: null; error: null }
   | { status: 'error'; faction: Faction | null; rankings: null; members: null; error: string };
 
-const initial: State = {
-  status: 'loading',
-  faction: null,
-  rankings: null,
-  members: null,
-  error: null,
-};
-
 export function useFactionPage(slug: string): { state: State; refetch: () => void } {
   const parsed = parseFactionSlug(slug);
   const appProfile = useOptionalAppProfile();
-  const [state, setState] = useState<State>(initial);
-  const [reloadKey, setReloadKey] = useState(0);
 
-  useEffect(() => {
-    if (!parsed || !appProfile?.division) return;
+  const { state: resource, refetch } = useAsyncResource<ClanHudData>(
+    () =>
+      getClanHudData({
+        faction: parsed as Faction,
+        division: appProfile!.division,
+        userId: appProfile!.id,
+        limit: 10,
+      }),
+    [parsed, appProfile],
+    { enabled: parsed !== null && Boolean(appProfile?.division) },
+  );
 
-    let cancelled = false;
-    void (async () => {
-      try {
-        const data = await getClanHudData({
-          faction: parsed,
-          division: appProfile.division,
-          userId: appProfile.id,
-          limit: 10,
-        });
-        if (cancelled) return;
-        setState({
-          status: 'ready',
-          faction: parsed,
-          ...data,
-          error: null,
-        });
-      } catch (e: unknown) {
-        const message = e instanceof Error ? e.message : 'unknown';
-        if (!cancelled) {
-          setState({
-            status: 'error',
-            faction: parsed,
-            rankings: null,
-            members: null,
-            error: message,
-          });
-        }
-      }
-    })();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [parsed, appProfile, reloadKey]);
-
-  const refetch = useCallback(() => {
-    setState(initial);
-    setReloadKey((k) => k + 1);
-  }, []);
-
-  if (!parsed) {
-    return {
-      state: { status: 'invalid', faction: null, rankings: null, members: null, error: null },
-      refetch,
-    };
-  }
+  const state = useMemo<State>(() => {
+    if (!parsed)
+      return { status: 'invalid', faction: null, rankings: null, members: null, error: null };
+    if (resource.status === 'ready')
+      return { status: 'ready', faction: parsed, ...resource.data, error: null };
+    if (resource.status === 'error')
+      return {
+        status: 'error',
+        faction: parsed,
+        rankings: null,
+        members: null,
+        error: resource.message,
+      };
+    return { status: 'loading', faction: parsed, rankings: null, members: null, error: null };
+  }, [parsed, resource]);
 
   return { state, refetch };
 }
