@@ -128,6 +128,21 @@ export interface Profile {
   avatar_url: string | null;
   is_admin: boolean;
   role: UserRole;
+  /** V3-01: gym this profile trains at (NULL = unaffiliated / B2C default). */
+  affiliated_gym_id: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+/** Mirrors the `gyms` table (V3-01). A B2B2C facility owned by a gym_admin. */
+export interface Gym {
+  id: string;
+  name: string;
+  slug: string;
+  /** The gym_admin who manages this gym (NULL if the owner profile was deleted). */
+  owner_id: string | null;
+  city: string | null;
+  country_code: string | null;
   created_at: string;
   updated_at: string;
 }
