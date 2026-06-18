@@ -93,21 +93,12 @@ export function PassportScreen() {
       id: 'activity',
       label: tTabs('activity'),
       content: (
-        <>
-          {profile.username && profile.faction ? (
-            <FinisherCosmeticsTeaser
-              username={profile.username}
-              faction={profile.faction}
-              division={profile.division}
-            />
-          ) : null}
-          <FinisherGallery
-            userId={profile.id}
-            username={profile.username}
-            faction={profile.faction}
-            division={profile.division}
-          />
-        </>
+        <FinisherGallery
+          userId={profile.id}
+          username={profile.username}
+          faction={profile.faction}
+          division={profile.division}
+        />
       ),
     },
     {
@@ -134,6 +125,14 @@ export function PassportScreen() {
       <PassportShareBar publicPath={publicPath} />
 
       <Tabs tabs={tabs} ariaLabel={t('title')} />
+
+      {profile.username && profile.faction ? (
+        <FinisherCosmeticsTeaser
+          username={profile.username}
+          faction={profile.faction}
+          division={profile.division}
+        />
+      ) : null}
 
       <PassportPrivacySection profile={profile} onSaved={refetchProfile} />
     </section>
