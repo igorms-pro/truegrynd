@@ -164,7 +164,18 @@
     "noFactionCta": "ALLER À L’ONBOARDING",
     "eventsTitle": "MICRO-ÉVÉNEMENTS",
     "eventsEmpty": "Aucun événement actif pour l’instant.",
-    "eventsCta": "VOIR TOUS LES ÉVÉNEMENTS"
+    "eventsCta": "VOIR TOUS LES ÉVÉNEMENTS",
+    "heroRating": "RATING",
+    "heroRatingHint": "Ton score global de compétiteur.",
+    "heroPrimaryWeekly": "POSTER TON SCORE HEBDO",
+    "factionStandingTitle": "CLASSEMENT FACTION",
+    "factionRankLabel": "RANG",
+    "factionPointsLabel": "POINTS",
+    "factionGapToFirst": "À {gap} pts du #1",
+    "factionLeadingBy": "En tête · +{gap} pts d’avance",
+    "factionYourShare": "Ta part · {points} pts",
+    "factionMembersLabel": "{count} combattants",
+    "viewFactionAria": "Voir le détail de ta faction"
   },
   "clan": {
     "subtitle": "Ta faction est une arme. Utilise-la.",
@@ -229,7 +240,17 @@
     "youBadge": "TOI",
     "yourProfileLinkAria": "Ton profil",
     "memberProfileLinkAria": "Voir le profil de {username}",
-    "ctaArena": "POSTER UN SCORE"
+    "ctaArena": "POSTER UN SCORE",
+    "standingsTitle": "CLASSEMENT DES FACTIONS",
+    "gapToFirst": "À {gap} pts du #1",
+    "leadingBy": "En tête · +{gap} pts d’avance",
+    "impactTitle": "TON IMPACT",
+    "yourContribution": "Ta contribution",
+    "contributionShare": "{pct}% des points de la faction",
+    "recentProofTitle": "DERNIÈRES PREUVES",
+    "recentProofSubtitle": "Vidéos validées récentes de la faction.",
+    "recentProofEmpty": "Aucune vidéo validée récente.",
+    "recentProofView": "Voir"
   },
   "arena": {
     "title": "ARÈNE",
@@ -643,7 +664,15 @@
       "local_top": "Top local",
       "faction_national": "Faction nationale",
       "division_global": "Division globale"
-    }
+    },
+    "filtersToggle": "FILTRES",
+    "filtersNoneLabel": "Tous classés",
+    "showAll": "Voir tout ({count})",
+    "showLess": "Réduire",
+    "you": "TOI",
+    "yourPosition": "Ta position",
+    "viewFull": "Voir le classement complet →",
+    "fullTitle": "Classement complet"
   },
   "factions": {
     "nomads": "Nomades",
@@ -874,9 +903,10 @@
     "comeback": {
       "kicker": "CONTENT DE TE REVOIR",
       "eventKicker": "SEMAINE COMEBACK",
-      "body": "Tu as pris {weeks} semaine(s) de pause. Pas de culpabilité — reprends avec un score classé.",
+      "body": "Tu as pris {weeks, plural, one {# semaine} other {# semaines}} de pause. Pas de culpabilité — reprends avec un score classé.",
       "hint": "La guerre de faction compte toujours. Une vidéo preuve suffit pour revenir dans la course.",
-      "cta": "POSTER UN SCORE"
+      "cta": "POSTER UN SCORE",
+      "ctaBrowse": "OUVRIR L’ARÈNE"
     },
     "rivalInvite": {
       "title": "INVITER UN RIVAL",
@@ -905,7 +935,16 @@
     "download": "TÉLÉCHARGER",
     "share": "PARTAGER",
     "backToArena": "RETOUR À L'ARÈNE",
-    "viewProof": "VOIR LA VIDÉO PREUVE"
+    "viewProof": "VOIR LA VIDÉO PREUVE",
+    "cardMetricTime": "TEMPS (MM:SS)",
+    "cardMetricReps": "REPS",
+    "cardSaved": "ENREGISTRÉ",
+    "cardRanked": "CLASSÉ",
+    "cardTop": "TOP",
+    "cardSubNoVideo": "NON CLASSÉ · SANS VIDÉO",
+    "cardSubValidated": "VALIDÉ",
+    "cardSubWorldwide": "MONDIAL · VALIDÉ",
+    "cardTagline": "J'AI MARQUÉ POUR {target}"
   },
   "profile": {
     "loading": "Chargement du profil...",
@@ -1148,6 +1187,11 @@
         "saved": "Aucun score honor sauvegardé pour l'instant.",
         "won": "Aucun coup d'éclat pour l'instant. Top 10 % ou écrase un défi officiel."
       }
+    },
+    "tabs": {
+      "overview": "Aperçu",
+      "activity": "Activité",
+      "palmares": "Palmarès"
     }
   },
   "settings": {

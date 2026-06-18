@@ -4,5 +4,16 @@
     "tagline": "競赛。证明。统治。",
     "loading": "加载中...",
     "languageSwitcherLabel": "切换语言"
+  },
+  "finisher": {
+    "cardMetricTime": "时间 (MM:SS)",
+    "cardMetricReps": "次数",
+    "cardSaved": "已保存",
+    "cardRanked": "已排名",
+    "cardTop": "前",
+    "cardSubNoVideo": "未排名 · 无视频",
+    "cardSubValidated": "已验证",
+    "cardSubWorldwide": "全球 · 已验证",
+    "cardTagline": "为 {target} 得分"
   }
 }

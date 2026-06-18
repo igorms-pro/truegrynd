@@ -1,7 +1,9 @@
 'use client';
 
+import { ArrowRight, ChevronDown, SlidersHorizontal } from 'lucide-react';
+import Link from 'next/link';
 import { useMemo, useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 import { LeaderboardFiltersBar } from '@/features/challenges/components/LeaderboardFilters';
 import { LeaderboardPresetsBar } from '@/features/challenges/components/LeaderboardPresets';
@@ -24,7 +26,6 @@ import {
   type LeaderboardFilters,
 } from '@/features/challenges/lib/types';
 import { useOptionalAppProfile } from '@/features/appshell/context/AppProfileContext';
-import { DivisionBadge } from '@/components/DivisionBadge';
 import { ProofLevelBadge } from '@/components/ProofLevelBadge';
 import { ReportScoreButton } from '@/features/challenges/components/ReportScoreButton';
 import type { ScoreType } from '@/lib/types/database.types';
@@ -33,7 +34,16 @@ type Props = {
   challengeId: string;
   scoreType: ScoreType;
   availableVariants: readonly import('@/lib/types/database.types').ChallengeVariant[];
+  /** 'preview' = compact top rows + link to the full page; 'full' = filterable page. */
+  mode?: 'preview' | 'full';
 };
+
+function rankColorClass(rank: number): string {
+  if (rank === 1) return 'text-yellow-400';
+  if (rank === 2) return 'text-zinc-300';
+  if (rank === 3) return 'text-amber-600';
+  return 'text-muted-foreground';
+}
 
 function LeaderboardRow({
   rank,
@@ -45,6 +55,8 @@ function LeaderboardRow({
   respectDisabled,
   onRespectToggle,
   showDivisionBadge,
+  isCurrentUser,
+  youLabel,
 }: {
   rank: number;
   entry: LeaderboardEntry;
@@ -55,18 +67,36 @@ function LeaderboardRow({
   respectDisabled: boolean;
   onRespectToggle: (scoreId: string) => Promise<void>;
   showDivisionBadge: boolean;
+  isCurrentUser: boolean;
+  youLabel: string;
 }) {
   const username = entry.profile?.username ?? '—';
   return (
-    <li className="border-b border-border px-3 py-2 last:border-b-0">
+    <li
+      className={[
+        'border-b border-border px-3 py-2 last:border-b-0',
+        isCurrentUser ? 'bg-accent/10 ring-1 ring-inset ring-accent/40' : '',
+      ].join(' ')}
+    >
       <div className="grid grid-cols-[3rem_1fr_auto_auto] items-center gap-3">
-        <span className="font-mono text-sm tabular-nums text-muted-foreground">#{rank}</span>
+        <span className={`font-mono text-sm font-black tabular-nums ${rankColorClass(rank)}`}>
+          #{rank}
+        </span>
         <div className="min-w-0">
-          <span className="block truncate text-sm font-bold text-foreground">{username}</span>
-          <div className="mt-1 flex flex-wrap items-center gap-1">
+          <span className="flex items-center gap-2">
+            <span className="truncate text-sm font-bold text-foreground">{username}</span>
+            {isCurrentUser ? (
+              <span className="shrink-0 rounded-sm bg-accent px-1.5 py-0.5 text-[9px] font-black uppercase tracking-[0.14em] text-accent-foreground">
+                {youLabel}
+              </span>
+            ) : null}
+          </span>
+          <div className="mt-1 flex flex-wrap items-center gap-2">
             <ProofLevelBadge level={entry.proof_level} compact />
             {showDivisionBadge && entry.profile?.division ? (
-              <DivisionBadge division={entry.profile.division} />
+              <span className="text-[10px] font-black uppercase tracking-[0.14em] text-muted-foreground">
+                {entry.profile.division}
+              </span>
             ) : null}
           </div>
         </div>
@@ -92,6 +122,12 @@ function LeaderboardRow({
   );
 }
 
+const PROOF_SUMMARY_KEY: Record<string, string> = {
+  video_ranked: 'videoRanked',
+  community_verified: 'communityVerified',
+  judge_verified: 'judgeVerified',
+};
+
 function pickDefaultPreset(
   presets: ReturnType<typeof buildLeaderboardPresets>,
 ): LeaderboardPreset | null {
@@ -103,8 +139,15 @@ function pickDefaultPreset(
   );
 }
 
-export function Leaderboard({ challengeId, scoreType, availableVariants }: Props) {
+export function Leaderboard({ challengeId, scoreType, availableVariants, mode = 'full' }: Props) {
+  const isPreview = mode === 'preview';
+  const locale = useLocale();
   const t = useTranslations('leaderboard');
+  const tFilters = useTranslations('leaderboard.filters');
+  const tFactions = useTranslations('factions');
+  const tDivisions = useTranslations('divisions');
+  const tVariants = useTranslations('variants');
+  const tSex = useTranslations('onboarding.identity.sexes');
   const profile = useOptionalAppProfile();
   const { data, loading, error, refetch } = useChallengeLeaderboard({
     challengeId,
@@ -116,6 +159,7 @@ export function Leaderboard({ challengeId, scoreType, availableVariants }: Props
   );
   const [divisionFilterTouched, setDivisionFilterTouched] = useState(false);
   const [variantFilterTouched, setVariantFilterTouched] = useState(false);
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   const presets = useMemo(
     () =>
@@ -177,26 +221,97 @@ export function Leaderboard({ challengeId, scoreType, availableVariants }: Props
     toggle,
   } = useScoreRespects(scoreIds, profile?.id ?? null);
 
+  // Compact summary of which filters are active (shown while the panel is collapsed).
+  const filterChips: string[] = [];
+  if (effectiveFilters.division) filterChips.push(tDivisions(effectiveFilters.division));
+  if (effectiveFilters.variant) filterChips.push(tVariants(effectiveFilters.variant));
+  if (effectiveFilters.proofMin)
+    filterChips.push(tFilters(PROOF_SUMMARY_KEY[effectiveFilters.proofMin] ?? 'allProof'));
+  if (effectiveFilters.sex) filterChips.push(tSex(effectiveFilters.sex));
+  if (effectiveFilters.ageBracket)
+    filterChips.push(tFilters(`ageBrackets.${effectiveFilters.ageBracket}`));
+  if (effectiveFilters.faction) filterChips.push(tFactions(effectiveFilters.faction));
+  if (effectiveFilters.city) filterChips.push(effectiveFilters.city.toUpperCase());
+
+  const currentUserId = profile?.id ?? null;
+  const myIndex = currentUserId ? sorted.findIndex((e) => e.user_id === currentUserId) : -1;
+  // Preview (challenge detail) shows the top N then links to the full page.
+  // The full page shows the entire ranked list — no cap, no "show more".
+  const PREVIEW_CAP = 10;
+  const visible = isPreview ? sorted.slice(0, PREVIEW_CAP) : sorted;
+  const myRowHiddenInPreview = isPreview && myIndex >= PREVIEW_CAP;
+
+  const renderRow = (entry: LeaderboardEntry, index: number) => (
+    <LeaderboardRow
+      key={entry.id}
+      rank={index + 1}
+      entry={entry}
+      scoreType={scoreType}
+      currentUserId={currentUserId}
+      respectCount={counts.get(entry.id) ?? 0}
+      isRespected={respected.has(entry.id)}
+      respectDisabled={respectLoading}
+      onRespectToggle={toggle}
+      showDivisionBadge={showDivisionBadge}
+      isCurrentUser={currentUserId !== null && entry.user_id === currentUserId}
+      youLabel={t('you')}
+    />
+  );
+
   return (
     <section className="space-y-3">
-      <header className="flex items-center justify-between">
+      <header className="flex items-center justify-between gap-3">
         <h2 className="text-lg font-black uppercase tracking-tight">{t('title')}</h2>
+        {!isPreview ? (
+          <button
+            type="button"
+            onClick={() => setFiltersOpen((open) => !open)}
+            aria-expanded={filtersOpen}
+            className="inline-flex items-center gap-2 rounded-md border border-border bg-background px-3 py-2 text-[11px] font-black uppercase tracking-[0.16em] text-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            <SlidersHorizontal className="h-3.5 w-3.5" aria-hidden />
+            {t('filtersToggle')}
+            {filterChips.length > 0 ? (
+              <span className="rounded-full bg-primary px-1.5 text-[10px] tabular-nums text-primary-foreground">
+                {filterChips.length}
+              </span>
+            ) : null}
+            <ChevronDown
+              className={`h-3.5 w-3.5 transition-transform ${filtersOpen ? 'rotate-180' : ''}`}
+              aria-hidden
+            />
+          </button>
+        ) : null}
       </header>
 
-      <LeaderboardPresetsBar
-        activePresetId={activePresetId}
-        division={profile?.division}
-        faction={profile?.faction ?? undefined}
-        city={profile?.city}
-        countryCode={profile?.country_code}
-        onPresetSelect={handlePresetSelect}
-      />
-
-      <LeaderboardFiltersBar
-        filters={effectiveFilters}
-        availableVariants={availableVariants}
-        onChange={handleFiltersChange}
-      />
+      {isPreview ? null : filtersOpen ? (
+        <div className="space-y-3 rounded-md border border-border bg-card p-3">
+          <LeaderboardPresetsBar
+            activePresetId={activePresetId}
+            division={profile?.division}
+            faction={profile?.faction ?? undefined}
+            city={profile?.city}
+            countryCode={profile?.country_code}
+            onPresetSelect={handlePresetSelect}
+          />
+          <LeaderboardFiltersBar
+            filters={effectiveFilters}
+            availableVariants={availableVariants}
+            onChange={handleFiltersChange}
+          />
+        </div>
+      ) : filterChips.length > 0 ? (
+        <div className="flex flex-wrap items-center gap-1.5">
+          {filterChips.map((chip, i) => (
+            <span
+              key={`${chip}-${i}`}
+              className="rounded-sm border border-border bg-background px-2 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-muted-foreground"
+            >
+              {chip}
+            </span>
+          ))}
+        </div>
+      ) : null}
 
       {loading ? (
         <p role="status" aria-live="polite" className="text-sm text-muted-foreground">
@@ -226,22 +341,32 @@ export function Leaderboard({ challengeId, scoreType, availableVariants }: Props
       ) : null}
 
       {!loading && !error && sorted.length > 0 ? (
-        <ol className="overflow-hidden rounded-md border border-border bg-card">
-          {sorted.map((entry, index) => (
-            <LeaderboardRow
-              key={entry.id}
-              rank={index + 1}
-              entry={entry}
-              scoreType={scoreType}
-              currentUserId={profile?.id ?? null}
-              respectCount={counts.get(entry.id) ?? 0}
-              isRespected={respected.has(entry.id)}
-              respectDisabled={respectLoading}
-              onRespectToggle={toggle}
-              showDivisionBadge={showDivisionBadge}
-            />
-          ))}
-        </ol>
+        <div className="space-y-3">
+          <ol className="overflow-hidden rounded-md border border-border bg-card">
+            {visible.map((entry, index) => renderRow(entry, index))}
+          </ol>
+
+          {myRowHiddenInPreview ? (
+            <div>
+              <p className="mb-1 text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground">
+                {t('yourPosition')}
+              </p>
+              <ol className="overflow-hidden rounded-md border border-accent/40 bg-card">
+                {renderRow(sorted[myIndex], myIndex)}
+              </ol>
+            </div>
+          ) : null}
+
+          {isPreview ? (
+            <Link
+              href={`/${locale}/app/arena/${challengeId}/leaderboard`}
+              className="inline-flex w-full items-center justify-center gap-1.5 rounded-md border border-border bg-background px-4 py-2.5 text-xs font-black uppercase tracking-[0.16em] text-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              {t('viewFull')}
+              <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+            </Link>
+          ) : null}
+        </div>
       ) : null}
     </section>
   );

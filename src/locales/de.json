@@ -4,5 +4,16 @@
     "tagline": "Konkurrenziere. Beweise dich. Dominiere.",
     "loading": "Lädt...",
     "languageSwitcherLabel": "Sprache ändern"
+  },
+  "finisher": {
+    "cardMetricTime": "ZEIT (MM:SS)",
+    "cardMetricReps": "REPS",
+    "cardSaved": "GESPEICHERT",
+    "cardRanked": "GEWERTET",
+    "cardTop": "TOP",
+    "cardSubNoVideo": "NICHT GEWERTET · KEIN VIDEO",
+    "cardSubValidated": "VALIDIERT",
+    "cardSubWorldwide": "WELTWEIT · VALIDIERT",
+    "cardTagline": "GEPUNKTET FÜR {target}"
   }
 }

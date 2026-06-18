@@ -164,7 +164,18 @@
     "noFactionCta": "GO TO ONBOARDING",
     "eventsTitle": "MICRO-EVENTS",
     "eventsEmpty": "No active events right now. Check back soon.",
-    "eventsCta": "VIEW ALL EVENTS"
+    "eventsCta": "VIEW ALL EVENTS",
+    "heroRating": "RATING",
+    "heroRatingHint": "Your overall competitor score.",
+    "heroPrimaryWeekly": "POST YOUR WEEKLY SCORE",
+    "factionStandingTitle": "FACTION STANDING",
+    "factionRankLabel": "RANK",
+    "factionPointsLabel": "POINTS",
+    "factionGapToFirst": "{gap} pts to #1",
+    "factionLeadingBy": "Leading · +{gap} pts ahead",
+    "factionYourShare": "Your share · {points} pts",
+    "factionMembersLabel": "{count} fighters",
+    "viewFactionAria": "View your faction details"
   },
   "clan": {
     "subtitle": "Your faction is a weapon. Use it.",
@@ -229,7 +240,17 @@
     "youBadge": "YOU",
     "yourProfileLinkAria": "Your profile",
     "memberProfileLinkAria": "View {username} profile",
-    "ctaArena": "POST A SCORE"
+    "ctaArena": "POST A SCORE",
+    "standingsTitle": "FACTION STANDINGS",
+    "gapToFirst": "{gap} pts to #1",
+    "leadingBy": "Leading · +{gap} pts ahead",
+    "impactTitle": "YOUR IMPACT",
+    "yourContribution": "Your contribution",
+    "contributionShare": "{pct}% of faction points",
+    "recentProofTitle": "LATEST PROOF",
+    "recentProofSubtitle": "Recent validated videos from the faction.",
+    "recentProofEmpty": "No recent validated videos.",
+    "recentProofView": "Watch"
   },
   "arena": {
     "title": "ARENA",
@@ -643,7 +664,15 @@
       "local_top": "Local top",
       "faction_national": "National faction",
       "division_global": "Division global"
-    }
+    },
+    "filtersToggle": "FILTERS",
+    "filtersNoneLabel": "All ranked",
+    "showAll": "Show all ({count})",
+    "showLess": "Show less",
+    "you": "YOU",
+    "yourPosition": "Your position",
+    "viewFull": "View full leaderboard →",
+    "fullTitle": "Full leaderboard"
   },
   "factions": {
     "nomads": "Nomads",
@@ -874,9 +903,10 @@
     "comeback": {
       "kicker": "WELCOME BACK",
       "eventKicker": "COMEBACK WEEK",
-      "body": "You stepped away for {weeks} week(s). No guilt — jump back in with one ranked score.",
+      "body": "You stepped away for {weeks, plural, one {# week} other {# weeks}}. No guilt — jump back in with one ranked score.",
       "hint": "Your faction war still counts. One proof video is enough to re-enter the fight.",
-      "cta": "POST A SCORE"
+      "cta": "POST A SCORE",
+      "ctaBrowse": "OPEN THE ARENA"
     },
     "rivalInvite": {
       "title": "INVITE A RIVAL",
@@ -905,7 +935,16 @@
     "download": "DOWNLOAD",
     "share": "SHARE",
     "backToArena": "BACK TO ARENA",
-    "viewProof": "VIEW PROOF VIDEO"
+    "viewProof": "VIEW PROOF VIDEO",
+    "cardMetricTime": "TIME (MM:SS)",
+    "cardMetricReps": "REPS",
+    "cardSaved": "SAVED",
+    "cardRanked": "RANKED",
+    "cardTop": "TOP",
+    "cardSubNoVideo": "NOT RANKED (NO VIDEO)",
+    "cardSubValidated": "VALIDATED",
+    "cardSubWorldwide": "WORLDWIDE (VALIDATED)",
+    "cardTagline": "I SCORED FOR {target}"
   },
   "profile": {
     "loading": "Loading profile...",
@@ -1148,6 +1187,11 @@
         "saved": "No saved honor scores yet.",
         "won": "No wins yet. Rank top 10% or crush an official challenge."
       }
+    },
+    "tabs": {
+      "overview": "Overview",
+      "activity": "Activity",
+      "palmares": "Honors"
     }
   },
   "settings": {

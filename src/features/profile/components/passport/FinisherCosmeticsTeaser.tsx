@@ -4,9 +4,13 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 import { drawFinisherCard } from '@/features/finisher-card/lib/drawCard';
+import { useFinisherCardLabels } from '@/features/finisher-card/hooks/useFinisherCardLabels';
 import { ANALYTICS_EVENTS } from '@/lib/analytics/events';
 import { trackEvent } from '@/lib/analytics/trackEvent';
-import { buildFinisherCardOptionsThumb } from '@/lib/finisher/buildFinisherCardOptions';
+import {
+  buildFinisherCardOptionsThumb,
+  type FinisherCardLabels,
+} from '@/lib/finisher/buildFinisherCardOptions';
 import type { FinisherFrameStyle } from '@/lib/finisher/frameStyles';
 import { PREMIUM_FINISHER_FRAMES } from '@/lib/finisher/frameStyles';
 import type { Division, Faction } from '@/lib/types/database.types';
@@ -25,12 +29,14 @@ function FramePreview({
   faction,
   division,
   label,
+  labels,
 }: {
   frameStyle: FinisherFrameStyle;
   username: string;
   faction: Faction;
   division: Division;
   label: string;
+  labels: FinisherCardLabels;
 }) {
   const ref = useRef<HTMLCanvasElement | null>(null);
   const options = useMemo(
@@ -44,8 +50,9 @@ function FramePreview({
         scoreValue: 142,
         ranked: true,
         frameStyle,
+        labels,
       }),
-    [division, faction, frameStyle, username],
+    [division, faction, frameStyle, labels, username],
   );
 
   useEffect(() => {
@@ -66,6 +73,7 @@ function FramePreview({
 
 export function FinisherCosmeticsTeaser({ username, faction, division }: Props) {
   const t = useTranslations('profile.passport.cosmetics');
+  const cardLabels = useFinisherCardLabels();
   const [interested, setInterested] = useState(() => {
     if (typeof window === 'undefined') return false;
     try {
@@ -123,6 +131,7 @@ export function FinisherCosmeticsTeaser({ username, faction, division }: Props) 
             faction={faction}
             division={division}
             label={frameLabels[frame]}
+            labels={cardLabels}
           />
         ))}
       </div>

@@ -1,5 +1,9 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+import type { ReactNode } from 'react';
+
+import { Tabs, type TabItem } from '@/components/Tabs';
 import { FinisherGallery } from '@/features/finisher-card';
 import { PassportBadgesSection } from '@/features/profile/components/passport/PassportBadgesSection';
 import { PassportDivisionSection } from '@/features/profile/components/passport/PassportDivisionSection';
@@ -18,6 +22,7 @@ type Props = {
 };
 
 export function PublicPassportSections({ profile }: Props) {
+  const tTabs = useTranslations('profile.tabs');
   const privacy = parsePassportPrivacy(profile);
   const passportState = usePassportData(profile.id, profile.division);
   const ratingState = useProfileRating(profile.id);
@@ -26,55 +31,84 @@ export function PublicPassportSections({ profile }: Props) {
   const passportData = passportState.state.status === 'ready' ? passportState.state.data : null;
   const dataError = passportState.state.status === 'error' ? passportState.state.error : null;
 
-  return (
-    <>
-      {privacy.showDivisionOnPublic ? (
-        <PassportDivisionSection
-          currentDivision={profile.division}
-          divisions={passportData?.divisions ?? [profile.division]}
-          history={passportData?.history ?? []}
-          loading={dataLoading}
-        />
-      ) : null}
+  const overview: ReactNode[] = [];
+  if (privacy.showDivisionOnPublic) {
+    overview.push(
+      <PassportDivisionSection
+        key="division"
+        currentDivision={profile.division}
+        divisions={passportData?.divisions ?? [profile.division]}
+        history={passportData?.history ?? []}
+        loading={dataLoading}
+      />,
+    );
+  }
+  if (privacy.showRatingOnPublic) {
+    overview.push(
+      <ProfileRatingCard
+        key="rating"
+        rating={ratingState.state.status === 'ready' ? ratingState.state.rating : null}
+        loading={ratingState.state.status === 'loading'}
+        error={ratingState.state.status === 'error' ? ratingState.state.error : null}
+        onRetry={ratingState.refetch}
+      />,
+    );
+  }
+  if (privacy.showTopScoresOnPublic) {
+    overview.push(
+      <PassportTopScoresSection
+        key="topScores"
+        scores={passportData?.topScores ?? []}
+        loading={dataLoading}
+        error={dataError}
+        onRetry={passportState.refetch}
+      />,
+    );
+  }
 
-      {privacy.showRatingOnPublic ? (
-        <ProfileRatingCard
-          rating={ratingState.state.status === 'ready' ? ratingState.state.rating : null}
-          loading={ratingState.state.status === 'loading'}
-          error={ratingState.state.status === 'error' ? ratingState.state.error : null}
-          onRetry={ratingState.refetch}
-        />
-      ) : null}
+  const activity: ReactNode[] = [];
+  if (privacy.showScoreHistoryOnPublic) {
+    activity.push(<ScoreHistory key="history" userId={profile.id} />);
+  }
+  if (privacy.showFinishersOnPublic) {
+    activity.push(
+      <FinisherGallery
+        key="finishers"
+        userId={profile.id}
+        username={profile.username}
+        faction={profile.faction}
+        division={profile.division}
+      />,
+    );
+  }
 
-      {privacy.showScoreHistoryOnPublic ? <ScoreHistory userId={profile.id} /> : null}
+  const palmares: ReactNode[] = [];
+  if (privacy.showBadgesOnPublic) {
+    palmares.push(<PassportBadgesSection key="badges" profile={profile} />);
+  }
+  if (privacy.showWeekliesOnPublic) {
+    palmares.push(
+      <PassportWeeklySection
+        key="weeklies"
+        weeklies={passportData?.weeklies ?? []}
+        loading={dataLoading}
+      />,
+    );
+  }
+  if (privacy.showRivalWinsOnPublic) {
+    palmares.push(
+      <PassportRivalsSection
+        key="rivals"
+        wins={passportData?.rivalWins ?? []}
+        loading={dataLoading}
+      />,
+    );
+  }
 
-      {privacy.showTopScoresOnPublic ? (
-        <PassportTopScoresSection
-          scores={passportData?.topScores ?? []}
-          loading={dataLoading}
-          error={dataError}
-          onRetry={passportState.refetch}
-        />
-      ) : null}
+  const tabs: TabItem[] = [];
+  if (overview.length) tabs.push({ id: 'overview', label: tTabs('overview'), content: overview });
+  if (activity.length) tabs.push({ id: 'activity', label: tTabs('activity'), content: activity });
+  if (palmares.length) tabs.push({ id: 'palmares', label: tTabs('palmares'), content: palmares });
 
-      {privacy.showBadgesOnPublic ? <PassportBadgesSection profile={profile} /> : null}
-
-      {privacy.showWeekliesOnPublic ? (
-        <PassportWeeklySection weeklies={passportData?.weeklies ?? []} loading={dataLoading} />
-      ) : null}
-
-      {privacy.showRivalWinsOnPublic ? (
-        <PassportRivalsSection wins={passportData?.rivalWins ?? []} loading={dataLoading} />
-      ) : null}
-
-      {privacy.showFinishersOnPublic ? (
-        <FinisherGallery
-          userId={profile.id}
-          username={profile.username}
-          faction={profile.faction}
-          division={profile.division}
-        />
-      ) : null}
-    </>
-  );
+  return <Tabs tabs={tabs} ariaLabel={tTabs('overview')} />;
 }

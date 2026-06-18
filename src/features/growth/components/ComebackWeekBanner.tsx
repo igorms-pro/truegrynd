@@ -13,8 +13,12 @@ export function ComebackWeekBanner({ weeksAway, weeklyChallengeId, hasComebackEv
   const t = useTranslations('growth.comeback');
   const locale = useLocale();
 
-  const ctaHref = weeklyChallengeId
-    ? `/${locale}/app/arena/${weeklyChallengeId}`
+  // Deep-link straight to the score form when there's a weekly challenge so the
+  // "Post a score" CTA keeps its promise; otherwise fall back to the Arena with
+  // an honest "Open the Arena" label (no specific challenge to score on).
+  const hasWeekly = Boolean(weeklyChallengeId);
+  const ctaHref = hasWeekly
+    ? `/${locale}/app/arena/${weeklyChallengeId}/submit`
     : `/${locale}/app/arena`;
 
   return (
@@ -28,7 +32,7 @@ export function ComebackWeekBanner({ weeksAway, weeklyChallengeId, hasComebackEv
         href={ctaHref}
         className="mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-md bg-primary px-4 py-3 text-xs font-black uppercase tracking-[0.18em] text-primary-foreground hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
-        {t('cta')}
+        {hasWeekly ? t('cta') : t('ctaBrowse')}
       </Link>
     </article>
   );

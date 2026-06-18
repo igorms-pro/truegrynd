@@ -4,5 +4,16 @@
     "tagline": "Compite. Demuestra. Domina.",
     "loading": "Cargando...",
     "languageSwitcherLabel": "Cambiar idioma"
+  },
+  "finisher": {
+    "cardMetricTime": "TIEMPO (MM:SS)",
+    "cardMetricReps": "REPS",
+    "cardSaved": "GUARDADO",
+    "cardRanked": "CLASIFICADO",
+    "cardTop": "TOP",
+    "cardSubNoVideo": "NO CLASIFICADO · SIN VÍDEO",
+    "cardSubValidated": "VALIDADO",
+    "cardSubWorldwide": "MUNDIAL · VALIDADO",
+    "cardTagline": "ANOTÉ POR {target}"
   }
 }

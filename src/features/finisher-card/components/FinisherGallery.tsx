@@ -6,8 +6,9 @@ import { useLocale, useTranslations } from 'next-intl';
 import { useEffect, useMemo, useRef } from 'react';
 
 import { drawFinisherCard } from '@/features/finisher-card/lib/drawCard';
+import { useFinisherCardLabels } from '@/features/finisher-card/hooks/useFinisherCardLabels';
 import { useMyScores } from '@/hooks/useMyScores';
-import { buildFinisherCardOptionsThumb } from '@/lib/finisher';
+import { buildFinisherCardOptionsThumb, type FinisherCardLabels } from '@/lib/finisher';
 import type { Division, Faction } from '@/lib/types/database.types';
 
 const GALLERY_PREVIEW_LIMIT = 4;
@@ -27,6 +28,7 @@ function ThumbCanvas({
   scoreType,
   scoreValue,
   ranked,
+  labels,
 }: {
   username: string;
   faction: Faction;
@@ -35,6 +37,7 @@ function ThumbCanvas({
   scoreType: 'time' | 'reps';
   scoreValue: number;
   ranked: boolean;
+  labels: FinisherCardLabels;
 }) {
   const ref = useRef<HTMLCanvasElement | null>(null);
 
@@ -48,8 +51,9 @@ function ThumbCanvas({
         scoreType,
         scoreValue,
         ranked,
+        labels,
       }),
-    [challengeTitle, division, faction, ranked, scoreType, scoreValue, username],
+    [challengeTitle, division, faction, labels, ranked, scoreType, scoreValue, username],
   );
 
   useEffect(() => {
@@ -64,6 +68,7 @@ function ThumbCanvas({
 export function FinisherGallery({ userId, username, faction, division }: Props) {
   const t = useTranslations('profile.gallery');
   const locale = useLocale();
+  const cardLabels = useFinisherCardLabels();
   const { state, refetch } = useMyScores(userId, {
     limit: GALLERY_PREVIEW_LIMIT,
     excludeHidden: true,
@@ -161,6 +166,7 @@ export function FinisherGallery({ userId, username, faction, division }: Props) 
                 scoreType={s.scoreType}
                 scoreValue={s.value}
                 ranked={s.isValidated}
+                labels={cardLabels}
               />
             </Link>
           );

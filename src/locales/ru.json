@@ -4,5 +4,16 @@
     "tagline": "Соревнуйся. Докажи. Доминируй.",
     "loading": "Загрузка...",
     "languageSwitcherLabel": "Сменить язык"
+  },
+  "finisher": {
+    "cardMetricTime": "ВРЕМЯ (ММ:СС)",
+    "cardMetricReps": "ПОВТОРЫ",
+    "cardSaved": "СОХРАНЕНО",
+    "cardRanked": "В РЕЙТИНГЕ",
+    "cardTop": "ТОП",
+    "cardSubNoVideo": "БЕЗ РЕЙТИНГА · НЕТ ВИДЕО",
+    "cardSubValidated": "ПОДТВЕРЖДЕНО",
+    "cardSubWorldwide": "МИР · ПОДТВЕРЖДЕНО",
+    "cardTagline": "ОЧКИ ЗА {target}"
   }
 }

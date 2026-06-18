@@ -76,56 +76,50 @@ export function drawFinisherCard(canvas: HTMLCanvasElement, options: Options): v
 
   ctx.textBaseline = 'top';
 
-  const brandSize = fitFontSize(
-    ctx,
-    'TRUEGRYND',
-    maxTextW,
-    900,
-    'system-ui, -apple-system, Segoe UI, sans-serif',
-    Math.floor(innerW * 0.15),
-  );
-  ctx.fillStyle = fg;
-  ctx.font = `900 ${brandSize}px system-ui, -apple-system, Segoe UI, sans-serif`;
-  ctx.fillText('TRUEGRYND', textX, lineY(0.04));
+  // Header is laid out with a flowing vertical cursor that advances by each
+  // line's measured height + a gap. This guarantees no overlap regardless of
+  // card dimensions (the previous fixed-percentage positions collided when the
+  // wordmark font grew on wide/short cards).
+  const FONT = 'system-ui, -apple-system, Segoe UI, sans-serif';
+  const gap = Math.floor(innerH * 0.014);
+  let cursorY = lineY(0.04);
 
-  let badgeOffset = 0;
+  const brandSize = fitFontSize(ctx, 'TRUEGRYND', maxTextW, 900, FONT, Math.floor(innerW * 0.15));
+  ctx.fillStyle = fg;
+  ctx.font = `900 ${brandSize}px ${FONT}`;
+  ctx.fillText('TRUEGRYND', textX, cursorY);
+  cursorY += brandSize + gap;
+
   if (options.tagline) {
     const taglineSize = fitFontSize(
       ctx,
       options.tagline,
       maxTextW,
       900,
-      'system-ui, -apple-system, Segoe UI, sans-serif',
+      FONT,
       Math.floor(innerW * 0.045),
       10,
     );
     ctx.fillStyle = accent;
-    ctx.font = `900 ${taglineSize}px system-ui, -apple-system, Segoe UI, sans-serif`;
-    ctx.fillText(truncateToWidth(ctx, options.tagline, maxTextW), textX, lineY(0.085));
-    badgeOffset = 0.035;
+    ctx.font = `900 ${taglineSize}px ${FONT}`;
+    ctx.fillText(truncateToWidth(ctx, options.tagline, maxTextW), textX, cursorY);
+    cursorY += taglineSize + gap;
   }
 
-  const titleStartPct =
-    options.weeklyBadge || options.eventBadge ? 0.1 + badgeOffset : 0.13 + badgeOffset;
-  let badgeY = 0.085 + badgeOffset;
   if (options.weeklyBadge) {
     const weeklySize = fitFontSize(
       ctx,
       options.weeklyBadge.toUpperCase(),
       maxTextW,
       900,
-      'system-ui, -apple-system, Segoe UI, sans-serif',
+      FONT,
       Math.floor(innerW * 0.055),
       12,
     );
     ctx.fillStyle = '#ffb800';
-    ctx.font = `900 ${weeklySize}px system-ui, -apple-system, Segoe UI, sans-serif`;
-    ctx.fillText(
-      truncateToWidth(ctx, options.weeklyBadge.toUpperCase(), maxTextW),
-      textX,
-      lineY(badgeY),
-    );
-    badgeY += 0.035;
+    ctx.font = `900 ${weeklySize}px ${FONT}`;
+    ctx.fillText(truncateToWidth(ctx, options.weeklyBadge.toUpperCase(), maxTextW), textX, cursorY);
+    cursorY += weeklySize + gap;
   }
 
   if (options.eventBadge) {
@@ -134,28 +128,30 @@ export function drawFinisherCard(canvas: HTMLCanvasElement, options: Options): v
       options.eventBadge,
       maxTextW,
       900,
-      'system-ui, -apple-system, Segoe UI, sans-serif',
+      FONT,
       Math.floor(innerW * 0.05),
       10,
     );
     ctx.fillStyle = '#ffb800';
-    ctx.font = `900 ${eventSize}px system-ui, -apple-system, Segoe UI, sans-serif`;
-    ctx.fillText(truncateToWidth(ctx, options.eventBadge, maxTextW), textX, lineY(badgeY));
+    ctx.font = `900 ${eventSize}px ${FONT}`;
+    ctx.fillText(truncateToWidth(ctx, options.eventBadge, maxTextW), textX, cursorY);
+    cursorY += eventSize + gap;
   }
 
+  cursorY += Math.floor(innerH * 0.006);
   const titleSize = fitFontSize(
     ctx,
     options.challengeTitle.toUpperCase(),
     maxTextW,
     900,
-    'system-ui, -apple-system, Segoe UI, sans-serif',
+    FONT,
     Math.floor(innerW * 0.062),
     14,
   );
   ctx.fillStyle = muted;
-  ctx.font = `900 ${titleSize}px system-ui, -apple-system, Segoe UI, sans-serif`;
+  ctx.font = `900 ${titleSize}px ${FONT}`;
   const title = truncateToWidth(ctx, options.challengeTitle.toUpperCase(), maxTextW);
-  ctx.fillText(title, textX, lineY(titleStartPct));
+  ctx.fillText(title, textX, cursorY);
 
   const scoreTop = lineY(0.26);
   const labelTop = lineY(0.52);
@@ -189,7 +185,7 @@ export function drawFinisherCard(canvas: HTMLCanvasElement, options: Options): v
   const labelSize = Math.floor(innerW * (compact ? 0.06 : 0.072));
   ctx.fillStyle = muted;
   ctx.font = `900 ${labelSize}px system-ui, -apple-system, Segoe UI, sans-serif`;
-  const label = options.scoreType === 'time' ? 'TIME (MM:SS)' : 'REPS';
+  const label = options.metricLabel ?? (options.scoreType === 'time' ? 'TIME (MM:SS)' : 'REPS');
   ctx.fillText(label, textX, labelY);
 
   const rankText =

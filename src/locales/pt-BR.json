@@ -4,5 +4,16 @@
     "tagline": "Competir. Provar. Dominar.",
     "loading": "Carregando...",
     "languageSwitcherLabel": "Mudar idioma"
+  },
+  "finisher": {
+    "cardMetricTime": "TEMPO (MM:SS)",
+    "cardMetricReps": "REPS",
+    "cardSaved": "SALVO",
+    "cardRanked": "CLASSIFICADO",
+    "cardTop": "TOP",
+    "cardSubNoVideo": "NÃO CLASSIFICADO · SEM VÍDEO",
+    "cardSubValidated": "VALIDADO",
+    "cardSubWorldwide": "MUNDIAL · VALIDADO",
+    "cardTagline": "PONTUEI PARA {target}"
   }
 }

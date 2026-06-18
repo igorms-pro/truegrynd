@@ -25,6 +25,24 @@ export type FinisherCardDrawOptions = {
   warPointsText?: string;
   /** V2-12: cosmetic frame (standard free; premium frames exploratory). */
   frameStyle?: FinisherFrameStyle;
+  /** Localized metric label, e.g. "TEMPS (MM:SS)". Falls back to English. */
+  metricLabel?: string;
+};
+
+/**
+ * Localized strings painted on the canvas. Resolved from i18n in the React
+ * layer (the draw function stays locale-agnostic) and threaded through here.
+ */
+export type FinisherCardLabels = {
+  metricTime: string;
+  metricReps: string;
+  saved: string;
+  ranked: string;
+  /** Prefix for the top-percentile badge, e.g. "TOP" → "TOP 12%". */
+  top: string;
+  subNoVideo: string;
+  subValidated: string;
+  subWorldwide: string;
 };
 
 type RankedLabels = {
@@ -33,20 +51,30 @@ type RankedLabels = {
   topPercent: number | null;
 };
 
-function rankLabels({ ranked, isValidated, topPercent }: RankedLabels): {
+function rankLabels(
+  { ranked, isValidated, topPercent }: RankedLabels,
+  labels: FinisherCardLabels,
+): {
   rankTextOverride: string;
   rankSubOverride: string;
 } {
   if (isValidated && topPercent !== null) {
-    return { rankTextOverride: `TOP ${topPercent}%`, rankSubOverride: 'WORLDWIDE (VALIDATED)' };
+    return {
+      rankTextOverride: `${labels.top} ${topPercent}%`,
+      rankSubOverride: labels.subWorldwide,
+    };
   }
   if (ranked && isValidated) {
-    return { rankTextOverride: 'RANKED', rankSubOverride: 'VALIDATED' };
+    return { rankTextOverride: labels.ranked, rankSubOverride: labels.subValidated };
   }
   if (isValidated) {
-    return { rankTextOverride: 'RANKED', rankSubOverride: 'VALIDATED' };
+    return { rankTextOverride: labels.ranked, rankSubOverride: labels.subValidated };
   }
-  return { rankTextOverride: 'SAVED', rankSubOverride: 'NO VIDEO' };
+  return { rankTextOverride: labels.saved, rankSubOverride: labels.subNoVideo };
+}
+
+function metricLabelFor(scoreType: ScoreType, labels: FinisherCardLabels): string {
+  return scoreType === 'time' ? labels.metricTime : labels.metricReps;
 }
 
 type FullParams = RankedLabels & {
@@ -61,10 +89,11 @@ type FullParams = RankedLabels & {
   tagline?: string;
   ratingDeltaText?: string;
   warPointsText?: string;
+  labels: FinisherCardLabels;
 };
 
 export function buildFinisherCardOptionsFull(params: FullParams): FinisherCardDrawOptions {
-  const labels = rankLabels(params);
+  const ranks = rankLabels(params, params.labels);
   return {
     width: 1080,
     height: 1920,
@@ -80,7 +109,8 @@ export function buildFinisherCardOptionsFull(params: FullParams): FinisherCardDr
     tagline: params.tagline,
     ratingDeltaText: params.ratingDeltaText,
     warPointsText: params.warPointsText,
-    ...labels,
+    metricLabel: metricLabelFor(params.scoreType, params.labels),
+    ...ranks,
   };
 }
 
@@ -93,12 +123,13 @@ type ThumbParams = {
   scoreValue: number;
   ranked: boolean;
   frameStyle?: FinisherFrameStyle;
+  labels: FinisherCardLabels;
 };
 
 export function buildFinisherCardOptionsThumb(params: ThumbParams): FinisherCardDrawOptions {
-  const labels = params.ranked
-    ? { rankTextOverride: 'RANKED', rankSubOverride: 'VALIDATED' }
-    : { rankTextOverride: 'SAVED', rankSubOverride: 'NO VIDEO' };
+  const ranks = params.ranked
+    ? { rankTextOverride: params.labels.ranked, rankSubOverride: params.labels.subValidated }
+    : { rankTextOverride: params.labels.saved, rankSubOverride: params.labels.subNoVideo };
   return {
     width: 360,
     height: 640,
@@ -110,6 +141,7 @@ export function buildFinisherCardOptionsThumb(params: ThumbParams): FinisherCard
     scoreValue: params.scoreValue,
     topPercent: null,
     frameStyle: params.frameStyle ?? 'standard',
-    ...labels,
+    metricLabel: metricLabelFor(params.scoreType, params.labels),
+    ...ranks,
   };
 }

@@ -300,7 +300,7 @@ Défis 1v1 ou petits groupes :
 
 ## 12. Backlog V2
 
-Les candidates issues sont dans [`docs/issues/issues.md`](./issues/issues.md), section **H** :
+V2 livré (V2-00–12 🟢) — détail section **H** : [`archive-v1-v2-detail.md`](./issues/archive-v1-v2-detail.md) · suivi actif : [`issues.md`](./issues/issues.md) :
 
 - V2-01 : Divisions de niveau
 - V2-02 : Variantes officielles / scaling

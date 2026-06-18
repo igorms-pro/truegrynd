@@ -104,6 +104,7 @@ export function ChallengeDetail({ challengeId }: Props) {
           challengeId={challenge.id}
           scoreType={challenge.score_type}
           availableVariants={challenge.variants ?? ['standard']}
+          mode="preview"
         />
       ) : null}
     </section>
