@@ -1,8 +1,9 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useMemo } from 'react';
 
 import { fetchProfileRating } from '@/features/profile/services/profileRating';
+import { useAsyncResource } from '@/hooks/useAsyncResource';
 import type { ProfileRating } from '@/lib/rating';
 
 type State =
@@ -10,38 +11,22 @@ type State =
   | { status: 'error'; rating: null; error: string }
   | { status: 'ready'; rating: ProfileRating | null; error: null };
 
-const initial: State = { status: 'loading', rating: null, error: null };
-
 export function useProfileRating(userId: string | null): {
   state: State;
   refetch: () => void;
 } {
-  const [state, setState] = useState<State>(initial);
-  const [reloadKey, setReloadKey] = useState(0);
+  const { state: resource, refetch } = useAsyncResource<ProfileRating | null>(
+    () => fetchProfileRating(userId as string),
+    [userId],
+    { enabled: userId !== null },
+  );
 
-  useEffect(() => {
-    if (!userId) return undefined;
-
-    let cancelled = false;
-    void (async () => {
-      try {
-        const rating = await fetchProfileRating(userId);
-        if (!cancelled) setState({ status: 'ready', rating, error: null });
-      } catch (e: unknown) {
-        const message = e instanceof Error ? e.message : 'unknown';
-        if (!cancelled) setState({ status: 'error', rating: null, error: message });
-      }
-    })();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [userId, reloadKey]);
-
-  const refetch = useCallback(() => {
-    setState(initial);
-    setReloadKey((key) => key + 1);
-  }, []);
+  const state = useMemo<State>(() => {
+    if (resource.status === 'ready') return { status: 'ready', rating: resource.data, error: null };
+    if (resource.status === 'error')
+      return { status: 'error', rating: null, error: resource.message };
+    return { status: 'loading', rating: null, error: null };
+  }, [resource]);
 
   return { state, refetch };
 }

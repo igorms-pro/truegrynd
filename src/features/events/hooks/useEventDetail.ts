@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 
 import {
   fetchEventBySlug,
@@ -10,6 +10,7 @@ import {
   type EventRecapRow,
   type EventStanding,
 } from '@/features/events/services/events';
+import { useAsyncResource } from '@/hooks/useAsyncResource';
 import type { Division } from '@/lib/types/database.types';
 
 type State =
@@ -42,57 +43,42 @@ type State =
       error: string;
     };
 
+type Result =
+  | { kind: 'found'; event: EventDetail; standings: EventStanding[]; recap: EventRecapRow[] }
+  | { kind: 'not_found' };
+
 const empty = { standings: [] as EventStanding[], recap: [] as EventRecapRow[] };
 
 export function useEventDetail(
   slug: string,
   division: Division,
 ): { state: State; refetch: () => void } {
-  const [state, setState] = useState<State>({
-    status: 'loading',
-    event: null,
-    ...empty,
-    error: null,
-  });
-  const [reloadKey, setReloadKey] = useState(0);
+  const { state: resource, refetch } = useAsyncResource<Result>(async () => {
+    const event = await fetchEventBySlug(slug);
+    if (!event) return { kind: 'not_found' };
+    const [standings, recap] = await Promise.all([
+      fetchEventStandings(event.id, division),
+      event.status === 'completed' ? fetchEventRecap(event.id) : Promise.resolve([]),
+    ]);
+    return { kind: 'found', event, standings, recap };
+  }, [slug, division]);
 
-  useEffect(() => {
-    let cancelled = false;
+  const state = useMemo<State>(() => {
+    if (resource.status === 'ready') {
+      return resource.data.kind === 'found'
+        ? {
+            status: 'ready',
+            event: resource.data.event,
+            standings: resource.data.standings,
+            recap: resource.data.recap,
+            error: null,
+          }
+        : { status: 'not_found', event: null, ...empty, error: null };
+    }
+    if (resource.status === 'error')
+      return { status: 'error', event: null, ...empty, error: resource.message };
+    return { status: 'loading', event: null, ...empty, error: null };
+  }, [resource]);
 
-    void (async () => {
-      try {
-        const event = await fetchEventBySlug(slug);
-        if (!event) {
-          if (!cancelled) setState({ status: 'not_found', event: null, ...empty, error: null });
-          return;
-        }
-
-        const [standings, recap] = await Promise.all([
-          fetchEventStandings(event.id, division),
-          event.status === 'completed' ? fetchEventRecap(event.id) : Promise.resolve([]),
-        ]);
-
-        if (!cancelled) {
-          setState({ status: 'ready', event, standings, recap, error: null });
-        }
-      } catch (e: unknown) {
-        const message = e instanceof Error ? e.message : 'unknown';
-        if (!cancelled) {
-          setState({ status: 'error', event: null, ...empty, error: message });
-        }
-      }
-    })();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [slug, division, reloadKey]);
-
-  return {
-    state,
-    refetch: () => {
-      setState({ status: 'loading', event: null, ...empty, error: null });
-      setReloadKey((k) => k + 1);
-    },
-  };
+  return { state, refetch };
 }
