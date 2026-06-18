@@ -7,6 +7,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { ClanFactionWarMeta } from '@/features/factions/components/ClanFactionWarMeta';
 import { FactionHallOfFame } from '@/features/factions/components/FactionHallOfFame';
 import { FactionRecentProof } from '@/features/factions/components/FactionRecentProof';
+import { FactionStandingsBar } from '@/features/factions/components/FactionStandingsBar';
 import { RecruitCta } from '@/features/factions/components/RecruitCta';
 import { useFactionPage } from '@/features/factions/hooks/useFactionPage';
 import { formatClanPoints } from '@/features/factions/lib/formatClanPoints';
@@ -86,7 +87,6 @@ export function FactionPageScreen({ slug }: Props) {
   const rank = rankIndex >= 0 ? rankIndex + 1 : null;
   const row = sortedRankings.find((r) => r.faction === faction);
   const isOwnFaction = userFaction === faction;
-  const maxPoints = Math.max(1, sortedRankings[0]?.points ?? 0);
   const myPoints = row?.points ?? 0;
   const gapText =
     rank === 1
@@ -158,34 +158,13 @@ export function FactionPageScreen({ slug }: Props) {
           <p className="text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground">
             {t('standingsTitle')}
           </p>
-          <div className="space-y-2">
-            {sortedRankings.map((r) => {
-              const mine = r.faction === faction;
-              return (
-                <div key={r.faction} className="flex items-center gap-2">
-                  <span
-                    className={[
-                      'w-28 shrink-0 truncate text-[10px] font-black uppercase tracking-[0.14em]',
-                      mine ? 'text-foreground' : 'text-muted-foreground',
-                    ].join(' ')}
-                  >
-                    {tClan(r.faction)}
-                  </span>
-                  <span className="h-2 flex-1 overflow-hidden rounded-full bg-muted">
-                    <span
-                      className={
-                        mine ? 'block h-full bg-accent' : 'block h-full bg-muted-foreground/40'
-                      }
-                      style={{ width: `${Math.round((r.points / maxPoints) * 100)}%` }}
-                    />
-                  </span>
-                  <span className="w-14 shrink-0 text-right font-mono text-[11px] tabular-nums text-muted-foreground">
-                    {formatClanPoints(r.points)}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
+          <FactionStandingsBar
+            rankings={rankings}
+            myFaction={faction}
+            getLabel={(f) => tClan(f)}
+            showPoints
+            formatPoints={formatClanPoints}
+          />
           <p className="text-xs font-black uppercase tracking-[0.14em] text-accent">{gapText}</p>
         </div>
       </article>

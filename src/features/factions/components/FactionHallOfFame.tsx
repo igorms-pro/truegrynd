@@ -8,6 +8,7 @@ import { formatClanPoints } from '@/features/factions/lib/formatClanPoints';
 import type { MemberRow } from '@/features/factions/services/clanHud';
 import { publicProfilePath } from '@/lib/profile/publicProfilePath';
 import { getFactionBadgeClasses } from '@/lib/factionStyles';
+import { rankMedalColorClass } from '@/lib/rankMedal';
 import type { Faction } from '@/lib/types/database.types';
 
 type Props = {
@@ -15,13 +16,6 @@ type Props = {
   members: MemberRow[];
   currentUserId: string | null;
 };
-
-function rankColorClass(rank: number): string {
-  if (rank === 1) return 'text-yellow-400';
-  if (rank === 2) return 'text-zinc-300';
-  if (rank === 3) return 'text-amber-600';
-  return 'text-muted-foreground';
-}
 
 export function FactionHallOfFame({ faction, members, currentUserId }: Props) {
   const locale = useLocale();
@@ -61,7 +55,9 @@ export function FactionHallOfFame({ faction, members, currentUserId }: Props) {
                   className={linkClass}
                 >
                   <div className="flex items-center gap-3">
-                    <span className={`text-xs font-black tabular-nums ${rankColorClass(idx + 1)}`}>
+                    <span
+                      className={`text-xs font-black tabular-nums ${rankMedalColorClass(idx + 1)}`}
+                    >
                       #{idx + 1}
                     </span>
                     <p className="text-sm font-black uppercase tracking-tight">{m.username}</p>
