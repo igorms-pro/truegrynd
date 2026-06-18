@@ -206,6 +206,8 @@ export interface Score {
   video_url: string | null;
   is_validated: boolean;
   proof_level: ProofLevel;
+  /** V3-02: coach/gym_admin who judge-verified this score (NULL = not judge-verified). */
+  verified_by_coach_id: string | null;
   variant: ChallengeVariant;
   is_hidden?: boolean;
   submitted_at: string;
