@@ -7,7 +7,7 @@ import { useLocale, useTranslations } from 'next-intl';
 
 import { LeaderboardFiltersBar } from '@/features/challenges/components/LeaderboardFilters';
 import { LeaderboardPresetsBar } from '@/features/challenges/components/LeaderboardPresets';
-import { RespectButton } from '@/features/challenges/components/RespectButton';
+import { LeaderboardRow } from '@/features/challenges/components/LeaderboardRow';
 import { useChallengeLeaderboard } from '@/features/challenges/hooks/useChallengeLeaderboard';
 import { useScoreRespects } from '@/features/challenges/hooks/useScoreRespects';
 import { applyLeaderboardFilters } from '@/features/challenges/lib/applyFilters';
@@ -19,15 +19,12 @@ import {
 } from '@/features/challenges/lib/leaderboardPresets';
 import { resolveLeaderboardFilters } from '@/features/challenges/lib/resolveLeaderboardFilters';
 import { sortScoresByType } from '@/features/challenges/lib/leaderboardSort';
-import { formatScore } from '@/features/challenges/lib/scoreFormat';
 import {
   EMPTY_FILTERS,
   type LeaderboardEntry,
   type LeaderboardFilters,
 } from '@/features/challenges/lib/types';
 import { useOptionalAppProfile } from '@/features/appshell/context/AppProfileContext';
-import { ProofLevelBadge } from '@/components/ProofLevelBadge';
-import { ReportScoreButton } from '@/features/challenges/components/ReportScoreButton';
 import type { ScoreType } from '@/lib/types/database.types';
 
 type Props = {
@@ -37,90 +34,6 @@ type Props = {
   /** 'preview' = compact top rows + link to the full page; 'full' = filterable page. */
   mode?: 'preview' | 'full';
 };
-
-function rankColorClass(rank: number): string {
-  if (rank === 1) return 'text-yellow-400';
-  if (rank === 2) return 'text-zinc-300';
-  if (rank === 3) return 'text-amber-600';
-  return 'text-muted-foreground';
-}
-
-function LeaderboardRow({
-  rank,
-  entry,
-  scoreType,
-  currentUserId,
-  respectCount,
-  isRespected,
-  respectDisabled,
-  onRespectToggle,
-  showDivisionBadge,
-  isCurrentUser,
-  youLabel,
-}: {
-  rank: number;
-  entry: LeaderboardEntry;
-  scoreType: ScoreType;
-  currentUserId: string | null;
-  respectCount: number;
-  isRespected: boolean;
-  respectDisabled: boolean;
-  onRespectToggle: (scoreId: string) => Promise<void>;
-  showDivisionBadge: boolean;
-  isCurrentUser: boolean;
-  youLabel: string;
-}) {
-  const username = entry.profile?.username ?? '—';
-  return (
-    <li
-      className={[
-        'border-b border-border px-3 py-2 last:border-b-0',
-        isCurrentUser ? 'bg-accent/10 ring-1 ring-inset ring-accent/40' : '',
-      ].join(' ')}
-    >
-      <div className="grid grid-cols-[3rem_1fr_auto_auto] items-center gap-3">
-        <span className={`font-mono text-sm font-black tabular-nums ${rankColorClass(rank)}`}>
-          #{rank}
-        </span>
-        <div className="min-w-0">
-          <span className="flex items-center gap-2">
-            <span className="truncate text-sm font-bold text-foreground">{username}</span>
-            {isCurrentUser ? (
-              <span className="shrink-0 rounded-sm bg-accent px-1.5 py-0.5 text-[9px] font-black uppercase tracking-[0.14em] text-accent-foreground">
-                {youLabel}
-              </span>
-            ) : null}
-          </span>
-          <div className="mt-1 flex flex-wrap items-center gap-2">
-            <ProofLevelBadge level={entry.proof_level} compact />
-            {showDivisionBadge && entry.profile?.division ? (
-              <span className="text-[10px] font-black uppercase tracking-[0.14em] text-muted-foreground">
-                {entry.profile.division}
-              </span>
-            ) : null}
-          </div>
-        </div>
-        <span className="font-mono text-sm tabular-nums text-foreground">
-          {formatScore(entry.value, scoreType)}
-        </span>
-        <RespectButton
-          scoreId={entry.id}
-          scoreUserId={entry.user_id}
-          currentUserId={currentUserId}
-          count={respectCount}
-          respected={isRespected}
-          disabled={respectDisabled}
-          onToggle={onRespectToggle}
-        />
-      </div>
-      <ReportScoreButton
-        scoreId={entry.id}
-        scoreUserId={entry.user_id}
-        currentUserId={currentUserId}
-      />
-    </li>
-  );
-}
 
 const PROOF_SUMMARY_KEY: Record<string, string> = {
   video_ranked: 'videoRanked',
