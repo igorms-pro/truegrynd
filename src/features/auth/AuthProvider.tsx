@@ -3,6 +3,15 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import type { Session, User } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
+import { identifyUser, resetAnalyticsIdentity } from '@/lib/analytics/trackEvent';
+
+function syncAnalyticsIdentity(user: User | null): void {
+  if (user) {
+    identifyUser(user.id, user.email ? { email: user.email } : undefined);
+  } else {
+    resetAnalyticsIdentity();
+  }
+}
 
 type AuthState = {
   user: User | null;
@@ -33,6 +42,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       try {
         const { data } = await supabase.auth.getSession();
         if (!isActive) return;
+        syncAnalyticsIdentity(data.session?.user ?? null);
         setState({
           user: data.session?.user ?? null,
           session: data.session ?? null,
@@ -49,6 +59,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
       if (!isActive) return;
+      syncAnalyticsIdentity(session?.user ?? null);
       setState({
         user: session?.user ?? null,
         session: session ?? null,
