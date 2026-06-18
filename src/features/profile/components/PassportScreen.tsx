@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 
+import { Tabs, type TabItem } from '@/components/Tabs';
 import { FinisherGallery } from '@/features/finisher-card';
 import { ProfileRatingCard } from '@/features/profile/components/ProfileRatingCard';
 import { FinisherCosmeticsTeaser } from '@/features/profile/components/passport/FinisherCosmeticsTeaser';
@@ -22,6 +23,7 @@ import { publicProfilePath } from '@/lib/profile/publicProfilePath';
 export function PassportScreen() {
   const locale = useLocale();
   const t = useTranslations('profile.passport');
+  const tTabs = useTranslations('profile.tabs');
   const { state: profileState, refetch: refetchProfile } = useProfile();
   const profile = profileState.status === 'ready' ? profileState.profile : null;
   const userId = profile?.id ?? null;
@@ -60,6 +62,67 @@ export function PassportScreen() {
   const passportData = passportState.state.status === 'ready' ? passportState.state.data : null;
   const dataError = passportState.state.status === 'error' ? passportState.state.error : null;
 
+  const tabs: TabItem[] = [
+    {
+      id: 'overview',
+      label: tTabs('overview'),
+      content: (
+        <>
+          <PassportDivisionSection
+            currentDivision={profile.division}
+            divisions={passportData?.divisions ?? [profile.division]}
+            history={passportData?.history ?? []}
+            loading={dataLoading}
+          />
+          <ProfileRatingCard
+            rating={ratingState.state.status === 'ready' ? ratingState.state.rating : null}
+            loading={ratingState.state.status === 'loading'}
+            error={ratingState.state.status === 'error' ? ratingState.state.error : null}
+            onRetry={ratingState.refetch}
+          />
+          <PassportTopScoresSection
+            scores={passportData?.topScores ?? []}
+            loading={dataLoading}
+            error={dataError}
+            onRetry={passportState.refetch}
+          />
+        </>
+      ),
+    },
+    {
+      id: 'activity',
+      label: tTabs('activity'),
+      content: (
+        <>
+          {profile.username && profile.faction ? (
+            <FinisherCosmeticsTeaser
+              username={profile.username}
+              faction={profile.faction}
+              division={profile.division}
+            />
+          ) : null}
+          <FinisherGallery
+            userId={profile.id}
+            username={profile.username}
+            faction={profile.faction}
+            division={profile.division}
+          />
+        </>
+      ),
+    },
+    {
+      id: 'palmares',
+      label: tTabs('palmares'),
+      content: (
+        <>
+          <PassportBadgesSection profile={profile} />
+          <PassportWeeklySection weeklies={passportData?.weeklies ?? []} loading={dataLoading} />
+          <PassportRivalsSection wins={passportData?.rivalWins ?? []} loading={dataLoading} />
+        </>
+      ),
+    },
+  ];
+
   return (
     <section className="space-y-6">
       <header className="space-y-2">
@@ -70,49 +133,9 @@ export function PassportScreen() {
 
       <PassportShareBar publicPath={publicPath} />
 
+      <Tabs tabs={tabs} ariaLabel={t('title')} />
+
       <PassportPrivacySection profile={profile} onSaved={refetchProfile} />
-
-      <PassportDivisionSection
-        currentDivision={profile.division}
-        divisions={passportData?.divisions ?? [profile.division]}
-        history={passportData?.history ?? []}
-        loading={dataLoading}
-      />
-
-      <ProfileRatingCard
-        rating={ratingState.state.status === 'ready' ? ratingState.state.rating : null}
-        loading={ratingState.state.status === 'loading'}
-        error={ratingState.state.status === 'error' ? ratingState.state.error : null}
-        onRetry={ratingState.refetch}
-      />
-
-      <PassportTopScoresSection
-        scores={passportData?.topScores ?? []}
-        loading={dataLoading}
-        error={dataError}
-        onRetry={passportState.refetch}
-      />
-
-      <PassportBadgesSection profile={profile} />
-
-      <PassportWeeklySection weeklies={passportData?.weeklies ?? []} loading={dataLoading} />
-
-      <PassportRivalsSection wins={passportData?.rivalWins ?? []} loading={dataLoading} />
-
-      {profile.username && profile.faction ? (
-        <FinisherCosmeticsTeaser
-          username={profile.username}
-          faction={profile.faction}
-          division={profile.division}
-        />
-      ) : null}
-
-      <FinisherGallery
-        userId={profile.id}
-        username={profile.username}
-        faction={profile.faction}
-        division={profile.division}
-      />
     </section>
   );
 }

@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from 'next-intl';
 
 import { ClanFactionWarMeta } from '@/features/factions/components/ClanFactionWarMeta';
 import { FactionHallOfFame } from '@/features/factions/components/FactionHallOfFame';
+import { FactionRecentProof } from '@/features/factions/components/FactionRecentProof';
 import { RecruitCta } from '@/features/factions/components/RecruitCta';
 import { useFactionPage } from '@/features/factions/hooks/useFactionPage';
 import { formatClanPoints } from '@/features/factions/lib/formatClanPoints';
@@ -80,10 +81,18 @@ export function FactionPageScreen({ slug }: Props) {
 
   const { faction, rankings, members, war, myContribution } = state;
   const styles = getFactionBadgeClasses(faction);
-  const rankIndex = rankings.findIndex((r) => r.faction === faction);
+  const sortedRankings = [...rankings].sort((a, b) => b.points - a.points);
+  const rankIndex = sortedRankings.findIndex((r) => r.faction === faction);
   const rank = rankIndex >= 0 ? rankIndex + 1 : null;
-  const row = rankings.find((r) => r.faction === faction);
+  const row = sortedRankings.find((r) => r.faction === faction);
   const isOwnFaction = userFaction === faction;
+  const maxPoints = Math.max(1, sortedRankings[0]?.points ?? 0);
+  const myPoints = row?.points ?? 0;
+  const gapText =
+    rank === 1
+      ? t('leadingBy', { gap: formatClanPoints(myPoints - (sortedRankings[1]?.points ?? 0)) })
+      : t('gapToFirst', { gap: formatClanPoints((sortedRankings[0]?.points ?? 0) - myPoints) });
+  const contributionPct = myPoints > 0 ? Math.round((myContribution / myPoints) * 100) : 0;
 
   return (
     <section className="space-y-6 pb-24">
@@ -144,9 +153,73 @@ export function FactionPageScreen({ slug }: Props) {
             <dd className="mt-1 text-lg font-black tabular-nums">{row?.members ?? 0}</dd>
           </div>
         </dl>
+
+        <div className="mt-4 space-y-3 border-t border-border pt-4">
+          <p className="text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground">
+            {t('standingsTitle')}
+          </p>
+          <div className="space-y-2">
+            {sortedRankings.map((r) => {
+              const mine = r.faction === faction;
+              return (
+                <div key={r.faction} className="flex items-center gap-2">
+                  <span
+                    className={[
+                      'w-28 shrink-0 truncate text-[10px] font-black uppercase tracking-[0.14em]',
+                      mine ? 'text-foreground' : 'text-muted-foreground',
+                    ].join(' ')}
+                  >
+                    {tClan(r.faction)}
+                  </span>
+                  <span className="h-2 flex-1 overflow-hidden rounded-full bg-muted">
+                    <span
+                      className={
+                        mine ? 'block h-full bg-accent' : 'block h-full bg-muted-foreground/40'
+                      }
+                      style={{ width: `${Math.round((r.points / maxPoints) * 100)}%` }}
+                    />
+                  </span>
+                  <span className="w-14 shrink-0 text-right font-mono text-[11px] tabular-nums text-muted-foreground">
+                    {formatClanPoints(r.points)}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+          <p className="text-xs font-black uppercase tracking-[0.14em] text-accent">{gapText}</p>
+        </div>
       </article>
 
+      {isOwnFaction ? (
+        <article className="rounded-md border border-border bg-card p-4">
+          <p className="text-xs font-black uppercase tracking-[0.18em] text-muted-foreground">
+            {t('impactTitle')}
+          </p>
+          <div className="mt-3 flex items-end justify-between gap-4">
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-[0.12em] text-muted-foreground">
+                {t('yourContribution')}
+              </p>
+              <p className={`mt-1 text-3xl font-black tabular-nums ${styles.text}`}>
+                {formatClanPoints(myContribution)}
+              </p>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              {t('contributionShare', { pct: contributionPct })}
+            </p>
+          </div>
+          <span className="mt-3 block h-2 overflow-hidden rounded-full bg-muted">
+            <span
+              className="block h-full bg-accent"
+              style={{ width: `${Math.min(100, contributionPct)}%` }}
+            />
+          </span>
+        </article>
+      ) : null}
+
       <FactionHallOfFame faction={faction} members={members} currentUserId={currentUserId} />
+
+      <FactionRecentProof faction={faction} />
 
       {isOwnFaction ? (
         <RecruitCta

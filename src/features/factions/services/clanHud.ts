@@ -6,7 +6,7 @@ import {
   type FactionWarContext,
 } from '@/features/factions/services/factionWar';
 import { supabase } from '@/lib/supabase';
-import type { Division, Faction, Profile } from '@/lib/types/database.types';
+import type { Division, Faction, Profile, ScoreType } from '@/lib/types/database.types';
 
 export type FactionRow = {
   faction: Faction;
@@ -143,4 +143,53 @@ export async function getClanHudData(input: {
 
   const legacy = await getLegacyClanHudData({ faction, limit, sampleLimit });
   return { ...legacy, war: null, myContribution: 0 };
+}
+
+export type FactionProofRow = {
+  id: string;
+  username: string;
+  value: number;
+  scoreType: ScoreType;
+  challengeTitle: string;
+  videoUrl: string;
+};
+
+type RawProofRow = {
+  id: string;
+  value: number;
+  video_url: string | null;
+  profile: Pick<Profile, 'username' | 'faction'> | null;
+  challenge: { title: string; score_type: ScoreType } | null;
+};
+
+const PROOF_SELECT =
+  'id,value,video_url,submitted_at,profile:profiles!scores_user_id_fkey(username,faction),challenge:challenges!scores_challenge_id_fkey(title,score_type)';
+
+/** Recent validated, video-backed scores from a faction's members. */
+export async function listRecentFactionVideos(
+  faction: Faction,
+  limit = 6,
+): Promise<FactionProofRow[]> {
+  const { data, error } = await supabase
+    .from('scores')
+    .select(PROOF_SELECT)
+    .eq('is_validated', true)
+    .not('video_url', 'is', null)
+    .order('submitted_at', { ascending: false })
+    .limit(80);
+  if (error) throw new Error(error.message);
+  const rows = (data ?? []) as unknown as RawProofRow[];
+  return rows
+    .filter(
+      (r) => r.profile?.faction === faction && r.profile.username && r.video_url && r.challenge,
+    )
+    .slice(0, limit)
+    .map((r) => ({
+      id: r.id,
+      username: r.profile!.username as string,
+      value: r.value,
+      scoreType: r.challenge!.score_type,
+      challengeTitle: r.challenge!.title,
+      videoUrl: r.video_url as string,
+    }));
 }
