@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import { notFound } from 'next/navigation';
 
 import { useOptionalAppProfile } from '@/features/appshell/context/AppProfileContext';
+import { isPlatformAdmin } from '@/lib/roles';
 
 type Props = {
   children: ReactNode;
@@ -12,7 +13,7 @@ type Props = {
 export default function AdminLayout({ children }: Props) {
   const profile = useOptionalAppProfile();
 
-  if (!profile || !profile.is_admin) {
+  if (!isPlatformAdmin(profile)) {
     notFound();
   }
 

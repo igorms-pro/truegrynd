@@ -4,6 +4,8 @@ export type ChallengeVariant = 'no_equipment' | 'bodyweight' | 'dumbbell' | 'sta
 export type ChallengeRatingAxis = 'engine' | 'power' | 'strength' | 'grit';
 export type Sex = 'male' | 'female' | 'other';
 export type ScoreType = 'time' | 'reps';
+/** V3-00 RBAC role. athlete (default) · coach / gym_admin (/pro) · platform_admin (/admin). */
+export type UserRole = 'athlete' | 'coach' | 'gym_admin' | 'platform_admin';
 export type ProofLevel =
   | 'honor'
   | 'video_ranked'
@@ -125,6 +127,7 @@ export interface Profile {
   last_activity_at: string | null;
   avatar_url: string | null;
   is_admin: boolean;
+  role: UserRole;
   created_at: string;
   updated_at: string;
 }
