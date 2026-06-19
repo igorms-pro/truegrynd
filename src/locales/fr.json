@@ -1360,5 +1360,30 @@
     "chest_to_bar": "Chest-to-Bar",
     "turkish_get_up": "Turkish Get-Up",
     "strict_ring_dip": "Dip strict aux anneaux"
+  },
+  "pro": {
+    "badge": "TrueGrynd PRO",
+    "title": "Espace PRO",
+    "subtitle": "Valide les scores, organise tes compétitions et gère ta box — au même endroit.",
+    "nav": {
+      "label": "Sections PRO",
+      "soon": "Bientôt",
+      "groups": {
+        "competition": "Compétition",
+        "management": "Gestion salle"
+      },
+      "dashboard": "Dashboard",
+      "judge": "Judge Console",
+      "events": "Events",
+      "tv": "TV Cast",
+      "planning": "Planning",
+      "members": "Membres",
+      "subscriptions": "Abonnements",
+      "settings": "Réglages",
+      "billing": "Facturation"
+    },
+    "dashboard": {
+      "intro": "Bienvenue dans ton espace PRO. La Judge Console arrive juste après — le reste suit."
+    }
   }
 }

@@ -1360,5 +1360,30 @@
     "chest_to_bar": "Chest-to-Bar",
     "turkish_get_up": "Turkish Get-Up",
     "strict_ring_dip": "Strict Ring Dip"
+  },
+  "pro": {
+    "badge": "TrueGrynd PRO",
+    "title": "Gym command center",
+    "subtitle": "Validate scores, run competitions and manage your box — all in one place.",
+    "nav": {
+      "label": "PRO sections",
+      "soon": "Soon",
+      "groups": {
+        "competition": "Competition",
+        "management": "Gym management"
+      },
+      "dashboard": "Dashboard",
+      "judge": "Judge Console",
+      "events": "Events",
+      "tv": "TV Cast",
+      "planning": "Schedule",
+      "members": "Members",
+      "subscriptions": "Subscriptions",
+      "settings": "Settings",
+      "billing": "Billing"
+    },
+    "dashboard": {
+      "intro": "Welcome to your PRO space. The Judge Console arrives next — the rest is on the way."
+    }
   }
 }
