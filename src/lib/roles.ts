@@ -19,3 +19,12 @@ export function isGymStaff(profile: RoleSource | null | undefined): boolean {
 export function canAccessPro(profile: RoleSource | null | undefined): boolean {
   return isGymStaff(profile) || isPlatformAdmin(profile);
 }
+
+/**
+ * Can manage the gym itself (settings, billing, subscriptions) — a gym admin or
+ * platform admin. A plain `coach` accesses `/pro` but not these owner-only sections.
+ */
+export function isGymManager(profile: RoleSource | null | undefined): boolean {
+  if (!profile) return false;
+  return profile.role === 'gym_admin' || isPlatformAdmin(profile);
+}
