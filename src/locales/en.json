@@ -1384,6 +1384,25 @@
     },
     "dashboard": {
       "intro": "Welcome to your PRO space. The Judge Console arrives next — the rest is on the way."
+    },
+    "judge": {
+      "intro": "Validate performances you witnessed on the floor — a validated score jumps to the verified ranking.",
+      "loading": "Loading the queue…",
+      "error": "Could not load the queue.",
+      "empty": "Nothing to validate right now. 🎉",
+      "pendingCount": "{count} to validate",
+      "validate": "Validate",
+      "validating": "Validating…",
+      "video": "Video",
+      "noProof": "no video proof",
+      "actionError": "Validation failed — try again.",
+      "proof": {
+        "honor": "honor",
+        "video_ranked": "video",
+        "community_verified": "community",
+        "event_verified": "event",
+        "judge_verified": "judge"
+      }
     }
   }
 }
