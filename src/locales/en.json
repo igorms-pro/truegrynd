@@ -1383,7 +1383,12 @@
       "billing": "Billing"
     },
     "dashboard": {
-      "intro": "Welcome to your PRO space. The Judge Console arrives next — the rest is on the way."
+      "intro": "Welcome to your PRO space. The Judge Console arrives next — the rest is on the way.",
+      "kpi": {
+        "members": "Members",
+        "pending": "To validate",
+        "active7d": "Active (7d)"
+      }
     },
     "judge": {
       "intro": "Validate performances you witnessed on the floor — a validated score jumps to the verified ranking.",

@@ -5,7 +5,36 @@ import { useLocale, useTranslations } from 'next-intl';
 
 import { useOptionalAppProfile } from '@/features/appshell/context/AppProfileContext';
 import { PRO_NAV } from '@/features/pro/lib/proNav';
+import { fetchGymOverview } from '@/features/pro/services/dashboard';
+import { useAsyncResource } from '@/hooks/useAsyncResource';
 import { isGymManager } from '@/lib/roles';
+
+function GymKpis() {
+  const t = useTranslations('pro.dashboard.kpi');
+  const { state } = useAsyncResource(fetchGymOverview, []);
+  const ready = state.status === 'ready' ? state.data : null;
+
+  const cards: ReadonlyArray<{ key: string; value: number | null }> = [
+    { key: 'members', value: ready?.memberCount ?? null },
+    { key: 'pending', value: ready?.pendingCount ?? null },
+    { key: 'active7d', value: ready?.active7dCount ?? null },
+  ];
+
+  return (
+    <ul className="grid grid-cols-3 gap-3">
+      {cards.map((c) => (
+        <li key={c.key} className="rounded-md border border-border bg-card p-4">
+          <p className="text-2xl font-black tabular-nums">
+            {state.status === 'error' ? '—' : (c.value ?? '·')}
+          </p>
+          <p className="text-[10px] font-black uppercase tracking-[0.14em] text-muted-foreground">
+            {t(c.key)}
+          </p>
+        </li>
+      ))}
+    </ul>
+  );
+}
 
 export function ProDashboard() {
   const t = useTranslations('pro');
@@ -22,6 +51,8 @@ export function ProDashboard() {
   return (
     <div className="space-y-4">
       <p className="text-sm text-muted-foreground">{t('dashboard.intro')}</p>
+
+      <GymKpis />
 
       <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {cards.map((item) => {

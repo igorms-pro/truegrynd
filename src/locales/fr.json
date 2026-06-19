@@ -1383,7 +1383,12 @@
       "billing": "Facturation"
     },
     "dashboard": {
-      "intro": "Bienvenue dans ton espace PRO. La Judge Console arrive juste après — le reste suit."
+      "intro": "Bienvenue dans ton espace PRO. La Judge Console arrive juste après — le reste suit.",
+      "kpi": {
+        "members": "Membres",
+        "pending": "À valider",
+        "active7d": "Actifs (7j)"
+      }
     },
     "judge": {
       "intro": "Valide les performances vues sur le floor — un score validé passe au ranking vérifié.",
