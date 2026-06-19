@@ -67,7 +67,7 @@ export const PRO_NAV: readonly ProNavGroup[] = [
         labelKey: 'planning',
         status: 'soon',
       },
-      { id: 'members', path: '/app/pro/members', icon: Users, labelKey: 'members', status: 'soon' },
+      { id: 'members', path: '/app/pro/members', icon: Users, labelKey: 'members', status: 'live' },
       {
         id: 'subscriptions',
         path: '/app/pro/subscriptions',

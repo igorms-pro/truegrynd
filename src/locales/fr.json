@@ -1408,6 +1408,14 @@
         "event_verified": "event",
         "judge_verified": "judge"
       }
+    },
+    "members": {
+      "intro": "Les athlètes affiliés à ta salle.",
+      "loading": "Chargement des membres…",
+      "error": "Impossible de charger les membres.",
+      "empty": "Aucun membre affilié pour le moment.",
+      "count": "{count} membres",
+      "never": "jamais"
     }
   }
 }

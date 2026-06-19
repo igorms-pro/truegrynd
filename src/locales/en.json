@@ -1408,6 +1408,14 @@
         "event_verified": "event",
         "judge_verified": "judge"
       }
+    },
+    "members": {
+      "intro": "Athletes affiliated to your gym.",
+      "loading": "Loading members…",
+      "error": "Could not load members.",
+      "empty": "No members affiliated yet.",
+      "count": "{count} members",
+      "never": "never"
     }
   }
 }
