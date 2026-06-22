@@ -1416,6 +1416,26 @@
       "empty": "No members affiliated yet.",
       "count": "{count} members",
       "never": "never"
+    },
+    "createGym": {
+      "title": "Create your gym",
+      "intro": "TrueGrynd PRO is for verified businesses. Enter your company's SIRET or SIREN — we check it against the French business registry and set up your gym.",
+      "siretLabel": "SIRET or SIREN",
+      "siretHint": "14 digits (SIRET) or 9 (SIREN) — found on your Kbis or any invoice.",
+      "submit": "Verify & create my gym",
+      "submitting": "Verifying…",
+      "moat": "Every gym on TrueGrynd maps to a real, verified company — that's what keeps the ranking credible.",
+      "ctaBadge": "Get started",
+      "ctaBody": "You don't have a gym yet. Create yours to unlock judging, events and member management.",
+      "error": {
+        "generic": "Something went wrong — try again.",
+        "invalid_siret": "Enter a valid SIRET (14 digits) or SIREN (9 digits).",
+        "company_not_found": "No company found for this number. Check the digits.",
+        "company_closed": "This company is registered as closed.",
+        "gym_already_claimed": "A gym already exists for this company.",
+        "registry_unreachable": "The business registry is unreachable right now — try again shortly.",
+        "registry_error": "The business registry returned an error — try again shortly."
+      }
     }
   }
 }

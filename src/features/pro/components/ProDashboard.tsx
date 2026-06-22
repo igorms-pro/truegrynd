@@ -36,12 +36,30 @@ function GymKpis() {
   );
 }
 
+function NoGymCta() {
+  const t = useTranslations('pro.createGym');
+  const locale = useLocale();
+  return (
+    <Link
+      href={`/${locale}/app/pro/gyms/new`}
+      className="block rounded-md border border-primary/40 bg-card p-5 transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+    >
+      <p className="text-[10px] font-black uppercase tracking-[0.18em] text-primary">
+        {t('ctaBadge')}
+      </p>
+      <p className="mt-1 text-base font-black uppercase tracking-tight">{t('title')}</p>
+      <p className="mt-1 text-sm text-muted-foreground">{t('ctaBody')}</p>
+    </Link>
+  );
+}
+
 export function ProDashboard() {
   const t = useTranslations('pro');
   const tNav = useTranslations('pro.nav');
   const locale = useLocale();
   const profile = useOptionalAppProfile();
   const canManage = isGymManager(profile);
+  const hasGym = Boolean(profile?.affiliated_gym_id);
 
   // Flatten every section except the dashboard itself into overview cards.
   const cards = PRO_NAV.flatMap((group) => group.items)
@@ -52,7 +70,7 @@ export function ProDashboard() {
     <div className="space-y-4">
       <p className="text-sm text-muted-foreground">{t('dashboard.intro')}</p>
 
-      <GymKpis />
+      {hasGym ? <GymKpis /> : <NoGymCta />}
 
       <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {cards.map((item) => {
