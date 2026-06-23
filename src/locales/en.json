@@ -1417,6 +1417,35 @@
       "count": "{count} members",
       "never": "never"
     },
+    "events": {
+      "intro": "Competitions you run for your gym.",
+      "loading": "Loading events…",
+      "error": "Could not load events.",
+      "empty": "No events yet. Create your first competition.",
+      "phase": {
+        "upcoming": "Upcoming",
+        "live": "Live",
+        "ended": "Ended"
+      },
+      "create": {
+        "cta": "New event",
+        "back": "Back to events",
+        "title": "Create an event",
+        "subtitle": "Set the window and build the workout — your members compete on it.",
+        "submit": "Create event",
+        "submitting": "Creating…",
+        "error": "Could not create the event — try again.",
+        "startsRequired": "Pick a start date.",
+        "endsRequired": "Pick an end date.",
+        "endsAfterStart": "The end must be after the start.",
+        "fields": {
+          "title": "Event name",
+          "description": "Description",
+          "startsAt": "Starts",
+          "endsAt": "Ends"
+        }
+      }
+    },
     "createGym": {
       "title": "Create your gym",
       "intro": "TrueGrynd PRO is for verified businesses. Enter your company's SIRET or SIREN — we check it against the French business registry and set up your gym.",

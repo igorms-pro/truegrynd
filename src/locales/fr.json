@@ -1417,6 +1417,35 @@
       "count": "{count} membres",
       "never": "jamais"
     },
+    "events": {
+      "intro": "Les compétitions que tu organises pour ta salle.",
+      "loading": "Chargement des events…",
+      "error": "Impossible de charger les events.",
+      "empty": "Aucun event pour le moment. Crée ta première compétition.",
+      "phase": {
+        "upcoming": "À venir",
+        "live": "En cours",
+        "ended": "Terminé"
+      },
+      "create": {
+        "cta": "Nouvel event",
+        "back": "Retour aux events",
+        "title": "Créer un event",
+        "subtitle": "Définis la fenêtre et compose le WOD — tes membres s'affrontent dessus.",
+        "submit": "Créer l'event",
+        "submitting": "Création…",
+        "error": "Impossible de créer l'event — réessaie.",
+        "startsRequired": "Choisis une date de début.",
+        "endsRequired": "Choisis une date de fin.",
+        "endsAfterStart": "La fin doit être après le début.",
+        "fields": {
+          "title": "Nom de l'event",
+          "description": "Description",
+          "startsAt": "Début",
+          "endsAt": "Fin"
+        }
+      }
+    },
     "createGym": {
       "title": "Créer ta salle",
       "intro": "TrueGrynd PRO est réservé aux entreprises vérifiées. Saisis le SIRET ou le SIREN de ta box — on le vérifie auprès du registre des entreprises et on crée ta salle.",
