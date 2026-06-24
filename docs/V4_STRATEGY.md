@@ -22,9 +22,31 @@ This is the moment Truegrynd stops being an add-on and becomes the **system of r
 - None unify **management + competition + hybrid athletic identity** in one place. Truegrynd already owns the hard, differentiated half (verified ranking, judge, events, leagues, TV). Adding management is comparatively commoditized — but bundling it with the moat is what no incumbent can copy quickly.
 - The data flywheel: the schedule knows who trained, the WOD knows what they did, the passport knows how they progressed — **one graph**, not three exports.
 
-## 3. Scope — the "Gym management" nav group
+## 3. Innovation — what no incumbent can do
 
-V3 already shipped the PRO shell with a **"Gestion salle"** nav group whose items are placeholders (`soon`). V4 fills them in.
+Resawod / Peppy / Wodify are **cashier + booking** tools. Truegrynd holds three assets they don't: the **engagement graph** (streaks, activity, passport), **verified performance data** (judge/proof), and a **network of athletes across gyms**. That turns booking from a cold transaction into a retention + community engine. The headline:
+
+> **V4 is not "a booking tool with community bolted on" — it's a retention + community engine that also handles booking.**
+
+The differentiators (each = a real _"dommage que Resawod ne fasse pas ça"_):
+
+1. **🚨 Retention / churn-risk engine** _(owners' #1 pain; our structural edge)._ Incumbents tell you who paid; never _"these 8 members' attendance dropped 40% — they're about to churn."_ We already have the streak/activity/passport graph → surface an **at-risk dashboard** + auto re-engagement nudges. Gyms don't want a cashier, they want **retention**. This is the lead sales argument.
+2. **🔗 Booking ⇄ WOD ⇄ leaderboard loop.** Book the 18h → **see the day's WOD while booking** → attend → post your score → it lands on the **class leaderboard, validated by the coach on the floor**. One app, one chain; impossible when programming and booking are separate tools.
+3. **👥 Social booking (kills no-shows).** No-shows are the plague. We have rivals/factions: _"your rival booked 18h — join?"_, _"6 in, 2 from your faction."_ Attendance becomes social → accountability → fewer no-shows. Plus a **reputation-based waitlist** (chronic no-shows lose priority; reliable members auto-promoted).
+4. **🌍 Cross-gym drop-in network** _(the network effect no single-gym tool can copy)._ Every Truegrynd athlete has a passport and gyms live on the platform → a traveling athlete can **drop in at any Truegrynd gym**: discover, book, pay, and the host gym sees their **verified level**. Revenue for gyms + an acquisition loop. Resawod can't — each gym is a silo.
+5. **🎯 Coach class-prep view.** Resawod gives a list of names. We give the coach, per booked athlete: **level / scaling / recent scores / flagged injury** → he preps and scales the class intelligently.
+6. **🏠 The member home is a destination, not a chore.** Peppy is opened only to book (cold). Truegrynd is opened daily (leaderboard, rivals, passport) → **booking happens where members already are**. Engagement-led booking.
+
+**The 3 killers to lead with:** retention (1), the booking→WOD→leaderboard loop (2), the drop-in network (4).
+
+## 4. Scope — surfaces & the "Gym management" nav group
+
+**Two surfaces, split by role (this is the B2B2C nature):**
+
+- **🏋️ Coach / gym_admin → B2B app (`/pro`)** — _sets up_ the operation: schedule, capacity, membership plans, payments, sees bookings, runs check-in. This is the **"Gestion salle"** nav group V3 shipped as placeholders (`soon`).
+- **🧍 Member / athlete → B2C app (`/app`)** — _consumes_ it: a new **"Ma salle"** section (visible only to athletes with an `affiliated_gym_id`) where they see their gym's schedule, **book a class**, manage their membership, pay. The athlete is already in `/app` (posts scores) and already affiliated since V3-01.
+
+Same database (sessions, bookings), two screens by role. V4 fills the `/pro` management group **and** adds the `/app` member booking section.
 
 | Module              | What                                                                                   | Status after V3 |
 | ------------------- | -------------------------------------------------------------------------------------- | --------------- |
@@ -38,30 +60,33 @@ V3 already shipped the PRO shell with a **"Gestion salle"** nav group whose item
 
 Out of scope for V4 (keep lean): full accounting/exports, payroll, retail/POS, access-control hardware.
 
-## 4. Architecture notes
+## 5. Architecture notes
 
 - **Multi-tenant reuse:** everything keys off `gyms` + `profiles.affiliated_gym_id` (already in place since V3-01). New tables: `gym_classes` (schedule templates), `gym_sessions` (dated instances), `gym_bookings`, `gym_memberships` (plans) + `gym_member_subscriptions` (a member ↔ plan), `gym_checkins`. All gym-scoped via RLS like the V3 tables.
 - **Member payments = Stripe Connect.** V3 billing (#117) charges the _gym_ on the platform account. V4 needs the _gym to charge its members_ → each gym becomes a **Stripe Connect (Express) connected account**; Truegrynd optionally takes an application fee. This is the one genuinely new payment surface (the rest reuses the V3 plumbing — `callEdgeFunction`, webhook pattern).
 - **Booking integrity:** capacity + waitlist needs transactional booking (RPC `book_session` with row locking) to avoid overbooking. Reuse the SECURITY-DEFINER RPC pattern.
 - **Roles:** `gym_admin` manages plans/schedule/payments; `coach` runs the session (check-in, sees the roster); `athlete` books + pays. Gate via the existing `roles.ts` helpers.
 
-## 5. Delivery slices (proposed)
+## 6. Delivery slices (proposed)
 
-1. **Planning + class types** — schedule CRUD, recurring slots, coach assignment. (Read-only calendar for members first.)
-2. **Reservations** — booking + waitlist + cancellation + no-show, capacity-safe.
-3. **Memberships & passes** — gym defines plans; assign to members; track remaining credits / validity.
-4. **Member payments (Stripe Connect)** — onboard gym as connected account; charge memberships; webhook → member subscription status.
-5. **Check-in / attendance** — coach kiosk; ties booking → attendance → passport activity.
+1. **Planning + class types** — coach builds the schedule (`/pro`): recurring slots, coach, capacity, type. Members get a read-only weekly calendar in `/app` "Ma salle".
+2. **Reservations** — member books/cancels (`/app`) + waitlist + no-show, capacity-safe. Coach sees the roster per session with each athlete's level (differentiator #5).
+3. **Booking ⇄ WOD loop** — attach the day's WOD (Events) to the session; show it at booking; check-in → score → class leaderboard (differentiator #2).
+4. **Retention dashboard** — `/pro` at-risk-members view from the engagement graph + nudges (differentiator #1, the sales argument — pull earlier if it sells).
+5. **Memberships & passes** — gym defines plans; assign to members; track credits / validity.
+6. **Member payments (Stripe Connect)** — onboard gym as connected account; charge memberships; webhook → member subscription status.
+7. **Check-in / attendance** — coach kiosk; ties booking → attendance → passport activity.
+8. **Social booking + drop-in network** — rivals/faction nudges; reputation waitlist; cross-gym drop-in (differentiators #3, #4).
 
-Each slice ships behind the existing PRO subscription gate and the "Gestion salle" nav group going `soon → live`.
+Management slices ship behind the PRO subscription gate (`/pro`, "Gestion salle" `soon → live`); member-facing slices ship in `/app` "Ma salle" for affiliated athletes.
 
-## 6. Open questions (to decide before building)
+## 7. Open questions (to decide before building)
 
 - **Stripe Connect model:** application fee % vs flat? KYB already done at gym creation (SIREN/SIRET) — does it satisfy Connect onboarding or is a separate Stripe onboarding required?
 - **Booking model granularity:** per-class capacity only, or per-equipment/lane (rower, rig) booking too?
 - **Migration from incumbents:** import members/plans from Peppy/Resawod (CSV)? Critical for switching cost / sales.
 - **Pricing impact:** does management stay in the $100/mo GYM PRO, or a higher tier? (Replacing Resawod ≈ €100–150/mo of value — room to raise ACV.)
 
-## 7. Success criteria
+## 8. Success criteria
 
 A pilot box (Igor's) **drops Peppy** and runs its full week on Truegrynd: schedule published, members booking, memberships billed, attendance tracked — while the same app runs the WODs, leaderboards and leagues. One product, one login, one data graph.
