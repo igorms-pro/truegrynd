@@ -46,11 +46,17 @@ Deno.serve(async (req) => {
   async function applySubscription(sub: Stripe.Subscription) {
     const gymId = (sub.metadata?.gym_id as string | undefined) ?? null;
     const customerId = typeof sub.customer === 'string' ? sub.customer : sub.customer.id;
+    // current_period_end moved from the top-level subscription to the item in newer API
+    // versions — read whichever is present.
+    const periodEnd =
+      (sub as { current_period_end?: number }).current_period_end ??
+      sub.items?.data?.[0]?.current_period_end ??
+      null;
     const patch = {
       subscription_status: STATUS_MAP[sub.status] ?? 'none',
       stripe_subscription_id: sub.id,
       stripe_customer_id: customerId,
-      current_period_end: new Date(sub.current_period_end * 1000).toISOString(),
+      current_period_end: periodEnd ? new Date(periodEnd * 1000).toISOString() : null,
     };
     const query = admin.from('gyms').update(patch);
     if (gymId) await query.eq('id', gymId);

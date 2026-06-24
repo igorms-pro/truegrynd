@@ -1423,6 +1423,8 @@
       "noGym": "Create your gym first to manage billing.",
       "plan": "TrueGrynd GYM PRO — 100/mo. Validation, events, TV cast, leagues.",
       "subscribe": "Subscribe",
+      "gateTitle": "Subscription required",
+      "gateBody": "Your gym's TrueGrynd GYM PRO subscription is inactive. Subscribe to restore validation, events, TV cast and leagues.",
       "manage": "Manage subscription",
       "renews": "Renews on {date}",
       "note": "Billing is handled securely by Stripe. Cancel anytime from the portal.",

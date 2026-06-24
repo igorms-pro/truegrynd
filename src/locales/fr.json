@@ -1423,6 +1423,8 @@
       "noGym": "Crée d'abord ta salle pour gérer la facturation.",
       "plan": "TrueGrynd GYM PRO — 100/mois. Validation, events, TV cast, ligues.",
       "subscribe": "S'abonner",
+      "gateTitle": "Abonnement requis",
+      "gateBody": "L'abonnement TrueGrynd GYM PRO de ta salle est inactif. Abonne-toi pour rétablir la validation, les events, le TV cast et les ligues.",
       "manage": "Gérer l'abonnement",
       "renews": "Renouvellement le {date}",
       "note": "La facturation est gérée en sécurité par Stripe. Résiliable à tout moment depuis le portail.",
