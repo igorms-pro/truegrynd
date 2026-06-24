@@ -97,7 +97,7 @@ export const PRO_NAV: readonly ProNavGroup[] = [
         path: '/app/pro/billing',
         icon: CreditCard,
         labelKey: 'billing',
-        status: 'soon',
+        status: 'live',
         managerOnly: true,
       },
     ],
