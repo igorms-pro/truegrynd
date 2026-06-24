@@ -147,6 +147,52 @@ export async function addEventWorkout(input: {
   if (error) throw new Error(error.message);
 }
 
+/** The caller's personalized pacing for an event (null = no plan set). */
+export type EventPacing = {
+  benchmarkSeconds: number;
+  segments: number;
+  engine: number;
+  factor: number;
+  personalTargetSeconds: number;
+  splitSeconds: number;
+};
+
+export async function getEventPacing(eventId: string): Promise<EventPacing | null> {
+  const { data, error } = await supabase
+    .rpc('my_event_pacing', { p_event_id: eventId })
+    .maybeSingle<{
+      benchmark_seconds: number;
+      segments: number;
+      engine: number;
+      factor: number;
+      personal_target_seconds: number;
+      split_seconds: number;
+    }>();
+  if (error) throw new Error(error.message);
+  if (!data) return null;
+  return {
+    benchmarkSeconds: data.benchmark_seconds,
+    segments: data.segments,
+    engine: Number(data.engine),
+    factor: Number(data.factor),
+    personalTargetSeconds: data.personal_target_seconds,
+    splitSeconds: data.split_seconds,
+  };
+}
+
+export async function setEventPacing(input: {
+  eventId: string;
+  benchmarkSeconds: number;
+  segments: number;
+}): Promise<void> {
+  const { error } = await supabase.rpc('set_event_pacing', {
+    p_event_id: input.eventId,
+    p_benchmark_seconds: input.benchmarkSeconds,
+    p_segments: input.segments,
+  });
+  if (error) throw new Error(error.message);
+}
+
 /** A row in the cumulative event standings. */
 export type EventStanding = {
   userId: string;

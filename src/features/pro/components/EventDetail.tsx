@@ -18,6 +18,7 @@ import {
   type EventWorkout,
   type GymEvent,
 } from '@/features/pro/services/events';
+import { PacingCard } from '@/features/pro/components/PacingCard';
 import { ScoreSubmissionForm } from '@/features/submission/components/ScoreSubmissionForm';
 import { useAsyncResource } from '@/hooks/useAsyncResource';
 import { isGymStaff } from '@/lib/roles';
@@ -423,6 +424,8 @@ function EventBody({ event, onChanged }: { event: GymEvent; onChanged: () => voi
       {!editing && event.description ? (
         <p className="text-sm text-muted-foreground">{event.description}</p>
       ) : null}
+
+      {!editing ? <PacingCard eventId={event.id} canManage={canManage} /> : null}
 
       {/* Overall standings across all workouts (only meaningful with 2+ WODs). */}
       {workouts.length > 1 ? <StandingsTable eventId={event.id} reloadKey={activeIdx} /> : null}

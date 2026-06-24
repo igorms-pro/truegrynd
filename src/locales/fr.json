@@ -1505,6 +1505,20 @@
           "reps": "Reps / AMRAP"
         }
       },
+      "pacing": {
+        "title": "Assistant de pacing",
+        "yourTarget": "Ton objectif",
+        "splits": "{time} par segment × {count}",
+        "basis": "Basé sur ton Engine {engine} vs un benchmark de {benchmark} — un repère, pas une limite.",
+        "edit": "Modifier",
+        "emptyStaff": "Définis un temps benchmark + des segments pour donner à chaque athlète un pacing personnalisé.",
+        "benchmark": "Benchmark (mm:ss)",
+        "segments": "Segments",
+        "save": "Enregistrer",
+        "saving": "Enregistrement…",
+        "invalid": "Saisis un temps valide (mm:ss) et un nombre de segments.",
+        "error": "Impossible d'enregistrer — réessaie."
+      },
       "tv": {
         "badge": "Diffusion live",
         "exit": "Quitter",

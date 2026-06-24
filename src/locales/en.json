@@ -1505,6 +1505,20 @@
           "reps": "Reps / AMRAP"
         }
       },
+      "pacing": {
+        "title": "Pacing assistant",
+        "yourTarget": "Your target",
+        "splits": "{time} per segment × {count}",
+        "basis": "Based on your Engine {engine} vs a {benchmark} benchmark — a guide, not a limit.",
+        "edit": "Edit",
+        "emptyStaff": "Set a benchmark finish + segments to give each athlete a personalized pace.",
+        "benchmark": "Benchmark (mm:ss)",
+        "segments": "Segments",
+        "save": "Save",
+        "saving": "Saving…",
+        "invalid": "Enter a valid time (mm:ss) and segment count.",
+        "error": "Could not save — try again."
+      },
       "tv": {
         "badge": "Live broadcast",
         "exit": "Exit",
