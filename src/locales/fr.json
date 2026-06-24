@@ -1433,7 +1433,19 @@
         "standings": "Classement",
         "noStandings": "Le classement apparaîtra une fois l'event configuré.",
         "submit": "Soumettre mon score",
-        "submitted": "Score soumis — il est dans le classement et la file Judge."
+        "submitted": "Score soumis — il est dans le classement et la file Judge.",
+        "cast": "Caster sur la TV"
+      },
+      "tv": {
+        "badge": "Diffusion live",
+        "exit": "Quitter",
+        "verified": "Vérifié",
+        "waiting": "En attente des premiers scores…",
+        "error": "Impossible de charger le tableau.",
+        "loading": "Chargement…",
+        "cast": "Caster",
+        "listIntro": "Caste un classement live sur l'écran de ta salle.",
+        "listEmpty": "Aucun event live ou à venir à caster."
       },
       "manage": {
         "edit": "Modifier",

@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Radio } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
@@ -251,9 +251,20 @@ function EventBody({ event, onChanged }: { event: GymEvent; onChanged: () => voi
       ) : null}
 
       <div className="space-y-2">
-        <h2 className="text-xs font-black uppercase tracking-[0.18em] text-muted-foreground">
-          {t('detail.standings')}
-        </h2>
+        <div className="flex items-center justify-between gap-3">
+          <h2 className="text-xs font-black uppercase tracking-[0.18em] text-muted-foreground">
+            {t('detail.standings')}
+          </h2>
+          {event.challengeId ? (
+            <Link
+              href={`/${locale}/app/pro/events/${event.id}/tv`}
+              className="inline-flex shrink-0 items-center gap-1.5 rounded-md border border-border px-2.5 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] text-muted-foreground hover:text-foreground"
+            >
+              <Radio className="h-3.5 w-3.5" />
+              {t('detail.cast')}
+            </Link>
+          ) : null}
+        </div>
         {event.challengeId ? (
           <Leaderboard
             key={`${event.challengeId}-${reloadKey}-${profile?.id ?? ''}`}
