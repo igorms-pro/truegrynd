@@ -31,6 +31,12 @@ export function AdminProofPageShell({ locale }: Props) {
           Events
         </Link>
         <span className="text-primary">Proof</span>
+        <Link
+          href={`/${locale}/app/admin/gym-leads`}
+          className="text-muted-foreground hover:text-foreground"
+        >
+          Gym leads
+        </Link>
       </nav>
       <AdminProofQueue />
     </div>

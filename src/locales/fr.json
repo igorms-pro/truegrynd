@@ -895,6 +895,18 @@
     }
   },
   "growth": {
+    "gymRequest": {
+      "title": "Tu t'entraînes dans une box ?",
+      "body": "Fais valider tes scores par un juge — demande à ta salle de rejoindre TrueGrynd PRO.",
+      "cta": "Demander ma salle",
+      "gymPlaceholder": "Nom de la salle (ex. CrossFit Lyon)",
+      "cityPlaceholder": "Ville",
+      "submit": "Envoyer la demande",
+      "submitting": "Envoi…",
+      "error": "Une erreur est survenue — réessaie.",
+      "thanksTitle": "Demande envoyée 💪",
+      "thanksBody": "Merci ! Plus il y a d'athlètes qui demandent, plus vite on embarque ta box."
+    },
     "share": {
       "share": "PARTAGER",
       "copy": "COPIER LE LIEN",
