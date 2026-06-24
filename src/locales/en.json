@@ -1433,7 +1433,19 @@
         "standings": "Standings",
         "noStandings": "Standings will appear once the event is set up.",
         "submit": "Submit my score",
-        "submitted": "Score submitted — it's in the standings and the Judge queue."
+        "submitted": "Score submitted — it's in the standings and the Judge queue.",
+        "cast": "Cast to TV"
+      },
+      "tv": {
+        "badge": "Live broadcast",
+        "exit": "Exit",
+        "verified": "Verified",
+        "waiting": "Waiting for the first scores…",
+        "error": "Could not load the board.",
+        "loading": "Loading…",
+        "cast": "Cast",
+        "listIntro": "Cast a live leaderboard on your gym's screen.",
+        "listEmpty": "No live or upcoming events to cast."
       },
       "manage": {
         "edit": "Edit",

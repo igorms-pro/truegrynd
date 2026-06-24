@@ -53,7 +53,7 @@ export const PRO_NAV: readonly ProNavGroup[] = [
     items: [
       { id: 'judge', path: '/app/pro/judge', icon: Gavel, labelKey: 'judge', status: 'live' },
       { id: 'events', path: '/app/pro/events', icon: Trophy, labelKey: 'events', status: 'live' },
-      { id: 'tv', path: '/app/pro/tv', icon: Tv, labelKey: 'tv', status: 'soon' },
+      { id: 'tv', path: '/app/pro/tv', icon: Tv, labelKey: 'tv', status: 'live' },
     ],
   },
   {
