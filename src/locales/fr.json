@@ -1418,6 +1418,24 @@
       "count": "{count} membres",
       "never": "jamais"
     },
+    "billing": {
+      "loading": "Chargement…",
+      "noGym": "Crée d'abord ta salle pour gérer la facturation.",
+      "plan": "TrueGrynd PRO — 100/mois. Validation, events, TV cast, ligues.",
+      "subscribe": "S'abonner",
+      "manage": "Gérer l'abonnement",
+      "renews": "Renouvellement le {date}",
+      "note": "La facturation est gérée en sécurité par Stripe. Résiliable à tout moment depuis le portail.",
+      "error": "Une erreur est survenue — réessaie.",
+      "status": {
+        "trialing": "Essai",
+        "active": "Actif",
+        "past_due": "Impayé",
+        "canceled": "Résilié",
+        "incomplete": "Incomplet",
+        "none": "Inactif"
+      }
+    },
     "leagues": {
       "intro": "Inscris ta salle à des ligues pour affronter d'autres box.",
       "loading": "Chargement des ligues…",

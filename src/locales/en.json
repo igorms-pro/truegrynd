@@ -1418,6 +1418,24 @@
       "count": "{count} members",
       "never": "never"
     },
+    "billing": {
+      "loading": "Loading…",
+      "noGym": "Create your gym first to manage billing.",
+      "plan": "TrueGrynd PRO — 100/mo. Validation, events, TV cast, leagues.",
+      "subscribe": "Subscribe",
+      "manage": "Manage subscription",
+      "renews": "Renews on {date}",
+      "note": "Billing is handled securely by Stripe. Cancel anytime from the portal.",
+      "error": "Something went wrong — try again.",
+      "status": {
+        "trialing": "Trial",
+        "active": "Active",
+        "past_due": "Past due",
+        "canceled": "Canceled",
+        "incomplete": "Incomplete",
+        "none": "Inactive"
+      }
+    },
     "leagues": {
       "intro": "Opt your gym into leagues to compete against other boxes.",
       "loading": "Loading leagues…",
