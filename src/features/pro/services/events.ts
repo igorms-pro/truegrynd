@@ -76,3 +76,29 @@ export async function createGymEvent(input: {
   if (!data) throw new Error('event_create_failed');
   return toGymEvent(data);
 }
+
+export async function updateGymEvent(input: {
+  id: string;
+  title: string;
+  description: string;
+  startsAt: string;
+  endsAt: string;
+}): Promise<GymEvent> {
+  const { data, error } = await supabase
+    .rpc('update_gym_event', {
+      p_event_id: input.id,
+      p_title: input.title,
+      p_description: input.description,
+      p_starts_at: new Date(input.startsAt).toISOString(),
+      p_ends_at: new Date(input.endsAt).toISOString(),
+    })
+    .single<Row>();
+  if (error) throw new Error(error.message);
+  if (!data) throw new Error('event_update_failed');
+  return toGymEvent(data);
+}
+
+export async function cancelGymEvent(id: string): Promise<void> {
+  const { error } = await supabase.rpc('cancel_gym_event', { p_event_id: id });
+  if (error) throw new Error(error.message);
+}

@@ -1435,6 +1435,15 @@
         "submit": "Soumettre mon score",
         "submitted": "Score soumis — il est dans le classement et la file Judge."
       },
+      "manage": {
+        "edit": "Modifier",
+        "cancel": "Annuler l'event",
+        "cancelling": "Annulation…",
+        "save": "Enregistrer",
+        "saving": "Enregistrement…",
+        "cancelEdit": "Abandonner",
+        "error": "Impossible d'enregistrer — réessaie."
+      },
       "create": {
         "cta": "Nouvel event",
         "back": "Retour aux events",
