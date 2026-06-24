@@ -9,6 +9,7 @@ export type GymEvent = {
   scoreType: 'time' | 'reps';
   startsAt: string;
   endsAt: string;
+  challengeId: string | null;
 };
 
 type Row = {
@@ -19,6 +20,7 @@ type Row = {
   score_type: 'time' | 'reps';
   starts_at: string;
   ends_at: string;
+  challenge_id: string | null;
 };
 
 function toGymEvent(row: Row): GymEvent {
@@ -30,6 +32,7 @@ function toGymEvent(row: Row): GymEvent {
     scoreType: row.score_type,
     startsAt: row.starts_at,
     endsAt: row.ends_at,
+    challengeId: row.challenge_id ?? null,
   };
 }
 
