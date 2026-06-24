@@ -1483,7 +1483,19 @@
         "noStandings": "Le classement apparaîtra une fois l'event configuré.",
         "submit": "Soumettre mon score",
         "submitted": "Score soumis — il est dans le classement et la file Judge.",
-        "cast": "Caster sur la TV"
+        "cast": "Caster sur la TV",
+        "overall": "Classement général",
+        "points": "{count, plural, =1 {1 pt} other {# pts}}"
+      },
+      "workouts": {
+        "label": "WOD {n}",
+        "add": "Ajouter un WOD",
+        "addSubmit": "Ajouter le WOD",
+        "spec": "WOD",
+        "scoreType": {
+          "time": "For time",
+          "reps": "Reps / AMRAP"
+        }
       },
       "tv": {
         "badge": "Diffusion live",
