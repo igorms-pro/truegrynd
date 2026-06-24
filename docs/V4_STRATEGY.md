@@ -28,7 +28,20 @@ Resawod / Peppy / Wodify are **cashier + booking** tools. Truegrynd holds three 
 
 > **V4 is not "a booking tool with community bolted on" — it's a retention + community engine that also handles booking.**
 
-The differentiators (each = a real _"dommage que Resawod ne fasse pas ça"_):
+### 3.1 What users actually complain about (sourced)
+
+From Capterra/G2/Trustpilot reviews and FR comparators (Reddit itself is crawl-blocked). Note: **Peppy** (peppy.cool, 300+ FR boxes) is actually _well_ rated on booking — so we don't beat it head-on on booking; we win by **unifying** + being strong where the whole category is weak.
+
+| Complaint (real)                                                                                                                                                                                                                                            | Source                                         | Our answer                                                                                     |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| **"All-in-one" that explodes into paid modules** — Wodify _"pricey to add features"_; Resawod's WOD/programming module (Trhade) **not in Starter/Pro**; Crossbook: _"49€ → 289€/mo with add-ons"_; Zen Planner forces an expensive payment processor + fees | Capterra (Wodify), crossbook, G2 (Zen Planner) | Genuinely one product + **transparent pricing**; competition layer is core, not an add-on      |
+| **Performance/score tracking is the category's weak spot** — Resawod (FR leader): _"manque l'analyse complète des scores des athlètes"_; generalist tools _"pas spécialisés CrossFit (RX/Scaled, WODs, benchmarks natifs)"_                                 | crossbook comparator                           | **Our native strength** — verified ranking, judge, benchmarks, passport. The data-backed wedge |
+| **Juggling 2–3 tools** — _"jonglage entre 3 outils, ~2h/semaine perdues"_                                                                                                                                                                                   | crossbook                                      | Unify booking + WOD + scores in one app (the n=1 wedge, at industry scale)                     |
+| **Booking app crashes / unintuitive** → silent unsubscribes; slow/foreign support                                                                                                                                                                           | crossbook, Zen Planner reviews                 | Engagement-led booking in an app members already open daily; native FR                         |
+| **Multi-gym is clunky** — Zen Planner: _"toggling between gyms should be one profile"_                                                                                                                                                                      | G2 (Zen Planner)                               | One portable athlete passport across all gyms → the drop-in network (#4)                       |
+| **Billing nightmares** — charged after cancellation, support unresponsive                                                                                                                                                                                   | Trustpilot / Capterra                          | Stripe-native, clean dunning; reuse the V3 billing plumbing                                    |
+
+The differentiators below (each = a real _"dommage que Resawod ne fasse pas ça"_) map onto these:
 
 1. **🚨 Retention / churn-risk engine** _(owners' #1 pain; our structural edge)._ Incumbents tell you who paid; never _"these 8 members' attendance dropped 40% — they're about to churn."_ We already have the streak/activity/passport graph → surface an **at-risk dashboard** + auto re-engagement nudges. Gyms don't want a cashier, they want **retention**. This is the lead sales argument.
 2. **🔗 Booking ⇄ WOD ⇄ leaderboard loop.** Book the 18h → **see the day's WOD while booking** → attend → post your score → it lands on the **class leaderboard, validated by the coach on the floor**. One app, one chain; impossible when programming and booking are separate tools.
@@ -90,3 +103,15 @@ Management slices ship behind the PRO subscription gate (`/pro`, "Gestion salle"
 ## 8. Success criteria
 
 A pilot box (Igor's) **drops Peppy** and runs its full week on Truegrynd: schedule published, members booking, memberships billed, attendance tracked — while the same app runs the WODs, leaderboards and leagues. One product, one login, one data graph.
+
+---
+
+## Sources (competitor pain points)
+
+- [Wodify reviews — Capterra](https://www.capterra.com/p/159663/Wodify/reviews/)
+- [Zen Planner reviews — Capterra](https://www.capterra.com/p/134351/Zen-Planner/reviews/) · [G2](https://www.g2.com/products/zen-planner/reviews)
+- [Resawod / Deciplus / Zen Planner comparator — crossbook.eu](https://www.crossbook.eu/logiciel-de-gestion-box-crossfit-comment-choisir-le-bon-outil-en-2026-comparatif-resawod-deciplus-zen-planner/)
+- [« Pourquoi ton logiciel de gestion de box te complique la vie » — crossbook.eu](https://www.crossbook.eu/pourquoi-ton-logiciel-de-gestion-de-box-te-complique-la-vie/)
+- [Peppy (peppy.cool)](https://www.peppy.cool/) — the booking tool Igor's box uses; well rated, no native competition layer
+
+> Reddit threads were not directly accessible (crawl-blocked); the above aggregators + comparators reflect the same complaints.
