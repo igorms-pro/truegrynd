@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 
 import { useOptionalAppProfile } from '@/features/appshell/context/AppProfileContext';
 import { ProNav } from '@/features/pro/components/ProNav';
+import { SubscriptionGate } from '@/features/pro/components/SubscriptionGate';
 import { canAccessPro } from '@/lib/roles';
 
 export default function ProLayout({ children }: { children: ReactNode }) {
@@ -28,7 +29,7 @@ export default function ProLayout({ children }: { children: ReactNode }) {
 
       <ProNav />
 
-      <div>{children}</div>
+      <SubscriptionGate>{children}</SubscriptionGate>
     </section>
   );
 }
