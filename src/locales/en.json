@@ -1421,7 +1421,7 @@
     "billing": {
       "loading": "Loading…",
       "noGym": "Create your gym first to manage billing.",
-      "plan": "TrueGrynd PRO — 100/mo. Validation, events, TV cast, leagues.",
+      "plan": "TrueGrynd GYM PRO — 100/mo. Validation, events, TV cast, leagues.",
       "subscribe": "Subscribe",
       "manage": "Manage subscription",
       "renews": "Renews on {date}",

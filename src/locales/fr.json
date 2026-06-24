@@ -1421,7 +1421,7 @@
     "billing": {
       "loading": "Chargement…",
       "noGym": "Crée d'abord ta salle pour gérer la facturation.",
-      "plan": "TrueGrynd PRO — 100/mois. Validation, events, TV cast, ligues.",
+      "plan": "TrueGrynd GYM PRO — 100/mois. Validation, events, TV cast, ligues.",
       "subscribe": "S'abonner",
       "manage": "Gérer l'abonnement",
       "renews": "Renouvellement le {date}",
