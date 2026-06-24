@@ -1376,6 +1376,7 @@
       "judge": "Judge Console",
       "events": "Events",
       "tv": "TV Cast",
+      "leagues": "Leagues",
       "planning": "Schedule",
       "members": "Members",
       "subscriptions": "Subscriptions",
@@ -1416,6 +1417,22 @@
       "empty": "No members affiliated yet.",
       "count": "{count} members",
       "never": "never"
+    },
+    "leagues": {
+      "intro": "Opt your gym into leagues to compete against other boxes.",
+      "loading": "Loading leagues…",
+      "error": "Could not load leagues.",
+      "empty": "No leagues available yet.",
+      "members": "{count, plural, =0 {no gyms} =1 {1 gym} other {# gyms}}",
+      "join": "Join",
+      "leave": "Leave",
+      "joined": "Member",
+      "standingsSoon": "Box-vs-box matches and standings are coming next.",
+      "scope": {
+        "local": "Local",
+        "regional": "Regional",
+        "national": "National"
+      }
     },
     "events": {
       "intro": "Competitions you run for your gym.",

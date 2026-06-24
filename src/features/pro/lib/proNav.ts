@@ -3,6 +3,7 @@ import {
   Gavel,
   Trophy,
   Tv,
+  Swords,
   CalendarDays,
   Users,
   Ticket,
@@ -54,6 +55,13 @@ export const PRO_NAV: readonly ProNavGroup[] = [
       { id: 'judge', path: '/app/pro/judge', icon: Gavel, labelKey: 'judge', status: 'live' },
       { id: 'events', path: '/app/pro/events', icon: Trophy, labelKey: 'events', status: 'live' },
       { id: 'tv', path: '/app/pro/tv', icon: Tv, labelKey: 'tv', status: 'live' },
+      {
+        id: 'leagues',
+        path: '/app/pro/leagues',
+        icon: Swords,
+        labelKey: 'leagues',
+        status: 'live',
+      },
     ],
   },
   {

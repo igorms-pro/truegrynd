@@ -1376,6 +1376,7 @@
       "judge": "Judge Console",
       "events": "Events",
       "tv": "TV Cast",
+      "leagues": "Ligues",
       "planning": "Planning",
       "members": "Membres",
       "subscriptions": "Abonnements",
@@ -1416,6 +1417,22 @@
       "empty": "Aucun membre affilié pour le moment.",
       "count": "{count} membres",
       "never": "jamais"
+    },
+    "leagues": {
+      "intro": "Inscris ta salle à des ligues pour affronter d'autres box.",
+      "loading": "Chargement des ligues…",
+      "error": "Impossible de charger les ligues.",
+      "empty": "Aucune ligue disponible pour le moment.",
+      "members": "{count, plural, =0 {aucune salle} =1 {1 salle} other {# salles}}",
+      "join": "Rejoindre",
+      "leave": "Quitter",
+      "joined": "Membre",
+      "standingsSoon": "Les matchs box-vs-box et le classement arrivent ensuite.",
+      "scope": {
+        "local": "Locale",
+        "regional": "Régionale",
+        "national": "Nationale"
+      }
     },
     "events": {
       "intro": "Les compétitions que tu organises pour ta salle.",
