@@ -7,6 +7,7 @@ export const ANALYTICS_EVENTS = {
   firstScoreSubmitted: 'growth_first_score_submitted',
   monetizationCosmeticsViewed: 'monetization_cosmetics_teaser_viewed',
   monetizationCosmeticsInterest: 'monetization_cosmetics_interest',
+  plgGymRequested: 'plg_gym_request_submitted',
 } as const;
 
 export type AnalyticsEventName = (typeof ANALYTICS_EVENTS)[keyof typeof ANALYTICS_EVENTS];

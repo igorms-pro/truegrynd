@@ -895,6 +895,18 @@
     }
   },
   "growth": {
+    "gymRequest": {
+      "title": "Train at a box?",
+      "body": "Get your scores judge-verified — ask your gym to join TrueGrynd PRO.",
+      "cta": "Request my gym",
+      "gymPlaceholder": "Gym name (e.g. CrossFit Lyon)",
+      "cityPlaceholder": "City",
+      "submit": "Send request",
+      "submitting": "Sending…",
+      "error": "Something went wrong — try again.",
+      "thanksTitle": "Request sent 💪",
+      "thanksBody": "Thanks! The more athletes ask, the sooner we bring your box on board."
+    },
     "share": {
       "share": "SHARE",
       "copy": "COPY LINK",

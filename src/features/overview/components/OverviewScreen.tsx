@@ -13,6 +13,7 @@ import { OverviewHeroCard } from '@/features/overview/components/OverviewHeroCar
 import { EventCard } from '@/features/events/components/EventCard';
 import { useActiveEvents } from '@/features/events/hooks/useActiveEvents';
 import { ComebackWeekBanner } from '@/features/growth/components/ComebackWeekBanner';
+import { GymRequestBanner } from '@/features/growth/components/GymRequestBanner';
 import { WeeklyChallengeInvite } from '@/features/growth/components/WeeklyChallengeInvite';
 import { useOptionalAppProfile } from '@/features/appshell/context/AppProfileContext';
 import { useProfileRating } from '@/features/profile/hooks/useProfileRating';
@@ -46,6 +47,8 @@ export function OverviewScreen() {
     eventsState.status === 'ready' &&
     eventsState.events.some((event) => event.event_type === 'comeback_week');
   const userDivision = readyProfile?.division ?? null;
+  // PLG: a plain athlete with no gym can ask their box to join TrueGrynd.
+  const showGymRequest = readyProfile?.role === 'athlete' && !readyProfile?.affiliated_gym_id;
 
   // Exactly one red CTA on screen: when the comeback banner owns the primary
   // action, the hero CTA drops to a secondary style.
@@ -158,6 +161,8 @@ export function OverviewScreen() {
           ) : null}
         </article>
       </div>
+
+      {showGymRequest ? <GymRequestBanner /> : null}
 
       {/* Events — quiet; CTA only when there is something to see */}
       <article className="rounded-lg border border-border bg-card p-5">
