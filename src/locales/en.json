@@ -1435,6 +1435,15 @@
         "submit": "Submit my score",
         "submitted": "Score submitted — it's in the standings and the Judge queue."
       },
+      "manage": {
+        "edit": "Edit",
+        "cancel": "Cancel event",
+        "cancelling": "Cancelling…",
+        "save": "Save",
+        "saving": "Saving…",
+        "cancelEdit": "Discard",
+        "error": "Could not save — try again."
+      },
       "create": {
         "cta": "New event",
         "back": "Back to events",
