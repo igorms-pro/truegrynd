@@ -1427,6 +1427,14 @@
         "live": "Live",
         "ended": "Ended"
       },
+      "detail": {
+        "back": "Back to events",
+        "workout": "Workout",
+        "standings": "Standings",
+        "noStandings": "Standings will appear once the event is set up.",
+        "submit": "Submit my score",
+        "submitted": "Score submitted — it's in the standings and the Judge queue."
+      },
       "create": {
         "cta": "New event",
         "back": "Back to events",
