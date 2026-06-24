@@ -16,7 +16,7 @@ The B2C arena has always been the **free acquisition engine** that feeds B2B gym
 > **You never pay to _do_ or _track_ your sport. You pay for status, depth and credibility.**
 > If a feature helps you **train / grow / share** → free, forever. If it helps you **analyze yourself / prove yourself / stand out** → premium.
 
-This is a **brand stance**, not just a pricing rule — and it's aimed squarely at where Strava is bleeding trust (see §6). Strava is _"paywalling features one piece at a time"_ (Year in Sport now €80/yr); we do the opposite. We never paywall posting scores, the arena, leaderboards, factions, rivals, weeklies, finisher-card sharing. **Monetize smart, not greedy:** gating the engine kills the funnel that sells gyms — and betrays the athlete.
+This is a **brand stance**, not just a pricing rule — and it's aimed squarely at where Strava is bleeding trust (see §4). Strava is _"paywalling features one piece at a time"_ (Year in Sport now €80/yr); we do the opposite. We never paywall posting scores, the arena, leaderboards, factions, rivals, weeklies, finisher-card sharing. **Monetize smart, not greedy:** gating the engine kills the funnel that sells gyms — and betrays the athlete.
 
 The cheap interim B2C monetization (cosmetics) already respects this: it sells _look_, never access.
 
