@@ -1,5 +1,6 @@
 import { ADMIN_QUEUE_PAGE_SIZE } from '@/features/admin/lib/adminQueueConstants';
 import { normalizePostgrestCreator } from '@/features/admin/lib/normalizeCreator';
+import { callEdgeFunction } from '@/lib/edgeFunction';
 import { supabase } from '@/lib/supabase';
 import type { Challenge, ChallengeAiTier, ChallengeVariant } from '@/lib/types/database.types';
 
@@ -175,31 +176,5 @@ export async function adminBatchApproveChallenges(
 }
 
 export async function adminRunChallengeAiReview(input: { challengeId: string }): Promise<void> {
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-  if (!session?.access_token) {
-    throw new Error('no_session');
-  }
-
-  const baseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/$/, '') ?? '';
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? '';
-  if (!baseUrl || !anonKey) {
-    throw new Error('server_misconfigured');
-  }
-
-  const res = await fetch(`${baseUrl}/functions/v1/admin-challenge-ai-review`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${session.access_token}`,
-      apikey: anonKey,
-    },
-    body: JSON.stringify({ challenge_id: input.challengeId }),
-  });
-
-  const parsed = (await res.json().catch(() => ({}))) as { code?: string };
-  if (!res.ok) {
-    throw new Error(parsed.code ?? `http_${res.status}`);
-  }
+  await callEdgeFunction('admin-challenge-ai-review', { challenge_id: input.challengeId });
 }
