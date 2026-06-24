@@ -37,18 +37,23 @@ function EventRow({ event }: { event: GymEvent }) {
         : 'bg-muted text-muted-foreground';
 
   return (
-    <li className="flex items-center gap-3 border-b border-border px-3 py-3 last:border-b-0">
-      <span className="min-w-0 flex-1">
-        <span className="block truncate text-sm font-bold">{event.title}</span>
-        <span className="block text-xs text-muted-foreground">
-          {formatWindow(event.startsAt, locale)} → {formatWindow(event.endsAt, locale)}
-        </span>
-      </span>
-      <span
-        className={`shrink-0 rounded-sm px-1.5 py-0.5 text-[9px] font-black uppercase tracking-[0.14em] ${badgeTone}`}
+    <li className="border-b border-border last:border-b-0">
+      <Link
+        href={`/${locale}/app/pro/events/${event.id}`}
+        className="flex items-center gap-3 px-3 py-3 transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
-        {t(`phase.${phase}`)}
-      </span>
+        <span className="min-w-0 flex-1">
+          <span className="block truncate text-sm font-bold">{event.title}</span>
+          <span className="block text-xs text-muted-foreground">
+            {formatWindow(event.startsAt, locale)} → {formatWindow(event.endsAt, locale)}
+          </span>
+        </span>
+        <span
+          className={`shrink-0 rounded-sm px-1.5 py-0.5 text-[9px] font-black uppercase tracking-[0.14em] ${badgeTone}`}
+        >
+          {t(`phase.${phase}`)}
+        </span>
+      </Link>
     </li>
   );
 }

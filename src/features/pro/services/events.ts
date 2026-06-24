@@ -42,6 +42,18 @@ export async function listGymEvents(): Promise<GymEvent[]> {
   return ((data ?? []) as Row[]).map(toGymEvent);
 }
 
+const GYM_EVENT_SELECT = 'id,title,description,workout,score_type,starts_at,ends_at,challenge_id';
+
+export async function getGymEvent(id: string): Promise<GymEvent | null> {
+  const { data, error } = await supabase
+    .from('gym_events')
+    .select(GYM_EVENT_SELECT)
+    .eq('id', id)
+    .maybeSingle<Row>();
+  if (error) throw new Error(error.message);
+  return data ? toGymEvent(data) : null;
+}
+
 export async function createGymEvent(input: {
   title: string;
   description: string;
