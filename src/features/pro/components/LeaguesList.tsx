@@ -1,7 +1,8 @@
 'use client';
 
+import Link from 'next/link';
 import { useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 import { useOptionalAppProfile } from '@/features/appshell/context/AppProfileContext';
 import { joinLeague, leaveLeague, listLeagues, type League } from '@/features/pro/services/leagues';
@@ -18,6 +19,7 @@ function LeagueRow({
   onChanged: () => void;
 }) {
   const t = useTranslations('pro.leagues');
+  const locale = useLocale();
   const [busy, setBusy] = useState(false);
 
   async function toggle() {
@@ -33,12 +35,15 @@ function LeagueRow({
 
   return (
     <li className="flex items-center gap-3 border-b border-border px-3 py-3 last:border-b-0">
-      <span className="min-w-0 flex-1">
+      <Link
+        href={`/${locale}/app/pro/leagues/${league.id}`}
+        className="min-w-0 flex-1 hover:opacity-80"
+      >
         <span className="block truncate text-sm font-bold">{league.name}</span>
         <span className="text-xs text-muted-foreground">
           {t('members', { count: league.memberCount })}
         </span>
-      </span>
+      </Link>
       <span className="shrink-0 rounded-sm bg-muted px-1.5 py-0.5 text-[9px] font-black uppercase tracking-[0.14em] text-muted-foreground">
         {t(`scope.${league.scope}`)}
       </span>

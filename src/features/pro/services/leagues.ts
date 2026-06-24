@@ -34,6 +34,35 @@ export async function listLeagues(): Promise<League[]> {
   }));
 }
 
+/** A member gym's row in the league standings. */
+export type LeagueStanding = {
+  gymId: string;
+  gymName: string;
+  memberCount: number;
+  ratedCount: number;
+  avgRating: number;
+};
+
+export async function getLeagueStandings(leagueId: string): Promise<LeagueStanding[]> {
+  const { data, error } = await supabase.rpc('league_standings', { p_league_id: leagueId });
+  if (error) throw new Error(error.message);
+  return (
+    (data ?? []) as Array<{
+      gym_id: string;
+      gym_name: string;
+      member_count: number;
+      rated_count: number;
+      avg_rating: number;
+    }>
+  ).map((r) => ({
+    gymId: r.gym_id,
+    gymName: r.gym_name,
+    memberCount: Number(r.member_count ?? 0),
+    ratedCount: Number(r.rated_count ?? 0),
+    avgRating: Number(r.avg_rating ?? 0),
+  }));
+}
+
 export async function joinLeague(leagueId: string): Promise<void> {
   const { error } = await supabase.rpc('join_league', { p_league_id: leagueId });
   if (error) throw new Error(error.message);
