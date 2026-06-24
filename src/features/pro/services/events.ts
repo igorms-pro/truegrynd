@@ -102,3 +102,76 @@ export async function cancelGymEvent(id: string): Promise<void> {
   const { error } = await supabase.rpc('cancel_gym_event', { p_event_id: id });
   if (error) throw new Error(error.message);
 }
+
+/** A workout within a (possibly multi-WOD) gym event. */
+export type EventWorkout = {
+  challengeId: string;
+  title: string;
+  scoreType: 'time' | 'reps';
+  rules: string;
+  sortOrder: number;
+};
+
+export async function listEventWorkouts(eventId: string): Promise<EventWorkout[]> {
+  const { data, error } = await supabase.rpc('gym_event_workouts_list', { p_event_id: eventId });
+  if (error) throw new Error(error.message);
+  return (
+    (data ?? []) as Array<{
+      challenge_id: string;
+      title: string;
+      score_type: 'time' | 'reps';
+      rules: string;
+      sort_order: number;
+    }>
+  ).map((r) => ({
+    challengeId: r.challenge_id,
+    title: r.title,
+    scoreType: r.score_type,
+    rules: r.rules,
+    sortOrder: r.sort_order,
+  }));
+}
+
+export async function addEventWorkout(input: {
+  eventId: string;
+  title: string;
+  workout: string;
+  scoreType: 'time' | 'reps';
+}): Promise<void> {
+  const { error } = await supabase.rpc('add_gym_event_workout', {
+    p_event_id: input.eventId,
+    p_title: input.title,
+    p_workout: input.workout,
+    p_score_type: input.scoreType,
+  });
+  if (error) throw new Error(error.message);
+}
+
+/** A row in the cumulative event standings. */
+export type EventStanding = {
+  userId: string;
+  username: string | null;
+  avatarUrl: string | null;
+  faction: string | null;
+  totalPoints: number;
+};
+
+export async function getEventStandings(eventId: string): Promise<EventStanding[]> {
+  const { data, error } = await supabase.rpc('gym_event_standings', { p_event_id: eventId });
+  if (error) throw new Error(error.message);
+  return (
+    (data ?? []) as Array<{
+      user_id: string;
+      username: string | null;
+      avatar_url: string | null;
+      faction: string | null;
+      total_points: number;
+    }>
+  ).map((r) => ({
+    userId: r.user_id,
+    username: r.username,
+    avatarUrl: r.avatar_url,
+    faction: r.faction,
+    totalPoints: Number(r.total_points ?? 0),
+  }));
+}

@@ -1483,7 +1483,19 @@
         "noStandings": "Standings will appear once the event is set up.",
         "submit": "Submit my score",
         "submitted": "Score submitted — it's in the standings and the Judge queue.",
-        "cast": "Cast to TV"
+        "cast": "Cast to TV",
+        "overall": "Overall standings",
+        "points": "{count, plural, =1 {1 pt} other {# pts}}"
+      },
+      "workouts": {
+        "label": "WOD {n}",
+        "add": "Add workout",
+        "addSubmit": "Add workout",
+        "spec": "Workout",
+        "scoreType": {
+          "time": "For time",
+          "reps": "Reps / AMRAP"
+        }
       },
       "tv": {
         "badge": "Live broadcast",
