@@ -7,7 +7,7 @@
 import Stripe from 'npm:stripe@17';
 import { createClient } from 'npm:@supabase/supabase-js@2';
 
-import { corsHeaders } from './cors.ts';
+import { corsHeaders } from '../_shared/cors.ts';
 
 function json(body: Record<string, unknown>, status = 200): Response {
   return new Response(JSON.stringify(body), {

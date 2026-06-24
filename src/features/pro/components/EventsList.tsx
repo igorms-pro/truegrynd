@@ -4,17 +4,9 @@ import { Plus } from 'lucide-react';
 import Link from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
 
+import { eventPhase } from '@/features/pro/lib/eventPhase';
 import { listGymEvents, type GymEvent } from '@/features/pro/services/events';
 import { useAsyncResource } from '@/hooks/useAsyncResource';
-
-type Phase = 'upcoming' | 'live' | 'ended';
-
-function phaseOf(event: GymEvent): Phase {
-  const now = Date.now();
-  if (now < new Date(event.startsAt).getTime()) return 'upcoming';
-  if (now > new Date(event.endsAt).getTime()) return 'ended';
-  return 'live';
-}
 
 function formatWindow(iso: string, locale: string): string {
   return new Date(iso).toLocaleString(locale, {
@@ -28,7 +20,7 @@ function formatWindow(iso: string, locale: string): string {
 function EventRow({ event }: { event: GymEvent }) {
   const locale = useLocale();
   const t = useTranslations('pro.events');
-  const phase = phaseOf(event);
+  const phase = eventPhase(event.startsAt, event.endsAt);
   const badgeTone =
     phase === 'live'
       ? 'bg-primary text-primary-foreground'

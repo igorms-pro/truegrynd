@@ -1,3 +1,4 @@
+import { callEdgeFunction } from '@/lib/edgeFunction';
 import { supabase } from '@/lib/supabase';
 
 export type BillingStatus = {
@@ -31,26 +32,8 @@ export async function getBillingStatus(): Promise<BillingStatus | null> {
 
 /** Opens Stripe Checkout (subscribe) or the Billing Portal (manage); returns the hosted URL. */
 async function stripeSession(action: 'checkout' | 'portal', returnUrl: string): Promise<string> {
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-  if (!session?.access_token) throw new Error('no_session');
-
-  const baseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/$/, '') ?? '';
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? '';
-  if (!baseUrl || !anonKey) throw new Error('server_misconfigured');
-
-  const res = await fetch(`${baseUrl}/functions/v1/stripe-checkout`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${session.access_token}`,
-      apikey: anonKey,
-    },
-    body: JSON.stringify({ action, returnUrl }),
-  });
-  const parsed = (await res.json().catch(() => ({}))) as { url?: string; code?: string };
-  if (!res.ok || !parsed.url) throw new Error(parsed.code ?? `http_${res.status}`);
+  const parsed = await callEdgeFunction<{ url?: string }>('stripe-checkout', { action, returnUrl });
+  if (!parsed.url) throw new Error('no_url');
   return parsed.url;
 }
 

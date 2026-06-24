@@ -19,6 +19,7 @@ import {
   type GymEvent,
 } from '@/features/pro/services/events';
 import { PacingCard } from '@/features/pro/components/PacingCard';
+import { eventPhase, type EventPhase } from '@/features/pro/lib/eventPhase';
 import { ScoreSubmissionForm } from '@/features/submission/components/ScoreSubmissionForm';
 import { useAsyncResource } from '@/hooks/useAsyncResource';
 import { isGymStaff } from '@/lib/roles';
@@ -28,15 +29,6 @@ function toLocalInput(iso: string): string {
   const d = new Date(iso);
   const pad = (n: number) => String(n).padStart(2, '0');
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
-}
-
-type Phase = 'upcoming' | 'live' | 'ended';
-
-function phaseOf(event: GymEvent): Phase {
-  const now = Date.now();
-  if (now < new Date(event.startsAt).getTime()) return 'upcoming';
-  if (now > new Date(event.endsAt).getTime()) return 'ended';
-  return 'live';
 }
 
 const inputCls =
@@ -259,7 +251,7 @@ function WorkoutPanel({
 }: {
   event: GymEvent;
   workout: EventWorkout;
-  phase: Phase;
+  phase: EventPhase;
 }) {
   const t = useTranslations('pro.events');
   const locale = useLocale();
@@ -340,7 +332,7 @@ function EventBody({ event, onChanged }: { event: GymEvent; onChanged: () => voi
   const locale = useLocale();
   const router = useRouter();
   const profile = useOptionalAppProfile();
-  const phase = phaseOf(event);
+  const phase = eventPhase(event.startsAt, event.endsAt);
   const canManage = isGymStaff(profile);
   const [editing, setEditing] = useState(false);
   const [cancelling, setCancelling] = useState(false);
