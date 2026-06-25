@@ -4,18 +4,9 @@ import { Plus } from 'lucide-react';
 import Link from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
 
-import { eventPhase } from '@/features/pro/lib/eventPhase';
+import { eventPhase, formatEventWindow } from '@/features/pro/lib/eventPhase';
 import { listGymEvents, type GymEvent } from '@/features/pro/services/events';
 import { useAsyncResource } from '@/hooks/useAsyncResource';
-
-function formatWindow(iso: string, locale: string): string {
-  return new Date(iso).toLocaleString(locale, {
-    day: 'numeric',
-    month: 'short',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
-}
 
 function EventRow({ event }: { event: GymEvent }) {
   const locale = useLocale();
@@ -37,7 +28,7 @@ function EventRow({ event }: { event: GymEvent }) {
         <span className="min-w-0 flex-1">
           <span className="block truncate text-sm font-bold">{event.title}</span>
           <span className="block text-xs text-muted-foreground">
-            {formatWindow(event.startsAt, locale)} → {formatWindow(event.endsAt, locale)}
+            {formatEventWindow(event.startsAt, locale)} → {formatEventWindow(event.endsAt, locale)}
           </span>
         </span>
         <span

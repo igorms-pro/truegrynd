@@ -15,14 +15,17 @@ import {
   getGymEvent,
   listEventWorkouts,
   updateGymEvent,
+  GYM_EVENT_VARIANTS,
   type EventWorkout,
   type GymEvent,
 } from '@/features/pro/services/events';
 import { PacingCard } from '@/features/pro/components/PacingCard';
-import { eventPhase, type EventPhase } from '@/features/pro/lib/eventPhase';
+import { eventPhase, formatEventWindow, type EventPhase } from '@/features/pro/lib/eventPhase';
+import { FORM_INPUT_CLASS } from '@/features/pro/lib/formStyles';
 import { ScoreSubmissionForm } from '@/features/submission/components/ScoreSubmissionForm';
 import { useAsyncResource } from '@/hooks/useAsyncResource';
 import { isGymStaff } from '@/lib/roles';
+import type { ScoreType } from '@/lib/types/database.types';
 
 /** ISO → value for <input type="datetime-local"> (local time, no seconds). */
 function toLocalInput(iso: string): string {
@@ -30,9 +33,6 @@ function toLocalInput(iso: string): string {
   const pad = (n: number) => String(n).padStart(2, '0');
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
-
-const inputCls =
-  'mt-1 w-full rounded-sm border border-border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
 
 function EditEventForm({
   event,
@@ -67,7 +67,11 @@ function EditEventForm({
     <div className="space-y-3 rounded-md border border-border bg-card p-4">
       <label className="block text-xs font-black uppercase tracking-[0.18em] text-muted-foreground">
         {t('create.fields.title')}
-        <input value={title} onChange={(e) => setTitle(e.target.value)} className={inputCls} />
+        <input
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className={FORM_INPUT_CLASS}
+        />
       </label>
       <label className="block text-xs font-black uppercase tracking-[0.18em] text-muted-foreground">
         {t('create.fields.description')}
@@ -75,7 +79,7 @@ function EditEventForm({
           rows={2}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className={`${inputCls} resize-y`}
+          className={`${FORM_INPUT_CLASS} resize-y`}
         />
       </label>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -85,7 +89,7 @@ function EditEventForm({
             type="datetime-local"
             value={startsAt}
             onChange={(e) => setStartsAt(e.target.value)}
-            className={inputCls}
+            className={FORM_INPUT_CLASS}
           />
         </label>
         <label className="block text-xs font-black uppercase tracking-[0.18em] text-muted-foreground">
@@ -94,7 +98,7 @@ function EditEventForm({
             type="datetime-local"
             value={endsAt}
             onChange={(e) => setEndsAt(e.target.value)}
-            className={inputCls}
+            className={FORM_INPUT_CLASS}
           />
         </label>
       </div>
@@ -126,7 +130,7 @@ function AddWorkoutForm({ eventId, onAdded }: { eventId: string; onAdded: () => 
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState('');
   const [workout, setWorkout] = useState('');
-  const [scoreType, setScoreType] = useState<'time' | 'reps'>('time');
+  const [scoreType, setScoreType] = useState<ScoreType>('time');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -163,7 +167,11 @@ function AddWorkoutForm({ eventId, onAdded }: { eventId: string; onAdded: () => 
     <div className="space-y-3 rounded-md border border-border bg-card p-4">
       <label className="block text-xs font-black uppercase tracking-[0.18em] text-muted-foreground">
         {t('create.fields.title')}
-        <input value={title} onChange={(e) => setTitle(e.target.value)} className={inputCls} />
+        <input
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className={FORM_INPUT_CLASS}
+        />
       </label>
       <label className="block text-xs font-black uppercase tracking-[0.18em] text-muted-foreground">
         {t('workouts.spec')}
@@ -171,7 +179,7 @@ function AddWorkoutForm({ eventId, onAdded }: { eventId: string; onAdded: () => 
           rows={3}
           value={workout}
           onChange={(e) => setWorkout(e.target.value)}
-          className={`${inputCls} resize-y`}
+          className={`${FORM_INPUT_CLASS} resize-y`}
         />
       </label>
       <div className="flex gap-2">
@@ -283,7 +291,7 @@ function WorkoutPanel({
             <ScoreSubmissionForm
               challengeId={workout.challengeId}
               scoreType={workout.scoreType}
-              availableVariants={['standard']}
+              availableVariants={GYM_EVENT_VARIANTS}
               onSubmitted={() => {
                 setSubmitting(false);
                 setDone(true);
@@ -319,7 +327,7 @@ function WorkoutPanel({
           key={`${workout.challengeId}-${reloadKey}-${profile?.id ?? ''}`}
           challengeId={workout.challengeId}
           scoreType={workout.scoreType}
-          availableVariants={['standard']}
+          availableVariants={GYM_EVENT_VARIANTS}
           mode="full"
         />
       </div>
@@ -355,14 +363,6 @@ function EventBody({ event, onChanged }: { event: GymEvent; onChanged: () => voi
     }
   }
 
-  const formatWindow = (iso: string) =>
-    new Date(iso).toLocaleString(locale, {
-      day: 'numeric',
-      month: 'short',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-
   return (
     <section className="space-y-6">
       <Link
@@ -379,7 +379,7 @@ function EventBody({ event, onChanged }: { event: GymEvent; onChanged: () => voi
         </span>
         <h1 className="text-2xl font-black uppercase tracking-tight md:text-3xl">{event.title}</h1>
         <p className="text-sm text-muted-foreground">
-          {formatWindow(event.startsAt)} → {formatWindow(event.endsAt)}
+          {formatEventWindow(event.startsAt, locale)} → {formatEventWindow(event.endsAt, locale)}
         </p>
         {canManage && !editing ? (
           <div className="flex gap-2 pt-1">

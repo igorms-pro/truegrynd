@@ -9,13 +9,9 @@ import { listLeaderboardScores } from '@/features/challenges/services/leaderboar
 import { formatScore } from '@/features/challenges/lib/scoreFormat';
 import { getGymEvent, type GymEvent } from '@/features/pro/services/events';
 import { useAsyncResource } from '@/hooks/useAsyncResource';
+import { getFactionColorVar } from '@/lib/factionStyles';
 import { supabase } from '@/lib/supabase';
-
-const FACTION_COLOR: Record<string, string> = {
-  horde: 'var(--faction-horde)',
-  nomads: 'var(--faction-nomads)',
-  iron: 'var(--faction-iron)',
-};
+import type { Faction } from '@/lib/types/database.types';
 
 const RANK_MEDAL = ['#f5c518', '#c0c0c0', '#cd7f32'];
 
@@ -58,8 +54,7 @@ function Board({ event }: { event: GymEvent }) {
       ) : (
         <ol className="flex-1 space-y-2 overflow-hidden">
           {rows.map((entry, i) => {
-            const faction = entry.profile?.faction ?? '';
-            const color = FACTION_COLOR[faction] ?? 'var(--primary)';
+            const color = getFactionColorVar(entry.profile?.faction as Faction | null);
             return (
               <li
                 key={entry.id}

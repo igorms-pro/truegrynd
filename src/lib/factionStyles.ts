@@ -7,6 +7,14 @@ export type FactionBadgeClasses = {
   accent: string;
 };
 
+/** Raw CSS variable for a faction's color (for inline styles, e.g. coloured borders). */
+export function getFactionColorVar(faction: Faction | null | undefined): string {
+  if (!faction) return 'var(--primary)';
+  if (faction === 'nomads') return 'var(--faction-nomads)';
+  if (faction === 'horde') return 'var(--faction-horde)';
+  return 'var(--faction-iron)'; // iron_alliance
+}
+
 export function getFactionBadgeClasses(faction: Faction): FactionBadgeClasses {
   if (faction === 'nomads') {
     return {
