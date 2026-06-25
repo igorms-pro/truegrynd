@@ -61,6 +61,8 @@ The differentiators below (each = a real _"dommage que Resawod ne fasse pas ça"
 
 Same database (sessions, bookings), two screens by role. V4 fills the `/pro` management group **and** adds the `/app` member booking section.
 
+**V4 is all web.** The coach's on-the-floor tasks (Judge, check-in, today's roster) will move into a **native app later** — one role-aware Expo app covering athlete + coach-floor, while the `/pro` heavy back-office (and MOD/`/admin`) stays web. That's **V6, not before the MVP is launched** — see [V6_STRATEGY.md](./V6_STRATEGY.md).
+
 | Module              | What                                                                                   | Status after V3 |
 | ------------------- | -------------------------------------------------------------------------------------- | --------------- |
 | **Planning**        | Class schedule: recurring slots, coaches, capacity, types (WOD, open gym, Hyrox, etc.) | `soon`          |
