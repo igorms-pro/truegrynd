@@ -1,4 +1,8 @@
 import { supabase } from '@/lib/supabase';
+import type { ScoreType } from '@/lib/types/database.types';
+
+/** Gym events run on the single "standard" scaling lane (no RX/scaled split yet). */
+export const GYM_EVENT_VARIANTS = ['standard'] as const;
 
 /** A gym-owned competition (see `gym_events`). */
 export type GymEvent = {
@@ -6,7 +10,7 @@ export type GymEvent = {
   title: string;
   description: string;
   workout: string;
-  scoreType: 'time' | 'reps';
+  scoreType: ScoreType;
   startsAt: string;
   endsAt: string;
   challengeId: string | null;
@@ -17,7 +21,7 @@ type Row = {
   title: string;
   description: string;
   workout: string;
-  score_type: 'time' | 'reps';
+  score_type: ScoreType;
   starts_at: string;
   ends_at: string;
   challenge_id: string | null;
@@ -58,7 +62,7 @@ export async function createGymEvent(input: {
   title: string;
   description: string;
   workout: string;
-  scoreType: 'time' | 'reps';
+  scoreType: ScoreType;
   startsAt: string;
   endsAt: string;
 }): Promise<GymEvent> {
@@ -107,7 +111,7 @@ export async function cancelGymEvent(id: string): Promise<void> {
 export type EventWorkout = {
   challengeId: string;
   title: string;
-  scoreType: 'time' | 'reps';
+  scoreType: ScoreType;
   rules: string;
   sortOrder: number;
 };
@@ -119,7 +123,7 @@ export async function listEventWorkouts(eventId: string): Promise<EventWorkout[]
     (data ?? []) as Array<{
       challenge_id: string;
       title: string;
-      score_type: 'time' | 'reps';
+      score_type: ScoreType;
       rules: string;
       sort_order: number;
     }>
@@ -136,7 +140,7 @@ export async function addEventWorkout(input: {
   eventId: string;
   title: string;
   workout: string;
-  scoreType: 'time' | 'reps';
+  scoreType: ScoreType;
 }): Promise<void> {
   const { error } = await supabase.rpc('add_gym_event_workout', {
     p_event_id: input.eventId,

@@ -4,6 +4,7 @@ import { Gauge } from 'lucide-react';
 import { useCallback, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
+import { FORM_INPUT_CLASS } from '@/features/pro/lib/formStyles';
 import { getEventPacing, setEventPacing } from '@/features/pro/services/events';
 import { useAsyncResource } from '@/hooks/useAsyncResource';
 import { formatTime } from '@/lib/scoring';
@@ -50,9 +51,6 @@ function SetPacingForm({
     }
   }
 
-  const inputCls =
-    'mt-1 w-full rounded-sm border border-border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
-
   return (
     <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-[1fr_1fr_auto] sm:items-end">
       <label className="block text-xs font-black uppercase tracking-[0.18em] text-muted-foreground">
@@ -61,7 +59,7 @@ function SetPacingForm({
           value={benchmark}
           onChange={(e) => setBenchmark(e.target.value)}
           placeholder="12:00"
-          className={inputCls}
+          className={FORM_INPUT_CLASS}
         />
       </label>
       <label className="block text-xs font-black uppercase tracking-[0.18em] text-muted-foreground">
@@ -72,7 +70,7 @@ function SetPacingForm({
           max={20}
           value={segments}
           onChange={(e) => setSegments(e.target.value)}
-          className={inputCls}
+          className={FORM_INPUT_CLASS}
         />
       </label>
       <button
