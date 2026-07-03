@@ -68,7 +68,7 @@ export function CreateGymEventScreen() {
   });
 
   return (
-    <section className="space-y-6">
+    <section className="mx-auto max-w-2xl space-y-6">
       <Link
         href={`/${locale}/app/pro/events`}
         className="inline-flex items-center gap-1 text-xs font-black uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground"
@@ -90,73 +90,75 @@ export function CreateGymEventScreen() {
 
       <FormProvider {...form}>
         <form className="space-y-5" onSubmit={onSubmit} noValidate>
-          <div>
-            <label
-              htmlFor="ev-title"
-              className="text-xs font-black uppercase tracking-[0.18em] text-muted-foreground"
-            >
-              {t('fields.title')}
-            </label>
-            <input
-              id="ev-title"
-              type="text"
-              autoComplete="off"
-              disabled={busy}
-              className="mt-2 w-full rounded-sm border border-border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              {...form.register('title')}
-            />
-            <FieldError message={form.formState.errors.title?.message} />
-          </div>
-
-          <div>
-            <label
-              htmlFor="ev-description"
-              className="text-xs font-black uppercase tracking-[0.18em] text-muted-foreground"
-            >
-              {t('fields.description')}
-            </label>
-            <textarea
-              id="ev-description"
-              rows={3}
-              disabled={busy}
-              className="mt-2 w-full resize-y rounded-sm border border-border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              {...form.register('description')}
-            />
-            <FieldError message={form.formState.errors.description?.message} />
-          </div>
-
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="space-y-5 rounded-md border border-border bg-card p-4 sm:p-6">
             <div>
               <label
-                htmlFor="ev-starts"
+                htmlFor="ev-title"
                 className="text-xs font-black uppercase tracking-[0.18em] text-muted-foreground"
               >
-                {t('fields.startsAt')}
+                {t('fields.title')}
               </label>
               <input
-                id="ev-starts"
-                type="datetime-local"
+                id="ev-title"
+                type="text"
+                autoComplete="off"
                 disabled={busy}
                 className="mt-2 w-full rounded-sm border border-border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                {...form.register('startsAt')}
+                {...form.register('title')}
               />
-              <FieldError message={form.formState.errors.startsAt?.message} />
+              <FieldError message={form.formState.errors.title?.message} />
             </div>
+
             <div>
               <label
-                htmlFor="ev-ends"
+                htmlFor="ev-description"
                 className="text-xs font-black uppercase tracking-[0.18em] text-muted-foreground"
               >
-                {t('fields.endsAt')}
+                {t('fields.description')}
               </label>
-              <input
-                id="ev-ends"
-                type="datetime-local"
+              <textarea
+                id="ev-description"
+                rows={3}
                 disabled={busy}
-                className="mt-2 w-full rounded-sm border border-border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                {...form.register('endsAt')}
+                className="mt-2 w-full resize-y rounded-sm border border-border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                {...form.register('description')}
               />
-              <FieldError message={form.formState.errors.endsAt?.message} />
+              <FieldError message={form.formState.errors.description?.message} />
+            </div>
+
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div>
+                <label
+                  htmlFor="ev-starts"
+                  className="text-xs font-black uppercase tracking-[0.18em] text-muted-foreground"
+                >
+                  {t('fields.startsAt')}
+                </label>
+                <input
+                  id="ev-starts"
+                  type="datetime-local"
+                  disabled={busy}
+                  className="mt-2 w-full rounded-sm border border-border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  {...form.register('startsAt')}
+                />
+                <FieldError message={form.formState.errors.startsAt?.message} />
+              </div>
+              <div>
+                <label
+                  htmlFor="ev-ends"
+                  className="text-xs font-black uppercase tracking-[0.18em] text-muted-foreground"
+                >
+                  {t('fields.endsAt')}
+                </label>
+                <input
+                  id="ev-ends"
+                  type="datetime-local"
+                  disabled={busy}
+                  className="mt-2 w-full rounded-sm border border-border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  {...form.register('endsAt')}
+                />
+                <FieldError message={form.formState.errors.endsAt?.message} />
+              </div>
             </div>
           </div>
 

@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useCallback } from 'react';
 import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 
+import { DurationInput } from '@/features/challenges/components/DurationInput';
 import type { CreateChallengeFormValues } from '@/features/challenges/lib/createChallengeSchema';
 import {
   movementsByCategory,
@@ -212,16 +213,34 @@ export function CreateChallengeCircuitSection({ disabled }: { disabled: boolean 
                 >
                   {kind === 'hold' ? t('circuit.amountHoldLabel') : t('circuit.amountRepsLabel')}
                 </label>
-                <input
-                  id={`cc-amt-${field.id}`}
-                  type="text"
-                  inputMode="numeric"
-                  disabled={disabled}
-                  placeholder={amountPlaceholder}
-                  autoComplete="off"
-                  className="mt-1 w-full rounded-sm border border-border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                  {...register(`circuitBlocks.${index}.amount`)}
-                />
+                {kind === 'hold' ? (
+                  <>
+                    <DurationInput
+                      id={`cc-amt-${field.id}`}
+                      value={blocks[index]?.amount ?? ''}
+                      disabled={disabled}
+                      minutesLabel={t('circuit.durationMin')}
+                      secondsLabel={t('circuit.durationSec')}
+                      onChange={(next) =>
+                        setValue(`circuitBlocks.${index}.amount`, next, { shouldValidate: true })
+                      }
+                    />
+                    <input type="hidden" {...register(`circuitBlocks.${index}.amount`)} />
+                  </>
+                ) : (
+                  <input
+                    id={`cc-amt-${field.id}`}
+                    type="number"
+                    inputMode="numeric"
+                    min={1}
+                    step={1}
+                    disabled={disabled}
+                    placeholder={amountPlaceholder}
+                    autoComplete="off"
+                    className="mt-1 w-full rounded-sm border border-border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    {...register(`circuitBlocks.${index}.amount`)}
+                  />
+                )}
                 <FieldError message={errors.circuitBlocks?.[index]?.amount?.message} />
               </div>
             </div>

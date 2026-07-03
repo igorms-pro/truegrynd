@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { useFormContext, useWatch } from 'react-hook-form';
 
+import { DurationInput } from '@/features/challenges/components/DurationInput';
 import type { CreateChallengeFormValues } from '@/features/challenges/lib/createChallengeSchema';
 
 function FieldError({ message }: { message?: string }) {
@@ -18,6 +19,8 @@ export function CreateChallengeScoringSection({ disabled }: { disabled: boolean 
   const t = useTranslations('arena.create');
   const { control, register, setValue, formState } = useFormContext<CreateChallengeFormValues>();
   const scoringMode = useWatch({ control, name: 'scoringMode' }) ?? 'for_time';
+  const forTimeCap = useWatch({ control, name: 'forTimeCap' }) ?? '';
+  const amrapCap = useWatch({ control, name: 'amrapCap' }) ?? '';
 
   const modeBtnClass = (mode: 'for_time' | 'amrap') =>
     [
@@ -67,16 +70,15 @@ export function CreateChallengeScoringSection({ disabled }: { disabled: boolean 
           >
             {t('scoring.forTimeCapLabel')}
           </label>
-          <input
+          <DurationInput
             id="cc-for-time-cap"
-            type="text"
-            inputMode="numeric"
-            autoComplete="off"
+            value={forTimeCap}
             disabled={disabled}
-            placeholder={t('scoring.forTimeCapPlaceholder')}
-            className="mt-2 w-full max-w-[10rem] rounded-sm border border-border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            {...register('forTimeCap')}
+            minutesLabel={t('circuit.durationMin')}
+            secondsLabel={t('circuit.durationSec')}
+            onChange={(next) => setValue('forTimeCap', next, { shouldValidate: true })}
           />
+          <input type="hidden" {...register('forTimeCap')} />
           <p className="mt-1 text-[10px] text-muted-foreground">{t('scoring.forTimeCapHint')}</p>
           <FieldError message={formState.errors.forTimeCap?.message} />
         </div>
@@ -90,16 +92,15 @@ export function CreateChallengeScoringSection({ disabled }: { disabled: boolean 
           >
             {t('scoring.amrapCapLabel')}
           </label>
-          <input
+          <DurationInput
             id="cc-amrap-cap"
-            type="text"
-            inputMode="numeric"
-            autoComplete="off"
+            value={amrapCap}
             disabled={disabled}
-            placeholder={t('scoring.amrapCapPlaceholder')}
-            className="mt-2 w-full max-w-[10rem] rounded-sm border border-border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            {...register('amrapCap')}
+            minutesLabel={t('circuit.durationMin')}
+            secondsLabel={t('circuit.durationSec')}
+            onChange={(next) => setValue('amrapCap', next, { shouldValidate: true })}
           />
+          <input type="hidden" {...register('amrapCap')} />
           <FieldError message={formState.errors.amrapCap?.message} />
         </div>
       ) : null}
