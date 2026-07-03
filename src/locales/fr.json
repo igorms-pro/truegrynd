@@ -1421,12 +1421,19 @@
       "billing": "Facturation"
     },
     "dashboard": {
-      "intro": "Bienvenue dans ton espace PRO. La Judge Console arrive juste après — le reste suit.",
+      "intro": "Ta salle en un coup d'œil — ce qui demande ton attention aujourd'hui.",
       "kpi": {
         "members": "Membres",
         "pending": "À valider",
         "active7d": "Actifs (7j)"
-      }
+      },
+      "kpiHint": {
+        "members": "Athlètes affiliés",
+        "pending": "Scores en attente d'un juge",
+        "active7d": "Entraînés ces 7 derniers jours"
+      },
+      "quickTitle": "Actions rapides",
+      "pendingCta": "Valider maintenant"
     },
     "judge": {
       "intro": "Valide les performances vues sur le floor — un score validé passe au ranking vérifié.",
