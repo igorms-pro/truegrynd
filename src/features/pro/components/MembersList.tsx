@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
 
 import { listGymMembers, type GymMember } from '@/features/pro/services/members';
@@ -23,8 +24,8 @@ function MemberRow({ member }: { member: GymMember }) {
   const t = useTranslations('pro.members');
   const isHorde = member.faction === 'horde';
 
-  return (
-    <li className="flex items-center gap-3 border-b border-border px-3 py-3 last:border-b-0">
+  const inner = (
+    <>
       <span
         aria-hidden
         className={`h-2 w-2 shrink-0 rounded-full ${isHorde ? 'bg-[var(--faction-horde)]' : 'bg-sky-500'}`}
@@ -41,6 +42,22 @@ function MemberRow({ member }: { member: GymMember }) {
       <span className="w-28 shrink-0 text-right text-xs text-muted-foreground">
         {lastActiveLabel(member.lastActivityAt, locale, t('never'))}
       </span>
+    </>
+  );
+
+  // A member is an athlete → link to their public B2C profile.
+  return (
+    <li className="border-b border-border last:border-b-0">
+      {member.username ? (
+        <Link
+          href={`/${locale}/app/u/${member.username}`}
+          className="flex items-center gap-3 px-3 py-3 transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          {inner}
+        </Link>
+      ) : (
+        <div className="flex items-center gap-3 px-3 py-3">{inner}</div>
+      )}
     </li>
   );
 }

@@ -7,6 +7,8 @@ import type { ReactNode } from 'react';
 import { useCallback } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+import { ThemeToggle } from '@/components/ThemeToggle';
 import { useOptionalAppProfile } from '@/features/appshell/context/AppProfileContext';
 import { CreateGymScreen } from '@/features/pro/components/CreateGymScreen';
 import { SubscriptionGate } from '@/features/pro/components/SubscriptionGate';
@@ -45,12 +47,22 @@ export function ProShell({ children }: { children: ReactNode }) {
     </Link>
   );
 
+  const themeControls = (
+    <div className="flex items-center gap-1.5">
+      <ThemeToggle size="sm" />
+      <LanguageSwitcher variant="dropdown" size="sm" />
+    </div>
+  );
+
   // No gym yet → focused onboarding, not the empty shell.
   if (!hasGym) {
     return (
       <div className="min-h-screen bg-background text-foreground">
         <div className="mx-auto w-full max-w-3xl space-y-6 px-4 py-6">
-          {backToApp}
+          <div className="flex items-center justify-between gap-4">
+            {backToApp}
+            {themeControls}
+          </div>
           <CreateGymScreen />
         </div>
       </div>
@@ -116,6 +128,8 @@ export function ProShell({ children }: { children: ReactNode }) {
               );
             })}
           </nav>
+
+          <div className="border-t border-border pt-3">{themeControls}</div>
         </div>
       </aside>
 
