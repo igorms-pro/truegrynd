@@ -1378,6 +1378,9 @@
   "gym": {
     "public": {
       "kicker": "Salle",
+      "back": "Retour",
+      "verified": "Vérifiée",
+      "leaguesTitle": "Ligues",
       "loading": "Chargement de la salle…",
       "errorTitle": "Salle introuvable",
       "errorBody": "Cette salle n'existe pas ou n'est pas disponible.",
@@ -1446,7 +1449,8 @@
         "video": "Avec vidéo",
         "novideo": "Sans vidéo",
         "allEvents": "Tous les events",
-        "eventLabel": "Filtrer par event"
+        "eventLabel": "Filtrer par event",
+        "proofLabel": "Filtrer par preuve"
       },
       "searchPlaceholder": "Rechercher un athlète ou un défi…",
       "noMatch": "Aucun score en attente ne correspond à ta recherche.",

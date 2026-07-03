@@ -1378,6 +1378,9 @@
   "gym": {
     "public": {
       "kicker": "Gym",
+      "back": "Back",
+      "verified": "Verified",
+      "leaguesTitle": "Leagues",
       "loading": "Loading gym…",
       "errorTitle": "Gym not found",
       "errorBody": "This gym doesn't exist or isn't available.",
@@ -1446,7 +1449,8 @@
         "video": "With video",
         "novideo": "No video",
         "allEvents": "All events",
-        "eventLabel": "Filter by event"
+        "eventLabel": "Filter by event",
+        "proofLabel": "Filter by proof"
       },
       "searchPlaceholder": "Search athlete or challenge…",
       "noMatch": "No pending score matches your search.",
