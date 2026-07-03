@@ -8,13 +8,21 @@ export type GymEventSummary = {
   scoreType: 'time' | 'reps';
 };
 
+export type GymLeagueSummary = {
+  id: string;
+  name: string;
+  scope: 'local' | 'regional' | 'national';
+};
+
 export type GymProfile = {
   id: string;
   name: string;
   slug: string;
   city: string | null;
   countryCode: string | null;
+  verified: boolean;
   memberCount: number;
+  leagues: GymLeagueSummary[];
   events: GymEventSummary[];
 };
 
@@ -32,7 +40,9 @@ type Raw = {
   slug: string;
   city: string | null;
   countryCode: string | null;
+  verified: boolean;
   memberCount: number;
+  leagues: GymLeagueSummary[] | null;
   events: RawEvent[] | null;
 };
 
@@ -48,7 +58,9 @@ export async function getGymProfileBySlug(slug: string): Promise<GymProfile> {
     slug: raw.slug,
     city: raw.city,
     countryCode: raw.countryCode,
+    verified: Boolean(raw.verified),
     memberCount: Number(raw.memberCount ?? 0),
+    leagues: raw.leagues ?? [],
     events: (raw.events ?? []).map((e) => ({
       id: e.id,
       title: e.title,

@@ -160,19 +160,40 @@ export function JudgeConsole() {
 
   return (
     <div className="space-y-4">
-      <p className="text-sm text-muted-foreground">{t('intro')}</p>
-
       {rows.length === 0 ? (
         <p className="rounded-md border border-border bg-card p-6 text-center text-sm text-muted-foreground">
           {t('empty')}
         </p>
       ) : (
         <>
-          <div className="space-y-3">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <p className="text-xs font-black uppercase tracking-[0.18em] text-muted-foreground">
-                {t('pendingCount', { count: filtered.length })}
-              </p>
+          <div className="space-y-3 rounded-md border border-border bg-card p-3">
+            <div className="flex flex-wrap items-center gap-2">
+              {/* Proof filter — one segmented control, not loose buttons. */}
+              <div
+                role="group"
+                aria-label={t('filter.proofLabel')}
+                className="inline-flex overflow-hidden rounded-md border border-border"
+              >
+                {(['all', 'video', 'novideo'] as const).map((f, i) => (
+                  <button
+                    key={f}
+                    type="button"
+                    onClick={() => {
+                      setProofFilter(f);
+                      setPage(0);
+                    }}
+                    className={`px-3 py-2 text-[10px] font-black uppercase tracking-[0.14em] transition-colors ${
+                      i > 0 ? 'border-l border-border' : ''
+                    } ${
+                      proofFilter === f
+                        ? 'bg-primary text-primary-foreground'
+                        : 'bg-background text-muted-foreground hover:text-foreground'
+                    }`}
+                  >
+                    {t(`filter.${f}`)}
+                  </button>
+                ))}
+              </div>
               <input
                 type="search"
                 value={query}
@@ -182,27 +203,8 @@ export function JudgeConsole() {
                 }}
                 placeholder={t('searchPlaceholder')}
                 aria-label={t('searchPlaceholder')}
-                className="w-full max-w-xs rounded-sm border border-border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="min-w-[10rem] flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               />
-            </div>
-            <div className="flex flex-wrap items-center gap-2">
-              {(['all', 'video', 'novideo'] as const).map((f) => (
-                <button
-                  key={f}
-                  type="button"
-                  onClick={() => {
-                    setProofFilter(f);
-                    setPage(0);
-                  }}
-                  className={`rounded-sm px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] transition-colors ${
-                    proofFilter === f
-                      ? 'bg-primary text-primary-foreground'
-                      : 'border border-border text-muted-foreground hover:text-foreground'
-                  }`}
-                >
-                  {t(`filter.${f}`)}
-                </button>
-              ))}
               {challenges.length > 1 ? (
                 <select
                   value={challengeFilter}
@@ -211,7 +213,7 @@ export function JudgeConsole() {
                     setPage(0);
                   }}
                   aria-label={t('filter.eventLabel')}
-                  className="ml-auto max-w-[16rem] rounded-sm border border-border bg-background px-3 py-1.5 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="max-w-[14rem] rounded-md border border-border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <option value="">{t('filter.allEvents')}</option>
                   {challenges.map((c) => (
@@ -222,6 +224,9 @@ export function JudgeConsole() {
                 </select>
               ) : null}
             </div>
+            <p className="text-[11px] font-black uppercase tracking-[0.16em] text-muted-foreground">
+              {t('pendingCount', { count: filtered.length })}
+            </p>
           </div>
 
           {filtered.length === 0 ? (

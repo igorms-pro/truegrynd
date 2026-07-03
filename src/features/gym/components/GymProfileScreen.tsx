@@ -1,7 +1,8 @@
 'use client';
 
-import { MapPin, Users } from 'lucide-react';
+import { ArrowLeft, BadgeCheck, MapPin, Trophy, Users } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 
@@ -15,6 +16,7 @@ type Props = {
 
 export function GymProfileScreen({ slug }: Props) {
   const locale = useLocale();
+  const router = useRouter();
   const t = useTranslations('gym.public');
   const load = useCallback(() => getGymProfileBySlug(slug), [slug]);
   const { state, refetch } = useAsyncResource(load, [slug]);
@@ -60,10 +62,27 @@ export function GymProfileScreen({ slug }: Props) {
 
   return (
     <section className="mx-auto max-w-2xl space-y-6">
-      <header className="space-y-2">
-        <p className="text-[10px] font-black uppercase tracking-[0.22em] text-primary">
-          {t('kicker')}
-        </p>
+      <button
+        type="button"
+        onClick={() => router.back()}
+        className="inline-flex items-center gap-1 text-xs font-black uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      >
+        <ArrowLeft className="h-3.5 w-3.5" />
+        {t('back')}
+      </button>
+
+      <header className="space-y-3 rounded-md border border-border bg-card p-5">
+        <div className="flex items-center gap-2">
+          <p className="text-[10px] font-black uppercase tracking-[0.22em] text-primary">
+            {t('kicker')}
+          </p>
+          {gym.verified ? (
+            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.14em] text-emerald-500">
+              <BadgeCheck className="h-3.5 w-3.5" aria-hidden />
+              {t('verified')}
+            </span>
+          ) : null}
+        </div>
         <h1 className="text-2xl font-black uppercase tracking-tight md:text-3xl">{gym.name}</h1>
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
           {location ? (
@@ -78,6 +97,26 @@ export function GymProfileScreen({ slug }: Props) {
           </span>
         </div>
       </header>
+
+      {gym.leagues.length > 0 ? (
+        <div className="space-y-2">
+          <h2 className="text-xs font-black uppercase tracking-[0.18em] text-muted-foreground">
+            {t('leaguesTitle')}
+          </h2>
+          <div className="flex flex-wrap gap-2">
+            {gym.leagues.map((l) => (
+              <Link
+                key={l.id}
+                href={`/${locale}/app/pro/leagues/${l.id}`}
+                className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-bold hover:border-primary hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                <Trophy className="h-3.5 w-3.5" aria-hidden />
+                {l.name}
+              </Link>
+            ))}
+          </div>
+        </div>
+      ) : null}
 
       <div className="space-y-3">
         <h2 className="text-xs font-black uppercase tracking-[0.18em] text-muted-foreground">
