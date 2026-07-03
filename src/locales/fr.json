@@ -1403,6 +1403,8 @@
     "nav": {
       "label": "Sections PRO",
       "soon": "Bientôt",
+      "collapse": "Réduire le menu",
+      "expand": "Déployer le menu",
       "groups": {
         "competition": "Compétition",
         "management": "Gestion salle"
