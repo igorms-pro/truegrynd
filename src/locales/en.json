@@ -1403,6 +1403,8 @@
     "nav": {
       "label": "PRO sections",
       "soon": "Soon",
+      "collapse": "Collapse sidebar",
+      "expand": "Expand sidebar",
       "groups": {
         "competition": "Competition",
         "management": "Gym management"

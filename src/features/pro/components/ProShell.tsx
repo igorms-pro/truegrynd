@@ -1,10 +1,10 @@
 'use client';
 
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, PanelLeft, PanelLeftClose } from 'lucide-react';
 import Link from 'next/link';
 import { notFound, usePathname } from 'next/navigation';
 import type { ReactNode } from 'react';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
@@ -30,6 +30,22 @@ export function ProShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const loadGym = useCallback(() => getMyGym(), []);
   const { state } = useAsyncResource(loadGym, [profile?.affiliated_gym_id ?? '']);
+
+  // Collapsed sidebar (desktop only) — persisted so the choice survives navigation/reload.
+  const [collapsed, setCollapsed] = useState(false);
+  useEffect(() => {
+    // Read the persisted choice after mount (not in the initializer) so SSR and the first
+    // client render agree — localStorage isn't available on the server.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setCollapsed(localStorage.getItem('tg-pro-sidebar-collapsed') === '1');
+  }, []);
+  const toggleCollapsed = useCallback(() => {
+    setCollapsed((prev) => {
+      const next = !prev;
+      localStorage.setItem('tg-pro-sidebar-collapsed', next ? '1' : '0');
+      return next;
+    });
+  }, []);
 
   if (!canAccessPro(profile)) notFound();
 
@@ -71,10 +87,28 @@ export function ProShell({ children }: { children: ReactNode }) {
 
   return (
     <div className="min-h-screen bg-background text-foreground md:flex">
-      <aside className="border-b border-border md:min-h-screen md:w-60 md:shrink-0 md:border-b-0 md:border-r">
+      <aside
+        className={`border-b border-border md:min-h-screen md:shrink-0 md:border-b-0 md:border-r md:transition-[width] ${
+          collapsed ? 'md:w-16' : 'md:w-60'
+        }`}
+      >
         <div className="space-y-4 px-4 py-4">
-          {backToApp}
-          <div>
+          <div className="flex items-center justify-between gap-2">
+            <span className={collapsed ? 'md:hidden' : ''}>{backToApp}</span>
+            <button
+              type="button"
+              onClick={toggleCollapsed}
+              aria-label={collapsed ? tNav('expand') : tNav('collapse')}
+              className="hidden shrink-0 rounded-md p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:inline-flex"
+            >
+              {collapsed ? (
+                <PanelLeft className="h-4 w-4" aria-hidden />
+              ) : (
+                <PanelLeftClose className="h-4 w-4" aria-hidden />
+              )}
+            </button>
+          </div>
+          <div className={collapsed ? 'md:hidden' : ''}>
             <p className="text-[10px] font-black uppercase tracking-[0.22em] text-primary">
               {t('badge')}
             </p>
@@ -89,7 +123,11 @@ export function ProShell({ children }: { children: ReactNode }) {
               return (
                 <div key={group.id} className="w-full space-y-1">
                   {group.labelKey ? (
-                    <p className="px-2 text-[9px] font-black uppercase tracking-[0.18em] text-muted-foreground">
+                    <p
+                      className={`px-2 text-[9px] font-black uppercase tracking-[0.18em] text-muted-foreground ${
+                        collapsed ? 'md:hidden' : ''
+                      }`}
+                    >
                       {tNav(`groups.${group.labelKey}`)}
                     </p>
                   ) : null}
@@ -101,11 +139,18 @@ export function ProShell({ children }: { children: ReactNode }) {
                         <div
                           key={item.id}
                           aria-disabled="true"
-                          className="flex items-center gap-2 rounded-md px-2 py-2 text-xs font-black uppercase tracking-[0.12em] text-muted-foreground opacity-50"
+                          title={collapsed ? tNav(item.labelKey) : undefined}
+                          className={`flex items-center gap-2 rounded-md px-2 py-2 text-xs font-black uppercase tracking-[0.12em] text-muted-foreground opacity-50 ${
+                            collapsed ? 'md:justify-center' : ''
+                          }`}
                         >
                           <Icon className="h-4 w-4 shrink-0" aria-hidden />
-                          <span className="truncate">{tNav(item.labelKey)}</span>
-                          <span className="ml-auto text-[8px]">{tNav('soon')}</span>
+                          <span className={`truncate ${collapsed ? 'md:hidden' : ''}`}>
+                            {tNav(item.labelKey)}
+                          </span>
+                          <span className={`ml-auto text-[8px] ${collapsed ? 'md:hidden' : ''}`}>
+                            {tNav('soon')}
+                          </span>
                         </div>
                       );
                     }
@@ -113,14 +158,19 @@ export function ProShell({ children }: { children: ReactNode }) {
                       <Link
                         key={item.id}
                         href={`/${locale}${item.path}`}
+                        title={collapsed ? tNav(item.labelKey) : undefined}
                         className={`flex items-center gap-2 rounded-md px-2 py-2 text-xs font-black uppercase tracking-[0.12em] ${
+                          collapsed ? 'md:justify-center' : ''
+                        } ${
                           active
                             ? 'bg-primary text-primary-foreground'
                             : 'text-muted-foreground hover:bg-muted hover:text-foreground'
                         }`}
                       >
                         <Icon className="h-4 w-4 shrink-0" aria-hidden />
-                        <span className="truncate">{tNav(item.labelKey)}</span>
+                        <span className={`truncate ${collapsed ? 'md:hidden' : ''}`}>
+                          {tNav(item.labelKey)}
+                        </span>
                       </Link>
                     );
                   })}
@@ -129,7 +179,9 @@ export function ProShell({ children }: { children: ReactNode }) {
             })}
           </nav>
 
-          <div className="border-t border-border pt-3">{themeControls}</div>
+          <div className={`border-t border-border pt-3 ${collapsed ? 'md:hidden' : ''}`}>
+            {themeControls}
+          </div>
         </div>
       </aside>
 
