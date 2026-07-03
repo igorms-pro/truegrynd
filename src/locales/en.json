@@ -332,6 +332,8 @@
         "amountHoldLabel": "Hold time",
         "amountPlaceholderReps": "10",
         "amountPlaceholderHold": "3:00",
+        "durationMin": "Min",
+        "durationSec": "Sec",
         "addMovement": "ADD MOVEMENT",
         "removeRow": "Remove movement"
       },
