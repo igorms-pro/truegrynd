@@ -1,5 +1,6 @@
 'use client';
 
+import { ExternalLink } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 
@@ -40,7 +41,11 @@ function BillingBody({ data }: { data: BillingStatus }) {
       const returnUrl = window.location.href;
       const url =
         action === 'checkout' ? await startCheckout(returnUrl) : await openPortal(returnUrl);
-      window.location.href = url;
+      // Open Stripe in a new tab so the PRO workspace stays put; fall back to same-tab
+      // navigation if the popup is blocked.
+      const opened = window.open(url, '_blank', 'noopener,noreferrer');
+      if (!opened) window.location.href = url;
+      setBusy(false);
     } catch {
       setError(t('error'));
       setBusy(false);
@@ -70,9 +75,10 @@ function BillingBody({ data }: { data: BillingStatus }) {
           type="button"
           disabled={busy}
           onClick={() => go(subscribed ? 'portal' : 'checkout')}
-          className="w-full rounded-md bg-primary px-4 py-2.5 text-sm font-black uppercase tracking-[0.12em] text-primary-foreground hover:opacity-90 disabled:opacity-50"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-primary px-4 py-2.5 text-sm font-black uppercase tracking-[0.12em] text-primary-foreground hover:opacity-90 disabled:opacity-50"
         >
           {busy ? t('loading') : subscribed ? t('manage') : t('subscribe')}
+          {!busy ? <ExternalLink className="h-4 w-4" aria-hidden /> : null}
         </button>
       </div>
       <p className="text-xs text-muted-foreground">{t('note')}</p>

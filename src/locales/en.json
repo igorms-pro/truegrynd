@@ -1421,12 +1421,19 @@
       "billing": "Billing"
     },
     "dashboard": {
-      "intro": "Welcome to your PRO space. The Judge Console arrives next — the rest is on the way.",
+      "intro": "Your gym at a glance — what needs your attention today.",
       "kpi": {
         "members": "Members",
         "pending": "To validate",
         "active7d": "Active (7d)"
-      }
+      },
+      "kpiHint": {
+        "members": "Affiliated athletes",
+        "pending": "Scores awaiting a judge",
+        "active7d": "Trained in the last 7 days"
+      },
+      "quickTitle": "Quick actions",
+      "pendingCta": "Review now"
     },
     "judge": {
       "intro": "Validate performances you witnessed on the floor — a validated score jumps to the verified ranking.",
