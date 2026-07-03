@@ -102,6 +102,8 @@ export function JudgeConsole() {
   const [busyId, setBusyId] = useState<string | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
   const [query, setQuery] = useState('');
+  const [proofFilter, setProofFilter] = useState<'all' | 'video' | 'novideo'>('all');
+  const [challengeFilter, setChallengeFilter] = useState('');
   const [page, setPage] = useState(0);
 
   const onVerify = useCallback(async (id: string) => {
@@ -124,16 +126,26 @@ export function JudgeConsole() {
 
   const PAGE_SIZE = 15;
   const q = query.trim().toLowerCase();
+  // Distinct events/challenges present in the queue, for the event filter dropdown.
+  const challenges = useMemo(
+    () => [...new Set(rows.map((r) => r.challengeTitle))].sort((a, b) => a.localeCompare(b)),
+    [rows],
+  );
   const filtered = useMemo(
     () =>
-      q
-        ? rows.filter(
-            (r) =>
-              (r.athleteUsername ?? '').toLowerCase().includes(q) ||
-              r.challengeTitle.toLowerCase().includes(q),
-          )
-        : rows,
-    [rows, q],
+      rows.filter((r) => {
+        if (q) {
+          const hit =
+            (r.athleteUsername ?? '').toLowerCase().includes(q) ||
+            r.challengeTitle.toLowerCase().includes(q);
+          if (!hit) return false;
+        }
+        if (proofFilter === 'video' && !r.videoUrl) return false;
+        if (proofFilter === 'novideo' && r.videoUrl) return false;
+        if (challengeFilter && r.challengeTitle !== challengeFilter) return false;
+        return true;
+      }),
+    [rows, q, proofFilter, challengeFilter],
   );
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const safePage = Math.min(page, totalPages - 1);
@@ -156,21 +168,60 @@ export function JudgeConsole() {
         </p>
       ) : (
         <>
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-muted-foreground">
-              {t('pendingCount', { count: filtered.length })}
-            </p>
-            <input
-              type="search"
-              value={query}
-              onChange={(e) => {
-                setQuery(e.target.value);
-                setPage(0);
-              }}
-              placeholder={t('searchPlaceholder')}
-              aria-label={t('searchPlaceholder')}
-              className="w-full max-w-xs rounded-sm border border-border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            />
+          <div className="space-y-3">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-muted-foreground">
+                {t('pendingCount', { count: filtered.length })}
+              </p>
+              <input
+                type="search"
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                  setPage(0);
+                }}
+                placeholder={t('searchPlaceholder')}
+                aria-label={t('searchPlaceholder')}
+                className="w-full max-w-xs rounded-sm border border-border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              />
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
+              {(['all', 'video', 'novideo'] as const).map((f) => (
+                <button
+                  key={f}
+                  type="button"
+                  onClick={() => {
+                    setProofFilter(f);
+                    setPage(0);
+                  }}
+                  className={`rounded-sm px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] transition-colors ${
+                    proofFilter === f
+                      ? 'bg-primary text-primary-foreground'
+                      : 'border border-border text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  {t(`filter.${f}`)}
+                </button>
+              ))}
+              {challenges.length > 1 ? (
+                <select
+                  value={challengeFilter}
+                  onChange={(e) => {
+                    setChallengeFilter(e.target.value);
+                    setPage(0);
+                  }}
+                  aria-label={t('filter.eventLabel')}
+                  className="ml-auto max-w-[16rem] rounded-sm border border-border bg-background px-3 py-1.5 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  <option value="">{t('filter.allEvents')}</option>
+                  {challenges.map((c) => (
+                    <option key={c} value={c}>
+                      {c}
+                    </option>
+                  ))}
+                </select>
+              ) : null}
+            </div>
           </div>
 
           {filtered.length === 0 ? (

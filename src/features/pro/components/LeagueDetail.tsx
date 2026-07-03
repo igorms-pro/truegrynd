@@ -20,7 +20,7 @@ export function LeagueDetail({ leagueId }: { leagueId: string }) {
     leaguesState.status === 'ready' ? leaguesState.data.find((l) => l.id === leagueId) : null;
 
   return (
-    <section className="space-y-5">
+    <section className="mx-auto max-w-2xl space-y-5">
       <Link
         href={`/${locale}/app/pro/leagues`}
         className="inline-flex items-center gap-1 text-xs font-black uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground"
@@ -44,11 +44,25 @@ export function LeagueDetail({ leagueId }: { leagueId: string }) {
       ) : state.status === 'error' ? (
         <p className="text-sm font-semibold text-primary">{t('error')}</p>
       ) : state.data.length === 0 ? (
-        <p className="rounded-md border border-border bg-card p-6 text-center text-sm text-muted-foreground">
-          {t('detail.empty')}
-        </p>
+        <div className="space-y-4 rounded-md border border-dashed border-border bg-muted/20 p-6 text-center">
+          <p className="text-sm font-black uppercase tracking-[0.14em] text-foreground">
+            {t('detail.emptyTitle')}
+          </p>
+          <p className="mx-auto max-w-md text-sm text-muted-foreground">{t('detail.emptyBody')}</p>
+          <Link
+            href={`/${locale}/app/pro/leagues`}
+            className="inline-flex min-h-11 items-center justify-center rounded-md bg-primary px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-primary-foreground hover:opacity-90"
+          >
+            {t('detail.joinCta')}
+          </Link>
+        </div>
       ) : (
         <ul className="rounded-md border border-border bg-card">
+          <li className="flex items-center gap-3 border-b border-border px-3 py-2 text-[9px] font-black uppercase tracking-[0.16em] text-muted-foreground">
+            <span className="w-6 shrink-0 text-center">#</span>
+            <span className="min-w-0 flex-1">{t('detail.colGym')}</span>
+            <span className="shrink-0 text-right">{t('detail.avgRating')}</span>
+          </li>
           {state.data.map((row, i) => (
             <li
               key={row.gymId}
@@ -71,17 +85,15 @@ export function LeagueDetail({ leagueId }: { leagueId: string }) {
                   {t('detail.members', { count: row.memberCount })}
                 </span>
               </span>
-              <span className="shrink-0 text-right">
-                <span className="block text-lg font-black tabular-nums">{row.avgRating}</span>
-                <span className="block text-[9px] font-black uppercase tracking-[0.14em] text-muted-foreground">
-                  {t('detail.avgRating')}
-                </span>
+              <span className="shrink-0 text-right text-lg font-black tabular-nums">
+                {row.avgRating}
               </span>
             </li>
           ))}
         </ul>
       )}
       <p className="text-xs text-muted-foreground">{t('detail.note')}</p>
+      <p className="text-[11px] text-muted-foreground">{t('detail.runBy')}</p>
     </section>
   );
 }

@@ -311,10 +311,7 @@ function WorkoutPanel({
       ) : null}
 
       <div className="space-y-2">
-        <div className="flex items-center justify-between gap-3">
-          <h2 className="text-xs font-black uppercase tracking-[0.18em] text-muted-foreground">
-            {t('detail.standings')}
-          </h2>
+        <div className="flex justify-end">
           <Link
             href={`/${locale}/app/pro/events/${event.id}/tv`}
             className="inline-flex shrink-0 items-center gap-1.5 rounded-md border border-border px-2.5 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] text-muted-foreground hover:text-foreground"
@@ -364,7 +361,7 @@ function EventBody({ event, onChanged }: { event: GymEvent; onChanged: () => voi
   }
 
   return (
-    <section className="space-y-6">
+    <section className="mx-auto max-w-3xl space-y-6">
       <Link
         href={`/${locale}/app/pro/events`}
         className="inline-flex items-center gap-1 text-xs font-black uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground"
