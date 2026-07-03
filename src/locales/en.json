@@ -1377,6 +1377,9 @@
     "badge": "TrueGrynd PRO",
     "title": "Gym command center",
     "subtitle": "Validate scores, run competitions and manage your box — all in one place.",
+    "shell": {
+      "backToApp": "App"
+    },
     "nav": {
       "label": "PRO sections",
       "soon": "Soon",

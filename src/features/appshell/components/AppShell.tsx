@@ -1,11 +1,13 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
 import { AppHeader } from '@/features/appshell/components/AppHeader';
 import { BottomDock } from '@/features/appshell/components/BottomDock';
 import { AppProfileProvider } from '@/features/appshell/context/AppProfileContext';
 import { useRequireAppAccess } from '@/features/appshell/hooks/useRequireAppAccess';
+import { ProShell } from '@/features/pro/components/ProShell';
 
 type Props = {
   children: React.ReactNode;
@@ -26,9 +28,20 @@ function AppShellLoading() {
 
 export function AppShell({ children }: Props) {
   const access = useRequireAppAccess();
+  const pathname = usePathname();
 
   if (access.status !== 'ready') {
     return <AppShellLoading />;
+  }
+
+  // The PRO space is its own workspace: dedicated sidebar shell, no B2C header/dock.
+  const isPro = /\/app\/pro(\/|$)/.test(pathname);
+  if (isPro) {
+    return (
+      <AppProfileProvider profile={access.profile}>
+        <ProShell>{children}</ProShell>
+      </AppProfileProvider>
+    );
   }
 
   return (

@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { DesktopNavLink } from '@/features/appshell/components/DesktopNavLink';
 import { useOptionalAppProfile } from '@/features/appshell/context/AppProfileContext';
 import { APP_TABS, isTabActive } from '@/features/appshell/lib/tabs';
+import { canAccessPro } from '@/lib/roles';
 
 export function DesktopNav() {
   const pathname = usePathname();
@@ -15,6 +16,7 @@ export function DesktopNav() {
   const profile = useOptionalAppProfile();
   const adminHref = `/${locale}/app/admin/challenges`;
   const adminActive = pathname === adminHref || pathname.startsWith(`${adminHref}/`);
+  const proHref = `/${locale}/app/pro`;
 
   return (
     <nav className="hidden md:flex items-center gap-7" aria-label="Primary">
@@ -26,6 +28,11 @@ export function DesktopNav() {
           </DesktopNavLink>
         );
       })}
+      {canAccessPro(profile) ? (
+        <DesktopNavLink href={proHref} isActive={false}>
+          PRO
+        </DesktopNavLink>
+      ) : null}
       {profile?.is_admin ? (
         <DesktopNavLink href={adminHref} isActive={adminActive}>
           {tAdmin('link')}
