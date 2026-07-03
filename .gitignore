@@ -54,3 +54,7 @@ next-env.d.ts
 # supabase local dev
 supabase/.branches/
 supabase/.temp/
+
+# Local agent artifacts
+.playwright-mcp/
+memory.md
