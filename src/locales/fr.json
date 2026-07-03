@@ -1441,6 +1441,13 @@
       "error": "Impossible de charger la file.",
       "empty": "Rien à valider pour le moment. 🎉",
       "pendingCount": "{count} à valider",
+      "filter": {
+        "all": "Tous",
+        "video": "Avec vidéo",
+        "novideo": "Sans vidéo",
+        "allEvents": "Tous les events",
+        "eventLabel": "Filtrer par event"
+      },
       "searchPlaceholder": "Rechercher un athlète ou un défi…",
       "noMatch": "Aucun score en attente ne correspond à ta recherche.",
       "pagePrev": "Précédent",
@@ -1465,7 +1472,8 @@
       "error": "Impossible de charger les membres.",
       "empty": "Aucun membre affilié pour le moment.",
       "count": "{count} membres",
-      "never": "jamais"
+      "never": "jamais",
+      "openProfile": "Ouvrir le profil de l'athlète (nouvel onglet)"
     },
     "billing": {
       "loading": "Chargement…",
@@ -1506,9 +1514,14 @@
         "back": "Retour aux ligues",
         "intro": "Les box membres classées par le rating moyen de leurs athlètes.",
         "empty": "Aucune salle membre pour le moment.",
+        "emptyTitle": "Aucune box ne concourt encore ici",
+        "emptyBody": "Sois la première. Rejoins cette ligue depuis la liste des ligues — ta box entre au classement dès que tes membres postent des scores classés.",
+        "joinCta": "Aller aux ligues pour rejoindre",
+        "colGym": "Box",
         "members": "{count, plural, =0 {aucun membre} =1 {1 membre} other {# membres}}",
         "avgRating": "Rating moyen",
-        "note": "Score = moyenne du rating global des membres de chaque box. Les matchs sur WOD partagé arrivent ensuite."
+        "note": "Score = moyenne du rating global des membres de chaque box. Les matchs sur WOD partagé arrivent ensuite.",
+        "runBy": "Les ligues sont gérées par TrueGrynd — tu inscris/retires ta box, tu ne les crées pas."
       }
     },
     "events": {

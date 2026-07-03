@@ -1441,6 +1441,13 @@
       "error": "Could not load the queue.",
       "empty": "Nothing to validate right now. 🎉",
       "pendingCount": "{count} to validate",
+      "filter": {
+        "all": "All",
+        "video": "With video",
+        "novideo": "No video",
+        "allEvents": "All events",
+        "eventLabel": "Filter by event"
+      },
       "searchPlaceholder": "Search athlete or challenge…",
       "noMatch": "No pending score matches your search.",
       "pagePrev": "Prev",
@@ -1465,7 +1472,8 @@
       "error": "Could not load members.",
       "empty": "No members affiliated yet.",
       "count": "{count} members",
-      "never": "never"
+      "never": "never",
+      "openProfile": "Open athlete profile (new tab)"
     },
     "billing": {
       "loading": "Loading…",
@@ -1506,9 +1514,14 @@
         "back": "Back to leagues",
         "intro": "Member boxes ranked by their athletes' average rating.",
         "empty": "No member gyms yet.",
+        "emptyTitle": "No box is competing here yet",
+        "emptyBody": "Be the first. Join this league from the leagues list and your box enters the ranking as soon as your members post ranked scores.",
+        "joinCta": "Go to leagues to join",
+        "colGym": "Box",
         "members": "{count, plural, =0 {no members} =1 {1 member} other {# members}}",
         "avgRating": "Avg rating",
-        "note": "Score = average of each box's members' global rating. Shared-WOD matches are coming next."
+        "note": "Score = average of each box's members' global rating. Shared-WOD matches are coming next.",
+        "runBy": "Leagues are run by TrueGrynd — you opt your box in or out, you don't create them."
       }
     },
     "events": {

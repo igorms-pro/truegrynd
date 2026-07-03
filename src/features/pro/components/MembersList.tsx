@@ -1,5 +1,6 @@
 'use client';
 
+import { ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
 
@@ -42,6 +43,9 @@ function MemberRow({ member }: { member: GymMember }) {
       <span className="w-28 shrink-0 text-right text-xs text-muted-foreground">
         {lastActiveLabel(member.lastActivityAt, locale, t('never'))}
       </span>
+      {member.username ? (
+        <ExternalLink className="h-3.5 w-3.5 shrink-0 text-muted-foreground" aria-hidden />
+      ) : null}
     </>
   );
 
@@ -51,6 +55,9 @@ function MemberRow({ member }: { member: GymMember }) {
       {member.username ? (
         <Link
           href={`/${locale}/app/u/${member.username}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          title={t('openProfile')}
           className="flex items-center gap-3 px-3 py-3 transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           {inner}
