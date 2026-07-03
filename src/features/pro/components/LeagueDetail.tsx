@@ -61,7 +61,12 @@ export function LeagueDetail({ leagueId }: { leagueId: string }) {
                 {i + 1}
               </span>
               <span className="min-w-0 flex-1">
-                <span className="block truncate text-sm font-bold">{row.gymName}</span>
+                <Link
+                  href={`/${locale}/app/gym/${row.gymSlug}`}
+                  className="block truncate text-sm font-bold hover:text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  {row.gymName}
+                </Link>
                 <span className="block text-xs text-muted-foreground">
                   {t('detail.members', { count: row.memberCount })}
                 </span>

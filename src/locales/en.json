@@ -1375,6 +1375,24 @@
     "turkish_get_up": "Turkish Get-Up",
     "strict_ring_dip": "Strict Ring Dip"
   },
+  "gym": {
+    "public": {
+      "kicker": "Gym",
+      "loading": "Loading gym…",
+      "errorTitle": "Gym not found",
+      "errorBody": "This gym doesn't exist or isn't available.",
+      "retry": "Retry",
+      "backLeagues": "Back to leagues",
+      "members": "{count, plural, =0 {No members yet} one {# member} other {# members}}",
+      "eventsTitle": "Events",
+      "eventsEmpty": "No events yet.",
+      "phase": {
+        "upcoming": "Upcoming",
+        "live": "Live",
+        "ended": "Ended"
+      }
+    }
+  },
   "pro": {
     "badge": "TrueGrynd PRO",
     "title": "Gym command center",

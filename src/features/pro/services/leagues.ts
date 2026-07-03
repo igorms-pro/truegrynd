@@ -38,6 +38,7 @@ export async function listLeagues(): Promise<League[]> {
 export type LeagueStanding = {
   gymId: string;
   gymName: string;
+  gymSlug: string;
   memberCount: number;
   ratedCount: number;
   avgRating: number;
@@ -50,6 +51,7 @@ export async function getLeagueStandings(leagueId: string): Promise<LeagueStandi
     (data ?? []) as Array<{
       gym_id: string;
       gym_name: string;
+      gym_slug: string;
       member_count: number;
       rated_count: number;
       avg_rating: number;
@@ -57,6 +59,7 @@ export async function getLeagueStandings(leagueId: string): Promise<LeagueStandi
   ).map((r) => ({
     gymId: r.gym_id,
     gymName: r.gym_name,
+    gymSlug: r.gym_slug,
     memberCount: Number(r.member_count ?? 0),
     ratedCount: Number(r.rated_count ?? 0),
     avgRating: Number(r.avg_rating ?? 0),

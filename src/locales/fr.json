@@ -1375,6 +1375,24 @@
     "turkish_get_up": "Turkish Get-Up",
     "strict_ring_dip": "Dip strict aux anneaux"
   },
+  "gym": {
+    "public": {
+      "kicker": "Salle",
+      "loading": "Chargement de la salle…",
+      "errorTitle": "Salle introuvable",
+      "errorBody": "Cette salle n'existe pas ou n'est pas disponible.",
+      "retry": "Réessayer",
+      "backLeagues": "Retour aux ligues",
+      "members": "{count, plural, =0 {Aucun membre} one {# membre} other {# membres}}",
+      "eventsTitle": "Événements",
+      "eventsEmpty": "Aucun événement pour le moment.",
+      "phase": {
+        "upcoming": "À venir",
+        "live": "En direct",
+        "ended": "Terminé"
+      }
+    }
+  },
   "pro": {
     "badge": "TrueGrynd PRO",
     "title": "Espace PRO",
