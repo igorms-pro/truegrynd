@@ -1377,6 +1377,9 @@
     "badge": "TrueGrynd PRO",
     "title": "Espace PRO",
     "subtitle": "Valide les scores, organise tes compétitions et gère ta box — au même endroit.",
+    "shell": {
+      "backToApp": "App"
+    },
     "nav": {
       "label": "Sections PRO",
       "soon": "Bientôt",

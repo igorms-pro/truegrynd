@@ -1,4 +1,24 @@
 import { callEdgeFunction } from '@/lib/edgeFunction';
+import { supabase } from '@/lib/supabase';
+
+/** The caller's gym (name for the PRO shell). Null if unaffiliated. */
+export async function getMyGym(): Promise<{ id: string; name: string } | null> {
+  const { data: auth } = await supabase.auth.getUser();
+  if (!auth.user) return null;
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('affiliated_gym_id')
+    .eq('id', auth.user.id)
+    .maybeSingle<{ affiliated_gym_id: string | null }>();
+  if (!profile?.affiliated_gym_id) return null;
+  const { data, error } = await supabase
+    .from('gyms')
+    .select('id, name')
+    .eq('id', profile.affiliated_gym_id)
+    .maybeSingle<{ id: string; name: string }>();
+  if (error) throw new Error(error.message);
+  return data ?? null;
+}
 
 /** A gym just created via KYB verification. */
 export type CreatedGym = {
