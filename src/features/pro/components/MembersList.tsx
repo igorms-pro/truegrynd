@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 
+import { FilterSelect } from '@/components/FilterSelect';
 import { listGymMembers, type GymMember } from '@/features/pro/services/members';
 import { useAsyncResource } from '@/hooks/useAsyncResource';
 
@@ -235,33 +236,23 @@ export function MembersList() {
             aria-label={t('searchPlaceholder')}
             className="min-w-[10rem] flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           />
-          <select
+          <FilterSelect
             value={ageFilter}
-            onChange={(e) => setAgeFilter(e.target.value)}
-            aria-label={t('filterAgeLabel')}
-            className="max-w-[11rem] rounded-md border border-border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-          >
-            <option value="">{t('allAges')}</option>
-            {AGE_CATS.map((c) => (
-              <option key={c} value={c}>
-                {t(`ageCat.${c}`)}
-              </option>
-            ))}
-          </select>
+            onChange={setAgeFilter}
+            options={AGE_CATS.map((c) => ({ value: c, label: t(`ageCat.${c}`) }))}
+            allLabel={t('allAges')}
+            ariaLabel={t('filterAgeLabel')}
+            className="w-44"
+          />
           {divisions.length > 1 ? (
-            <select
+            <FilterSelect
               value={divisionFilter}
-              onChange={(e) => setDivisionFilter(e.target.value)}
-              aria-label={t('filterDivisionLabel')}
-              className="max-w-[12rem] rounded-md border border-border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            >
-              <option value="">{t('allDivisions')}</option>
-              {divisions.map((d) => (
-                <option key={d} value={d}>
-                  {d}
-                </option>
-              ))}
-            </select>
+              onChange={setDivisionFilter}
+              options={divisions.map((d) => ({ value: d, label: d }))}
+              allLabel={t('allDivisions')}
+              ariaLabel={t('filterDivisionLabel')}
+              className="w-48"
+            />
           ) : null}
         </div>
         <p className="text-[11px] font-black uppercase tracking-[0.16em] text-muted-foreground">

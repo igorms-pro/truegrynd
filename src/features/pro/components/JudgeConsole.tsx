@@ -4,6 +4,7 @@ import { Check, Play } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useCallback, useMemo, useState } from 'react';
 
+import { FilterSelect } from '@/components/FilterSelect';
 import { useAsyncResource } from '@/hooks/useAsyncResource';
 import {
   listPendingVerifications,
@@ -206,22 +207,17 @@ export function JudgeConsole() {
                 className="min-w-[10rem] flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               />
               {challenges.length > 1 ? (
-                <select
+                <FilterSelect
                   value={challengeFilter}
-                  onChange={(e) => {
-                    setChallengeFilter(e.target.value);
+                  onChange={(v) => {
+                    setChallengeFilter(v);
                     setPage(0);
                   }}
-                  aria-label={t('filter.eventLabel')}
-                  className="max-w-[14rem] rounded-md border border-border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                >
-                  <option value="">{t('filter.allEvents')}</option>
-                  {challenges.map((c) => (
-                    <option key={c} value={c}>
-                      {c}
-                    </option>
-                  ))}
-                </select>
+                  options={challenges.map((c) => ({ value: c, label: c }))}
+                  allLabel={t('filter.allEvents')}
+                  ariaLabel={t('filter.eventLabel')}
+                  className="w-56"
+                />
               ) : null}
             </div>
             <p className="text-[11px] font-black uppercase tracking-[0.16em] text-muted-foreground">

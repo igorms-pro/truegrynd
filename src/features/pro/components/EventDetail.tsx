@@ -311,21 +311,21 @@ function WorkoutPanel({
       ) : null}
 
       <div className="space-y-2">
-        <div className="flex justify-end">
-          <Link
-            href={`/${locale}/app/pro/events/${event.id}/tv`}
-            className="inline-flex shrink-0 items-center gap-1.5 rounded-md border border-border px-2.5 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] text-muted-foreground hover:text-foreground"
-          >
-            <Radio className="h-3.5 w-3.5" />
-            {t('detail.cast')}
-          </Link>
-        </div>
         <Leaderboard
           key={`${workout.challengeId}-${reloadKey}-${profile?.id ?? ''}`}
           challengeId={workout.challengeId}
           scoreType={workout.scoreType}
           availableVariants={GYM_EVENT_VARIANTS}
           mode="full"
+          headerActions={
+            <Link
+              href={`/${locale}/app/pro/events/${event.id}/tv`}
+              className="inline-flex shrink-0 items-center gap-1.5 rounded-md border border-border bg-background px-3 py-2 text-[11px] font-black uppercase tracking-[0.16em] text-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              <Radio className="h-3.5 w-3.5" aria-hidden />
+              {t('detail.cast')}
+            </Link>
+          }
         />
       </div>
     </div>
