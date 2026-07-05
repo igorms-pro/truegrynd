@@ -186,7 +186,14 @@ export function ProShell({ children }: { children: ReactNode }) {
       </aside>
 
       <main className="min-w-0 flex-1 px-4 py-6 md:px-8">
-        <SubscriptionGate>{children}</SubscriptionGate>
+        {/* One consistent content width for every PRO page; the TV broadcast stays full-bleed. */}
+        <SubscriptionGate>
+          {/\/tv(\/|$)/.test(pathname) ? (
+            children
+          ) : (
+            <div className="mx-auto w-full max-w-7xl">{children}</div>
+          )}
+        </SubscriptionGate>
       </main>
     </div>
   );

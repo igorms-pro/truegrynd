@@ -1,6 +1,6 @@
 'use client';
 
-import { ExternalLink } from 'lucide-react';
+import { BadgeCheck, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
@@ -24,6 +24,21 @@ function lastActiveLabel(iso: string | null, locale: string, never: string): str
 const SEX_FILTERS = ['all', 'male', 'female'] as const;
 type SexFilter = (typeof SEX_FILTERS)[number];
 
+const PROOF_FILTERS = ['all', 'verified'] as const;
+type ProofFilter = (typeof PROOF_FILTERS)[number];
+
+/** Hyrox-style age buckets — the same cuts event divisions will use later. */
+const AGE_CATS = ['u24', 'a2534', 'a3544', 'm45'] as const;
+type AgeCat = (typeof AGE_CATS)[number];
+
+function ageCategory(age: number | null): AgeCat | null {
+  if (age == null) return null;
+  if (age < 25) return 'u24';
+  if (age < 35) return 'a2534';
+  if (age < 45) return 'a3544';
+  return 'm45';
+}
+
 function MemberRow({ member }: { member: GymMember }) {
   const locale = useLocale();
   const t = useTranslations('pro.members');
@@ -41,7 +56,12 @@ function MemberRow({ member }: { member: GymMember }) {
         />
       </span>
       <span className="min-w-0 flex-1">
-        <span className="block truncate text-sm font-bold">{member.username ?? '—'}</span>
+        <span className="flex items-center gap-1.5">
+          <span className="truncate text-sm font-bold">{member.username ?? '—'}</span>
+          {member.verifiedCount > 0 ? (
+            <BadgeCheck className="h-3.5 w-3.5 shrink-0 text-emerald-500" aria-hidden />
+          ) : null}
+        </span>
         <span className="block text-xs text-muted-foreground sm:hidden">
           {member.division ?? '—'}
         </span>
@@ -58,6 +78,16 @@ function MemberRow({ member }: { member: GymMember }) {
       <span className="hidden w-20 shrink-0 text-xs text-muted-foreground md:block">
         {member.sex === 'male' ? t('sex.male') : member.sex === 'female' ? t('sex.female') : '—'}
         {member.age != null ? ` · ${member.age}` : ''}
+      </span>
+      <span className="hidden w-20 shrink-0 text-xs tabular-nums text-muted-foreground lg:block">
+        {member.weightKg != null ? t('weightValue', { kg: member.weightKg }) : '—'}
+      </span>
+      <span className="hidden w-20 shrink-0 text-right text-xs tabular-nums lg:block">
+        {member.verifiedCount > 0 ? (
+          <span className="font-black text-emerald-500">{member.verifiedCount}</span>
+        ) : (
+          <span className="text-muted-foreground">0</span>
+        )}
       </span>
       <span className="w-24 shrink-0 text-right text-xs text-muted-foreground">
         {lastActiveLabel(member.lastActivityAt, locale, t('never'))}
@@ -95,7 +125,9 @@ export function MembersList() {
   const { state } = useAsyncResource(listGymMembers, []);
   const [query, setQuery] = useState('');
   const [sexFilter, setSexFilter] = useState<SexFilter>('all');
+  const [proofFilter, setProofFilter] = useState<ProofFilter>('all');
   const [divisionFilter, setDivisionFilter] = useState('');
+  const [ageFilter, setAgeFilter] = useState('');
 
   const members = useMemo(() => (state.status === 'ready' ? state.data : []), [state]);
 
@@ -111,10 +143,12 @@ export function MembersList() {
       members.filter((m) => {
         if (q && !(m.username ?? '').toLowerCase().includes(q)) return false;
         if (sexFilter !== 'all' && m.sex !== sexFilter) return false;
+        if (proofFilter === 'verified' && m.verifiedCount === 0) return false;
         if (divisionFilter && m.division !== divisionFilter) return false;
+        if (ageFilter && ageCategory(m.age) !== ageFilter) return false;
         return true;
       }),
-    [members, q, sexFilter, divisionFilter],
+    [members, q, sexFilter, proofFilter, divisionFilter, ageFilter],
   );
 
   if (state.status === 'loading' || state.status === 'idle') {
@@ -124,10 +158,17 @@ export function MembersList() {
     return <p className="text-sm font-semibold text-primary">{t('error')}</p>;
   }
 
+  const header = (
+    <header className="space-y-1">
+      <h1 className="text-2xl font-black uppercase tracking-tight md:text-3xl">{t('title')}</h1>
+      <p className="text-sm text-muted-foreground">{t('intro')}</p>
+    </header>
+  );
+
   if (members.length === 0) {
     return (
       <div className="space-y-4">
-        <p className="text-sm text-muted-foreground">{t('intro')}</p>
+        {header}
         <p className="rounded-md border border-border bg-card p-6 text-center text-sm text-muted-foreground">
           {t('empty')}
         </p>
@@ -136,8 +177,8 @@ export function MembersList() {
   }
 
   return (
-    <div className="mx-auto max-w-4xl space-y-4">
-      <p className="text-sm text-muted-foreground">{t('intro')}</p>
+    <div className="space-y-4">
+      {header}
 
       <div className="space-y-3 rounded-md border border-border bg-card p-3">
         <div className="flex flex-wrap items-center gap-2">
@@ -163,6 +204,29 @@ export function MembersList() {
               </button>
             ))}
           </div>
+          <div
+            role="group"
+            aria-label={t('filterProofLabel')}
+            className="inline-flex overflow-hidden rounded-md border border-border"
+          >
+            {PROOF_FILTERS.map((f, i) => (
+              <button
+                key={f}
+                type="button"
+                onClick={() => setProofFilter(f)}
+                className={`inline-flex items-center gap-1 px-3 py-2 text-[10px] font-black uppercase tracking-[0.14em] transition-colors ${
+                  i > 0 ? 'border-l border-border' : ''
+                } ${
+                  proofFilter === f
+                    ? 'bg-primary text-primary-foreground'
+                    : 'bg-background text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                {f === 'verified' ? <BadgeCheck className="h-3 w-3" aria-hidden /> : null}
+                {t(`filterProof.${f}`)}
+              </button>
+            ))}
+          </div>
           <input
             type="search"
             value={query}
@@ -171,6 +235,19 @@ export function MembersList() {
             aria-label={t('searchPlaceholder')}
             className="min-w-[10rem] flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           />
+          <select
+            value={ageFilter}
+            onChange={(e) => setAgeFilter(e.target.value)}
+            aria-label={t('filterAgeLabel')}
+            className="max-w-[11rem] rounded-md border border-border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            <option value="">{t('allAges')}</option>
+            {AGE_CATS.map((c) => (
+              <option key={c} value={c}>
+                {t(`ageCat.${c}`)}
+              </option>
+            ))}
+          </select>
           {divisions.length > 1 ? (
             <select
               value={divisionFilter}
@@ -203,6 +280,8 @@ export function MembersList() {
             <span className="min-w-0 flex-1">{t('colAthlete')}</span>
             <span className="hidden w-24 shrink-0 sm:block">{t('colDivision')}</span>
             <span className="hidden w-20 shrink-0 md:block">{t('colSexAge')}</span>
+            <span className="hidden w-20 shrink-0 lg:block">{t('colWeight')}</span>
+            <span className="hidden w-20 shrink-0 text-right lg:block">{t('colVerified')}</span>
             <span className="w-24 shrink-0 text-right">{t('colLastActive')}</span>
             <span className="w-3.5 shrink-0" />
           </li>

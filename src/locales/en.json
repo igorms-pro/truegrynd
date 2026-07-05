@@ -1495,12 +1495,40 @@
       "colAthlete": "Athlete",
       "colDivision": "Division",
       "colSexAge": "Sex · Age",
-      "colLastActive": "Last active"
+      "colWeight": "Weight",
+      "colVerified": "Verified",
+      "colLastActive": "Last active",
+      "title": "Members",
+      "weightValue": "{kg} kg",
+      "filterProofLabel": "Filter by proof",
+      "filterProof": {
+        "all": "All",
+        "verified": "Verified"
+      },
+      "filterAgeLabel": "Filter by age category",
+      "allAges": "All ages",
+      "ageCat": {
+        "u24": "U24",
+        "a2534": "25–34",
+        "a3544": "35–44",
+        "m45": "Masters 45+"
+      }
     },
     "billing": {
       "loading": "Loading…",
       "noGym": "Create your gym first to manage billing.",
       "plan": "TrueGrynd GYM PRO — 100/mo. Validation, events, TV cast, leagues.",
+      "title": "Billing",
+      "subtitle": "Your TrueGrynd GYM PRO subscription.",
+      "planName": "TrueGrynd GYM PRO",
+      "priceAmount": "€100",
+      "pricePeriod": "/ month",
+      "features": {
+        "judge": "Judge Console — verified scores",
+        "events": "Unlimited competitions & events",
+        "tv": "Live TV cast",
+        "leagues": "Box-vs-box leagues"
+      },
       "subscribe": "Subscribe",
       "gateTitle": "Subscription required",
       "gateBody": "Your gym's TrueGrynd GYM PRO subscription is inactive. Subscribe to restore validation, events, TV cast and leagues.",
