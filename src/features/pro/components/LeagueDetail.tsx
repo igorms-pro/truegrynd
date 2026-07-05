@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Building2, Trophy } from 'lucide-react';
 import Link from 'next/link';
 import { useCallback } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
@@ -29,14 +29,25 @@ export function LeagueDetail({ leagueId }: { leagueId: string }) {
         {t('detail.back')}
       </Link>
 
-      <header className="space-y-1">
-        <span className="inline-flex items-center rounded-sm bg-muted px-1.5 py-0.5 text-[9px] font-black uppercase tracking-[0.14em] text-muted-foreground">
-          {league ? t(`scope.${league.scope}`) : '—'}
-        </span>
+      <header className="space-y-3 rounded-md border border-border bg-card p-5">
+        <div className="flex items-center gap-2">
+          <Trophy className="h-4 w-4 text-primary" aria-hidden />
+          <span className="inline-flex items-center rounded-full bg-primary/15 px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.14em] text-primary">
+            {league ? t(`scope.${league.scope}`) : '—'}
+          </span>
+        </div>
         <h1 className="text-2xl font-black uppercase tracking-tight md:text-3xl">
           {league?.name ?? '…'}
         </h1>
-        <p className="text-sm text-muted-foreground">{t('detail.intro')}</p>
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
+          <span>{t('detail.intro')}</span>
+          {state.status === 'ready' ? (
+            <span className="inline-flex items-center gap-1.5 font-semibold text-foreground">
+              <Building2 className="h-3.5 w-3.5 text-muted-foreground" aria-hidden />
+              {t('detail.boxCount', { count: state.data.length })}
+            </span>
+          ) : null}
+        </div>
       </header>
 
       {state.status === 'loading' || state.status === 'idle' ? (
@@ -58,21 +69,26 @@ export function LeagueDetail({ leagueId }: { leagueId: string }) {
         </div>
       ) : (
         <ul className="rounded-md border border-border bg-card">
-          <li className="flex items-center gap-3 border-b border-border px-3 py-2 text-[9px] font-black uppercase tracking-[0.16em] text-muted-foreground">
+          <li className="flex items-center gap-3 border-b border-border px-4 py-2 text-[9px] font-black uppercase tracking-[0.16em] text-muted-foreground">
             <span className="w-6 shrink-0 text-center">#</span>
+            <span className="w-9 shrink-0" />
             <span className="min-w-0 flex-1">{t('detail.colGym')}</span>
-            <span className="shrink-0 text-right">{t('detail.avgRating')}</span>
+            <span className="hidden w-20 shrink-0 text-right sm:block">{t('detail.colRated')}</span>
+            <span className="w-20 shrink-0 text-right">{t('detail.avgRating')}</span>
           </li>
           {state.data.map((row, i) => (
             <li
               key={row.gymId}
-              className="flex items-center gap-3 border-b border-border px-3 py-3 last:border-b-0"
+              className="flex items-center gap-3 border-b border-border px-4 py-3 last:border-b-0"
             >
               <span
                 className="w-6 shrink-0 text-center text-base font-black tabular-nums"
                 style={{ color: RANK_MEDAL[i] ?? 'inherit' }}
               >
                 {i + 1}
+              </span>
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-black">
+                {row.gymName.slice(0, 2).toUpperCase()}
               </span>
               <span className="min-w-0 flex-1">
                 <Link
@@ -85,7 +101,10 @@ export function LeagueDetail({ leagueId }: { leagueId: string }) {
                   {t('detail.members', { count: row.memberCount })}
                 </span>
               </span>
-              <span className="shrink-0 text-right text-lg font-black tabular-nums">
+              <span className="hidden w-20 shrink-0 text-right text-xs tabular-nums text-muted-foreground sm:block">
+                {row.ratedCount}
+              </span>
+              <span className="w-20 shrink-0 text-right text-lg font-black tabular-nums">
                 {row.avgRating}
               </span>
             </li>
