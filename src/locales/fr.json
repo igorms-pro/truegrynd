@@ -1495,12 +1495,40 @@
       "colAthlete": "Athlète",
       "colDivision": "Division",
       "colSexAge": "Sexe · Âge",
-      "colLastActive": "Dernière activité"
+      "colWeight": "Poids",
+      "colVerified": "Vérifiés",
+      "colLastActive": "Dernière activité",
+      "title": "Membres",
+      "weightValue": "{kg} kg",
+      "filterProofLabel": "Filtrer par preuve",
+      "filterProof": {
+        "all": "Tous",
+        "verified": "Vérifiés"
+      },
+      "filterAgeLabel": "Filtrer par catégorie d'âge",
+      "allAges": "Tous les âges",
+      "ageCat": {
+        "u24": "U24",
+        "a2534": "25–34",
+        "a3544": "35–44",
+        "m45": "Masters 45+"
+      }
     },
     "billing": {
       "loading": "Chargement…",
       "noGym": "Crée d'abord ta salle pour gérer la facturation.",
       "plan": "TrueGrynd GYM PRO — 100/mois. Validation, events, TV cast, ligues.",
+      "title": "Facturation",
+      "subtitle": "Ton abonnement TrueGrynd GYM PRO.",
+      "planName": "TrueGrynd GYM PRO",
+      "priceAmount": "100 €",
+      "pricePeriod": "/ mois",
+      "features": {
+        "judge": "Judge Console — scores vérifiés",
+        "events": "Compétitions & events illimités",
+        "tv": "TV cast en direct",
+        "leagues": "Ligues box vs box"
+      },
       "subscribe": "S'abonner",
       "gateTitle": "Abonnement requis",
       "gateBody": "L'abonnement TrueGrynd GYM PRO de ta salle est inactif. Abonne-toi pour rétablir la validation, les events, le TV cast et les ligues.",

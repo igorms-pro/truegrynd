@@ -361,7 +361,7 @@ function EventBody({ event, onChanged }: { event: GymEvent; onChanged: () => voi
   }
 
   return (
-    <section className="mx-auto max-w-3xl space-y-6">
+    <section className="mx-auto max-w-5xl space-y-6">
       <Link
         href={`/${locale}/app/pro/events`}
         className="inline-flex items-center gap-1 text-xs font-black uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground"

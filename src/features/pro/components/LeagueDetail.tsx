@@ -20,7 +20,7 @@ export function LeagueDetail({ leagueId }: { leagueId: string }) {
     leaguesState.status === 'ready' ? leaguesState.data.find((l) => l.id === leagueId) : null;
 
   return (
-    <section className="mx-auto max-w-2xl space-y-5">
+    <section className="mx-auto max-w-5xl space-y-5">
       <Link
         href={`/${locale}/app/pro/leagues`}
         className="inline-flex items-center gap-1 text-xs font-black uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground"
