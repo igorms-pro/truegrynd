@@ -6,6 +6,8 @@ export type GymMember = {
   username: string | null;
   division: string | null;
   faction: string | null;
+  sex: string | null;
+  age: number | null;
   avatarUrl: string | null;
   lastActivityAt: string | null;
 };
@@ -15,6 +17,8 @@ type Row = {
   username: string | null;
   division: string | null;
   faction: string | null;
+  sex: string | null;
+  age: number | null;
   avatar_url: string | null;
   last_activity_at: string | null;
 };
@@ -28,6 +32,8 @@ export async function listGymMembers(): Promise<GymMember[]> {
     username: row.username,
     division: row.division,
     faction: row.faction,
+    sex: row.sex,
+    age: row.age,
     avatarUrl: row.avatar_url,
     lastActivityAt: row.last_activity_at,
   }));

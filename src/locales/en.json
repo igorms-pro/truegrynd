@@ -1475,9 +1475,27 @@
       "loading": "Loading members…",
       "error": "Could not load members.",
       "empty": "No members affiliated yet.",
-      "count": "{count} members",
+      "count": "{count, plural, =0 {No members} one {# member} other {# members}}",
       "never": "never",
-      "openProfile": "Open athlete profile (new tab)"
+      "openProfile": "Open athlete profile (new tab)",
+      "searchPlaceholder": "Search an athlete…",
+      "filterSexLabel": "Filter by sex",
+      "filterDivisionLabel": "Filter by division",
+      "allDivisions": "All divisions",
+      "noMatch": "No member matches your filters.",
+      "filterSex": {
+        "all": "All",
+        "male": "Men",
+        "female": "Women"
+      },
+      "sex": {
+        "male": "M",
+        "female": "F"
+      },
+      "colAthlete": "Athlete",
+      "colDivision": "Division",
+      "colSexAge": "Sex · Age",
+      "colLastActive": "Last active"
     },
     "billing": {
       "loading": "Loading…",
@@ -1522,6 +1540,8 @@
         "emptyBody": "Be the first. Join this league from the leagues list and your box enters the ranking as soon as your members post ranked scores.",
         "joinCta": "Go to leagues to join",
         "colGym": "Box",
+        "colRated": "Rated",
+        "boxCount": "{count, plural, =0 {No boxes} one {# box} other {# boxes}}",
         "members": "{count, plural, =0 {no members} =1 {1 member} other {# members}}",
         "avgRating": "Avg rating",
         "note": "Score = average of each box's members' global rating. Shared-WOD matches are coming next.",
@@ -1543,6 +1563,7 @@
         "workout": "Workout",
         "standings": "Standings",
         "noStandings": "Standings will appear once the event is set up.",
+        "wodCount": "{count, plural, one {# WOD} other {# WODs}}",
         "submit": "Submit my score",
         "submitted": "Score submitted — it's in the standings and the Judge queue.",
         "cast": "Cast to TV",

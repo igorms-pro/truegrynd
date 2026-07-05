@@ -1475,9 +1475,27 @@
       "loading": "Chargement des membres…",
       "error": "Impossible de charger les membres.",
       "empty": "Aucun membre affilié pour le moment.",
-      "count": "{count} membres",
+      "count": "{count, plural, =0 {Aucun membre} one {# membre} other {# membres}}",
       "never": "jamais",
-      "openProfile": "Ouvrir le profil de l'athlète (nouvel onglet)"
+      "openProfile": "Ouvrir le profil de l'athlète (nouvel onglet)",
+      "searchPlaceholder": "Rechercher un athlète…",
+      "filterSexLabel": "Filtrer par sexe",
+      "filterDivisionLabel": "Filtrer par division",
+      "allDivisions": "Toutes les divisions",
+      "noMatch": "Aucun membre ne correspond à tes filtres.",
+      "filterSex": {
+        "all": "Tous",
+        "male": "Hommes",
+        "female": "Femmes"
+      },
+      "sex": {
+        "male": "H",
+        "female": "F"
+      },
+      "colAthlete": "Athlète",
+      "colDivision": "Division",
+      "colSexAge": "Sexe · Âge",
+      "colLastActive": "Dernière activité"
     },
     "billing": {
       "loading": "Chargement…",
@@ -1522,6 +1540,8 @@
         "emptyBody": "Sois la première. Rejoins cette ligue depuis la liste des ligues — ta box entre au classement dès que tes membres postent des scores classés.",
         "joinCta": "Aller aux ligues pour rejoindre",
         "colGym": "Box",
+        "colRated": "Classés",
+        "boxCount": "{count, plural, =0 {Aucune box} one {# box} other {# box}}",
         "members": "{count, plural, =0 {aucun membre} =1 {1 membre} other {# membres}}",
         "avgRating": "Rating moyen",
         "note": "Score = moyenne du rating global des membres de chaque box. Les matchs sur WOD partagé arrivent ensuite.",
@@ -1543,6 +1563,7 @@
         "workout": "WOD",
         "standings": "Classement",
         "noStandings": "Le classement apparaîtra une fois l'event configuré.",
+        "wodCount": "{count, plural, one {# WOD} other {# WODs}}",
         "submit": "Soumettre mon score",
         "submitted": "Score soumis — il est dans le classement et la file Judge.",
         "cast": "Caster sur la TV",

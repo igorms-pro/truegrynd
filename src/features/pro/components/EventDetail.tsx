@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowLeft, Plus, Radio } from 'lucide-react';
+import { ArrowLeft, CalendarDays, Clock, Dumbbell, Plus, Radio } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
@@ -271,7 +271,7 @@ function WorkoutPanel({
   return (
     <div className="space-y-4">
       {workout.rules ? (
-        <div className="rounded-md border border-border bg-card p-4">
+        <div className="rounded-md border border-border border-l-2 border-l-primary bg-card p-4">
           <p className="text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground">
             {t('detail.workout')}
           </p>
@@ -370,33 +370,68 @@ function EventBody({ event, onChanged }: { event: GymEvent; onChanged: () => voi
         {t('detail.back')}
       </Link>
 
-      <header className="space-y-2">
-        <span className="inline-flex items-center rounded-sm border border-border bg-muted px-1.5 py-0.5 text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground">
-          {t(`phase.${phase}`)}
-        </span>
-        <h1 className="text-2xl font-black uppercase tracking-tight md:text-3xl">{event.title}</h1>
-        <p className="text-sm text-muted-foreground">
-          {formatEventWindow(event.startsAt, locale)} → {formatEventWindow(event.endsAt, locale)}
-        </p>
-        {canManage && !editing ? (
-          <div className="flex gap-2 pt-1">
-            <button
-              type="button"
-              onClick={() => setEditing(true)}
-              className="rounded-sm border border-border px-2 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-muted-foreground hover:text-foreground"
-            >
-              {t('manage.edit')}
-            </button>
-            <button
-              type="button"
-              disabled={cancelling}
-              onClick={doCancel}
-              className="rounded-sm border border-primary/40 px-2 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-primary hover:opacity-80 disabled:opacity-50"
-            >
-              {cancelling ? t('manage.cancelling') : t('manage.cancel')}
-            </button>
-          </div>
-        ) : null}
+      <header className="space-y-4 rounded-md border border-border bg-card p-5">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <span
+            className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.18em] ${
+              phase === 'live'
+                ? 'bg-primary text-primary-foreground'
+                : phase === 'upcoming'
+                  ? 'bg-sky-500/15 text-sky-400'
+                  : 'bg-muted text-muted-foreground'
+            }`}
+          >
+            {phase === 'live' ? (
+              <span aria-hidden className="h-1.5 w-1.5 animate-pulse rounded-full bg-current" />
+            ) : null}
+            {t(`phase.${phase}`)}
+          </span>
+          {canManage && !editing ? (
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => setEditing(true)}
+                className="rounded-md border border-border px-2.5 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] text-muted-foreground hover:bg-muted hover:text-foreground"
+              >
+                {t('manage.edit')}
+              </button>
+              <button
+                type="button"
+                disabled={cancelling}
+                onClick={doCancel}
+                className="rounded-md border border-primary/40 px-2.5 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] text-primary hover:bg-primary/10 disabled:opacity-50"
+              >
+                {cancelling ? t('manage.cancelling') : t('manage.cancel')}
+              </button>
+            </div>
+          ) : null}
+        </div>
+
+        <div className="space-y-1.5">
+          <h1 className="text-2xl font-black uppercase tracking-tight md:text-3xl">
+            {event.title}
+          </h1>
+          {event.description ? (
+            <p className="text-sm text-muted-foreground">{event.description}</p>
+          ) : null}
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+          <span className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background px-2.5 py-1.5 text-xs font-semibold">
+            <CalendarDays className="h-3.5 w-3.5 text-muted-foreground" aria-hidden />
+            {formatEventWindow(event.startsAt, locale)}
+          </span>
+          <span className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background px-2.5 py-1.5 text-xs font-semibold">
+            <Clock className="h-3.5 w-3.5 text-muted-foreground" aria-hidden />
+            {formatEventWindow(event.endsAt, locale)}
+          </span>
+          {workouts.length > 0 ? (
+            <span className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background px-2.5 py-1.5 text-xs font-semibold">
+              <Dumbbell className="h-3.5 w-3.5 text-muted-foreground" aria-hidden />
+              {t('detail.wodCount', { count: workouts.length })}
+            </span>
+          ) : null}
+        </div>
       </header>
 
       {editing ? (
@@ -408,10 +443,6 @@ function EventBody({ event, onChanged }: { event: GymEvent; onChanged: () => voi
           }}
           onClose={() => setEditing(false)}
         />
-      ) : null}
-
-      {!editing && event.description ? (
-        <p className="text-sm text-muted-foreground">{event.description}</p>
       ) : null}
 
       {!editing ? <PacingCard eventId={event.id} canManage={canManage} /> : null}
