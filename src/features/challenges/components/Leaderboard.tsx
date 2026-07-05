@@ -33,6 +33,8 @@ type Props = {
   availableVariants: readonly import('@/lib/types/database.types').ChallengeVariant[];
   /** 'preview' = compact top rows + link to the full page; 'full' = filterable page. */
   mode?: 'preview' | 'full';
+  /** Extra actions rendered in the header next to the filters toggle (e.g. PRO "cast to TV"). */
+  headerActions?: React.ReactNode;
 };
 
 const PROOF_SUMMARY_KEY: Record<string, string> = {
@@ -52,7 +54,13 @@ function pickDefaultPreset(
   );
 }
 
-export function Leaderboard({ challengeId, scoreType, availableVariants, mode = 'full' }: Props) {
+export function Leaderboard({
+  challengeId,
+  scoreType,
+  availableVariants,
+  mode = 'full',
+  headerActions,
+}: Props) {
   const isPreview = mode === 'preview';
   const locale = useLocale();
   const t = useTranslations('leaderboard');
@@ -175,26 +183,29 @@ export function Leaderboard({ challengeId, scoreType, availableVariants, mode = 
     <section className="space-y-3">
       <header className="flex items-center justify-between gap-3">
         <h2 className="text-lg font-black uppercase tracking-tight">{t('title')}</h2>
-        {!isPreview ? (
-          <button
-            type="button"
-            onClick={() => setFiltersOpen((open) => !open)}
-            aria-expanded={filtersOpen}
-            className="inline-flex items-center gap-2 rounded-md border border-border bg-background px-3 py-2 text-[11px] font-black uppercase tracking-[0.16em] text-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-          >
-            <SlidersHorizontal className="h-3.5 w-3.5" aria-hidden />
-            {t('filtersToggle')}
-            {filterChips.length > 0 ? (
-              <span className="rounded-full bg-primary px-1.5 text-[10px] tabular-nums text-primary-foreground">
-                {filterChips.length}
-              </span>
-            ) : null}
-            <ChevronDown
-              className={`h-3.5 w-3.5 transition-transform ${filtersOpen ? 'rotate-180' : ''}`}
-              aria-hidden
-            />
-          </button>
-        ) : null}
+        <div className="flex items-center gap-2">
+          {headerActions}
+          {!isPreview ? (
+            <button
+              type="button"
+              onClick={() => setFiltersOpen((open) => !open)}
+              aria-expanded={filtersOpen}
+              className="inline-flex items-center gap-2 rounded-md border border-border bg-background px-3 py-2 text-[11px] font-black uppercase tracking-[0.16em] text-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              <SlidersHorizontal className="h-3.5 w-3.5" aria-hidden />
+              {t('filtersToggle')}
+              {filterChips.length > 0 ? (
+                <span className="rounded-full bg-primary px-1.5 text-[10px] tabular-nums text-primary-foreground">
+                  {filterChips.length}
+                </span>
+              ) : null}
+              <ChevronDown
+                className={`h-3.5 w-3.5 transition-transform ${filtersOpen ? 'rotate-180' : ''}`}
+                aria-hidden
+              />
+            </button>
+          ) : null}
+        </div>
       </header>
 
       {isPreview ? null : filtersOpen ? (
