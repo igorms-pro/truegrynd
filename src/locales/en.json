@@ -1396,6 +1396,11 @@
       "nextWeek": "Next week",
       "prevWeek": "Previous week",
       "error": "Booking failed — try again."
+    },
+    "wod": {
+      "todayTitle": "Today's WOD",
+      "submit": "Post my score",
+      "submitted": "Score submitted — it lands on the class leaderboard once validated."
     }
   },
   "gym": {
@@ -1484,6 +1489,25 @@
       "error": "Could not load the schedule.",
       "emptyTitle": "No classes yet",
       "emptyBody": "Build your weekly schedule — WOD, open gym, Hyrox… Members will see it in their app, and booking arrives next.",
+      "wod": {
+        "stripTitle": "WODs of the week",
+        "program": "Program",
+        "edit": "Edit the WOD",
+        "formTitle": "WOD of",
+        "title": "WOD name",
+        "titlePlaceholder": "Fran, Murph, EMOM 20…",
+        "scoreType": "Scored by",
+        "scoreTypes": {
+          "time": "Time",
+          "reps": "Reps"
+        },
+        "spec": "Workout",
+        "specPlaceholder": "21-15-9\nThrusters 42,5/30 kg\nPull-ups",
+        "error": "Could not save — try again.",
+        "save": "Save WOD",
+        "saving": "Saving…",
+        "cancel": "Cancel"
+      },
       "roster": {
         "close": "Close",
         "loading": "Loading roster…",

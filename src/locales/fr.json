@@ -1396,6 +1396,11 @@
       "nextWeek": "Semaine prochaine",
       "prevWeek": "Semaine précédente",
       "error": "La réservation a échoué — réessaie."
+    },
+    "wod": {
+      "todayTitle": "WOD du jour",
+      "submit": "Poster mon score",
+      "submitted": "Score envoyé — il rejoint le classement du cours une fois validé."
     }
   },
   "gym": {
@@ -1484,6 +1489,25 @@
       "error": "Impossible de charger le planning.",
       "emptyTitle": "Aucun cours pour le moment",
       "emptyBody": "Construis ton planning hebdo — WOD, open gym, Hyrox… Tes membres le verront dans leur app, et la réservation arrive juste après.",
+      "wod": {
+        "stripTitle": "WODs de la semaine",
+        "program": "Programmer",
+        "edit": "Modifier le WOD",
+        "formTitle": "WOD du",
+        "title": "Nom du WOD",
+        "titlePlaceholder": "Fran, Murph, EMOM 20…",
+        "scoreType": "Scoré en",
+        "scoreTypes": {
+          "time": "Temps",
+          "reps": "Reps"
+        },
+        "spec": "Workout",
+        "specPlaceholder": "21-15-9\nThrusters 42,5/30 kg\nPull-ups",
+        "error": "Impossible d'enregistrer — réessaie.",
+        "save": "Enregistrer le WOD",
+        "saving": "Enregistrement…",
+        "cancel": "Annuler"
+      },
       "roster": {
         "close": "Fermer",
         "loading": "Chargement du roster…",
