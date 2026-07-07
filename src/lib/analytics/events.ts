@@ -8,6 +8,8 @@ export const ANALYTICS_EVENTS = {
   monetizationCosmeticsViewed: 'monetization_cosmetics_teaser_viewed',
   monetizationCosmeticsInterest: 'monetization_cosmetics_interest',
   plgGymRequested: 'plg_gym_request_submitted',
+  retentionDashboardViewed: 'retention_at_risk_viewed',
+  retentionNudgeClicked: 'retention_nudge_clicked',
 } as const;
 
 export type AnalyticsEventName = (typeof ANALYTICS_EVENTS)[keyof typeof ANALYTICS_EVENTS];

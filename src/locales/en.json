@@ -1478,7 +1478,23 @@
         "active7d": "Trained in the last 7 days"
       },
       "quickTitle": "Quick actions",
-      "pendingCta": "Review now"
+      "pendingCta": "Review now",
+      "atRisk": {
+        "title": "At-risk members",
+        "titleCount": "{count, plural, one {# at-risk member} other {# at-risk members}}",
+        "allGood": "Nobody is drifting away — the whole box is training. 💪",
+        "intro": "They used to train and have gone quiet. Reach out before they cancel.",
+        "inactiveFor": "{days} days inactive",
+        "lastSeen": "last seen",
+        "risk": {
+          "high": "At risk",
+          "watch": "Watch"
+        },
+        "nudge": "Reach out",
+        "nudgeSubject": "We miss you at the box!",
+        "nudgeBody": "Hey {name},\n\nWe haven't seen you at the box in a while — the crew (and the whiteboard) miss you. Come crush a WOD this week?\n\nSee you soon!",
+        "more": "+ {count} more in the members roster (Inactive filter)."
+      }
     },
     "planning": {
       "title": "Planning",
@@ -1608,6 +1624,12 @@
         "a2534": "25–34",
         "a3544": "35–44",
         "m45": "Masters 45+"
+      },
+      "filterActivityLabel": "Filter by activity",
+      "filterActivity": {
+        "all": "All",
+        "active": "Active 30d",
+        "inactive": "Inactive 30d"
       }
     },
     "billing": {

@@ -28,6 +28,15 @@ type SexFilter = (typeof SEX_FILTERS)[number];
 const PROOF_FILTERS = ['all', 'verified'] as const;
 type ProofFilter = (typeof PROOF_FILTERS)[number];
 
+/** Churn lens: active = trained in the last 30 days. */
+const ACTIVITY_FILTERS = ['all', 'active', 'inactive'] as const;
+type ActivityFilter = (typeof ACTIVITY_FILTERS)[number];
+
+function isActive30d(lastActivityAt: string | null): boolean {
+  if (!lastActivityAt) return false;
+  return Date.now() - new Date(lastActivityAt).getTime() < 30 * 24 * 3600 * 1000;
+}
+
 /** Hyrox-style age buckets — the same cuts event divisions will use later. */
 const AGE_CATS = ['u24', 'a2534', 'a3544', 'm45'] as const;
 type AgeCat = (typeof AGE_CATS)[number];
@@ -127,6 +136,7 @@ export function MembersList() {
   const [query, setQuery] = useState('');
   const [sexFilter, setSexFilter] = useState<SexFilter>('all');
   const [proofFilter, setProofFilter] = useState<ProofFilter>('all');
+  const [activityFilter, setActivityFilter] = useState<ActivityFilter>('all');
   const [divisionFilter, setDivisionFilter] = useState('');
   const [ageFilter, setAgeFilter] = useState('');
 
@@ -145,11 +155,13 @@ export function MembersList() {
         if (q && !(m.username ?? '').toLowerCase().includes(q)) return false;
         if (sexFilter !== 'all' && m.sex !== sexFilter) return false;
         if (proofFilter === 'verified' && m.verifiedCount === 0) return false;
+        if (activityFilter === 'active' && !isActive30d(m.lastActivityAt)) return false;
+        if (activityFilter === 'inactive' && isActive30d(m.lastActivityAt)) return false;
         if (divisionFilter && m.division !== divisionFilter) return false;
         if (ageFilter && ageCategory(m.age) !== ageFilter) return false;
         return true;
       }),
-    [members, q, sexFilter, proofFilter, divisionFilter, ageFilter],
+    [members, q, sexFilter, proofFilter, activityFilter, divisionFilter, ageFilter],
   );
 
   if (state.status === 'loading' || state.status === 'idle') {
@@ -225,6 +237,28 @@ export function MembersList() {
               >
                 {f === 'verified' ? <BadgeCheck className="h-3 w-3" aria-hidden /> : null}
                 {t(`filterProof.${f}`)}
+              </button>
+            ))}
+          </div>
+          <div
+            role="group"
+            aria-label={t('filterActivityLabel')}
+            className="inline-flex overflow-hidden rounded-md border border-border"
+          >
+            {ACTIVITY_FILTERS.map((f, i) => (
+              <button
+                key={f}
+                type="button"
+                onClick={() => setActivityFilter(f)}
+                className={`px-3 py-2 text-[10px] font-black uppercase tracking-[0.14em] transition-colors ${
+                  i > 0 ? 'border-l border-border' : ''
+                } ${
+                  activityFilter === f
+                    ? 'bg-primary text-primary-foreground'
+                    : 'bg-background text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                {t(`filterActivity.${f}`)}
               </button>
             ))}
           </div>
