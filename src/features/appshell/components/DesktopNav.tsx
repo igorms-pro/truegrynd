@@ -13,10 +13,13 @@ export function DesktopNav() {
   const locale = useLocale();
   const t = useTranslations('app.tabs');
   const tAdmin = useTranslations('admin.nav');
+  const tMyGym = useTranslations('myGym');
   const profile = useOptionalAppProfile();
   const adminHref = `/${locale}/app/admin/challenges`;
   const adminActive = pathname === adminHref || pathname.startsWith(`${adminHref}/`);
   const proHref = `/${locale}/app/pro`;
+  const myGymHref = `/${locale}/app/my-gym`;
+  const myGymActive = pathname === myGymHref || pathname.startsWith(`${myGymHref}/`);
 
   return (
     <nav className="hidden md:flex items-center gap-7" aria-label="Primary">
@@ -28,6 +31,11 @@ export function DesktopNav() {
           </DesktopNavLink>
         );
       })}
+      {profile?.affiliated_gym_id ? (
+        <DesktopNavLink href={myGymHref} isActive={myGymActive}>
+          {tMyGym('navLabel')}
+        </DesktopNavLink>
+      ) : null}
       {canAccessPro(profile) ? (
         <DesktopNavLink href={proHref} isActive={false}>
           PRO

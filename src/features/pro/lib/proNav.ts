@@ -73,7 +73,7 @@ export const PRO_NAV: readonly ProNavGroup[] = [
         path: '/app/pro/planning',
         icon: CalendarDays,
         labelKey: 'planning',
-        status: 'soon',
+        status: 'live',
       },
       { id: 'members', path: '/app/pro/members', icon: Users, labelKey: 'members', status: 'live' },
       {
