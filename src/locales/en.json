@@ -1536,7 +1536,9 @@
         "status": {
           "confirmed": "Confirmed",
           "waitlisted": "Waitlist"
-        }
+        },
+        "present": "Present",
+        "markPresent": "Check in"
       },
       "form": {
         "title": "Class name",

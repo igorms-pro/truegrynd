@@ -1,13 +1,18 @@
 'use client';
 
-import { Plus } from 'lucide-react';
+import { Check, Plus } from 'lucide-react';
 import { useCallback, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 
 import { FilterSelect } from '@/components/FilterSelect';
 import { useOptionalAppProfile } from '@/features/appshell/context/AppProfileContext';
 import { WeekScheduleGrid, type ScheduleSlot } from '@/features/gym/components/WeekScheduleGrid';
-import { getSessionRoster, getWeekBookings, mondayOf } from '@/features/gym/services/bookings';
+import {
+  getSessionRoster,
+  getWeekBookings,
+  mondayOf,
+  toggleCheckin,
+} from '@/features/gym/services/bookings';
 import { WodPlanner } from '@/features/pro/components/WodPlanner';
 import { FORM_INPUT_CLASS } from '@/features/pro/lib/formStyles';
 import {
@@ -199,7 +204,10 @@ function RosterPanel({ slot, onClose }: { slot: ScheduleSlot; onClose: () => voi
   const t = useTranslations('pro.planning.roster');
   const date = slot.sessionDate ?? '';
   const load = useCallback(() => getSessionRoster(slot.id, date), [slot.id, date]);
-  const { state } = useAsyncResource(load, [slot.id, date]);
+  const { state, refetch } = useAsyncResource(load, [slot.id, date]);
+  const [busyCheckin, setBusyCheckin] = useState<string | null>(null);
+  // Check-in makes sense once the session day has arrived.
+  const canCheckin = date <= new Date().toISOString().slice(0, 10);
 
   return (
     <div className="space-y-3 rounded-md border border-border bg-card p-4">
@@ -241,12 +249,41 @@ function RosterPanel({ slot, onClose }: { slot: ScheduleSlot; onClose: () => voi
                 {r.rating ?? '—'}
               </span>
               <span
-                className={`w-24 shrink-0 text-right text-[10px] font-black uppercase tracking-[0.12em] ${
+                className={`hidden w-24 shrink-0 text-right text-[10px] font-black uppercase tracking-[0.12em] sm:block ${
                   r.status === 'confirmed' ? 'text-emerald-500' : 'text-amber-500'
                 }`}
               >
                 {t(`status.${r.status}`)}
               </span>
+              {canCheckin ? (
+                <button
+                  type="button"
+                  disabled={busyCheckin === r.userId}
+                  onClick={async () => {
+                    setBusyCheckin(r.userId);
+                    try {
+                      await toggleCheckin(r.sessionId, r.userId, !r.checkedIn);
+                      refetch();
+                    } finally {
+                      setBusyCheckin(null);
+                    }
+                  }}
+                  className={`inline-flex w-28 shrink-0 items-center justify-center gap-1 rounded-md px-2.5 py-1.5 text-[10px] font-black uppercase tracking-[0.12em] disabled:opacity-50 ${
+                    r.checkedIn
+                      ? 'bg-emerald-600 text-white hover:opacity-90'
+                      : 'border border-border text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  {r.checkedIn ? (
+                    <>
+                      <Check className="h-3 w-3" aria-hidden />
+                      {t('present')}
+                    </>
+                  ) : (
+                    t('markPresent')
+                  )}
+                </button>
+              ) : null}
             </li>
           ))}
         </ul>
