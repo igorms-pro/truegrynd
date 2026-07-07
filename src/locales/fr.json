@@ -1375,7 +1375,33 @@
     "turkish_get_up": "Turkish Get-Up",
     "strict_ring_dip": "Dip strict aux anneaux"
   },
+  "myGym": {
+    "navLabel": "MA SALLE",
+    "title": "Ma salle",
+    "kicker": "Ma salle",
+    "noGym": "Tu n'es affilié à aucune salle pour le moment. Parle de TrueGrynd à ta box !",
+    "loading": "Chargement de ta salle…",
+    "error": "Impossible de charger ta salle.",
+    "publicPage": "Page publique",
+    "scheduleTitle": "Planning de la semaine",
+    "scheduleEmpty": "Pas encore de cours au planning — ta salle s'installe.",
+    "bookingSoon": "La réservation depuis l'app arrive bientôt."
+  },
   "gym": {
+    "schedule": {
+      "popular": "Populaire",
+      "edit": "Modifier le créneau",
+      "delete": "Supprimer le créneau",
+      "type": {
+        "wod": "WOD",
+        "open_gym": "Open gym",
+        "hyrox": "Hyrox",
+        "weightlifting": "Haltéro",
+        "gymnastics": "Gym",
+        "endurance": "Endurance",
+        "other": "Autre"
+      }
+    },
     "public": {
       "kicker": "Salle",
       "back": "Retour",
@@ -1437,6 +1463,31 @@
       },
       "quickTitle": "Actions rapides",
       "pendingCta": "Valider maintenant"
+    },
+    "planning": {
+      "title": "Planning",
+      "subtitle": "Le planning hebdo de tes cours — tes membres le voient dans l'app.",
+      "add": "Ajouter un cours",
+      "noGym": "Crée d'abord ta salle.",
+      "loading": "Chargement du planning…",
+      "error": "Impossible de charger le planning.",
+      "emptyTitle": "Aucun cours pour le moment",
+      "emptyBody": "Construis ton planning hebdo — WOD, open gym, Hyrox… Tes membres le verront dans leur app, et la réservation arrive juste après.",
+      "form": {
+        "title": "Nom du cours",
+        "titlePlaceholder": "WOD 18h",
+        "type": "Type",
+        "weekday": "Jour",
+        "startTime": "Heure de début",
+        "duration": "Durée",
+        "minutes": "{min} min",
+        "capacity": "Capacité",
+        "error": "Impossible d'enregistrer — réessaie.",
+        "create": "Créer le cours",
+        "save": "Enregistrer",
+        "saving": "Enregistrement…",
+        "cancel": "Annuler"
+      }
     },
     "judge": {
       "intro": "Valide les performances vues sur le floor — un score validé passe au ranking vérifié.",

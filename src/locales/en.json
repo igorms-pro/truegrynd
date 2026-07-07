@@ -1375,7 +1375,33 @@
     "turkish_get_up": "Turkish Get-Up",
     "strict_ring_dip": "Strict Ring Dip"
   },
+  "myGym": {
+    "navLabel": "MY GYM",
+    "title": "My gym",
+    "kicker": "My gym",
+    "noGym": "You're not affiliated to a gym yet. Ask your box to join TrueGrynd!",
+    "loading": "Loading your gym…",
+    "error": "Could not load your gym.",
+    "publicPage": "Public page",
+    "scheduleTitle": "Weekly schedule",
+    "scheduleEmpty": "No classes scheduled yet — your gym is setting things up.",
+    "bookingSoon": "Booking from the app is coming next."
+  },
   "gym": {
+    "schedule": {
+      "popular": "Popular",
+      "edit": "Edit slot",
+      "delete": "Delete slot",
+      "type": {
+        "wod": "WOD",
+        "open_gym": "Open gym",
+        "hyrox": "Hyrox",
+        "weightlifting": "Weightlifting",
+        "gymnastics": "Gymnastics",
+        "endurance": "Endurance",
+        "other": "Other"
+      }
+    },
     "public": {
       "kicker": "Gym",
       "back": "Back",
@@ -1437,6 +1463,31 @@
       },
       "quickTitle": "Quick actions",
       "pendingCta": "Review now"
+    },
+    "planning": {
+      "title": "Planning",
+      "subtitle": "Your weekly class schedule — members see it in the app.",
+      "add": "Add a class",
+      "noGym": "Create your gym first.",
+      "loading": "Loading schedule…",
+      "error": "Could not load the schedule.",
+      "emptyTitle": "No classes yet",
+      "emptyBody": "Build your weekly schedule — WOD, open gym, Hyrox… Members will see it in their app, and booking arrives next.",
+      "form": {
+        "title": "Class name",
+        "titlePlaceholder": "WOD 18:00",
+        "type": "Type",
+        "weekday": "Day",
+        "startTime": "Start time",
+        "duration": "Duration",
+        "minutes": "{min} min",
+        "capacity": "Capacity",
+        "error": "Could not save — try again.",
+        "create": "Create class",
+        "save": "Save",
+        "saving": "Saving…",
+        "cancel": "Cancel"
+      }
     },
     "judge": {
       "intro": "Validate performances you witnessed on the floor — a validated score jumps to the verified ranking.",
