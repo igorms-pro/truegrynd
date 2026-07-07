@@ -1478,7 +1478,23 @@
         "active7d": "Entraînés ces 7 derniers jours"
       },
       "quickTitle": "Actions rapides",
-      "pendingCta": "Valider maintenant"
+      "pendingCta": "Valider maintenant",
+      "atRisk": {
+        "title": "Membres à risque",
+        "titleCount": "{count, plural, one {# membre à risque} other {# membres à risque}}",
+        "allGood": "Personne ne décroche — toute la box s'entraîne. 💪",
+        "intro": "Ils s'entraînaient et ne viennent plus. Relance-les avant qu'ils résilient.",
+        "inactiveFor": "{days} j d'inactivité",
+        "lastSeen": "vu le",
+        "risk": {
+          "high": "À risque",
+          "watch": "À surveiller"
+        },
+        "nudge": "Relancer",
+        "nudgeSubject": "On ne te voit plus à la box !",
+        "nudgeBody": "Salut {name},\n\nÇa fait un moment qu'on ne t'a pas vu à la box — l'équipe (et le tableau) te réclament. Tu passes taper un WOD cette semaine ?\n\nÀ très vite !",
+        "more": "+ {count} autres dans le roster Membres (filtre Inactifs)."
+      }
     },
     "planning": {
       "title": "Planning",
@@ -1608,6 +1624,12 @@
         "a2534": "25–34",
         "a3544": "35–44",
         "m45": "Masters 45+"
+      },
+      "filterActivityLabel": "Filtrer par activité",
+      "filterActivity": {
+        "all": "Tous",
+        "active": "Actifs 30j",
+        "inactive": "Inactifs 30j"
       }
     },
     "billing": {

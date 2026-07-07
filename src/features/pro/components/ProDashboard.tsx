@@ -4,6 +4,7 @@ import { Gavel, Plus } from 'lucide-react';
 import Link from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
 
+import { AtRiskPanel } from '@/features/pro/components/AtRiskPanel';
 import { fetchGymOverview } from '@/features/pro/services/dashboard';
 import { useAsyncResource } from '@/hooks/useAsyncResource';
 
@@ -62,6 +63,8 @@ export function ProDashboard() {
           );
         })}
       </ul>
+
+      <AtRiskPanel />
 
       <div className="space-y-3">
         <p className="text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground">
