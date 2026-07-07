@@ -8,6 +8,7 @@ import { FilterSelect } from '@/components/FilterSelect';
 import { useOptionalAppProfile } from '@/features/appshell/context/AppProfileContext';
 import { WeekScheduleGrid, type ScheduleSlot } from '@/features/gym/components/WeekScheduleGrid';
 import { getSessionRoster, getWeekBookings, mondayOf } from '@/features/gym/services/bookings';
+import { WodPlanner } from '@/features/pro/components/WodPlanner';
 import { FORM_INPUT_CLASS } from '@/features/pro/lib/formStyles';
 import {
   CLASS_TYPES,
@@ -312,6 +313,8 @@ export function PlanningScreen() {
           </button>
         ) : null}
       </header>
+
+      <WodPlanner monday={monday} canManage={canManage} />
 
       {creating ? (
         <SlotForm

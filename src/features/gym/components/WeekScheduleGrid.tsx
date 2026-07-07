@@ -54,6 +54,8 @@ type Props = {
   onCardClick?: (c: ScheduleSlot) => void;
   /** Per-card footer (e.g. the member booking button). */
   footer?: (c: ScheduleSlot) => React.ReactNode;
+  /** Rendered under each day header (e.g. the day's programmed WOD chip). */
+  dayBadge?: (weekday: number) => React.ReactNode;
 };
 
 /**
@@ -67,6 +69,7 @@ export function WeekScheduleGrid({
   onDelete,
   onCardClick,
   footer,
+  dayBadge,
 }: Props) {
   const locale = useLocale();
   const t = useTranslations('gym.schedule');
@@ -182,6 +185,7 @@ export function WeekScheduleGrid({
               {label}
               {date ? ` ${date.getDate()}` : ''}
             </p>
+            {dayBadge ? dayBadge(i) : null}
             {byDay[i].length === 0 ? (
               <p className="rounded-md border border-dashed border-border/60 p-2 text-center text-[10px] text-muted-foreground/60">
                 —

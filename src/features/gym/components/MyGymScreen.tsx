@@ -6,6 +6,7 @@ import { useCallback, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 
 import { useOptionalAppProfile } from '@/features/appshell/context/AppProfileContext';
+import { Leaderboard } from '@/features/challenges/components/Leaderboard';
 import { WeekScheduleGrid, type ScheduleSlot } from '@/features/gym/components/WeekScheduleGrid';
 import {
   bookSession,
@@ -13,7 +14,10 @@ import {
   getWeekBookings,
   mondayOf,
 } from '@/features/gym/services/bookings';
+import { getWeekWods, type GymWod } from '@/features/gym/services/wods';
+import { GYM_EVENT_VARIANTS } from '@/features/pro/services/events';
 import { listGymClasses } from '@/features/pro/services/planning';
+import { ScoreSubmissionForm } from '@/features/submission/components/ScoreSubmissionForm';
 import { useAsyncResource } from '@/hooks/useAsyncResource';
 import { supabase } from '@/lib/supabase';
 
@@ -56,10 +60,11 @@ export function MyGymScreen() {
   const [actionError, setActionError] = useState(false);
 
   const load = useCallback(async () => {
-    const [gym, classes, bookings] = await Promise.all([
+    const [gym, classes, bookings, wods] = await Promise.all([
       getGymHeader(gymId ?? ''),
       listGymClasses(gymId ?? ''),
       getWeekBookings(monday),
+      getWeekWods(monday),
     ]);
     const slots: ScheduleSlot[] = classes
       .filter((c) => c.isActive)
@@ -74,7 +79,7 @@ export function MyGymScreen() {
           myBookingId: b?.myBookingId ?? null,
         };
       });
-    return { gym, slots };
+    return { gym, slots, wods };
   }, [gymId, monday]);
   const { state, refetch } = useAsyncResource(load, [gymId ?? '', monday], {
     enabled: gymId !== null,
@@ -115,8 +120,9 @@ export function MyGymScreen() {
     return <p className="text-sm font-semibold text-primary">{t('error')}</p>;
   }
 
-  const { gym, slots } = state.data;
+  const { gym, slots, wods } = state.data;
   const today = todayIso();
+  const todayWod = wods.get(today) ?? null;
 
   const bookingFooter = (slot: ScheduleSlot) => {
     const date = slot.sessionDate ?? '';
@@ -232,9 +238,85 @@ export function MyGymScreen() {
             {t('scheduleEmpty')}
           </p>
         ) : (
-          <WeekScheduleGrid classes={slots} weekStart={monday} footer={bookingFooter} />
+          <WeekScheduleGrid
+            classes={slots}
+            weekStart={monday}
+            footer={bookingFooter}
+            dayBadge={(weekday) => {
+              const wod = wods.get(addDays(monday, weekday));
+              if (!wod) return null;
+              return (
+                <p
+                  className="truncate rounded-sm bg-primary/10 px-1.5 py-1 text-center text-[9px] font-black uppercase tracking-[0.1em] text-primary"
+                  title={wod.workout}
+                >
+                  {wod.title}
+                </p>
+              );
+            }}
+          />
         )}
       </div>
+
+      {todayWod ? <TodayWodPanel wod={todayWod} /> : null}
     </section>
+  );
+}
+
+/** The day's WOD: spec + score submission + the class/day leaderboard (the V4-03 loop). */
+function TodayWodPanel({ wod }: { wod: GymWod }) {
+  const t = useTranslations('myGym.wod');
+  const profile = useOptionalAppProfile();
+  const [submitting, setSubmitting] = useState(false);
+  const [done, setDone] = useState(false);
+  const [reloadKey, setReloadKey] = useState(0);
+
+  return (
+    <div className="space-y-4">
+      <div className="rounded-md border border-border border-l-2 border-l-primary bg-card p-4">
+        <p className="text-[10px] font-black uppercase tracking-[0.18em] text-primary">
+          {t('todayTitle')}
+        </p>
+        <h2 className="mt-1 text-lg font-black uppercase tracking-tight">{wod.title}</h2>
+        {wod.workout && wod.workout !== wod.title ? (
+          <pre className="mt-2 whitespace-pre-wrap font-sans text-sm text-foreground">
+            {wod.workout}
+          </pre>
+        ) : null}
+
+        <div className="mt-4">
+          {done ? (
+            <p className="text-sm text-muted-foreground">{t('submitted')}</p>
+          ) : submitting ? (
+            <ScoreSubmissionForm
+              challengeId={wod.challengeId}
+              scoreType={wod.scoreType}
+              availableVariants={GYM_EVENT_VARIANTS}
+              onSubmitted={() => {
+                setSubmitting(false);
+                setDone(true);
+                setReloadKey((k) => k + 1);
+              }}
+            />
+          ) : (
+            <button
+              type="button"
+              onClick={() => setSubmitting(true)}
+              className="inline-flex min-h-11 w-full items-center justify-center rounded-md bg-primary px-4 py-3 text-sm font-black uppercase tracking-[0.18em] text-primary-foreground hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              {t('submit')}
+            </button>
+          )}
+        </div>
+      </div>
+
+      <Leaderboard
+        key={`${wod.challengeId}-${reloadKey}-${profile?.id ?? ''}`}
+        challengeId={wod.challengeId}
+        scoreType={wod.scoreType}
+        availableVariants={GYM_EVENT_VARIANTS}
+        mode="full"
+      />
+    </div>
   );
 }
