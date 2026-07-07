@@ -16,6 +16,7 @@ import {
 } from '@/features/gym/services/bookings';
 import { getWeekWods, type GymWod } from '@/features/gym/services/wods';
 import { GYM_EVENT_VARIANTS } from '@/features/pro/services/events';
+import { getMyPlan } from '@/features/pro/services/memberships';
 import { listGymClasses } from '@/features/pro/services/planning';
 import { ScoreSubmissionForm } from '@/features/submission/components/ScoreSubmissionForm';
 import { useAsyncResource } from '@/hooks/useAsyncResource';
@@ -60,11 +61,12 @@ export function MyGymScreen() {
   const [actionError, setActionError] = useState(false);
 
   const load = useCallback(async () => {
-    const [gym, classes, bookings, wods] = await Promise.all([
+    const [gym, classes, bookings, wods, myPlan] = await Promise.all([
       getGymHeader(gymId ?? ''),
       listGymClasses(gymId ?? ''),
       getWeekBookings(monday),
       getWeekWods(monday),
+      getMyPlan(),
     ]);
     const slots: ScheduleSlot[] = classes
       .filter((c) => c.isActive)
@@ -79,7 +81,7 @@ export function MyGymScreen() {
           myBookingId: b?.myBookingId ?? null,
         };
       });
-    return { gym, slots, wods };
+    return { gym, slots, wods, myPlan };
   }, [gymId, monday]);
   const { state, refetch } = useAsyncResource(load, [gymId ?? '', monday], {
     enabled: gymId !== null,
@@ -120,7 +122,7 @@ export function MyGymScreen() {
     return <p className="text-sm font-semibold text-primary">{t('error')}</p>;
   }
 
-  const { gym, slots, wods } = state.data;
+  const { gym, slots, wods, myPlan } = state.data;
   const today = todayIso();
   const todayWod = wods.get(today) ?? null;
 
@@ -196,6 +198,21 @@ export function MyGymScreen() {
             <ExternalLink className="h-3.5 w-3.5" aria-hidden />
           </Link>
         </div>
+        {myPlan ? (
+          <p className="inline-flex flex-wrap items-center gap-x-2 rounded-md border border-border bg-card px-3 py-2 text-xs">
+            <span className="font-black uppercase tracking-[0.12em]">{myPlan.planName}</span>
+            {myPlan.creditsLeft != null ? (
+              <span className="text-muted-foreground">
+                {t('plan.creditsLeft', { count: myPlan.creditsLeft })}
+              </span>
+            ) : null}
+            {myPlan.expiresAt ? (
+              <span className="text-muted-foreground">
+                {t('plan.until', { date: myPlan.expiresAt })}
+              </span>
+            ) : null}
+          </p>
+        ) : null}
       </header>
 
       <div className="space-y-3">
