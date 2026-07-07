@@ -3,7 +3,7 @@
 > **Tracker vivant** (suivi + tâches en cours).  
 > Détail historique V1/V2 (sections A–L, V2-00–12) : **[archive-v1-v2-detail.md](./archive-v1-v2-detail.md)** · Stratégie V3 : **[V3_STRATEGY.md](../V3_STRATEGY.md)**
 
-**Dernière mise à jour :** 5 juillet 2026
+**Dernière mise à jour :** 7 juillet 2026
 
 ---
 
