@@ -1536,7 +1536,9 @@
         "status": {
           "confirmed": "Confirmé",
           "waitlisted": "Attente"
-        }
+        },
+        "present": "Présent",
+        "markPresent": "Pointer"
       },
       "form": {
         "title": "Nom du cours",

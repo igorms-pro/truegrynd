@@ -70,6 +70,8 @@ export type RosterEntry = {
   faction: string | null;
   rating: number | null;
   status: BookingStatus;
+  checkedIn: boolean;
+  sessionId: string;
 };
 
 type RosterRow = {
@@ -80,6 +82,8 @@ type RosterRow = {
   faction: string | null;
   rating: number | null;
   status: BookingStatus;
+  checked_in: boolean;
+  session_id: string;
 };
 
 export async function getSessionRoster(
@@ -99,5 +103,21 @@ export async function getSessionRoster(
     faction: r.faction,
     rating: r.rating == null ? null : Number(r.rating),
     status: r.status,
+    checkedIn: Boolean(r.checked_in),
+    sessionId: r.session_id,
   }));
+}
+
+/** Coach floor action: tick / untick a member as present (V4-07). */
+export async function toggleCheckin(
+  sessionId: string,
+  userId: string,
+  present: boolean,
+): Promise<void> {
+  const { error } = await supabase.rpc('toggle_checkin', {
+    p_session_id: sessionId,
+    p_user_id: userId,
+    p_present: present,
+  });
+  if (error) throw new Error(error.message);
 }
