@@ -34,24 +34,53 @@ const TYPE_BADGE: Record<ClassType, string> = {
 /** A slot with more bookings than this is "popular" → red highlight (Igor's rule). */
 const POPULAR_THRESHOLD = 10;
 
-/** Booked counts arrive with V4-02 (gym_bookings); until then cards show capacity only. */
-export type ScheduleSlot = GymClass & { bookedCount?: number };
+/** A class occurrence in the rendered week, with live booking state when available. */
+export type ScheduleSlot = GymClass & {
+  bookedCount?: number;
+  waitlistCount?: number;
+  sessionDate?: string;
+  myStatus?: 'confirmed' | 'waitlisted' | null;
+  myBookingId?: string | null;
+};
 
 type Props = {
   classes: ScheduleSlot[];
+  /** ISO Monday of the rendered week → day headers show real dates, past days dim. */
+  weekStart?: string;
   /** Staff-only row actions; omit for the member read-only view. */
   onEdit?: (c: GymClass) => void;
   onDelete?: (c: GymClass) => void;
+  /** Makes cards clickable (e.g. coach roster panel). */
+  onCardClick?: (c: ScheduleSlot) => void;
+  /** Per-card footer (e.g. the member booking button). */
+  footer?: (c: ScheduleSlot) => React.ReactNode;
 };
 
 /**
  * Monday→Sunday weekly schedule grid (Peppy DNA, TrueGrynd skin). 7 columns on lg+,
  * stacked day sections below. Shared by /pro/planning (editable) and "Ma salle" (read-only).
  */
-export function WeekScheduleGrid({ classes, onEdit, onDelete }: Props) {
+export function WeekScheduleGrid({
+  classes,
+  weekStart,
+  onEdit,
+  onDelete,
+  onCardClick,
+  footer,
+}: Props) {
   const locale = useLocale();
   const t = useTranslations('gym.schedule');
   const days = weekdayLabels(locale);
+
+  // Real dates of the rendered week + which columns are already past.
+  const weekDates: (Date | null)[] = Array.from({ length: 7 }, (_, i) => {
+    if (!weekStart) return null;
+    const d = new Date(`${weekStart}T00:00:00`);
+    d.setDate(d.getDate() + i);
+    return d;
+  });
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
   const byDay: ScheduleSlot[][] = Array.from({ length: 7 }, () => []);
   for (const c of classes) byDay[c.weekday]?.push(c);
@@ -61,9 +90,23 @@ export function WeekScheduleGrid({ classes, onEdit, onDelete }: Props) {
     return (
       <div
         key={c.id}
+        role={onCardClick ? 'button' : undefined}
+        tabIndex={onCardClick ? 0 : undefined}
+        onClick={onCardClick ? () => onCardClick(c) : undefined}
+        onKeyDown={
+          onCardClick
+            ? (e) => {
+                if (e.key === 'Enter' || e.key === ' ') onCardClick(c);
+              }
+            : undefined
+        }
         className={`space-y-1.5 rounded-md border p-2.5 ${
           popular ? 'border-primary bg-primary/10' : 'border-border bg-card'
-        } ${c.isActive ? '' : 'opacity-50'}`}
+        } ${c.isActive ? '' : 'opacity-50'} ${
+          onCardClick
+            ? 'cursor-pointer transition-colors hover:border-primary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
+            : ''
+        }`}
       >
         <div className="flex items-center justify-between gap-1">
           <p className="text-xs font-black tabular-nums">
@@ -94,6 +137,7 @@ export function WeekScheduleGrid({ classes, onEdit, onDelete }: Props) {
             {c.bookedCount != null ? `${c.bookedCount}/${c.capacity}` : c.capacity}
           </span>
         </div>
+        {footer ? footer(c) : null}
         {onEdit || onDelete ? (
           <div className="flex justify-end gap-1 border-t border-border pt-1.5">
             {onEdit ? (
@@ -124,20 +168,30 @@ export function WeekScheduleGrid({ classes, onEdit, onDelete }: Props) {
 
   return (
     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-7 lg:gap-2">
-      {days.map((label, i) => (
-        <div key={label} className="space-y-2">
-          <p className="rounded-sm bg-muted/50 px-2 py-1.5 text-center text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground">
-            {label}
-          </p>
-          {byDay[i].length === 0 ? (
-            <p className="rounded-md border border-dashed border-border/60 p-2 text-center text-[10px] text-muted-foreground/60">
-              —
+      {days.map((label, i) => {
+        const date = weekDates[i];
+        const isPast = date !== null && date < today;
+        const isToday = date !== null && date.getTime() === today.getTime();
+        return (
+          <div key={label} className={`space-y-2 ${isPast ? 'opacity-45' : ''}`}>
+            <p
+              className={`rounded-sm px-2 py-1.5 text-center text-[10px] font-black uppercase tracking-[0.18em] ${
+                isToday ? 'bg-primary text-primary-foreground' : 'bg-muted/50 text-muted-foreground'
+              }`}
+            >
+              {label}
+              {date ? ` ${date.getDate()}` : ''}
             </p>
-          ) : (
-            byDay[i].map(card)
-          )}
-        </div>
-      ))}
+            {byDay[i].length === 0 ? (
+              <p className="rounded-md border border-dashed border-border/60 p-2 text-center text-[10px] text-muted-foreground/60">
+                —
+              </p>
+            ) : (
+              byDay[i].map(card)
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }
