@@ -1636,7 +1636,8 @@
         "all": "All",
         "active": "Active 30d",
         "inactive": "Inactive 30d"
-      }
+      },
+      "importCta": "Import"
     },
     "billing": {
       "loading": "Loading…",
@@ -1845,6 +1846,40 @@
         "cancel": "Cancel"
       },
       "connectNote": "v1 is declarative tracking. Member payments (Stripe) land in the next slice — 0% commission, you only pay Stripe fees."
+    },
+    "membersImport": {
+      "back": "Back to members",
+      "title": "Import members",
+      "subtitle": "Move your roster over from Peppy, Hustle Up, Resawod or any CSV export — invites go out, members land affiliated to your box.",
+      "noGym": "Create your gym first.",
+      "error": "Something failed — try again.",
+      "dropTitle": "Upload a CSV file",
+      "dropBody": "Export your member list from your current tool (Peppy → Members → Export, Hustle Up, Resawod…) and drop the .csv here. We auto-detect columns.",
+      "mapTitle": "Map the columns — {rows} rows detected",
+      "fields": {
+        "email": "Email (required)",
+        "name": "Name",
+        "sex": "Sex",
+        "age": "Age"
+      },
+      "ignore": "— ignore —",
+      "emailRequired": "Pick the email column to continue.",
+      "previewCount": "{count} valid members ready",
+      "importCta": "Import {count} members",
+      "importing": "Importing…",
+      "cancel": "Cancel",
+      "imported": "{inserted} imported, {skipped} duplicates skipped.",
+      "listTitle": "{count, plural, =0 {No imported rows} one {# imported row} other {# imported rows}}",
+      "listEmpty": "Nothing imported yet.",
+      "inviteCta": "Send invites ({count})",
+      "invitedResult": "{invited} invites sent · {joined} existing accounts affiliated directly · {failed} failed.",
+      "status": {
+        "pending": "Pending",
+        "invited": "Invited",
+        "joined": "Joined"
+      },
+      "delete": "Remove",
+      "conciergeNote": "Prefer white-glove? Send us your export and we run the migration for you — concierge@truegrynd.com."
     }
   }
 }

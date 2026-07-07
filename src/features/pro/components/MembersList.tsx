@@ -6,8 +6,10 @@ import { useMemo, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 
 import { FilterSelect } from '@/components/FilterSelect';
+import { useOptionalAppProfile } from '@/features/appshell/context/AppProfileContext';
 import { listGymMembers, type GymMember } from '@/features/pro/services/members';
 import { useAsyncResource } from '@/hooks/useAsyncResource';
+import { canAccessPro } from '@/lib/roles';
 
 function initials(name: string | null): string {
   return name ? name.slice(0, 2).toUpperCase() : '?';
@@ -132,6 +134,8 @@ function MemberRow({ member }: { member: GymMember }) {
 
 export function MembersList() {
   const t = useTranslations('pro.members');
+  const locale = useLocale();
+  const profile = useOptionalAppProfile();
   const { state } = useAsyncResource(listGymMembers, []);
   const [query, setQuery] = useState('');
   const [sexFilter, setSexFilter] = useState<SexFilter>('all');
@@ -172,9 +176,19 @@ export function MembersList() {
   }
 
   const header = (
-    <header className="space-y-1">
-      <h1 className="text-2xl font-black uppercase tracking-tight md:text-3xl">{t('title')}</h1>
-      <p className="text-sm text-muted-foreground">{t('intro')}</p>
+    <header className="flex flex-wrap items-start justify-between gap-3">
+      <div className="space-y-1">
+        <h1 className="text-2xl font-black uppercase tracking-tight md:text-3xl">{t('title')}</h1>
+        <p className="text-sm text-muted-foreground">{t('intro')}</p>
+      </div>
+      {canAccessPro(profile) ? (
+        <Link
+          href={`/${locale}/app/pro/members/import`}
+          className="inline-flex items-center gap-1.5 rounded-md border border-border px-4 py-2.5 text-xs font-black uppercase tracking-[0.12em] text-foreground hover:bg-muted"
+        >
+          {t('importCta')}
+        </Link>
+      ) : null}
     </header>
   );
 

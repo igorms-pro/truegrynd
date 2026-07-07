@@ -1636,7 +1636,8 @@
         "all": "Tous",
         "active": "Actifs 30j",
         "inactive": "Inactifs 30j"
-      }
+      },
+      "importCta": "Importer"
     },
     "billing": {
       "loading": "Chargement…",
@@ -1845,6 +1846,40 @@
         "cancel": "Annuler"
       },
       "connectNote": "v1 = suivi déclaratif. L'encaissement des membres (Stripe) arrive dans la slice suivante — 0% de commission, tu ne paies que les frais Stripe."
+    },
+    "membersImport": {
+      "back": "Retour aux membres",
+      "title": "Importer des membres",
+      "subtitle": "Rapatrie ton roster depuis Peppy, Hustle Up, Resawod ou n'importe quel export CSV — les invitations partent, les membres arrivent affiliés à ta box.",
+      "noGym": "Crée d'abord ta salle.",
+      "error": "Un truc a échoué — réessaie.",
+      "dropTitle": "Charge un fichier CSV",
+      "dropBody": "Exporte ta liste de membres depuis ton outil actuel (Peppy → Membres → Export, Hustle Up, Resawod…) et dépose le .csv ici. On détecte les colonnes automatiquement.",
+      "mapTitle": "Associe les colonnes — {rows} lignes détectées",
+      "fields": {
+        "email": "Email (requis)",
+        "name": "Nom",
+        "sex": "Sexe",
+        "age": "Âge"
+      },
+      "ignore": "— ignorer —",
+      "emailRequired": "Choisis la colonne email pour continuer.",
+      "previewCount": "{count} membres valides prêts",
+      "importCta": "Importer {count} membres",
+      "importing": "Import…",
+      "cancel": "Annuler",
+      "imported": "{inserted} importés, {skipped} doublons ignorés.",
+      "listTitle": "{count, plural, =0 {Aucune ligne importée} one {# ligne importée} other {# lignes importées}}",
+      "listEmpty": "Rien d'importé pour le moment.",
+      "inviteCta": "Envoyer les invitations ({count})",
+      "invitedResult": "{invited} invitations envoyées · {joined} comptes existants affiliés directement · {failed} échecs.",
+      "status": {
+        "pending": "En attente",
+        "invited": "Invité",
+        "joined": "Inscrit"
+      },
+      "delete": "Retirer",
+      "conciergeNote": "Tu préfères qu'on s'en occupe ? Envoie-nous ton export et on fait la migration pour toi — concierge@truegrynd.com."
     }
   }
 }
