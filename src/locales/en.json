@@ -1401,6 +1401,10 @@
       "todayTitle": "Today's WOD",
       "submit": "Post my score",
       "submitted": "Score submitted — it lands on the class leaderboard once validated."
+    },
+    "plan": {
+      "creditsLeft": "· {count} sessions left",
+      "until": "· until {date}"
     }
   },
   "gym": {
@@ -1798,6 +1802,47 @@
         "registry_unreachable": "The business registry is unreachable right now — try again shortly.",
         "registry_error": "The business registry returned an error — try again shortly."
       }
+    },
+    "subscriptions": {
+      "title": "Memberships",
+      "subtitle": "Your gym's own plans & passes — assign them to members. Collection via Stripe arrives next.",
+      "noGym": "Create your gym first.",
+      "loading": "Loading plans…",
+      "error": "Could not load plans.",
+      "addPlan": "Add a plan",
+      "emptyTitle": "No plans yet",
+      "emptyBody": "Create your offers — unlimited monthly, 10-pack, drop-in — and assign them to your members.",
+      "kinds": {
+        "unlimited": "Unlimited",
+        "credits": "Pass",
+        "dropin": "Drop-in"
+      },
+      "days": "{days} d",
+      "creditsIncluded": "{count} sessions included",
+      "creditsLeft": "{count} left",
+      "assign": "Assign",
+      "assignTitle": "Assign « {plan} »",
+      "assignPlaceholder": "Pick a member…",
+      "assignConfirm": "Confirm",
+      "assignError": "Could not assign — the member may already have an active plan.",
+      "assignedTitle": "{count, plural, =0 {No active memberships} one {# active membership} other {# active memberships}}",
+      "assignedEmpty": "Nobody is on a plan yet.",
+      "unassign": "Cancel this membership",
+      "deactivate": "Deactivate",
+      "activate": "Activate",
+      "form": {
+        "name": "Plan name",
+        "namePlaceholder": "Unlimited monthly",
+        "kind": "Type",
+        "price": "Price (€)",
+        "credits": "Sessions",
+        "validity": "Validity (days)",
+        "error": "Could not save — try again.",
+        "create": "Create plan",
+        "saving": "Saving…",
+        "cancel": "Cancel"
+      },
+      "connectNote": "v1 is declarative tracking. Member payments (Stripe) land in the next slice — 0% commission, you only pay Stripe fees."
     }
   }
 }

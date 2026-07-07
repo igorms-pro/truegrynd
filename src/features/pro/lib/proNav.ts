@@ -81,7 +81,7 @@ export const PRO_NAV: readonly ProNavGroup[] = [
         path: '/app/pro/subscriptions',
         icon: Ticket,
         labelKey: 'subscriptions',
-        status: 'soon',
+        status: 'live',
         managerOnly: true,
       },
       {

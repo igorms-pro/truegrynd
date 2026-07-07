@@ -1401,6 +1401,10 @@
       "todayTitle": "WOD du jour",
       "submit": "Poster mon score",
       "submitted": "Score envoyé — il rejoint le classement du cours une fois validé."
+    },
+    "plan": {
+      "creditsLeft": "· {count} séances restantes",
+      "until": "· jusqu'au {date}"
     }
   },
   "gym": {
@@ -1798,6 +1802,47 @@
         "registry_unreachable": "Le registre des entreprises est injoignable pour le moment — réessaie bientôt.",
         "registry_error": "Le registre des entreprises a renvoyé une erreur — réessaie bientôt."
       }
+    },
+    "subscriptions": {
+      "title": "Abonnements",
+      "subtitle": "Les formules de TA salle — assigne-les à tes membres. L'encaissement Stripe arrive juste après.",
+      "noGym": "Crée d'abord ta salle.",
+      "loading": "Chargement des formules…",
+      "error": "Impossible de charger les formules.",
+      "addPlan": "Ajouter une formule",
+      "emptyTitle": "Aucune formule",
+      "emptyBody": "Crée tes offres — illimité mensuel, carnet de 10, drop-in — et assigne-les à tes membres.",
+      "kinds": {
+        "unlimited": "Illimité",
+        "credits": "Carnet",
+        "dropin": "Drop-in"
+      },
+      "days": "{days} j",
+      "creditsIncluded": "{count} séances incluses",
+      "creditsLeft": "{count} restantes",
+      "assign": "Assigner",
+      "assignTitle": "Assigner « {plan} »",
+      "assignPlaceholder": "Choisir un membre…",
+      "assignConfirm": "Confirmer",
+      "assignError": "Impossible d'assigner — le membre a peut-être déjà une formule active.",
+      "assignedTitle": "{count, plural, =0 {Aucun abonnement actif} one {# abonnement actif} other {# abonnements actifs}}",
+      "assignedEmpty": "Personne n'a encore de formule.",
+      "unassign": "Résilier cet abonnement",
+      "deactivate": "Désactiver",
+      "activate": "Activer",
+      "form": {
+        "name": "Nom de la formule",
+        "namePlaceholder": "Illimité mensuel",
+        "kind": "Type",
+        "price": "Prix (€)",
+        "credits": "Séances",
+        "validity": "Validité (jours)",
+        "error": "Impossible d'enregistrer — réessaie.",
+        "create": "Créer la formule",
+        "saving": "Enregistrement…",
+        "cancel": "Annuler"
+      },
+      "connectNote": "v1 = suivi déclaratif. L'encaissement des membres (Stripe) arrive dans la slice suivante — 0% de commission, tu ne paies que les frais Stripe."
     }
   }
 }
