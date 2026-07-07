@@ -1385,7 +1385,18 @@
     "publicPage": "Page publique",
     "scheduleTitle": "Planning de la semaine",
     "scheduleEmpty": "Pas encore de cours au planning — ta salle s'installe.",
-    "bookingSoon": "La réservation depuis l'app arrive bientôt."
+    "booking": {
+      "book": "Réserver",
+      "booked": "Réservé",
+      "waitlisted": "En attente",
+      "joinWaitlist": "Liste d'attente",
+      "busy": "…",
+      "cancelHint": "Clique pour annuler",
+      "thisWeek": "Cette semaine",
+      "nextWeek": "Semaine prochaine",
+      "prevWeek": "Semaine précédente",
+      "error": "La réservation a échoué — réessaie."
+    }
   },
   "gym": {
     "schedule": {
@@ -1473,6 +1484,16 @@
       "error": "Impossible de charger le planning.",
       "emptyTitle": "Aucun cours pour le moment",
       "emptyBody": "Construis ton planning hebdo — WOD, open gym, Hyrox… Tes membres le verront dans leur app, et la réservation arrive juste après.",
+      "roster": {
+        "close": "Fermer",
+        "loading": "Chargement du roster…",
+        "error": "Impossible de charger le roster.",
+        "empty": "Aucune réservation sur cette session pour l'instant.",
+        "status": {
+          "confirmed": "Confirmé",
+          "waitlisted": "Attente"
+        }
+      },
       "form": {
         "title": "Nom du cours",
         "titlePlaceholder": "WOD 18h",

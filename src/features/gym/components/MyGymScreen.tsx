@@ -1,12 +1,18 @@
 'use client';
 
-import { CalendarDays, ExternalLink } from 'lucide-react';
+import { CalendarDays, Check, ChevronLeft, ChevronRight, Clock, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 
 import { useOptionalAppProfile } from '@/features/appshell/context/AppProfileContext';
-import { WeekScheduleGrid } from '@/features/gym/components/WeekScheduleGrid';
+import { WeekScheduleGrid, type ScheduleSlot } from '@/features/gym/components/WeekScheduleGrid';
+import {
+  bookSession,
+  cancelBooking,
+  getWeekBookings,
+  mondayOf,
+} from '@/features/gym/services/bookings';
 import { listGymClasses } from '@/features/pro/services/planning';
 import { useAsyncResource } from '@/hooks/useAsyncResource';
 import { supabase } from '@/lib/supabase';
@@ -24,21 +30,73 @@ async function getGymHeader(gymId: string): Promise<GymHeader> {
   return data;
 }
 
-/** Member view of their own gym: weekly schedule (read-only). Booking arrives with V4-02. */
+function addDays(iso: string, days: number): string {
+  const d = new Date(`${iso}T00:00:00`);
+  d.setDate(d.getDate() + days);
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+
+function todayIso(): string {
+  const d = new Date();
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+
+/** Member view of their own gym: weekly schedule with live booking (V4-02). */
 export function MyGymScreen() {
   const t = useTranslations('myGym');
   const locale = useLocale();
   const profile = useOptionalAppProfile();
   const gymId = profile?.affiliated_gym_id ?? null;
+  // 0 = current week, 1 = next week (booking horizon is 14 days server-side).
+  const [weekOffset, setWeekOffset] = useState(0);
+  const monday = addDays(mondayOf(new Date()), weekOffset * 7);
+  const [busySlot, setBusySlot] = useState<string | null>(null);
+  const [actionError, setActionError] = useState(false);
 
   const load = useCallback(async () => {
-    const [gym, classes] = await Promise.all([
+    const [gym, classes, bookings] = await Promise.all([
       getGymHeader(gymId ?? ''),
       listGymClasses(gymId ?? ''),
+      getWeekBookings(monday),
     ]);
-    return { gym, classes: classes.filter((c) => c.isActive) };
-  }, [gymId]);
-  const { state } = useAsyncResource(load, [gymId ?? ''], { enabled: gymId !== null });
+    const slots: ScheduleSlot[] = classes
+      .filter((c) => c.isActive)
+      .map((c) => {
+        const b = bookings.get(c.id);
+        return {
+          ...c,
+          bookedCount: b?.bookedCount ?? 0,
+          waitlistCount: b?.waitlistCount ?? 0,
+          sessionDate: b?.sessionDate ?? addDays(monday, c.weekday),
+          myStatus: b?.myStatus ?? null,
+          myBookingId: b?.myBookingId ?? null,
+        };
+      });
+    return { gym, slots };
+  }, [gymId, monday]);
+  const { state, refetch } = useAsyncResource(load, [gymId ?? '', monday], {
+    enabled: gymId !== null,
+  });
+
+  const act = useCallback(
+    async (slot: ScheduleSlot, action: 'book' | 'cancel') => {
+      if (!slot.sessionDate) return;
+      setBusySlot(slot.id);
+      setActionError(false);
+      try {
+        if (action === 'book') await bookSession(slot.id, slot.sessionDate);
+        else if (slot.myBookingId) await cancelBooking(slot.myBookingId);
+        refetch();
+      } catch {
+        setActionError(true);
+      } finally {
+        setBusySlot(null);
+      }
+    },
+    [refetch],
+  );
 
   if (!gymId) {
     return (
@@ -57,7 +115,64 @@ export function MyGymScreen() {
     return <p className="text-sm font-semibold text-primary">{t('error')}</p>;
   }
 
-  const { gym, classes } = state.data;
+  const { gym, slots } = state.data;
+  const today = todayIso();
+
+  const bookingFooter = (slot: ScheduleSlot) => {
+    const date = slot.sessionDate ?? '';
+    if (date < today) return null;
+    // Today's slots whose start time already passed can't be booked (server rejects too).
+    if (date === today) {
+      const now = new Date();
+      const nowHm = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+      if (slot.startTime <= nowHm && !slot.myStatus) return null;
+    }
+    const busy = busySlot === slot.id;
+    const full = (slot.bookedCount ?? 0) >= slot.capacity;
+
+    if (slot.myStatus === 'confirmed') {
+      return (
+        <button
+          type="button"
+          disabled={busy}
+          onClick={() => act(slot, 'cancel')}
+          className="inline-flex w-full items-center justify-center gap-1 rounded-sm bg-emerald-600/90 px-2 py-1.5 text-[10px] font-black uppercase tracking-[0.1em] text-white hover:opacity-90 disabled:opacity-50"
+          title={t('booking.cancelHint')}
+        >
+          <Check className="h-3 w-3" aria-hidden />
+          {busy ? t('booking.busy') : t('booking.booked')}
+        </button>
+      );
+    }
+    if (slot.myStatus === 'waitlisted') {
+      return (
+        <button
+          type="button"
+          disabled={busy}
+          onClick={() => act(slot, 'cancel')}
+          className="inline-flex w-full items-center justify-center gap-1 rounded-sm bg-amber-500/20 px-2 py-1.5 text-[10px] font-black uppercase tracking-[0.1em] text-amber-500 hover:opacity-80 disabled:opacity-50"
+          title={t('booking.cancelHint')}
+        >
+          <Clock className="h-3 w-3" aria-hidden />
+          {busy ? t('booking.busy') : t('booking.waitlisted')}
+        </button>
+      );
+    }
+    return (
+      <button
+        type="button"
+        disabled={busy}
+        onClick={() => act(slot, 'book')}
+        className={`w-full rounded-sm px-2 py-1.5 text-[10px] font-black uppercase tracking-[0.1em] disabled:opacity-50 ${
+          full
+            ? 'border border-border text-muted-foreground hover:text-foreground'
+            : 'bg-primary text-primary-foreground hover:opacity-90'
+        }`}
+      >
+        {busy ? t('booking.busy') : full ? t('booking.joinWaitlist') : t('booking.book')}
+      </button>
+    );
+  };
 
   return (
     <section className="space-y-5">
@@ -78,18 +193,47 @@ export function MyGymScreen() {
       </header>
 
       <div className="space-y-3">
-        <h2 className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.18em] text-muted-foreground">
-          <CalendarDays className="h-4 w-4" aria-hidden />
-          {t('scheduleTitle')}
-        </h2>
-        {classes.length === 0 ? (
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h2 className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.18em] text-muted-foreground">
+            <CalendarDays className="h-4 w-4" aria-hidden />
+            {t('scheduleTitle')}
+          </h2>
+          <div className="inline-flex items-center gap-1 rounded-md border border-border">
+            <button
+              type="button"
+              disabled={weekOffset === 0}
+              onClick={() => setWeekOffset(0)}
+              aria-label={t('booking.prevWeek')}
+              className="p-2 text-muted-foreground hover:text-foreground disabled:opacity-30"
+            >
+              <ChevronLeft className="h-4 w-4" aria-hidden />
+            </button>
+            <span className="min-w-[9rem] text-center text-[10px] font-black uppercase tracking-[0.14em]">
+              {weekOffset === 0 ? t('booking.thisWeek') : t('booking.nextWeek')}
+            </span>
+            <button
+              type="button"
+              disabled={weekOffset === 1}
+              onClick={() => setWeekOffset(1)}
+              aria-label={t('booking.nextWeek')}
+              className="p-2 text-muted-foreground hover:text-foreground disabled:opacity-30"
+            >
+              <ChevronRight className="h-4 w-4" aria-hidden />
+            </button>
+          </div>
+        </div>
+
+        {actionError ? (
+          <p className="text-xs font-semibold text-primary">{t('booking.error')}</p>
+        ) : null}
+
+        {slots.length === 0 ? (
           <p className="rounded-md border border-dashed border-border bg-muted/20 p-6 text-center text-sm text-muted-foreground">
             {t('scheduleEmpty')}
           </p>
         ) : (
-          <WeekScheduleGrid classes={classes} />
+          <WeekScheduleGrid classes={slots} weekStart={monday} footer={bookingFooter} />
         )}
-        <p className="text-xs text-muted-foreground">{t('bookingSoon')}</p>
       </div>
     </section>
   );

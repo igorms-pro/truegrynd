@@ -1385,7 +1385,18 @@
     "publicPage": "Public page",
     "scheduleTitle": "Weekly schedule",
     "scheduleEmpty": "No classes scheduled yet — your gym is setting things up.",
-    "bookingSoon": "Booking from the app is coming next."
+    "booking": {
+      "book": "Book",
+      "booked": "Booked",
+      "waitlisted": "Waitlisted",
+      "joinWaitlist": "Join waitlist",
+      "busy": "…",
+      "cancelHint": "Click to cancel",
+      "thisWeek": "This week",
+      "nextWeek": "Next week",
+      "prevWeek": "Previous week",
+      "error": "Booking failed — try again."
+    }
   },
   "gym": {
     "schedule": {
@@ -1473,6 +1484,16 @@
       "error": "Could not load the schedule.",
       "emptyTitle": "No classes yet",
       "emptyBody": "Build your weekly schedule — WOD, open gym, Hyrox… Members will see it in their app, and booking arrives next.",
+      "roster": {
+        "close": "Close",
+        "loading": "Loading roster…",
+        "error": "Could not load the roster.",
+        "empty": "No bookings for this session yet.",
+        "status": {
+          "confirmed": "Confirmed",
+          "waitlisted": "Waitlist"
+        }
+      },
       "form": {
         "title": "Class name",
         "titlePlaceholder": "WOD 18:00",
